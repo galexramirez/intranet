@@ -364,7 +364,7 @@ function f_validar(Colaborador_id, Colab_ApellidosNombres, Colab_CargoActual, Co
         respuesta="invalido";
     }
 
-    if(Colab_CargoActual.substring(0,6)=="PILOTO" && Colab_CodigoCortoPT==""){
+    if((Colab_CargoActual=="PILOTO DE BUS ARTICULADO" || Colab_CargoActual=="PILOTO DE BUS ALIMENTADOR") && Colab_CodigoCortoPT==""){
         $("#Colab_CodigoCortoPT").addClass("color-error");
         respuesta="invalido";
     }
