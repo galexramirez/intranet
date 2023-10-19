@@ -1,0 +1,216 @@
+/* 1.0 Data Tables */
+
+input{
+    width: 100% !important;
+}
+  
+.filters th{
+    padding:0px !important;
+    font-size: 11px
+}
+
+.filters_pedido th{
+    padding:0px !important;
+    font-size: 11px
+}
+
+.filters_ver_cotizacion th{
+    padding:0px !important;
+    font-size: 11px
+}
+
+tr.group,
+tr.group:hover {
+    /*background-color: #ddd !important;*/
+    background: #95e7b7 !important;
+}
+
+table.dataTable tr.group-end td {
+    text-align: right;
+    font-weight: normal;
+}
+
+th{
+    font-size: 9px;
+    font-weight: 500;
+}
+  
+.dataTables_scrollHeadInner{
+  width: 100%-6px !important;
+}
+  
+.dataTables_filter{
+   padding-right: 100px;
+}
+
+table.dataTable thead {
+    background: #2A4C38;
+    color:white;
+}
+
+table.dataTable tfoot {
+    background: #2A4C38;
+    color:white;
+}
+
+div.dataTables_wrapper div.dataTables_length {
+    float: left !important;
+}
+
+div.dataTables_wrapper div.dataTables_filter {
+    float: right !important;
+}
+
+div.dataTables_wrapper div.dataTables_info {
+    float: left !important;
+}
+
+div.dataTables_wrapper div.dataTables_paginate {
+    float: right !important;
+}
+
+div.dt-buttons {
+    float: left !important;
+}
+
+
+/* stylos data tables*/
+
+.page-item.active .page-link {
+    background-color: #2A4C38;
+  border-color: #2A4C38;
+}
+
+.page-link {
+  color: #bec3bf;
+}
+
+table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td {
+  padding: 5px 5px 5px 5px !important;
+}
+
+/* Cierre 1.0 DataTables */
+
+
+/* 2.0 Tablas */
+
+#tabla_pedido thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tabla_material_pedido thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tabla_ver_material_pedido thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tabla_cotizacion thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tabla_material_cotizacion thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tabla_ver_cotizacion thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tabla_orden_compra thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tabla_material_orden_compra thead {
+    background: #2A4C38;
+    color:white;
+}
+
+
+/* tamaño de texto de tablas*/
+
+#tabla_pedido{
+    font-size: 12px;
+}
+
+#tabla_material_pedido{
+    font-size: 12px;
+}
+
+#tabla_ver_material_pedido{
+    font-size: 12px;
+}
+
+#tabla_cotizacion{
+    font-size: 12px;
+}
+
+#tabla_material_cotizacion{
+    font-size: 12px;
+}
+
+#tabla_ver_cotizacion{
+    font-size: 12px;
+}
+
+#tabla_orden_compra{
+    font-size: 12px;
+}
+
+#tabla_material_orden_compra{
+    font-size: 12px;
+}
+
+/* Cierre 2.0 Tablas */
+
+/* 3.0 Tabs */
+
+.nav-tabs .nav-link.active {
+    background-color:#F2F3F5 !important;
+    border-color: #dee2e6 #dee2e6 #F2F3F5;
+}
+
+.nav-tabs .nav-link {
+    border-color: #dee2e6 #dee2e6 #dee2e6;
+    background: #f8f9fa;
+    color: #bec3bf;
+}
+
+/* Cierre 3.0 Tabs */
+
+
+/* CSS DEL MODULO */
+
+#div_otpv_obs_cierre_ad{
+    font-size: 12px;
+}
+
+#div_KmComparacion{
+    font-size: 9px;
+}
+
+.color-error {
+    background-color: #ffff006b !important;
+}
+
+/* PARA OCULTAR EL INCREMENTO DEL CAMPO NUMBER
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+

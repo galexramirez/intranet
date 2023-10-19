@@ -1,0 +1,8 @@
+CREATE TABLE `BDLIMABUS`.`OPE_AccidentesImagen` ( 
+`OPE_AcciImagenId`  INT(11) NOT NULL AUTO_INCREMENT ,
+`Accidentes_Id` VARCHAR(15) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , 
+`Acci_TipoImagen` VARCHAR(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , 
+`Acci_Imagen` LONGBLOB NULL DEFAULT NULL , 
+`Acci_ImagenUsuarioId` VARCHAR(8) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , 
+`Acci_ImagenFecha` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY (`OPE_AcciImagenId`)) ENGINE = InnoDB;

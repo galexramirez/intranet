@@ -1,0 +1,70 @@
+input{
+    width: 100% !important;
+}
+
+th{
+    font-size: 11px;
+    font-weight: 500;
+}
+
+table.dataTable thead {
+    background: #2A4C38;
+    color:white;
+}
+
+table.dataTable tfoot {
+    background: #2A4C38;
+    color:white;
+}
+/*
+table.dataTable.dataTable_width_auto {
+    width: auto !important;
+}
+*/
+div.dataTables_wrapper div.dataTables_length {
+    float: left !important;
+}
+
+div.dataTables_wrapper div.dataTables_filter {
+    float: right !important;
+}
+
+div.dataTables_wrapper div.dataTables_info {
+    float: left !important;
+}
+
+div.dataTables_wrapper div.dataTables_paginate {
+    float: right !important;
+}
+
+div.dt-buttons {
+    float: left !important;
+}
+
+#tablaMaestroUno thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tablaMaestroUno{
+    font-size: 12px;
+}
+
+/* stylos data tables*/
+
+.page-item.active .page-link {
+    background-color: #2A4C38;
+    border-color: #2A4C38;
+}
+
+.page-link {
+    color: #bec3bf;
+}
+
+table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td {
+    padding: 5px 5px 5px 5px !important;
+}
+
+.color-error {
+    background-color: #ffff006b !important;
+}

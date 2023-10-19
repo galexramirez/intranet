@@ -1,0 +1,111 @@
+/* 1.0 Data Tables */
+input{
+    width: 100% !important;
+}
+  
+.filters th{
+    padding:0px !important;
+    font-size: 11px
+}
+
+th{
+    font-size: 9px;
+    font-weight: 500;
+}
+
+.dataTables_scrollHeadInner{
+  width: 100%-6px !important;
+}
+  
+.dataTables_filter{
+   padding-right: 100px;
+}
+
+table.dataTable thead {
+    background: #2A4C38;
+    color:white;
+}
+
+table.dataTable tfoot {
+    background: #2A4C38;
+    color:white;
+}
+
+div.dataTables_wrapper div.dataTables_length {
+    float: left !important;
+}
+
+div.dataTables_wrapper div.dataTables_filter {
+    float: right !important;
+}
+
+div.dataTables_wrapper div.dataTables_info {
+    float: left !important;
+}
+
+div.dataTables_wrapper div.dataTables_paginate {
+    float: right !important;
+}
+
+div.dt-buttons {
+    float: left !important;
+}
+
+/* stylos data tables*/
+.page-item.active .page-link {
+    background-color: #2A4C38;
+  border-color: #2A4C38;
+}
+
+.page-link {
+  color: #bec3bf;
+}
+
+table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td {
+  padding: 5px 5px 5px 5px !important;
+}
+/* Cierre 1.0 DataTables */
+
+
+/* 2.0 Tablas */
+#tablaKmCarga thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tablaKm thead {
+    background: #2A4C38;
+    color:white;
+}
+
+/* tamaño de texto de tablas*/
+#tablaKmCarga{
+    font-size: 12px;
+}
+
+#tablaKm{
+    font-size: 12px;
+}
+/* Cierre 2.0 Tablas */
+
+/* 3.0 Tabs */
+.nav-tabs .nav-link.active {
+    background-color:#F2F3F5 !important;
+    border-color: #dee2e6 #dee2e6 #F2F3F5;
+}
+
+.nav-tabs .nav-link {
+    border-color: #dee2e6 #dee2e6 #dee2e6;
+    background: #f8f9fa;
+    color: #bec3bf;
+}
+/* Cierre 3.0 Tabs */
+
+/* CSS DEL MODULO */
+
+/* GRAFICO */
+#chartdivGraficoKm {
+    width: 100%;
+    height: 500px;
+  max-width: 100%
+}

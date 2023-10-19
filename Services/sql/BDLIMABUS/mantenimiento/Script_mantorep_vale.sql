@@ -1,0 +1,4 @@
+/*
+SE AGREGA CAMPO rv_nroserie PARA LOS REPUESTOS (ALAMCENARA EL NRO. SERIE DEL REPUESTO)
+*/
+ALTER TABLE `manto_rep_vale` ADD `rv_nroserie` VARCHAR(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `rv_repuesto`;

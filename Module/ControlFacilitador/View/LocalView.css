@@ -1,0 +1,404 @@
+/* 1.0 Data Tables */
+
+input{
+    width: 100% !important;
+}
+  
+.filters th{
+    padding:0px !important;
+    font-size: 11px
+}
+
+.filtersAlimentador th{
+    padding:0px !important;
+    font-size: 11px
+}
+
+.filtersReporteop th{
+    padding:0px !important;
+    font-size: 11px
+}
+
+.filtersDetalleNovedad th{
+    padding:0px !important;
+    font-size: 11px
+}
+
+.filtersDetalleNovedad th{
+    padding:0px !important;
+    font-size: 11px
+}
+
+.filters_tablaTipoTablas th{
+    padding:0px !important;
+    font-size: 11px
+}
+
+th{
+    font-size: 9px;
+    font-weight: 500;
+}
+  
+.dataTables_scrollHeadInner{
+  width: 100%-6px !important;
+}
+  
+.dataTables_filter{
+   padding-right: 100px;
+}
+  
+table.dataTable thead {
+    background: #2A4C38;
+    color:white;
+}
+
+table.dataTable tfoot {
+    background: #2A4C38;
+    color:white;
+}
+
+div.dataTables_wrapper div.dataTables_length {
+    float: left !important;
+}
+
+div.dataTables_wrapper div.dataTables_filter {
+    float: right !important;
+}
+
+div.dataTables_wrapper div.dataTables_info {
+    float: left !important;
+}
+
+div.dataTables_wrapper div.dataTables_paginate {
+    float: right !important;
+}
+
+div.dt-buttons {
+    float: left !important;
+}
+
+/* Paginado */
+.page-item.active .page-link {
+    background-color: #2A4C38;
+    border-color: #2A4C38;
+}
+
+.page-link {
+    color: #bec3bf;
+}
+
+table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td {
+    padding: 5px 5px 5px 5px !important;
+}
+
+/* Botones de mostrar y ocultar informacion adicional */
+
+table.dataTable td.dt-control:before {
+    height: 1em;
+    width: 1em;
+    display: inline-block;
+    color: white;
+    border: 0.15em solid white;
+    border-radius: 1em;
+    box-shadow: 0 0 0.2em #444;
+    box-sizing: content-box;
+    text-align: center;
+    text-indent: 0 !important;
+    font-family: "Courier New",Courier,monospace;
+    line-height: 1em; 
+    content: "+";
+    background-color: #31b131;
+}
+
+table.dataTable tr.dt-hasChild td.dt-control:before {
+    content: "-";
+    background-color: #d33333;
+}
+
+/* Cierre 1.0 DataTables */
+
+
+/* 2.0 Tablas */
+
+#tablaNovedadTroncal thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tablaMostrarNovedadTroncal thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tablaSelectNovedadTroncal thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tablaMostrarInconsistenciasTroncal thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tablaNovedadAlimentador thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tablaSelectNovedadAlimentador thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tablaMostrarNovedadAlimentador thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tablaMostrarInconsistenciasAlimentador thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tablaNovedadCarga thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tablaDetalleNovedad thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tablaReporteop thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tablaTipoTablas thead {
+    background: #2A4C38;
+    color:white;
+}
+
+/* tamaño de texto de tablas*/
+
+#tablaFacilitadorCarga {
+    font-size: 12px;
+}
+
+#tablaControlFacilitador {
+    font-size: 12px;
+}
+
+#tablaControlFacilitadorAlimentador {
+    font-size: 12px;
+}
+
+#tablaNovedadTroncal {
+    font-size: 12px;
+}
+
+#tablaMostrarNovedadTroncal {
+    font-size: 12px;
+}
+
+#tablaSelectNovedadTroncal {
+    font-size: 12px;
+}
+
+#tablaMostrarInconsistenciasTroncal {
+    font-size: 12px;
+}
+
+#tablaNovedadAlimentador {
+    font-size: 12px;
+}
+
+#tablaSelectNovedadAlimentador {
+    font-size: 12px;
+}
+
+#tablaMostrarNovedadAlimentador {
+    font-size: 12px;
+}
+
+#tablaMostrarInconsistenciasAlimentador {
+    font-size: 12px;
+}
+
+#tablaNovedadCarga {
+    font-size: 12px;
+}
+
+#tablaDetalleNovedadCarga {
+    font-size: 12px;
+}
+
+#tablaDetalleNovedad {
+    font-size: 12px;
+}
+
+#tablaReporteop {
+    font-size: 12px;
+}
+
+#tablaTipoTablas {
+    font-size: 12px;
+}
+
+.table-fixed tbody {
+    height: 120px;
+    overflow-y: auto;
+    width: 100%;
+}
+
+/* Cierre 2.0 Tablas */
+
+/* 3.0 Tabs */
+
+.nav-tabs .nav-link.active {
+    background-color:#F2F3F5 !important;
+    border-color: #dee2e6 #dee2e6 #F2F3F5;
+}
+
+.nav-tabs .nav-link {
+    border-color: #dee2e6 #dee2e6 #dee2e6;
+    background: #f8f9fa;
+    color: #bec3bf;
+
+}
+
+/* Cierre 3.0 Tabs */
+
+/* 4.0 Tabla Agregar Novedades */ 
+
+.table-title {
+    padding-bottom: 10px;
+    margin: 0 0 10px;
+}
+.table-title h2 {
+    margin: 6px 0 0;
+    font-size: 22px;
+}
+.table-title .add-new {
+    float: right;
+    height: 30px;
+    font-weight: bold;
+    font-size: 12px;
+    text-shadow: none;
+    min-width: 100px;
+    border-radius: 50px;
+    line-height: 13px;
+}
+.table-title .add-new i {
+    margin-right: 4px;
+}
+.table-title .add-newAlimentador {
+    float: right;
+    height: 30px;
+    font-weight: bold;
+    font-size: 12px;
+    text-shadow: none;
+    min-width: 100px;
+    border-radius: 50px;
+    line-height: 13px;
+}
+.table-title .add-newAlimentador i {
+    margin-right: 4px;
+}
+
+table.table th i {
+    font-size: 13px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+table.table th:last-child {
+    width: 100px;
+}
+table.table td a {
+    cursor: pointer;
+    display: inline-block;
+    margin: 0 5px;
+    min-width: 24px;
+}    
+table.table td a.add {
+    color: #27C46B;
+}
+table.table td a.edit {
+    color: #FFC107;
+}
+table.table td a.delete {
+    color: #E34724;
+}
+table.table td i {
+    font-size: 19px;
+}
+table.table td a.add i {
+    font-size: 24px;
+    margin-right: -1px;
+    position: relative;
+    top: 3px;
+}
+
+table.table td a.addAlimentador {
+    color: #27C46B;
+}
+table.table td a.editAlimentador {
+    color: #FFC107;
+}
+table.table td a.deleteAlimentador {
+    color: #E34724;
+}
+table.table td a.addAlimentador i {
+    font-size: 24px;
+    margin-right: -1px;
+    position: relative;
+    top: 3px;
+}
+    
+table.table .form-control {
+    height: 32px;
+    line-height: 32px;
+    box-shadow: none;
+    border-radius: 2px;
+}
+
+table.table .form-control.error {
+    border-color: #f50000;
+}
+
+table.table td .add {
+    display: none;
+}
+
+table.table td .addAlimentador {
+    display: none;
+}
+
+/* Cierre 4.0 Tabla Agregar Novedades */
+
+.scrollVClass {
+    height:500px;
+    overflow-y: scroll;
+  }
+
+p {
+    font-size: medium; /* x-small */
+}
+
+.btn-sinborde{
+    border: none !important;
+}
+
+.font-smaller{
+    font-size: smaller !important;
+}
+
+.color-error {
+    background-color: #ffff006b !important;
+}
+
+.my-logo-modal-body {
+    height: auto;
+    width: 200px;
+}

@@ -1,0 +1,18 @@
+CREATE TABLE `BDLIMABUS`.`OPE_ControlFacilitadorReportes` ( 
+`OPE_ControlFacilitadorReportesId`  INT(11) NOT NULL AUTO_INCREMENT ,
+`Repo_TipoId` VARCHAR(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`Repo_ProgramacionId` INT(11) NOT NULL , 
+`Repo_ControlFacilitadorId` INT(11) NOT NULL , 
+`Repo_BusCambio` VARCHAR(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`Repo_HoraSalida` TIME NOT NULL ,
+`Repo_Motivo` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`Repo_Descripcion` VARCHAR(250) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`Repo_Estado` VARCHAR(15) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`Repo_UsuarioId_Generar` VARCHAR(8) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , 
+`Repo_FechaGenerar` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+`Repo_UsuarioId_Cerrar` VARCHAR(8) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , 
+`Repo_FechaCerrar`  TIMESTAMP NULL DEFAULT NULL,
+`Repo_UsuarioId_Edicion` VARCHAR(8) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , 
+`Repo_FechaEdicion`  TIMESTAMP NULL DEFAULT NULL,
+`Repo_CFaRgId` INT(11) NOT NULL ,
+PRIMARY KEY (`OPE_ControlFacilitadorReportesId`)) ENGINE = InnoDB;

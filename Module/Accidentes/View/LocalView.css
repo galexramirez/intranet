@@ -1,0 +1,275 @@
+/* 1.0 Data Tables */
+
+input{
+    width: 100% !important;
+}
+  
+.filters th{
+    padding:0px !important;
+    font-size: 11px
+}
+
+.filtersInvestigacion th{
+    padding:0px !important;
+    font-size: 11px
+}
+
+.filtersReportegdh th{
+    padding:0px !important;
+    font-size: 11px
+}
+
+.filtersTipoTablaAccidentes th{
+    padding:0px !important;
+    font-size: 11px
+}
+
+th{
+    font-size: 11px;
+    font-weight: 500;
+}
+  
+.dataTables_scrollHeadInner{
+  width: 100%-6px !important;
+}
+  
+.dataTables_filter{
+   padding-right: 100px;
+}
+  
+table.dataTable thead {
+    background: #2A4C38;
+    color:white;
+}
+
+table.dataTable tfoot {
+    background: #2A4C38;
+    color:white;
+}
+
+div.dataTables_wrapper div.dataTables_length {
+    float: left !important;
+}
+
+div.dataTables_wrapper div.dataTables_filter {
+    float: right !important;
+}
+
+div.dataTables_wrapper div.dataTables_info {
+    float: left !important;
+}
+
+div.dataTables_wrapper div.dataTables_paginate {
+    float: right !important;
+}
+
+div.dt-buttons {
+    float: left !important;
+}
+
+/* Paginado */
+.page-item.active .page-link {
+    background-color: #2A4C38;
+    border-color: #2A4C38;
+}
+
+.page-link {
+    color: #bec3bf;
+}
+
+table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td {
+    padding: 5px 5px 5px 5px !important;
+}
+
+/* Botones de mostrar y ocultar informacion adicional */
+
+table.dataTable td.dt-control:before {
+    height: 1em;
+    width: 1em;
+    display: inline-block;
+    color: white;
+    border: 0.15em solid white;
+    border-radius: 1em;
+    box-shadow: 0 0 0.2em #444;
+    box-sizing: content-box;
+    text-align: center;
+    text-indent: 0 !important;
+    font-family: "Courier New",Courier,monospace;
+    line-height: 1em; 
+    content: "+";
+    background-color: #31b131;
+}
+
+table.dataTable tr.dt-hasChild td.dt-control:before {
+    content: "-";
+    background-color: #d33333;
+}
+
+/* Cierre 1.0 DataTables */
+
+
+/* 2.0 Tablas */
+
+#tablaAccidentes thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tablaDanosMateriales thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tablaDanosPersonales thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tablaDanosTerceros thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tablaCausasAccidentes thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tablaAccionesTomadas thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tablaDanosReparacion thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tablaInvestigacion thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tablaReportegdh thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tablaTipoTablaAccidentes thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tabla_ver_lesionados thead {
+    background: #2A4C38;
+    color:white;
+}
+
+/* tamaño de texto de tablas*/
+
+#tablaAccidentes {
+    font-size: 12px;
+}
+
+#tablaDanosMateriales {
+    font-size: 12px;
+}
+
+#tablaCausasAccidentes {
+    font-size: 12px;
+}
+
+#tablaAccionesTomadas {
+    font-size: 12px;
+}
+
+#tablaDanosPersonales {
+    font-size: 12px;
+}
+
+#tablaDanosTerceros {
+    font-size: 12px;
+}
+
+#tablaDanosReparacion {
+    font-size: 12px;
+}
+
+#tablaInvestigacion {
+    font-size: 12px;
+}
+
+#tablaReportegdh {
+    font-size: 12px;
+}
+
+#tablaTipoTablaAccidentes {
+    font-size: 12px;
+}
+
+#tabla_ver_lesionados {
+    font-size: 12px;
+}
+
+.table-fixed tbody {
+    height: 120px;
+    overflow-y: auto;
+    width: 100%;
+}
+
+/* Cierre 2.0 Tablas */
+
+/* 3.0 Tabs */
+
+.nav-tabs .nav-link.active {
+    background-color:#F2F3F5 !important;
+    border-color: #dee2e6 #dee2e6 #F2F3F5;
+}
+
+.nav-tabs .nav-link {
+    border-color: #dee2e6 #dee2e6 #dee2e6;
+    background: #f8f9fa;
+    color: #bec3bf;
+
+}
+
+/* Cierre 3.0 Tabs */
+
+.scrollVClass {
+    height:500px;
+    overflow-y: scroll;
+  }
+
+p {
+    font-size: medium;
+}
+
+.color-error {
+    background-color: #ffff006b !important;
+}
+
+.color-p1 {
+    background-color: #00ff2f6b !important;
+}
+.color-p2 {
+    background-color: #ffff00b6 !important;
+}
+.color-p3 {
+    background-color: #ff005946 !important;
+}
+.color-p4 {
+    background-color: #ff1e00d9 !important;
+}
+
+/* PARA OCULTAR EL INCREMENTO DEL CAMPO NUMBER
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
