@@ -1006,7 +1006,7 @@ function f_mostrar_datatable_solicitudes(p_accion){
                 "columnDefs"        : [
                     { "width": "5%", "targets": [0] },
                     {
-                        "targets"   : [0,16],
+                        "targets"   : [0],
                         "orderable" : false
                     },
                 ],
