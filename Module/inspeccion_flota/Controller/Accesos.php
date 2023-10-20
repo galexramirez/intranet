@@ -17,8 +17,18 @@ class Accesos
 				if ($Respuesta=="SI"){
 			    	$tabshtml .= '<a class="nav-item nav-link" id="nav-arbol_inspeccion_flota-tab" data-toggle="tab" href="#nav-arbol_inspeccion_flota" role="tab" aria-controls="nav-arbol_inspeccion_flota" aria-selected="false">Arbol</a>';
 				}
-				$tabshtml .= '	<a class="nav-item nav-link" id="nav-reporte-tab" data-toggle="tab" href="#nav-reporte" role="tab" aria-controls="nav-reporte" aria-selected="false">Reporte</a>
-								<a class="nav-item nav-link" id="nav-falla-tab" data-toggle="tab" href="#nav-falla" role="tab" aria-controls="nav-falla" aria-selected="false">Modo de Fallas</a>';
+				MModel($this->Modulo, 'CRUD');
+				$InstanciaAjax= new CRUD();
+				$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'nav-reporte-tab');
+				if ($Respuesta=="SI"){
+					$tabshtml .= '	<a class="nav-item nav-link" id="nav-reporte-tab" data-toggle="tab" href="#nav-reporte" role="tab" aria-controls="nav-reporte" aria-selected="false">Reporte</a>';
+				}
+				MModel($this->Modulo, 'CRUD');
+				$InstanciaAjax= new CRUD();
+				$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'nav-falla-tab');
+				if ($Respuesta=="SI"){
+					$tabshtml .= '	<a class="nav-item nav-link" id="nav-falla-tab" data-toggle="tab" href="#nav-falla" role="tab" aria-controls="nav-falla" aria-selected="false">Modo de Fallas</a>';
+				}
 				MModel($this->Modulo, 'CRUD');
 				$InstanciaAjax= new CRUD();
 				$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'nav-ajustes_inspeccion_flota-tab');

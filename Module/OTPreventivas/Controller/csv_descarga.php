@@ -63,7 +63,7 @@ foreach ($data as $row) {
                     $row['otpv_date_prog'],
                     $row['otpv_genera'],
                     $row['otpv_bus'],
-                    $row['otpv_frecuencia'],
+                    $row['otpv_fecuencia'],
                     $row['otpv_asociado'],
                     $row['otpv_tecnico'],
                     $row['otpv_descripcion'],

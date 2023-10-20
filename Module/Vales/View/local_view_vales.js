@@ -120,7 +120,7 @@ $(document).ready(function(){
             "columns"       : columnastabla,
             "columnDefs"    :[
                 {
-                    "targets"   : [0,12],
+                    "targets"   : [0],
                     "orderable" : false
                 },
             ],

@@ -9,14 +9,22 @@ class Accesos
 		switch($NombreTabs)
 		{
 			case "nav-tab-Vales":
-				$tabshtml = '	<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Listado</a>
-								<a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false"><span id="idProcesar">Procesar</span></a>
-								<a class="nav-item nav-link" id="nav-repuestos-tab" data-toggle="tab" href="#nav-repuestos" role="tab" aria-controls="nav-repuestos" aria-selected="false">Repuestos</a>';
+				$tabshtml = '	<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Listado</a>';
+				MModel($this->Modulo, 'CRUD');
+				$InstanciaAjax= new CRUD();
+				$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'nav-profile-tab');
+				if ($Respuesta=="SI"){
+					$tabshtml .= '	<a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false"><span id="idProcesar">Procesar</span></a>';
+				}
+				$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'nav-repuestos-tab');
+				if ($Respuesta=="SI"){
+					$tabshtml .= '	<a class="nav-item nav-link" id="nav-repuestos-tab" data-toggle="tab" href="#nav-repuestos" role="tab" aria-controls="nav-repuestos" aria-selected="false">Repuestos</a>';
+				}				
 			break;
 		}
 		echo $tabshtml;
 	}
-// 								<a class="nav-item nav-link" id="nav-reporte-tab" data-toggle="tab" href="#nav-reporte" role="tab" aria-controls="nav-reporte" aria-selected="false">Reporte</a>	
+							//<a class="nav-item nav-link" id="nav-reporte-tab" data-toggle="tab" href="#nav-reporte" role="tab" aria-controls="nav-reporte" aria-selected="false">Reporte</a>	
     public function CreacionTabla($NombreTabla,$TipoTabla)
     {
 		$tablahtml = "";
@@ -37,9 +45,14 @@ class Accesos
 											<th>APERTURA</th>
 											<th>FECHA_APERTURA</th>
 											<th>CIERRE_ADMINISTRATIVO</th>
-											<th>FECHA_CIERRE_ADM.</th>
-											<th>ACCIONES</th>
-										</tr>
+											<th>FECHA_CIERRE_ADM.</th>';
+				MModel($this->Modulo, 'CRUD');
+				$InstanciaAjax= new CRUD();
+				$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'btn_editar_vales');
+				if ($Respuesta=="SI"){
+					$tablahtml .= '			<th>ACCIONES</th>';
+				}
+				$tablahtml .= '			</tr>
 									</thead>
 									<tbody>                           
 									</tbody>
@@ -175,9 +188,14 @@ class Accesos
 									{"data": "va_genera"},
 									{"data": "va_date_genera"},
 									{"data": "va_cierre_adm"},
-									{"data": "va_date_cierre_adm"},
-									{"defaultContent": " '.$defaultContent2.' "}
-								]';
+									{"data": "va_date_cierre_adm"}';
+				MModel($this->Modulo, 'CRUD');
+				$InstanciaAjax= new CRUD();
+				$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'btn_editar_vales');
+				if ($Respuesta=="SI"){
+					$columnashtml .= ',{"defaultContent": " '.$defaultContent2.' "}';
+				}
+				$columnashtml .= ']';
 			break;
 
             case "tablaDetalleRepuestos":

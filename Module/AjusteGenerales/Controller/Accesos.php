@@ -14,7 +14,7 @@ class Accesos
 								<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Calendario</a>
 								<a class="nav-item nav-link" id="nav-tipocambio-tab" data-toggle="tab" href="#nav-tipocambio" role="tab" aria-controls="nav-tipocambio" aria-selected="false">Tipo de Cambio</a>
 								<a class="nav-item nav-link" id="nav-modulo-tab" data-toggle="tab" href="#nav-modulo" role="tab" aria-controls="nav-modulo" aria-selected="false">Modulos</a>
-								<a class="nav-item nav-link" id="nav-permisos-tab" data-toggle="tab" href="#nav-permisos" role="tab" aria-controls="nav-permisos" aria-selected="false">Permisos</a>
+								<a class="nav-item nav-link" id="nav-permisos-tab" data-toggle="tab" href="#nav-permisos" role="tab" aria-controls="nav-permisos" aria-selected="false">Accesos a Modulos</a>
 								<a class="nav-item nav-link" id="nav-objetos-tab" data-toggle="tab" href="#nav-objetos" role="tab" aria-controls="nav-objetos" aria-selected="false">Objetos</a>
 								<a class="nav-item nav-link" id="nav-controlaccesos-tab" data-toggle="tab" href="#nav-controlaccesos" role="tab" aria-controls="nav-controlaccesos" aria-selected="false">Control de Accesos</a>
 								<a class="nav-item nav-link" id="nav-maestrouno-tab" data-toggle="tab" href="#nav-maestrouno" role="tab" aria-controls="nav-maestrouno" aria-selected="false">Maestro Uno</a>
@@ -74,7 +74,7 @@ class Accesos
 										<th>ID</th>
 										<th>MODULO</th>
 										<th>OBJETOS</th>
-										<th>DESCRIPCION</th>
+										<th>DESCRIPCION_DEL_OBJETO</th>
 										<th>ACCIONES</th>
 										</tr>
 									</thead>
