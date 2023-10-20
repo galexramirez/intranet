@@ -602,7 +602,11 @@ class Accesos
 				switch($NombreObjeto)
 				{
 					case "btn_seleccion_falla":
-						$Mostrar_div = ' <button type="button" id="btn_buscar_falla" class="btn btn-secondary btn-sm btn_buscar_falla">Buscar</button> ';
+						$Mostrar_div  = ' <button type="button" id="btn_buscar_falla" class="btn btn-secondary btn-sm btn_buscar_falla">Buscar</button> ';
+						/*$Mostrar_div .= ' <button type="button" id="btn_editar_falla" class="btn btn-secondary btn-sm btn_editar_falla">Editar</button> ';
+						$Mostrar_div .= ' <button type="button" id="btn_anular_falla" class="btn btn-secondary btn-sm btn_anular_falla">Anular</button> ';
+						$Mostrar_div .= ' <button type="button" id="btn_crear_falla" class="btn btn-secondary btn-sm btn_crear_falla">Crear</button> ';
+						$Mostrar_div .= ' <button type="button" id="btn_abrir_bus_falla" class="btn btn-secondary btn-sm btn_abrir_bus_falla">Abrir Bus</button> ';*/
 					break;
 				}
 			break;

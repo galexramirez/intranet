@@ -722,22 +722,14 @@
 								<label for="falla_fecha_inicio" class="col-form-label form-control-sm">F.INICIO</label>
 								<input type="date" class="form-control form-control-sm" id="falla_fecha_inicio" placeholder="dd/mm/aaaaa">
 					       	</div>
-				        	<!-- <div class="form-group">
-								<label for="fal_inspeccion_id" class="col-form-label form-control-sm">INSPECCION ID</label>
-								<input type="text" class="form-control form-control-sm" id="fal_inspeccion_id">
-					       	</div> -->
 			        	</div>
 						<div class="col-lg-1">
 							<div class="form-group">
 								<label for="falla_fecha_termino" class="col-form-label form-control-sm">F.TERMINO</label>
 								<input type="date" class="form-control form-control-sm" id="falla_fecha_termino" placeholder="dd/mm/aaaaa">
 					       	</div>
-				        	<!-- <div class="form-group">
-								<label for="fal_inspeccion_bus" class="col-form-label form-control-sm">BUS</label>
-								<select class="form-control form-control-sm" id="fal_inspeccion_bus"></select>
-					       	</div> -->
 			        	</div>
-						<div class="col-sm-3">
+						<div class="col-sm-4">
 							<div class="form-group" id="div_btn_seleccion_falla">
 								
 							</div>

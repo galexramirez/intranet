@@ -126,9 +126,9 @@ $(document).ready(function(){
       },
       "columns"     : columnas_tabla,
       "columnDefs": [
-        {"className": "text-center", "targets": [0,1,2,3]}
+        {"className": "text-center", "targets": [0,1,2,3,10]}
       ],
-      "order"       : [[3, 'asc']]
+      "order"       : [[0, 'asc']]
     });    
   });
   ///:: FIN EVENTO BOTON BUSCAR REPORTE DE INSPECCION DE FLOTA ::::::::::::::::::::::::::::///
