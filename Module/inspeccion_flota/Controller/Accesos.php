@@ -214,16 +214,17 @@ class Accesos
                 $tablahtml = '	<table id="tabla_falla" class="table table-striped table-bordered table-condensed w-100"  >
 									<thead class="text-center">
 										<tr>
-											<th>INSPECCION ID</th>
+											<th>ID</th>
+											<th>INSP.</th>
 											<th>BUS</th>
-											<th>CODIGO</th>
-											<th>DESCRIPCION</th>
+											<th>COD.</th>
+											<th>DESCRIPCION_CODIGO</th>
 											<th>COMPONENTE</th>
 											<th>POSICION</th>
 											<th>FALLA</th>
 											<th>ACCION</th>
 											<th>RESPONSABLE</th>
-											<th>FECHA</th>
+											<th>FECHA REG.</th>
 										</tr>
 									</thead>
 									<tbody>                           
@@ -368,7 +369,8 @@ class Accesos
 			break;
 
 			case "tabla_falla":
-				$columnashtml = '[	{"data": "inspeccion_id"},
+				$columnashtml = '[	{"data": "inspeccion_movimiento_id"},
+									{"data": "inspeccion_id"},
 									{"data": "insp_bus"},
 									{"data": "insp_codigo"},
 									{"data": "insp_descripcion"},
