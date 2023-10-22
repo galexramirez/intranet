@@ -134,5 +134,8 @@
         case '/check_list':
             MController('check_list','Renderice');    break;     
 
+        case '/desempeno_piloto':
+            MController('desempeno_piloto','Renderice');    break;     
+            
         default: header('Location: /inicio');
         }
