@@ -5,6 +5,7 @@
 
 ///:: DECLARACION DE VARIABLES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 var MoS, NombreMoS, Accion, idioma_espanol, div_tabs, div_tablas, div_boton, div_show, columnastabla, data_BD, mi_carpeta;
+
 mi_carpeta = f_DocumentRoot();
 MoS           = 'Module';
 NombreMoS     = 'desempeno_piloto';
@@ -90,6 +91,23 @@ function f_BuscarDataBD(pTablaBD,pCampoBD,pDataBuscar){
     }
   });
   return rptaData;
+}
+
+///:: AUTOCOMPLETADO ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+function f_auto_completar(pNombreTabla, pNombreCampo){
+  let rpta_auto_completar = "";
+  Accion = 'auto_completar';
+  $.ajax({
+    url     : "Ajax.php",
+    type    : "POST",
+    datatype: "json",
+    async   : false,
+    data    : {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, NombreTabla:pNombreTabla, NombreCampo:pNombreCampo},    
+    success : function(data){
+      rpta_auto_completar = $.parseJSON(data);
+    }
+  });
+  return rpta_auto_completar;
 }
 
 ///:: FUNCIONES ACCESOS :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///

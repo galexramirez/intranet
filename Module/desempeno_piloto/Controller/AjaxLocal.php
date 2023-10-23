@@ -95,7 +95,24 @@ switch ($Accion)
       $Respuesta=$InstanciaAjax->DocumentRoot();
    break;
 
+   case 'auto_completar':
+      $NombreTabla= $_POST['NombreTabla'];
+      $NombreCampo = $_POST['NombreCampo'];
+
+      MController($Modulo,'Logico');
+      $InstanciaAjax= new Logico();
+      $Respuesta=$InstanciaAjax->auto_completar($NombreTabla,$NombreCampo);
+   break;
+
+   case 'cargar_desempeno_piloto':
+      $nombre_piloto = $_POST['nombre_piloto'];
+      $fecha_inicio = $_POST['fecha_inicio'];
+      $fecha_termino = $_POST['fecha_termino'];
+
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta = $InstanciaAjax->cargar_desempeno_piloto($nombre_piloto, $fecha_inicio, $fecha_termino);
+   break;
+
    default: header('Location: /inicio');
 }
-
-?>

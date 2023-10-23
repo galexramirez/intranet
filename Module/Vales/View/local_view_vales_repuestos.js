@@ -12,21 +12,21 @@ var rv_repuesto, rv_desc, rv_nroserie, rv_cantidad, rv_unidad;
 $(document).ready(function(){
 
   ///:: CARGAR LOS DATOS PARA AUTOCOMPLETAR :::::::::::::::::::::::::::::::::::::::::::::::///
-  $( function() {
+  $(function(){
     t_autocompletar = f_AutoCompletar("manto_repuestos","cod_rep");
-    $( "#buscar_repuesto" ).autocomplete({
+    $("#buscar_repuesto").autocomplete({
       minLength : 3,
-      source: t_autocompletar,
-      html: true,
-      _renderMenu: function( ul, items ) {
+      source    : t_autocompletar,
+      html      : true,
+      _renderMenu: function(ul, items) {
         var that = this;
-        $.each( items, function( index, item ) {
-          that._renderItemData( ul, item );
+        $.each(items, function(index, item) {
+          that._renderItemData(ul, item);
         });
-        $( ul ).find( "li" ).odd().addClass( "odd" );
+        $(ul).find("li").odd().addClass("odd");
       }
     });
-  } );
+  });
 
   ///:: CAMBIOS EN CODIGO MATERIAL SE ACTUALIZA DESCRIPCION DE MATERIAL :::::::::::::::::///
   $(document).on("click", ".btn_buscar_repuesto", function(){

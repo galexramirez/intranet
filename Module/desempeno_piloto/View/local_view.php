@@ -13,25 +13,25 @@
 		</div>
 	</nav>
 	
-	<section class="container-fluid py-3">
+	<section class="container-fluid py-2">
 		<form id="form_desempeno_piloto" class="row col-sm-12 container-fluid" enctype="multipart/form-data" action="" method="post">	    
 			<div class="row align-items-end pb-4 col-sm-12">
                 <div class="col-lg-3">
-			      	<div class="form-group">
-						<label for="dp_nombre_piloto" class="col-form-label form-control-sm">F.INICIO</label>
-						<input type="text" class="form-control form-control-sm" id="dp_nombre_piloto" >
+			      	<div class="form-group ui-widget">
+						<label for="dp_nombre_piloto" class="col-form-label form-control-sm">PILOTO</label>
+						<input type="text" class="form-control form-control-sm text-uppercase" id="dp_nombre_piloto">
 			      	</div>
 			    </div>
                 <div class="col-lg-1">
 			      	<div class="form-group">
 						<label for="dp_fecha_inicio" class="col-form-label form-control-sm">F.INICIO</label>
-						<input type="date" class="form-control form-control-sm" id="dp_fecha_inicio" placeholder="dd-mm-aaaa" >
+						<input type="date" class="form-control form-control-sm" id="dp_fecha_inicio" placeholder="dd-mm-aaaa">
 			      	</div>
 			    </div>
 				<div class="col-lg-1">
 			      	<div class="form-group">
 						<label for="dp_fecha_termino" class="col-form-label form-control-sm">F.TERMINO</label>
-						<input type="date" class="form-control form-control-sm" id="dp_fecha_termino" placeholder="dd-mm-aaaa" >
+						<input type="date" class="form-control form-control-sm" id="dp_fecha_termino" placeholder="dd-mm-aaaa">
 			      	</div>
 			    </div>
                 <div class="col-lg-1">
@@ -44,11 +44,10 @@
 	</section>
 
         <!-- Content Wrapper -->
-        <div id="content-wrapper" class="container-fluid d-flex flex-column py-3">
+        <div id="content-wrapper" class="container-fluid d-flex flex-column py-2">
 
             <!-- Main Content -->
             <div id="content" class="container-fluid p-0">
-
             </div>
             <!-- End of Main Content -->
 
