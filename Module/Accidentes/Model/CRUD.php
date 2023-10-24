@@ -459,7 +459,34 @@ class CRUD
 
 	function BuscarInvestigacion($fecha_inicio, $fecha_termino)
 	{
-		$consulta="SELECT `OPE_AccidentesInformePreliminar`.`Accidentes_Id`, `OPE_AccidentesInformePreliminar`.`Acci_EstadoInformePreliminar`, UPPER(DATE_FORMAT(`OPE_AccidentesInformePreliminar`.`Acci_Fecha`,'%Y-%m-%d %W')) AS `Acci_Fecha`, TIME_FORMAT(`OPE_AccidentesInformePreliminar`.`Acci_Hora`,'%H:%i') AS `Acci_Hora`, `OPE_AccidentesInformePreliminar`.`Acci_NombreCGO`, `OPE_AccidentesInformePreliminar`.`Acci_NombreColaborador`, DATE_FORMAT(`colaborador`.`Colab_FechaIngreso`,'%Y-%m-%d') AS `Colab_FechaIngreso`, CONCAT(TIMESTAMPDIFF ( YEAR, `colaborador`.`Colab_FechaIngreso`, CURRENT_DATE ),' AÑOS') AS `Acci_Antiguedad`, TIME_FORMAT(`OPE_AccidentesInformePreliminar`.`Acci_HorasTrabajadas`,'%H:%i') AS `Acci_HorasTrabajadas`, `OPE_AccidentesInformePreliminar`.`Acci_Tabla`, `OPE_AccidentesInformePreliminar`.`Acci_Servicio`, `OPE_AccidentesInformePreliminar`.`Acci_Bus`, `Buses`.`Bus_NroPlaca`, IF (`Buses`.`Bus_Operacion`='TRONCAL','ARTICULADO',`Bus_Operacion`) AS `Acci_TipoBus`, TIME_FORMAT(`OPE_AccidentesInformePreliminar`.`Acci_HoraLlegadaProcurador`,'%H:%i') AS `Acci_HoraLlegadaProcurador`, `OPE_AccidentesInformePreliminar`.`Acci_Lugar`, `OPE_AccidentesInformePreliminar`.`Acci_Sentido`, `OPE_AccidentesInformePreliminar`.`Acci_TipoAccidente`, `OPE_AccidentesInformePreliminar`.`Acci_ClaseAccidente`, `OPE_AccidentesInformePreliminar`.`Acci_TipoEvento`, `OPE_AccidentesInformePreliminar`.`Acci_ReconoceResponsabilidad`, `OPE_AccidentesInvestigacion`.`Acci_EstadoInvestigacion`, (SELECT COUNT(*) AS `acci_cantidad_lesionados` FROM `OPE_AccidentesNaturaleza` WHERE `OPE_AccidentesNaturaleza`.`Acci_Tipo`='DañosPersonales' AND `OPE_AccidentesNaturaleza`.`Accidentes_Id`=`OPE_AccidentesInformePreliminar`.`Accidentes_Id`) AS `acci_cantidad_lesionados` FROM `OPE_AccidentesInformePreliminar` LEFT JOIN `colaborador` ON `OPE_AccidentesInformePreliminar`.`Acci_Dni`=`colaborador`.`Colaborador_id` LEFT JOIN `Buses` ON `OPE_AccidentesInformePreliminar`.`Acci_Bus`=`Buses`.`Bus_NroExterno` LEFT JOIN `OPE_AccidentesInvestigacion` ON `OPE_AccidentesInvestigacion`.`Accidentes_Id`=`OPE_AccidentesInformePreliminar`.`Accidentes_Id` WHERE `Acci_Fecha`>='$fecha_inicio' AND `Acci_Fecha`<='$fecha_termino' AND (SELECT `OPE_AccidentesImagen`.`Acci_TipoImagen` FROM `OPE_AccidentesImagen` WHERE `OPE_AccidentesImagen`.`Accidentes_Id`= `OPE_AccidentesInformePreliminar`.`Accidentes_Id` AND `OPE_AccidentesImagen`.`Acci_TipoImagen`='IP_PDF')!='' ";
+		$consulta = " SELECT 
+						`OPE_AccidentesInformePreliminar`.`Accidentes_Id`, 
+						`OPE_AccidentesInformePreliminar`.`Acci_EstadoInformePreliminar`, 
+						UPPER(DATE_FORMAT(`OPE_AccidentesInformePreliminar`.`Acci_Fecha`,'%Y-%m-%d %W')) AS `Acci_Fecha`, 
+						TIME_FORMAT(`OPE_AccidentesInformePreliminar`.`Acci_Hora`,'%H:%i') AS `Acci_Hora`, 
+						`OPE_AccidentesInformePreliminar`.`Acci_NombreCGO`, 
+						`OPE_AccidentesInformePreliminar`.`Acci_NombreColaborador`, 
+						DATE_FORMAT(`colaborador`.`Colab_FechaIngreso`,'%Y-%m-%d') AS `Colab_FechaIngreso`, 
+						`OPE_AccidentesInformePreliminar`.`Acci_Tabla`, 
+						`OPE_AccidentesInformePreliminar`.`Acci_Servicio`, 
+						`OPE_AccidentesInformePreliminar`.`Acci_Bus`, 
+						`Buses`.`Bus_NroPlaca`, 
+						IF (`Buses`.`Bus_Operacion`='TRONCAL','ARTICULADO',`Bus_Operacion`) AS `Acci_TipoBus`, 
+						`OPE_AccidentesInformePreliminar`.`Acci_Lugar`, 
+						`OPE_AccidentesInformePreliminar`.`Acci_Sentido`, 
+						`OPE_AccidentesInformePreliminar`.`Acci_TipoAccidente`, 
+						`OPE_AccidentesInformePreliminar`.`Acci_ClaseAccidente`, 
+						`OPE_AccidentesInformePreliminar`.`Acci_TipoEvento`, 
+						`OPE_AccidentesInformePreliminar`.`Acci_ReconoceResponsabilidad`, 
+						`OPE_AccidentesInvestigacion`.`Acci_EstadoInvestigacion`, 
+						(SELECT COUNT(*) AS `acci_cantidad_lesionados` FROM `OPE_AccidentesNaturaleza` WHERE `OPE_AccidentesNaturaleza`.`Acci_Tipo`='DañosPersonales' AND `OPE_AccidentesNaturaleza`.`Accidentes_Id`=`OPE_AccidentesInformePreliminar`.`Accidentes_Id`) AS `acci_cantidad_lesionados`,
+						(SELECT `OPE_AccidentesImagen`.`Acci_TipoImagen` FROM `OPE_AccidentesImagen` WHERE `OPE_AccidentesImagen`.`Accidentes_Id`=`OPE_AccidentesInformePreliminar`.`Accidentes_Id` AND `OPE_AccidentesImagen`.`Acci_TipoImagen`='PDF') AS `acci_doc_adj`
+					FROM `OPE_AccidentesInformePreliminar` 
+					LEFT JOIN `colaborador` ON `colaborador`.`Colaborador_id`=`OPE_AccidentesInformePreliminar`.`Acci_Dni`
+					LEFT JOIN `Buses` ON `OPE_AccidentesInformePreliminar`.`Acci_Bus`=`Buses`.`Bus_NroExterno` 
+					LEFT JOIN `OPE_AccidentesInvestigacion` ON `OPE_AccidentesInvestigacion`.`Accidentes_Id`=`OPE_AccidentesInformePreliminar`.`Accidentes_Id` 
+					WHERE `Acci_Fecha`>='$fecha_inicio' AND `Acci_Fecha`<='$fecha_termino' AND 
+						(SELECT `OPE_AccidentesImagen`.`Acci_TipoImagen` FROM `OPE_AccidentesImagen` WHERE `OPE_AccidentesImagen`.`Accidentes_Id`= `OPE_AccidentesInformePreliminar`.`Accidentes_Id` AND `OPE_AccidentesImagen`.`Acci_TipoImagen`='IP_PDF')!='' ";
 		
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();        

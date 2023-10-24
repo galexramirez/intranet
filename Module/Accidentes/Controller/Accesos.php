@@ -174,31 +174,30 @@ class Accesos
                 $tablahtml = '  <table id="tablaInvestigacion" class="table table-striped table-bordered table-condensed w-100"  >
                                     <thead class="text-center">
                                         <tr>
-                                            <th>ID ACCID.</th>
-                                            <th>ESTADO INF.PREL.</th>
+                                            <th>ID_ACCID.</th>
+                                            <th>ESTADO_IP</th>
                                             <th>FECHA</th>
                                             <th>HORA</th>
-                                            <th>NOMBRE CGO</th>
-                                            <th>NOMBRE PILOTO</th>
-                                            <th>FECHA INGRESO</th>
-                                            <th>ANTIGUEDAD</th>
-                                            <th>H.TRAB.</th>
+                                            <th>APELLIDOS_NOMBRES_CGO</th>
+                                            <th>APELLIDOS_NOMBRES_PILOTO</th>
+                                            <th>F.INGRESO</th>
                                             <th>TABLA</th>
                                             <th>SERVICIO</th>
                                             <th>BUS</th>
                                             <th>PLACA</th>
                                             <th>TIPO BUS</th>
-                                            <th>DIRECCION ACCID.</th>
-                                            <th>SENTIDO ACCID.</th>
-                                            <th>TIPO ACCID.</th>
-                                            <th>CLASE ACCID.</th>
-                                            <th>EVENTO</th>
-                                            <th>RECON.RESP.</th>
-                                            <th>CANT.LESION.</th>
-                                            <th>ESTADO INVEST.</th>
-                                            <th>INF.FIN.PDF</th>';
+                                            <th>DIRECCION_ACCID.</th>
+                                            <th>SENTIDO</th>
+                                            <th>TIPO_ACCID.</th>
+                                            <th>CLASE_ACCID.</th>
+                                            <th>DESCRIPCION_EVENTO</th>
+                                            <th>R.RESP.</th>
+                                            <th>C.LES.</th>
+                                            <th>ESTADO_INV.</th>
+                                            <th>I.FIN.</th>
+                                            <th>D.ADJ.</th>';
                 if($Respuesta=="SI"){
-                    $tablahtml .= '         <th>ACCIONES</th>';
+                    $tablahtml .= '         <th>ACCION</th>';
                 }
                 $tablahtml .= '         </tr>
                                     </thead>
@@ -402,8 +401,6 @@ class Accesos
                                     {"data": "Acci_NombreCGO"},
                                     {"data": "Acci_NombreColaborador"},
                                     {"data": "Colab_FechaIngreso"},
-                                    {"data": "Acci_Antiguedad"},
-                                    {"data": "Acci_HorasTrabajadas"},
                                     {"data": "Acci_Tabla"},
                                     {"data": "Acci_Servicio"},
                                     {"data": "Acci_Bus"},
@@ -417,7 +414,8 @@ class Accesos
                                     {"data": "Acci_ReconoceResponsabilidad"},
                                     {"data": "acci_cantidad_lesionados"},
                                     {"data": "Acci_EstadoInvestigacion"},
-                                    {"defaultContent": "'.$defaultContent1.'"}';
+                                    {"defaultContent": "'.$defaultContent1.'"},
+                                    {"data": "acci_doc_adj"}';
                 if($Respuesta=="SI"){
                     $columnasjs .= '    ,{"defaultContent": "'.$defaultContent.'"}';
                 }

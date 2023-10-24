@@ -408,29 +408,6 @@ function f_GrabarPDF(p_opcionCargaPDF){
 }
 ///:: FIN GRABAR IMAGEN :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
-///:: BUSCAR PDF ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///       
-function f_BuscarPDF(p_Acci_TipoImagen){
-  let pdf="";
-  Accion='BuscarImagen';
-  $.ajax({
-      url: "Ajax.php",
-      type: "POST",
-      datatype:"json",    
-      async: false,   
-      data:  { MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,Accidentes_Id:Accidentes_Id,Acci_TipoImagen:p_Acci_TipoImagen },   
-      success: function(data) {
-          data = $.parseJSON(data);
-          $.each(data, function(idx, obj){ 
-              if(obj.b64_Foto){
-                  pdf  = 'data:application/pdf;base64,' + obj.b64_Foto;
-              }
-          });
-      }
-  });	
-  return pdf;
-}
-///:: FIN BUSCAR PDF ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-
 ///:: FUNCION PARA VALIDAR LOS DATOS INGRESADOS AL FORMULARIO :::::::::::::::::::::::::::::///
 function validar(pno_FechaInicio,pno_FechaTermino){
   LimpiaMs();
