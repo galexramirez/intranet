@@ -42,6 +42,7 @@
                     <script src='Module/AjusteGenerales/View/LocalViewBuses.js' type='text/javascript'></script>
                     <script src='Module/AjusteGenerales/View/local_view_roles.js' type='text/javascript'></script>
                     <script src='Module/AjusteGenerales/View/LocalViewCalendario.js' type='text/javascript'></script>
+                    <script src='Module/AjusteGenerales/View/local_view_periodo.js' type='text/javascript'></script>
                     <script src='Module/AjusteGenerales/View/LocalViewTipoCambio.js' type='text/javascript'></script>
                     <script src='Module/AjusteGenerales/View/LocalViewModulo.js' type='text/javascript'></script>
                     <script src='Module/AjusteGenerales/View/LocalViewPermisos.js' type='text/javascript'></script>

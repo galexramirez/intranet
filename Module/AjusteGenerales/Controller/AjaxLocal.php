@@ -199,7 +199,6 @@ switch ($Accion)
       $Respuesta     = $InstanciaAjax->buscarNombreCorto($roles_dni);
    break;
 
-
    case 'LeerCalendario':
       MModel($Modulo,'CRUD');
       $InstanciaAjax= new CRUD();
@@ -240,6 +239,48 @@ switch ($Accion)
       MModel($Modulo,'CRUD');
       $InstanciaAjax= new CRUD();
       $Respuesta=$InstanciaAjax->BorrarCalendario($Calendario_Id);
+   break;
+
+   case 'leer_periodo':
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta = $InstanciaAjax->leer_periodo();
+   break;
+
+   case 'crear_periodo':
+      $periodo_id=$_POST['periodo_id'];
+      $peri_anio = $_POST['peri_anio'];
+      $peri_mes = $_POST['peri_mes'];
+      $peri_proceso = strtoupper($_POST['peri_proceso']);
+      $peri_descripcion = $_POST['peri_descripcion'];
+      $peri_fecha_inicio = $_POST['peri_fecha_inicio'];
+      $peri_fecha_termino = $_POST['peri_fecha_termino'];
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax= new CRUD();
+      $Respuesta=$InstanciaAjax->crear_periodo($periodo_id, $peri_anio, $peri_mes, $peri_proceso, $peri_descripcion, $peri_fecha_inicio, $peri_fecha_termino);
+   break;
+
+   case 'EditarCalendario':
+      $periodo_id=$_POST['periodo_id'];
+      $peri_anio = $_POST['peri_anio'];
+      $peri_mes = $_POST['peri_mes'];
+      $peri_proceso = strtoupper($_POST['peri_proceso']);
+      $peri_descripcion = $_POST['peri_descripcion'];
+      $peri_fecha_inicio = $_POST['peri_fecha_inicio'];
+      $peri_fecha_termino = $_POST['peri_fecha_termino'];
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax= new CRUD();
+      $Respuesta=$InstanciaAjax->editar_periodo($periodo_id, $peri_anio, $peri_mes, $peri_proceso, $peri_descripcion, $peri_fecha_inicio, $peri_fecha_termino);
+   break;
+
+   case 'borrar_periodo':
+      $periodo_id = $_POST['periodo_id'];
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta = $InstanciaAjax-> borrar_periodo($periodo_id);
    break;
 
    case 'SelectTipos':

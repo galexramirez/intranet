@@ -140,10 +140,10 @@ class Logico
                             </div>
                         </div>';
         $html .= '      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 rounded shadow-sm bg-white mr-2">
-                            <h6>Desempeño</h6>
+                            <h5>DESEMPEÑO</h5>
                         </div>';
         $html .= '      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 rounded shadow-sm bg-white mr-2">
-                            <h6>Eventos</h6>
+                            <h5>EVENTOS</h5>
                         </div>
                     </div>';
         echo $html;

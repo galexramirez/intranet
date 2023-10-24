@@ -46,6 +46,10 @@ div.dt-buttons {
     font-size: 12px;
 }
 
+#tabla_periodo{
+    font-size: 12px;
+}
+
 #tablaTipoCambio{
     font-size: 12px;
 }
@@ -103,4 +107,17 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
 
 .color-error {
     background-color: #ffff006b !important;
+}
+
+/* PARA OCULTAR EL INCREMENTO DEL CAMPO NUMBER
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

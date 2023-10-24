@@ -193,6 +193,49 @@ class CRUD
         $this->conexion=null;	
 	}  		
 
+	function leer_periodo()
+	{
+        $consulta = " SELECT * FROM `glo_periodo` ORDER BY `glo_periodo`.`periodo_id` DESC ";
+
+        $resultado = $this->conexion->prepare($consulta);
+        $resultado->execute();        
+        $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+
+        print json_encode($data, JSON_UNESCAPED_UNICODE);//envio el array final el formato json a AJAX
+        $this->conexion=null;
+   	}   
+
+	function crear_periodo($periodo_id, $peri_anio, $peri_mes, $peri_proceso, $peri_descripcion, $peri_fecha_inicio, $peri_fecha_termino)
+	{
+		$consulta = "INSERT INTO `glo_periodo`(`peri_anio`, `peri_mes`, `peri_proceso`, `peri_descripcion`, `peri_fecha_inicio`, `peri_fecha_termino`) VALUES ('$peri_anio','$peri_mes','$peri_proceso','$peri_descripcion', '$peri_fecha_inicio', '$peri_fecha_termino')";
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();   
+
+        $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+        print json_encode($data, JSON_UNESCAPED_UNICODE);//envio el array final el formato json a AJAX
+        $this->conexion=null;	
+	}  	
+	
+	function editar_periodo($periodo_id, $peri_anio, $peri_mes, $peri_proceso, $peri_descripcion, $peri_fecha_inicio, $peri_fecha_termino)
+	{
+		$consulta = "UPDATE `glo_periodo` SET `peri_anio`='$peri_anio', `peri_mes`='$peri_mes', `peri_proceso`='$peri_proceso', `peri_descripcion`='$peri_descripcion', `peri_fecha_inicio`='$peri_fecha_inicio', `peri_fecha_termino`='$peri_fecha_termino' WHERE `periodo_id` ='$periodo_id'";		
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();   
+		
+        $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+        print json_encode($data, JSON_UNESCAPED_UNICODE);//envio el array final el formato json a AJAX
+        $this->conexion=null;	
+	}  		
+	
+	function borrar_periodo($periodo_id)
+	{
+		$consulta = "DELETE FROM `glo_periodo` WHERE `periodo_id`='$periodo_id'";		
+  		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();   
+        $this->conexion=null;	
+	}  		
+
+
 	function SelectTipos($Prog_Operacion,$Ttabla_Tipo)
 	{
 		$consulta="SELECT `TipoTabla`.`Ttabla_Detalle` AS 'Detalle' FROM `TipoTabla` WHERE `TipoTabla`.`Ttabla_Operacion` = '$Prog_Operacion' AND `TipoTabla`.`Ttabla_Tipo` = '$Ttabla_Tipo' ORDER BY `Detalle` ASC";
