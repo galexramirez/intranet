@@ -70,7 +70,7 @@ $(document).ready(function(){
   $("#obs_chl_posicion").on('change', function (){
     obs_chl_accion = "";
     
-    let contar_falla = f_contar_dato("manto_check_list_falla_accion","fav_falla","`fav_bus_tipo`='"+obs_chl_bus_tipo+"' AND `chl_codigo`='"+obs_chl_codigo+"' AND `chl_componente`='"+obs_chl_componente+"'");
+    let contar_falla = f_contar_dato("manto_check_list_falla_accion","chl_falla","`chl_bus_tipo`='"+obs_chl_bus_tipo+"' AND `chl_codigo`='"+obs_chl_codigo+"' AND `chl_componente`='"+obs_chl_componente+"'");
     
     select_chl_obs = f_select_combo("manto_check_list_falla_accion","NO","chl_accion","","`chl_bus_tipo`='"+obs_chl_bus_tipo+"' AND `chl_codigo`='"+obs_chl_codigo+"' AND `chl_componente`='"+obs_chl_componente+"' AND `chl_falla`='"+obs_chl_falla+"'","chl_accion");
     $("#obs_chl_accion").html(select_chl_obs);

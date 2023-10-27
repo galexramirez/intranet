@@ -376,6 +376,16 @@ class Logico
         $Respuesta=$InstanciaAjax->editar_inspeccion_detalle($inspeccion_id, $insp_usuario_id, $insp_fecha_detalle, $insp_bus, $insp_detalle_estado);
     }
 
+    public function crear_falla($inspeccion_id, $insp_bus_tipo, $insp_bus, $insp_codigo, $insp_descripcion, $insp_componente, $insp_posicion, $insp_falla, $insp_accion)
+    {
+		$insp_usuario_id = $_SESSION['USUARIO_ID'];
+		$insp_fecha    = date('Y-m-d H:i:s');
+        MModel($this->Modulo,'CRUD');
+        $InstanciaAjax = new CRUD();        
+        $Respuesta = $InstanciaAjax->guardar_inspeccion_movimiento($inspeccion_id, $insp_bus_tipo, $insp_bus, $insp_codigo, $insp_descripcion, $insp_componente, $insp_posicion, $insp_falla, $insp_accion, $insp_fecha, $insp_usuario_id );
+
+    }
+
     public function descargar_arbol($insp_bus_tipo)
     {
 

@@ -5,7 +5,6 @@ CREATE TABLE IF NOT EXISTS `BDLIMABUS`.`manto_inspeccion_detalle` (
   `insp_fecha_detalle` DATETIME NULL,
   `insp_bus` VARCHAR(11) NOT NULL,
   `insp_detalle_estado` VARCHAR(45) NOT NULL,
-  `insp_detalle_log` VARCHAR(1000) NULL,
   PRIMARY KEY (`inspeccion_detalle_id`))
 ENGINE = InnoDB;
 
@@ -92,6 +91,7 @@ CREATE TABLE IF NOT EXISTS `BDLIMABUS`.`manto_inspeccion_movimiento` (
   `insp_fecha` DATETIME NOT NULL,
   `insp_usuario_id` VARCHAR(8) NOT NULL,
   `insp_movimiento_estado` VARCHAR(45) NOT NULL,
-  `insp_movimiento_log` VARCHAR(1000) NULL,
+  `insp_usuario_id_anula` VARCHAR(8) NULL,
+  `insp_fecha_anula` DATETIME NOT NULL,
   PRIMARY KEY (`inspeccion_movimiento_id`))
 ENGINE = InnoDB;

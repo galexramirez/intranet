@@ -37,16 +37,19 @@ $(document).ready(function(){
   });
 
   ///:: Selecciona las filas a editar :::::::::::::::::::::::::::::::::::::::::::::::::::::///
-  $(document).on("click", "tr",".tabla_inspeccion tbody", function(){		
-    insp_estado="";
-    inspeccion_id = "";
-    if(tabla_inspeccion.rows('.selected').data().length===1){
-      fila_inspeccion = $(this).closest("tr");	        
-      inspeccion_id   = fila_inspeccion.find('td:eq(0)').text();
-      insp_estado     = fila_inspeccion.find('td:eq(8)').text();
+  $(document).on("click", "tr", function(){
+    let tabla_inspeccion_seleccion = $(this).closest("table");
+    if(tabla_inspeccion_seleccion.hasClass("tabla_inspeccion")){
+      insp_estado="";
+      inspeccion_id = "";
+      if(tabla_inspeccion.rows('.selected').data().length===1){
+        fila_inspeccion = $(this).closest("tr");	        
+        inspeccion_id   = fila_inspeccion.find('td:eq(0)').text();
+        insp_estado     = fila_inspeccion.find('td:eq(8)').text();
+      }
+      div_show = f_MostrarDiv("form_seleccion_inspeccion_flota","btn_seleccion_inspeccion",insp_estado);
+      $("#div_btn_seleccion_inspeccion").html(div_show);  
     }
-    div_show = f_MostrarDiv("form_seleccion_inspeccion_flota","btn_seleccion_inspeccion",insp_estado);
-    $("#div_btn_seleccion_inspeccion").html(div_show);
   });
 
   ///:: BOTONES INSPECCION DE FLOTA :::::::::::::::::::::::::::::::::::::::::::::::::::::::///

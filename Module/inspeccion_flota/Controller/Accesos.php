@@ -69,7 +69,7 @@ class Accesos
         switch ($NombreTabla) 
 		{
             case "tabla_inspeccion":
-                $tablahtml = '	<table id="tabla_inspeccion" class="table table-striped table-bordered table-condensed w-100"  >
+                $tablahtml = '	<table id="tabla_inspeccion" class="table table-striped table-bordered table-condensed w-100 tabla_inspeccion"  >
 									<thead class="text-center">
 										<tr>
 											<th>ID</th>
@@ -211,10 +211,11 @@ class Accesos
             break;
 
 			case "tabla_falla":
-                $tablahtml = '	<table id="tabla_falla" class="table table-striped table-bordered table-condensed w-100"  >
+                $tablahtml = '	<table id="tabla_falla" class="table table-striped table-bordered table-condensed w-100 tabla_falla"  >
 									<thead class="text-center">
 										<tr>
 											<th>ID</th>
+											<th>ESTADO</th>
 											<th>INSP.</th>
 											<th>BUS</th>
 											<th>COD.</th>
@@ -223,8 +224,10 @@ class Accesos
 											<th>POSICION</th>
 											<th>FALLA</th>
 											<th>ACCION</th>
-											<th>RESPONSABLE</th>
+											<th>RESP. REG.</th>
 											<th>FECHA REG.</th>
+											<th>RESP. ANUL.</th>
+											<th>FECHA ANUL.</th>
 										</tr>
 									</thead>
 									<tbody>                           
@@ -370,6 +373,7 @@ class Accesos
 
 			case "tabla_falla":
 				$columnashtml = '[	{"data": "inspeccion_movimiento_id"},
+									{"data": "insp_movimiento_estado"},
 									{"data": "inspeccion_id"},
 									{"data": "insp_bus"},
 									{"data": "insp_codigo"},
@@ -378,8 +382,10 @@ class Accesos
 									{"data": "insp_posicion"},    
 									{"data": "insp_falla"},
 									{"data": "insp_accion"},
-									{"data": "Colab_nombre_corto"},
-									{"data": "insp_fecha"}
+									{"data": "insp_usuario_registra"},
+									{"data": "insp_fecha"},
+									{"data": "insp_usuario_anula"},
+									{"data": "insp_fecha_anula"}
 				  				]';
 			break;
 
@@ -603,10 +609,20 @@ class Accesos
 				{
 					case "btn_seleccion_falla":
 						$Mostrar_div  = ' <button type="button" id="btn_buscar_falla" class="btn btn-secondary btn-sm btn_buscar_falla">Buscar</button> ';
-						/*$Mostrar_div .= ' <button type="button" id="btn_editar_falla" class="btn btn-secondary btn-sm btn_editar_falla">Editar</button> ';
-						$Mostrar_div .= ' <button type="button" id="btn_anular_falla" class="btn btn-secondary btn-sm btn_anular_falla">Anular</button> ';
-						$Mostrar_div .= ' <button type="button" id="btn_crear_falla" class="btn btn-secondary btn-sm btn_crear_falla">Crear</button> ';
-						$Mostrar_div .= ' <button type="button" id="btn_abrir_bus_falla" class="btn btn-secondary btn-sm btn_abrir_bus_falla">Abrir Bus</button> ';*/
+						MModel($this->Modulo, 'CRUD');
+						$InstanciaAjax= new CRUD();
+						$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'btn_crear_falla');
+						if ($Respuesta=="SI"){
+							$Mostrar_div .= ' <button type="button" id="btn_crear_falla" class="btn btn-secondary btn-sm btn_crear_falla">+ Falla</button> ';
+						}
+						if($Dato=='ACTIVO'){
+							MModel($this->Modulo, 'CRUD');
+							$InstanciaAjax= new CRUD();
+							$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'btn_anular_falla');
+							if ($Respuesta=="SI"){
+								$Mostrar_div .= ' <button type="button" id="btn_anular_falla" class="btn btn-secondary btn-sm btn_anular_falla">Anular</button> ';
+							}						
+						}
 					break;
 				}
 			break;

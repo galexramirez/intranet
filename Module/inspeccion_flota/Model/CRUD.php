@@ -484,7 +484,22 @@ class CRUD
 
 	function guardar_inspeccion_movimiento($inspeccion_id, $insp_bus_tipo, $insp_bus, $insp_codigo, $insp_descripcion, $insp_componente, $insp_posicion, $insp_falla, $insp_accion,	$insp_fecha, $insp_usuario_id)
 	{
-		$consulta = " INSERT INTO `manto_inspeccion_movimiento`	(`inspeccion_id`, `insp_bus_tipo`, `insp_bus`, `insp_codigo`, `insp_descripcion`, `insp_componente`, `insp_posicion`, `insp_falla`, `insp_accion`, `insp_fecha`, `insp_usuario_id`) VALUES ('$inspeccion_id', '$insp_bus_tipo', '$insp_bus', '$insp_codigo', '$insp_descripcion', '$insp_componente', '$insp_posicion', '$insp_falla', '$insp_accion', '$insp_fecha', '$insp_usuario_id') ";
+		$insp_movimiento_estado = 'ACTIVO';
+		$consulta = " INSERT INTO `manto_inspeccion_movimiento`	(`inspeccion_id`, `insp_bus_tipo`, `insp_bus`, `insp_codigo`, `insp_descripcion`, `insp_componente`, `insp_posicion`, `insp_falla`, `insp_accion`, `insp_fecha`, `insp_usuario_id`, `insp_movimiento_estado`) VALUES ('$inspeccion_id', '$insp_bus_tipo', '$insp_bus', '$insp_codigo', '$insp_descripcion', '$insp_componente', '$insp_posicion', '$insp_falla', '$insp_accion', '$insp_fecha', '$insp_usuario_id', '$insp_movimiento_estado') ";
+
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();
+
+		$this->conexion=null;
+	}
+
+	function anular_falla($inspeccion_movimiento_id)
+	{
+		$insp_fecha_anula = date('Y-m-d H:i:s');
+		$insp_usuario_id_anula = $_SESSION['USUARIO_ID'];
+		$insp_movimiento_estado = 'ANULADO';
+
+		$consulta = " UPDATE `manto_inspeccion_movimiento` SET `insp_fecha_anula`='$insp_fecha_anula', `insp_usuario_id_anula`='$insp_usuario_id_anula', `insp_movimiento_estado`='$insp_movimiento_estado' WHERE `inspeccion_movimiento_id`='$inspeccion_movimiento_id' ";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();
@@ -549,6 +564,7 @@ class CRUD
 		$consulta = " SELECT 
 						CONCAT('F-',`manto_inspeccion_movimiento`.`inspeccion_movimiento_id`) AS `inspeccion_movimiento_id`,
 						`manto_inspeccion_movimiento`.`inspeccion_id`,
+						`manto_inspeccion_movimiento`.`insp_movimiento_estado`,
 						`manto_inspeccion_movimiento`.`insp_bus_tipo`,
 						`manto_inspeccion_movimiento`.`insp_bus`,
 						`manto_inspeccion_movimiento`.`insp_codigo`,
@@ -558,7 +574,9 @@ class CRUD
 						`manto_inspeccion_movimiento`.`insp_falla`,
 						`manto_inspeccion_movimiento`.`insp_accion`,
 						`manto_inspeccion_movimiento`.`insp_fecha`,
-						`colaborador`.`Colab_nombre_corto`
+						`colaborador`.`Colab_nombre_corto` AS `insp_usuario_registra`,
+						`manto_inspeccion_movimiento`.`insp_fecha_anula`,
+						(SELECT `colaborador`.`Colab_nombre_corto` FROM `colaborador` WHERE `colaborador`.`Colaborador_id`=`manto_inspeccion_movimiento`.`insp_usuario_id_anula`) AS `insp_usuario_anula`
 					FROM `manto_inspeccion_movimiento`
 					LEFT JOIN `colaborador`
 					ON `colaborador`.`Colaborador_id`=`manto_inspeccion_movimiento`.`insp_usuario_id`

@@ -235,6 +235,30 @@ switch ($Accion)
       $Respuesta=$InstanciaAjax->guardar_inspeccion_bus($a_data_bus, $a_data_movimiento);
    break;
 
+   case 'crear_falla': 
+      $inspeccion_id    = $_POST['inspeccion_id']; 
+      $insp_bus_tipo    = $_POST['insp_bus_tipo']; 
+      $insp_bus         = $_POST['insp_bus']; 
+      $insp_codigo      = $_POST['insp_codigo']; 
+      $insp_descripcion = $_POST['insp_descripcion']; 
+      $insp_componente  = $_POST['insp_componente']; 
+      $insp_posicion    = $_POST['insp_posicion']; 
+      $insp_falla       = $_POST['insp_falla']; 
+      $insp_accion      = $_POST['insp_accion'];
+       
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta=$InstanciaAjax->crear_falla($inspeccion_id, $insp_bus_tipo, $insp_bus, $insp_codigo, $insp_descripcion, $insp_componente, $insp_posicion, $insp_falla, $insp_accion);
+   break;
+
+   case 'anular_falla': 
+      $inspeccion_movimiento_id = $_POST['inspeccion_movimiento_id'];
+       
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta=$InstanciaAjax->anular_falla($inspeccion_movimiento_id);
+   break;
+
    case 'buscar_inspeccion_codigo':
       $insp_bus_tipo = $_POST['insp_bus_tipo'];
 

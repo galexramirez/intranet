@@ -746,6 +746,147 @@
 				    </div>  
 				</div>   
 
+				<!--MODAL PARA CRUD FALLAS-->
+				<div class="row modal fade" id="modal_crud_nueva_falla" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				    <div class="modal-dialog modal-lg" role="document">
+				        <div class="modal-content">
+
+						    <div class="modal-header">
+				                <h5 class="modal-title" id="exampleModalLabel"></h5>
+				                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+				                </button>
+				            </div>
+
+						  	<form id="form_nueva_falla" enctype="multipart/form-data" action="" method="post" onsubmit="return false;">    
+				      		    <div class="modal-body">
+								  	<div class="row d-flex justify-content-araound">
+										<div class="col-lg-12">
+											<div class="row">
+												<div class="col-lg-2">
+			      						    		<div class="form-group form-control-sm">
+			      						    			<label for="nf_inspeccion_id" class="col-form-label form-control-sm">INSP.ID:</label>
+			      						    		</div>
+												</div>
+												<div class="col-lg-2">
+			      						    		<div class="form-group form-control-sm">
+														<input type="number" class="form-control form-control-sm" id="nf_inspeccion_id">
+			      						    		</div>
+												</div>
+												<div class="col-lg-1">
+			      						    		<div class="form-group form-control-sm">
+			      						    			<label for="nf_bus" class="col-form-label form-control-sm">BUS:</label>
+			      						    		</div>
+												</div>
+												<div class="col-lg-2">
+			      						    		<div class="form-group form-control-sm">
+														<select class="form-control form-control-sm" id="nf_bus"></select>
+			      						    		</div>
+												</div>
+												<div class="col-lg-5">
+			      						    		<div class="form-group form-control-sm">
+														<input type="text" readonly class="form-control form-control-sm" id="nf_detalle_inspeccion">
+			      						    		</div>
+												</div>
+											</div>
+			      						</div>
+									</div>
+									<div class="row d-flex justify-content-araound">
+										<div class="col-lg-12">
+											<div class="row">
+												<div class="col-lg-2">
+			      						    		<div class="form-group form-control-sm">
+			      						    			<label for="nf_codigo" class="col-form-label form-control-sm">CODIGO:</label>
+			      						    		</div>
+												</div>
+												<div class="col-lg-2">
+			      						    		<div class="form-group form-control-sm">
+														<select class="form-control form-control-sm" id="nf_codigo"></select>
+			      						    		</div>
+												</div>
+												<div class="col-lg-8">
+			      						    		<div class="form-group form-control-sm">
+														<input type="text" readonly class="form-control form-control-sm" id="nf_descripcion">
+			      						    		</div>
+												</div>
+											</div>
+			      						</div>
+									</div>
+									<div class="row d-flex justify-content-araound">
+										<div class="col-lg-12">
+											<div class="row">
+												<div class="col-lg-2">
+			      						    		<div class="form-group form-control-sm">
+			      						    			<label for="nf_componente" class="col-form-label form-control-sm">COMPONENTE:</label>
+			      						    		</div>
+												</div>
+												<div class="col-lg-10">
+			      						    		<div class="form-group form-control-sm">
+														<select class="form-control form-control-sm" id="nf_componente"></select>
+			      						    		</div>
+												</div>
+											</div>
+			      						</div>
+									</div>
+									<div class="row d-flex justify-content-araound">
+										<div class="col-lg-12">
+											<div class="row">
+												<div class="col-lg-2">
+			      						    		<div class="form-group form-control-sm">
+			      						    			<label for="nf_posicion" class="col-form-label form-control-sm">POSICION:</label>
+			      						    		</div>
+												</div>
+												<div class="col-lg-10">
+			      						    		<div class="form-group form-control-sm">
+														<select class="form-control form-control-sm" id="nf_posicion"></select>
+			      						    		</div>
+												</div>
+											</div>
+			      						</div>
+									</div>
+									<div class="row d-flex justify-content-araound">
+										<div class="col-lg-12">
+											<div class="row">
+												<div class="col-lg-2">
+			      						    		<div class="form-group form-control-sm">
+			      						    			<label for="nf_falla" class="col-form-label form-control-sm">FALLA:</label>
+			      						    		</div>
+												</div>
+												<div class="col-lg-10">
+			      						    		<div class="form-group form-control-sm">
+														<select class="form-control form-control-sm" id="nf_falla"></select>
+			      						    		</div>
+												</div>
+											</div>
+			      						</div>
+									</div>
+									<div class="row d-flex justify-content-araound">
+										<div class="col-lg-12">
+											<div class="row">
+												<div class="col-lg-2">
+			      						    		<div class="form-group form-control-sm">
+			      						    			<label for="nf_accion" class="col-form-label form-control-sm">ACCION:</label>
+			      						    		</div>
+												</div>
+												<div class="col-lg-10">
+			      						    		<div class="form-group form-control-sm">
+														<select class="form-control form-control-sm" id="nf_accion"></select>
+			      						    		</div>
+												</div>
+											</div>
+			      						</div>
+									</div>
+				      		    </div>
+				      		    <div class="modal-footer">
+				      		        <button type="button" class="btn btn-light btn-sm" data-dismiss="modal">Cancelar</button>
+				      		        <button type="button" id="btn_agregar_nueva_falla" class="btn btn-dark btn-sm btn_agregar_nueva_falla">Registrar</button>
+				      		    </div>
+				      		</form>    
+
+						</div>
+				    </div>
+				</div>  			
+
 			</div>
 
 			<!------------------------------------------------------------------------------->
