@@ -38,7 +38,7 @@ $(document).ready(function(){
       nf_detalle_inspeccion = 'FEC.: '+obj.insp_fecha_programada+ '  FLT.: '+obj.insp_bus_tipo;
     });    
 
-    select_fal_insp = f_select_combo('Buses','NO', 'Bus_NroExterno', '', "`Bus_Tipo2`='"+nf_bus_tipo+"'");
+    select_fal_insp = f_select_combo('manto_inspeccion_detalle','NO', 'insp_bus', '', "`insp_detalle_estado`!='PENDIENTE' AND `inspeccion_id`='"+nf_inspeccion_id+"'");
     $("#nf_bus").html(select_fal_insp);
     select_fal_insp = '';
     $("#nf_codigo").html(select_fal_insp);
@@ -290,47 +290,58 @@ $(document).ready(function(){
 
   ///:: EVENTO BOTON ANULAR FALLA EN INSPECCION DE FLOTA ::::::::::::::::::::::::::::::::::///
   $(document).on("click", ".btn_anular_falla", function(){
-    
+    let existe_orden_trabajo = '';
     if(inspeccion_movimiento_id!=''){
-      Swal.fire({
-        title               : '¿Está seguro?',
-        text                : "Se anulará la Falla de Inspeccion F-"+inspeccion_movimiento_id+"!",
-        icon                : 'warning',
-        showCancelButton    : true,
-        confirmButtonColor  : '#3085d6',
-        cancelButtonColor   : '#d33',
-        confirmButtonText   : 'Si, anular!',
-        cancelButtonText    : 'Cancelar'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          Accion = 'anular_falla';
-            $.ajax({
-              url         : "Ajax.php",
-              type        : "POST",
-              datatype    : "json",    
-              data        : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, inspeccion_movimiento_id:inspeccion_movimiento_id },   
-              success: function() {
-                tabla_falla.ajax.reload(null, false);
-                Swal.fire(
-                  'Anulado!',
-                  'El registro ha sido anulado.',
-                  'success'
-                )
-                div_show = f_MostrarDiv("form_seleccion_falla","btn_seleccion_falla",'ANULADO');
-                $("#div_btn_seleccion_falla").html(div_show);
-              }
-            });
-        }
-      });  
+      existe_orden_trabajo = f_buscar_dato('manto_inspeccion_movimiento','insp_orden_trabajo_id',"`inspeccion_movimiento_id`='"+inspeccion_movimiento_id+"'");
+      if(existe_orden_trabajo.length>0){
+        Swal.fire({
+          position            : 'center',
+          icon                : 'error',
+          title               : '*Existe Orden de Trabajo ID '+existe_orden_trabajo+' !!!',
+          showConfirmButton   : false,
+          timer               : 1500
+        })  
+      }else{
+        Swal.fire({
+          title               : '¿Está seguro?',
+          text                : "Se anulará la Falla de Inspeccion F-"+inspeccion_movimiento_id+"!",
+          icon                : 'warning',
+          showCancelButton    : true,
+          confirmButtonColor  : '#3085d6',
+          cancelButtonColor   : '#d33',
+          confirmButtonText   : 'Si, anular!',
+          cancelButtonText    : 'Cancelar'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Accion = 'anular_falla';
+              $.ajax({
+                url         : "Ajax.php",
+                type        : "POST",
+                datatype    : "json",    
+                data        : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, inspeccion_movimiento_id:inspeccion_movimiento_id },   
+                success: function() {
+                  tabla_falla.ajax.reload(null, false);
+                  Swal.fire(
+                    'Anulado!',
+                    'El registro ha sido anulado.',
+                    'success'
+                  )
+                  div_show = f_MostrarDiv("form_seleccion_falla","btn_seleccion_falla",'ANULADO');
+                  $("#div_btn_seleccion_falla").html(div_show);
+                }
+              });
+          }
+        });    
+      }
     }else{
       Swal.fire({
         position            : 'center',
         icon                : 'error',
-        title               : '*Existen Buses Registrados !!!',
+        title               : '*No Existe Inspección ID !!!',
         showConfirmButton   : false,
         timer               : 1500
-      })            
-    }
+      })
+    }          
   });
   ///:: FIN EVENTO BOTON ANULAR INSPECCION DE FLOTA :::::::::::::::::::::::::::::::::::::::///
 

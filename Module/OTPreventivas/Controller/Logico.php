@@ -11,7 +11,6 @@ class Logico
 
 	public function SelectAnios()
     {
-        //Ejecuta Modelo
         MModel('OTPreventivas', 'CRUD');
         $InstanciaAjax= new CRUD();
         $Respuesta=$InstanciaAjax->SelectAnios();
@@ -99,12 +98,20 @@ class Logico
                 }else{
                     MModel('OTPreventivas', 'CRUD');
                     $InstanciaAjax  = new CRUD();
-                    $Respuesta      = $InstanciaAjax->CrearOTPrvDetalle($cod_otpv,$otpv_semana,$otpv_turno,$otpv_date_prog,$otpv_bus,$otpv_frecuencia,$otpv_descripcion,$otpv_asociado,$otpv_date_genera,$otpv_cargaid);
-                    if(count($Respuesta)>0){
-                        echo "No grabo linea ".$row." -> Fecha: ".$otpv_date_prog." Codigo OT: ".$cod_otpv." ERROR: "  ;
-                        print_r($Respuesta);
-                        echo "<br>";
-                        $CantErrores = $CantErrores + 1;
+                    $Respuesta      = $InstanciaAjax->BuscarDataBD('Buses','Bus_NroExterno',$otpv_bus);
+                    if(empty($Respuesta)){
+                        $CantErrores = $CantErrores+1;
+                        echo "No grabo linea ".$row." -> Fecha: ".$otpv_date_prog." Codigo OT: ".$cod_otpv." ERROR: Posible Buses NO Registrados . <hr>"  ;    
+                    }else{
+                        MModel('OTPreventivas', 'CRUD');
+                        $InstanciaAjax  = new CRUD();
+                        $Respuesta      = $InstanciaAjax->CrearOTPrvDetalle($cod_otpv,$otpv_semana,$otpv_turno,$otpv_date_prog,$otpv_bus,$otpv_frecuencia,$otpv_descripcion,$otpv_asociado,$otpv_date_genera,$otpv_cargaid);
+                        if(count($Respuesta)>0){
+                            echo "No grabo linea ".$row." -> Fecha: ".$otpv_date_prog." Codigo OT: ".$cod_otpv." ERROR: "  ;
+                            print_r($Respuesta);
+                            echo "<br>";
+                            $CantErrores = $CantErrores + 1;
+                        }
                     }
                 }
             }
@@ -357,7 +364,7 @@ class Logico
         $mi_carpeta = $_SERVER['DOCUMENT_ROOT']."/Services/Json";
         $date       = date('d-m-Y-'.substr((string)microtime(), 1, 8));
         $date       = str_replace(".", "", $date);
-        $filename   = "OTs".$ib_Tipo."_".$date;
+        $filename   = "OTs Preventivas_".$date;
         $file_json  = $filename.".json";
         $data       = json_encode($Respuesta, JSON_UNESCAPED_UNICODE);
         file_put_contents($mi_carpeta."/".$file_json, $data);
