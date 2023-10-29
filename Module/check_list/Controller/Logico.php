@@ -271,8 +271,9 @@ class Logico
 
         foreach ($a_data_falla_via as $row){
             $fav_novedad_id = $row->fav_novedad_id;
+            $fav_descripcion_novedad = $row->fav_descripcion_novedad;
             $fav_codigo = $row->fav_codigo;
-            $fav_descripcion = $row->fav_descripcion;
+            $fav_descripcion_codigo = $row->fav_descripcion_codigo;
             $fav_componente = $row->fav_componente;
             $fav_posicion = $row->fav_posicion;
             $fav_falla = $row->fav_falla;
@@ -280,7 +281,7 @@ class Logico
 
             MModel($this->Modulo, 'CRUD');
             $InstanciaAjax = new CRUD();
-            $Respuesta = $InstanciaAjax->crear_check_list_falla_via($check_list_id, $fav_novedad_id, $fav_codigo, $fav_descripcion, $fav_componente, $fav_posicion, $fav_falla, $fav_accion );
+            $Respuesta = $InstanciaAjax->crear_check_list_falla_via($check_list_id, $fav_novedad_id, $fav_descripcion_novedad, $fav_codigo, $fav_descripcion_codigo, $fav_componente, $fav_posicion, $fav_falla, $fav_accion );
         }
 
     }
@@ -334,8 +335,9 @@ class Logico
 
         foreach ($a_data_falla_via as $row){
             $fav_novedad_id = $row->fav_novedad_id;
+            $fav_descripcion_novedad = $row->fav_descripcion_novedad;
             $fav_codigo = $row->fav_codigo;
-            $fav_descripcion = $row->fav_descripcion;
+            $fav_descripcion_codigo = $row->fav_descripcion_codigo;
             $fav_componente = $row->fav_componente;
             $fav_posicion = $row->fav_posicion;
             $fav_falla = $row->fav_falla;
@@ -343,7 +345,7 @@ class Logico
 
             MModel($this->Modulo, 'CRUD');
             $InstanciaAjax = new CRUD();
-            $Respuesta = $InstanciaAjax->crear_check_list_falla_via($check_list_id, $fav_novedad_id, $fav_codigo, $fav_descripcion, $fav_componente, $fav_posicion, $fav_falla, $fav_accion );
+            $Respuesta = $InstanciaAjax->crear_check_list_falla_via($check_list_id, $fav_novedad_id, $fav_descripcion_novedad, $fav_codigo, $fav_descripcion_codigo, $fav_componente, $fav_posicion, $fav_falla, $fav_accion );
         }
 
     }

@@ -204,9 +204,9 @@ $(document).ready(function(){
     array_valida_posicion = tabla_inspeccion_registro_posicion.rows().data().toArray();
 
     $.each(array_valida_posicion, function(idx, obj){ 
-      if(reg_insp_componente==obj.insp_componente && reg_insp_posicion==obj.insp_posicion){
+      if(reg_insp_componente==obj.insp_componente && reg_insp_posicion==obj.insp_posicion && reg_insp_falla==obj.insp_falla){
         valida_agregar = "invalido";
-        t_msg += "Posición ya registrada!!!";
+        t_msg += "Falla ya registrada!!!";
       }
     });
 

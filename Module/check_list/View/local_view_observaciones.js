@@ -147,7 +147,7 @@ $(document).ready(function(){
     array_valida_observacion = tabla_check_list_observaciones.rows().data().toArray();
 
     $.each(array_valida_observacion, function(idx, obj){ 
-      if(obs_chl_codigo==obj.chl_codigo && obs_chl_componente==obj.chl_componente && obs_chl_posicion==obj.chl_posicion){
+      if(obs_chl_codigo==obj.chl_codigo && obs_chl_componente==obj.chl_componente && obs_chl_posicion==obj.chl_posicion && obs_chl_falla==obj.chl_falla){
         valida_agregar = "invalido";
         t_msg += "Observación ya registrada!!!";
       }

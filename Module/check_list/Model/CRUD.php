@@ -755,9 +755,9 @@ class CRUD
 		$this->conexion=null;
 	}
 
-	function crear_check_list_falla_via($check_list_id, $fav_novedad_id, $fav_codigo, $fav_descripcion, $fav_componente, $fav_posicion, $fav_falla, $fav_accion)
+	function crear_check_list_falla_via($check_list_id, $fav_novedad_id, $fav_descripcion_novedad, $fav_codigo, $fav_descripcion_codigo, $fav_componente, $fav_posicion, $fav_falla, $fav_accion)
 	{
-		$consulta = " INSERT INTO `manto_check_list_falla_via` (`check_list_id`, `fav_novedad_id`, `fav_codigo`, `fav_descripcion`, `fav_componente`, `fav_posicion`, `fav_falla`, `fav_accion`) VALUES ( '$check_list_id', '$fav_novedad_id', '$fav_codigo', '$fav_descripcion', '$fav_componente', '$fav_posicion', '$fav_falla', '$fav_accion'); ";
+		$consulta = " INSERT INTO `manto_check_list_falla_via` (`check_list_id`, `fav_novedad_id`, `fav_descripcion_novedad`, `fav_codigo`, `fav_descripcion_codigo`, `fav_componente`, `fav_posicion`, `fav_falla`, `fav_accion`) VALUES ( '$check_list_id', '$fav_novedad_id', '$fav_descripcion_novedad', '$fav_codigo', '$fav_descripcion_codigo', '$fav_componente', '$fav_posicion', '$fav_falla', '$fav_accion'); ";
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();
 

@@ -402,9 +402,10 @@ $(document).ready(function(){
       t_msg += 'Falta Completar Información!!!';
     }
     
-    existe_falla = f_buscar_dato('manto_inspeccion_movimiento','insp_componente',"`inspeccion_id`='"+nf_inspeccion_id+"' AND `insp_bus_tipo`='"+nf_bus_tipo+"' AND `insp_bus`='"+nf_bus+"' AND `insp_codigo`='"+nf_codigo+"' AND `insp_componente`='"+nf_componente+"' AND `insp_movimiento_estado`='ACTIVO'");
+    existe_falla = f_buscar_dato('manto_inspeccion_movimiento','insp_falla',"`inspeccion_id`='"+nf_inspeccion_id+"' AND `insp_bus_tipo`='"+nf_bus_tipo+"' AND `insp_bus`='"+nf_bus+"' AND `insp_codigo`='"+nf_codigo+"' AND `insp_componente`='"+nf_componente+"' AND `insp_posicion`='"+nf_posicion+"' AND `insp_falla`='"+nf_falla+"' AND `insp_movimiento_estado`='ACTIVO'");
     
-    if(existe_falla == nf_componente){
+    if(existe_falla == nf_falla){
+
       valida_falla = "invalido";
       t_msg += "Falla ya registrada!!!";
     }

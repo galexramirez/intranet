@@ -131,11 +131,6 @@
 					<div class="tab-pane fade" id="nav-falla_via" role="tabpanel" aria-labelledby="nav-falla_via-tab">
 					   	<form id="form_registro_falla_via" class="row col-sm-12 container-fluid" enctype="multipart/form-data" action="" method="post">
 						   <div class="row align-items-end p-4 col-sm-12">
-							    <div class="col-lg-1">
-								    <div class="form-group" id="div_btn_nuevo_registro_falla_via">
-									   
-								    </div>
-							    </div> 
 						    </div>
 					   	</form>
 						<div class="container-fluid caja">
@@ -283,7 +278,7 @@
 												</div>
 												<div class="col-lg-5">
 			      						    		<div class="form-group form-control-sm">
-														<select class="form-control form-control-sm" id="fav_chl_novedad_id"></select>
+														<input type="text" readonly class="form-control form-control-sm" id="fav_chl_novedad_id">
 			      						    		</div>
 												</div>
 											</div>
@@ -294,12 +289,12 @@
 											<div class="row">
 												<div class="col-lg-2">
 			      						    		<div class="form-group form-control-sm">
-			      						    			<label for="fav_chl_nove_descripcion" class="col-form-label form-control-sm">DESCRIPCION:</label>
+			      						    			<label for="fav_chl_descripcion_descripcion" class="col-form-label form-control-sm">DESCRIPCION:</label>
 			      						    		</div>
 												</div>
 												<div class="col-lg-10">
 													<div class="form-group shadow-textarea">
-						      				            <textarea readonly class="form-control z-depth-1 text-uppercase" id="fav_chl_nove_descripcion" rows="2" placeholder="escribe algo aqui..." maxlength="250"></textarea>
+						      				            <textarea readonly class="form-control z-depth-1 text-uppercase" id="fav_chl_descripcion_novedad" rows="2" placeholder="escribe algo aqui..." maxlength="250"></textarea>
 						      				        </div>
 												</div>
 											</div>
@@ -320,7 +315,7 @@
 												</div>
 												<div class="col-lg-8">
 			      						    		<div class="form-group form-control-sm">
-														<input type="text" readonly class="form-control form-control-sm" id="fav_chl_descripcion"></select>
+														<input type="text" readonly class="form-control form-control-sm" id="fav_chl_descripcion_codigo"></select>
 			      						    		</div>
 												</div>
 											</div>

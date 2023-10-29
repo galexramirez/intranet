@@ -25,8 +25,9 @@ $(document).ready(function(){
     $("#nav-tabContent-detalle_check_list").hide();
   });
 
-  $(document).on('change', '.chl_bus', function() {
+  $(document).on('change', '.chl_bus, .chl_fecha', function() {
     chl_bus = $("#chl_bus").val();
+    chl_fecha = $("#chl_fecha").val();
     obs_chl_bus_tipo = f_buscar_dato("Buses", "Bus_Tipo2", "`Bus_NroExterno`='"+chl_bus+"'");
     fav_chl_bus_tipo = f_buscar_dato("Buses", "Bus_Tipo2", "`Bus_NroExterno`='"+chl_bus+"'");
     f_tabla_check_list_observaciones(check_list_id, chl_estado);
@@ -54,6 +55,7 @@ $(document).ready(function(){
           chl_log = obj.chl_log;
         });
         obs_chl_bus_tipo = f_buscar_dato("Buses", "Bus_Tipo2", "`Bus_NroExterno`='"+chl_bus+"'");
+        fav_chl_bus_tipo = f_buscar_dato("Buses", "Bus_Tipo2", "`Bus_NroExterno`='"+chl_bus+"'");
         opcion_check_list = "EDITAR";
         div_show = f_MostrarDiv("form_check_list_registro","div_check_list_registro","");
         $("#div_check_list_registro").html(div_show);
@@ -340,8 +342,6 @@ function f_cargar_datos_check_list(){
   $("#div_btn_nuevo_registro_observaciones").html(div_show);      
   f_tabla_check_list_observaciones(check_list_id, chl_estado);
 
-  div_show = f_MostrarDiv("form_registro_falla_via","btn_nuevo_registro_falla_via",chl_estado);
-  $("#div_btn_nuevo_registro_falla_via").html(div_show);      
   f_tabla_check_list_falla_via(check_list_id, chl_estado);
 
 }

@@ -4,8 +4,8 @@
 ///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///:: DECLARACIONES DE VARIABLES GLOBALES :::::::::::::::::::::::::::::::::::::::::::::::::///
-var fav_check_list_id, fav_chl_bus_tipo, fav_chl_novedad_id, fav_chl_nove_descripcion, fav_chl_codigo, fav_chl_descripcion, fav_chl_componente, fav_chl_posicion, fav_chl_falla, fav_chl_accion;
-var array_falla_via, fila_check_list_falla_via, tabla_check_list_falla_via;
+var fav_check_list_id, fav_chl_bus_tipo, fav_chl_novedad_id, fav_chl_descripcion_novedad, fav_chl_codigo, fav_chl_descripcion_codigo, fav_chl_componente, fav_chl_posicion, fav_chl_falla, fav_chl_accion;
+var array_falla_via, fila_check_list_falla_via, tabla_check_list_falla_via, fav_fila_falla_via;
 
 ///:: JS DOM REGISTRO INSPECCION FLOTA ::::::::::::::::::::::::::::::::::::::::::::::::::::///
 $(document).ready(function(){
@@ -15,9 +15,9 @@ $(document).ready(function(){
 
   $("#fav_chl_novedad_id").on('change', function () {
     fav_chl_novedad_id = $("#fav_chl_novedad_id").val();
-    fav_chl_nove_descripcion = f_buscar_dato("OPE_Novedad","Nove_Descripcion","`Novedad_Id`='"+fav_chl_novedad_id+"'");
+    fav_chl_descripcion_novedad = f_buscar_dato("OPE_Novedad","Nove_Descripcion","`Novedad_Id`='"+fav_chl_novedad_id+"'");
     fav_chl_codigo = "";
-    fav_chl_descripcion = "";
+    fav_chl_descripcion_codigo = "";
     fav_chl_componente = "";
     fav_chl_posicion = "";
     fav_chl_falla = "";
@@ -35,9 +35,9 @@ $(document).ready(function(){
     select_chl_fav = f_select_combo("manto_falla_via_falla_accion","NO","fav_accion","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'","fav_accion");
     $("#fav_chl_accion").html(select_chl_fav);
  
-    $("#fav_chl_nove_descripcion").val(fav_chl_nove_descripcion);
+    $("#fav_chl_descripcion_novedad").val(fav_chl_descripcion_novedad);
     $("#fav_chl_codigo").val(fav_chl_codigo);
-    $("#fav_chl_descripcion").val(fav_chl_descripcion);
+    $("#fav_chl_descripcion_codigo").val(fav_chl_descripcion_codigo);
     $("#fav_chl_componente").val(fav_chl_componente);
     $("#fav_chl_posicion").val(fav_chl_posicion);
     $("#fav_chl_falla").val(fav_chl_falla);
@@ -46,7 +46,7 @@ $(document).ready(function(){
 
   $("#fav_chl_codigo").on('change', function () {
     fav_chl_codigo = $("#fav_chl_codigo").val();
-    fav_chl_descripcion = f_buscar_dato("manto_falla_via_codigo","fav_descripcion","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"'");
+    fav_chl_descripcion_codigo = f_buscar_dato("manto_falla_via_codigo","fav_descripcion","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"'");
     let contar_componente_fav = f_contar_dato("manto_falla_via_componente","fav_componente","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"'");
     fav_chl_componente = "";
     fav_chl_posicion = "";
@@ -72,7 +72,7 @@ $(document).ready(function(){
       fav_chl_componente = '';
     }
 
-    $("#fav_chl_descripcion").val(fav_chl_descripcion);
+    $("#fav_chl_descripcion_codigo").val(fav_chl_descripcion_codigo);
     $("#fav_chl_componente").val(fav_chl_componente);
     $("#fav_chl_posicion").val(fav_chl_posicion);
     $("#fav_chl_falla").val(fav_chl_falla);
@@ -146,24 +146,40 @@ $(document).ready(function(){
   ///:: INICIO BOTONES DE INSPECCION REGISTRO :::::::::::::::::::::::::::::::::::::::::::::///
 
   ///:: BOTON NUEVA OBSERVACION DE CHECK LIST DE FLOTA ::::::::::::::::::::::::::::::::::::///
-  $(document).on("click", ".btn_nuevo_registro_falla_via", function(){
-    if(fav_chl_bus_tipo!=""){
-      chl_fecha = $("#chl_fecha").val();
+  $(document).on("click", ".btn_editar_check_list_falla_via", function(){
       $("#form_check_list_registro_falla_via").trigger("reset");
-      f_cargar_datos_falla_via();    
+      fav_fila_falla_via = $(this); 
+      chl_fecha = $("#chl_fecha").val();
+      chl_bus = $("#chl_bus").val();
+      f_limpia_falla_via();
+      select_chl_fav = f_select_combo("manto_falla_via_codigo", "NO", "fav_codigo", "", "`fav_bus_tipo`='"+fav_chl_bus_tipo+"'","`fav_codigo`");
+      $("#fav_chl_codigo").html(select_chl_fav);
+
+      fav_check_list_id = check_list_id;
+      fav_chl_novedad_id = fav_fila_falla_via.closest('tr').find('td:eq(0)').text();
+      fav_chl_descripcion_novedad = fav_fila_falla_via.closest('tr').find('td:eq(1)').text();
+      fav_chl_codigo = fav_fila_falla_via.closest('tr').find('td:eq(2)').text();
+      fav_chl_descripcion_codigo = fav_fila_falla_via.closest('tr').find('td:eq(3)').text();
+      fav_chl_componente = fav_fila_falla_via.closest('tr').find('td:eq(4)').text();
+      fav_chl_posicion = fav_fila_falla_via.closest('tr').find('td:eq(5)').text();
+      fav_chl_falla = fav_fila_falla_via.closest('tr').find('td:eq(6)').text();
+      fav_chl_accion = fav_fila_falla_via.closest('tr').find('td:eq(7)').text();
+      
+      $("#fav_chl_novedad_id").val(fav_chl_novedad_id);
+      $("#fav_chl_descripcion_novedad").val(fav_chl_descripcion_novedad);
+      $("#fav_chl_codigo").val(fav_chl_codigo);
+      $("#fav_chl_descripcion_codigo").val(fav_chl_descripcion_codigo);
+      $("#fav_chl_componente").val(fav_chl_componente);
+      $("#fav_chl_posicion").val(fav_chl_posicion);
+      $("#fav_chl_falla").val(fav_chl_falla);
+      $("#fav_chl_accion").val(fav_chl_accion);
+      $("#fav_chl_codigo").focus().select();
+    
+      
       $(".modal-header").css( "background-color", "#17a2b8");
       $(".modal-header").css( "color", "white" );
       $(".modal-title").text( "Alta de Fallas en Vía" );
       $('#modal_crud_check_list_registro_falla_via').modal('show');
-    }else{
-      Swal.fire({
-        position            : 'center',
-        icon                : 'error',
-        title               : "Ingresar Bus !",
-        showConfirmButton   : false,
-        timer               : 1500
-      })
-    }
   });
   ///:: FIN BOTON AGREGAR NUEVA INSPECCION COMPONENTE Y POSICION DE FLOTA :::::::::::::::::///
   
@@ -174,32 +190,19 @@ $(document).ready(function(){
     let t_msg = '';
 
     fav_chl_novedad_id  = $.trim($('#fav_chl_novedad_id').val());
+    fav_chl_descripcion_novedad = $.trim($('#fav_chl_descripcion_novedad').val());
     fav_chl_codigo      = $.trim($('#fav_chl_codigo').val());
-    fav_chl_descripcion = $.trim($('#fav_chl_descripcion').val());
+    fav_chl_descripcion_codigo = $.trim($('#fav_chl_descripcion_codigo').val());
     fav_chl_componente  = $.trim($('#fav_chl_componente').val());
     fav_chl_posicion    = $.trim($('#fav_chl_posicion').val());    
     fav_chl_falla       = $.trim($('#fav_chl_falla').val());
     fav_chl_accion      = $.trim($('#fav_chl_accion').val());
 
-    valida_agregar_fav  = f_valida_agregar_falla_via(fav_chl_novedad_id, fav_chl_codigo, fav_chl_descripcion, fav_chl_componente, fav_chl_posicion, fav_chl_falla, fav_chl_accion);
+    valida_agregar_fav  = f_valida_agregar_falla_via(fav_chl_novedad_id, fav_chl_codigo, fav_chl_descripcion_codigo, fav_chl_componente, fav_chl_posicion, fav_chl_falla, fav_chl_accion);
     if(valida_agregar_fav == "invalido"){
       t_msg += 'Falta Completar Información!!!';
     }
     array_valida_falla_via = tabla_check_list_falla_via.rows().data().toArray();
-
-    $.each(array_valida_falla_via, function(idx, obj){ 
-      if(fav_chl_novedad_id == obj.fav_novedad_id){
-        valida_agregar_fav  = "invalido";
-        t_msg += "Falla en Vía ya registrada!!!";
-      }
-    });
-
-    /*$.each(array_valida_falla_via, function(idx, obj){ 
-      if(fav_chl_codigo == obj.fav_codigo && fav_chl_componente == obj.fav_componente && fav_chl_posicion == obj.fav_posicion){
-        valida_agregar_fav  = "invalido";
-        t_msg += "Falla en Vía ya registrada!!!";
-      }
-    });*/
 
     if(valida_agregar_fav == "invalido"){
       Swal.fire({
@@ -212,18 +215,24 @@ $(document).ready(function(){
     }else{
       $("#btn_check_list_registrar_falla_via").prop("disabled",true);
 
+      tabla_check_list_falla_via
+      .row( fav_fila_falla_via.parents('tr') )
+      .remove()
+      .draw();
+
       tabla_check_list_falla_via.row.add( {
         "fav_novedad_id" : fav_chl_novedad_id,
+        "fav_descripcion_novedad" : fav_chl_descripcion_novedad,
         "fav_codigo"     : fav_chl_codigo,
-        "fav_descripcion": fav_chl_descripcion,
+        "fav_descripcion_codigo": fav_chl_descripcion_codigo,
         "fav_componente" : fav_chl_componente,
         "fav_posicion"   : fav_chl_posicion,
         "fav_falla"      : fav_chl_falla,
         "fav_accion"     : fav_chl_accion
       } ).draw();
 
-      f_cargar_datos_falla_via();
       $("#btn_check_list_registrar_falla_via").prop("disabled",false);
+      $('#modal_crud_check_list_registro_falla_via').modal('hide');
     }
   });
   ///:: FIN BOTON AGREGAR NUEVA INSPECCION COMPONENTE Y POSICION DE FLOTA :::::::::::::::::///
@@ -263,7 +272,7 @@ $(document).ready(function(){
 ///:: FUNCIONES REGISTRO DE INSPECCION DE FLOTA :::::::::::::::::::::::::::::::::::::::::::///
 
 ///:: FUNCION PARA VALIDAR LOS DATOS INGRESADOS AL FORMULARIO :::::::::::::::::::::::::::::///
-function f_valida_agregar_falla_via(p_fav_chl_novedad_id, p_fav_chl_codigo, p_fav_chl_descripcion, p_fav_chl_componente, p_fav_chl_posicion, p_fav_chl_falla, p_fav_chl_accion){
+function f_valida_agregar_falla_via(p_fav_chl_novedad_id, p_fav_chl_codigo, p_fav_chl_descripcion_codigo, p_fav_chl_componente, p_fav_chl_posicion, p_fav_chl_falla, p_fav_chl_accion){
   f_limpia_falla_via();
   let rpta_valida_agregar_falla_via = "";
   if(p_fav_chl_novedad_id==""){
@@ -274,8 +283,8 @@ function f_valida_agregar_falla_via(p_fav_chl_novedad_id, p_fav_chl_codigo, p_fa
     $("#fav_chl_codigo").addClass("color-error");
     rpta_valida_agregar_falla_via = "invalido";
   }
-  if(p_fav_chl_descripcion==""){
-    $("#fav_chl_descripcion").addClass("color-error");
+  if(p_fav_chl_descripcion_codigo==""){
+    $("#fav_chl_descripcion_codigo").addClass("color-error");
     rpta_valida_agregar_falla_via = "invalido";
   }
   if(p_fav_chl_componente==""){
@@ -302,7 +311,7 @@ function f_valida_agregar_falla_via(p_fav_chl_novedad_id, p_fav_chl_codigo, p_fa
 function f_limpia_falla_via(){
   $("#fav_chl_novedad_id").removeClass("color-error");
   $("#fav_chl_codigo").removeClass("color-error");
-  $("#fav_chl_descripcion").removeClass("color-error");
+  $("#fav_chl_descripcion_codigo").removeClass("color-error");
   $("#fav_chl_componente").removeClass("color-error");
   $("#fav_chl_posicion").removeClass("color-error");
   $("#fav_chl_falla").removeClass("color-error");
@@ -312,6 +321,8 @@ function f_limpia_falla_via(){
 
 ///:: GENERACION DE TABLA DE OBSERVACIONES CHECK LIST :::::::::::::::::::::::::::::::::::::///
 function f_tabla_check_list_falla_via(p_check_list_id, p_chl_estado){
+  let array_data = [];
+  array_falla_via = [];
   div_tabla = f_CreacionTabla("tabla_check_list_falla_via",p_chl_estado);
   $("#div_tabla_check_list_falla_via").html(div_tabla);
   columnas_tabla = f_ColumnasTabla("tabla_check_list_falla_via",p_chl_estado);
@@ -319,19 +330,20 @@ function f_tabla_check_list_falla_via(p_check_list_id, p_chl_estado){
   $("#tabla_check_list_falla_via").dataTable().fnDestroy();
   $('#tabla_check_list_falla_via').show();
 
-  Accion='buscar_check_list_falla_via';
-  $.ajax({
-    url       : "Ajax.php",
-    type      : "POST",
-    datatype  : "json",    
-    async     : false,
-    data      :  { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, check_list_id:p_check_list_id },    
-    success: function(data) {
-      array_falla_via = $.parseJSON(data);
+  array_data = f_BuscarDataBD('manto_check_list_falla_via','check_list_id',p_check_list_id);
+  if(array_data.length==0){
+    array_data = [];
+    array_data = f_buscar_data_bd("OPE_Novedad", "`Nove_FechaOperacion`='"+chl_fecha+"' AND `Nove_Bus`='"+chl_bus+"' AND `Nove_Novedad`='NOVEDAD_BUS'");
+    console.log(array_data);
+    if(array_data.length>0){
+      array_data.forEach(obj => {
+        array_falla_via.push({fav_novedad_id : obj.Novedad_Id, fav_descripcion_novedad : obj.Nove_Descripcion, fav_codigo : '', fav_descripcion_codigo : '', fav_componente : '', fav_posicion : '', fav_falla : '', fav_accion : ''});
+      });  
     }
-  });
-
-
+  }else{
+    array_falla_via = array_data;
+  }
+  
   tabla_check_list_falla_via = $('#tabla_check_list_falla_via').DataTable({
     language      : idioma_espanol,
     searching     : true,
@@ -345,31 +357,5 @@ function f_tabla_check_list_falla_via(p_check_list_id, p_chl_estado){
   });    
 }
 ///:: FIN GENERACION DE TABLA DE OBSERVACIONES CHECK LIST :::::::::::::::::::::::::::::::::///
-
-function f_cargar_datos_falla_via(){
-  f_limpia_falla_via();
-  select_chl_fav = f_select_combo("manto_falla_via_codigo", "NO", "fav_codigo", "", "`fav_bus_tipo`='"+fav_chl_bus_tipo+"'","`fav_codigo`");
-  $("#fav_chl_codigo").html(select_chl_fav);
-  select_chl_fav = f_select_combo("OPE_Novedad", "NO", "Novedad_Id", "", "`Nove_FechaOperacion`='"+chl_fecha+"' AND `Nove_Bus`='"+chl_bus+"' AND `Nove_Novedad`='NOVEDAD_BUS'");
-  $("#fav_chl_novedad_id").html(select_chl_fav);
-  fav_check_list_id = check_list_id;
-  fav_chl_novedad_id = "";
-  fav_chl_codigo = "";
-  fav_chl_descripcion = "";
-  fav_chl_componente = "";
-  fav_chl_posicion = "";
-  fav_chl_falla = "";
-  fav_chl_accion = "";
-  
-  $("#fav_chl_novedad_id").val(fav_chl_novedad_id);
-  $("#fav_chl_nove_descripcion").val(fav_chl_nove_descripcion);
-  $("#fav_chl_codigo").val(fav_chl_codigo);
-  $("#fav_chl_descripcion").val(fav_chl_descripcion);
-  $("#fav_chl_componente").val(fav_chl_componente);
-  $("#fav_chl_posicion").val(fav_chl_posicion);
-  $("#fav_chl_falla").val(fav_chl_falla);
-  $("#fav_chl_accion").val(fav_chl_accion);
-  $("#fav_chl_codigo").focus().select();
-}
 
 ///:: TERMINO FUNCIONES REGISTRO DE INSPECCION DE FLOTA :::::::::::::::::::::::::::::::::::///
