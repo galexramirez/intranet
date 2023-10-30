@@ -93,6 +93,6 @@ CREATE TABLE IF NOT EXISTS `BDLIMABUS`.`manto_inspeccion_movimiento` (
   `insp_movimiento_estado` VARCHAR(45) NOT NULL,
   `insp_usuario_id_anula` VARCHAR(8) NULL,
   `insp_fecha_anula` DATETIME NULL,
-  `insp_orden_trabajo_id` INT NULL,
+  `insp_orden_trabajo_id` INT NULL,  /*  campo de prueba */
   PRIMARY KEY (`inspeccion_movimiento_id`))
 ENGINE = InnoDB;
