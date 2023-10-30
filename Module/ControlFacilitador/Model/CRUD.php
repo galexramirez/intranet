@@ -271,7 +271,7 @@ class CRUD
 						`OPE_ControlFacilitador`.`Prog_IdManto`,
 						`OPE_ControlFacilitador`.`Prog_Sentido`,
 						`OPE_ControlFacilitador`.`Prog_BusManto`,
-						IF(`OPE_ControlFacilitador`.`CFaci_Novedad`='SI', IF((SELECT `CNove_TipoOrigen` FROM `OPE_ControlCambiosNovedad` WHERE `CNove_ControlFacilitadorId`=`OPE_ControlFacilitador`.`ControlFacilitador_Id` AND `CNove_TipoOrigen`='CREACION' LIMIT 1)='CREACION','CREACION',`OPE_ControlFacilitador`.`CFaci_Novedad`),`OPE_ControlFacilitador`.`CFaci_Novedad`) AS `CFaci_Novedad`,
+						IF(`OPE_ControlFacilitador`.`CFaci_Novedad`='SI', IF(`t1`.`CNove_TipoOrigen`='CREACION','CREACION',`OPE_ControlFacilitador`.`CFaci_Novedad`),`OPE_ControlFacilitador`.`CFaci_Novedad`) AS `CFaci_Novedad`,
 						(SELECT `Repo_Estado` FROM `OPE_ControlFacilitadorReportes` WHERE `OPE_ControlFacilitadorReportes`.`Repo_ProgramacionId` = `OPE_ControlFacilitador`.`Programacion_Id`) AS `CFaci_Reporte`,
 						IF(@bus!=`OPE_ControlFacilitador`.`Prog_Bus`, IF(@colBus=0, @colBus:=1, @colBus:=0 ), @colBus:= @colBus ) AS `Prog_colBus`,
 						(CASE WHEN @bus!=`OPE_ControlFacilitador`.`Prog_Bus` THEN @bus:=`OPE_ControlFacilitador`.`Prog_Bus` END ) AS `xB`,IF(@tabla!=`OPE_ControlFacilitador`.`Prog_Tabla`, IF(@colTabla=0, @colTabla:=1, @colTabla:=0 ), @colTabla:= @colBus ) AS `Prog_colTabla`,
@@ -288,6 +288,10 @@ class CRUD
 					ON 
 						`OPE_ControlFacilitadorEDT`.`ControlFacilitador_Id`=`OPE_ControlFacilitador`.`ControlFacilitador_Id` AND
 						`OPE_ControlFacilitadorEDT`.`CFaci_Version`='1'
+					LEFT JOIN
+						( SELECT `CNove_ControlFacilitadorId`, `CNove_TipoOrigen` FROM `OPE_ControlCambiosNovedad` WHERE `CNove_TipoOrigen`='CREACION') AS `t1`
+					ON 
+						`t1`.`CNove_ControlFacilitadorId`=`OPE_ControlFacilitador`.`ControlFacilitador_Id`  AND `t1`.`CNove_TipoOrigen`='CREACION'
 					WHERE 
 						`OPE_ControlFacilitador`.`Prog_Fecha`='$Prog_Fecha' AND 
 						`OPE_ControlFacilitador`.`Prog_Operacion`='$Prog_Operacion' 
@@ -338,7 +342,7 @@ class CRUD
 						`OPE_ControlFacilitador`.`Prog_IdManto`,
 						`OPE_ControlFacilitador`.`Prog_Sentido`,
 						`OPE_ControlFacilitador`.`Prog_BusManto`,
-						IF(`OPE_ControlFacilitador`.`CFaci_Novedad`='SI', IF((SELECT `CNove_TipoOrigen` FROM `OPE_ControlCambiosNovedad` WHERE `CNove_ControlFacilitadorId`=`OPE_ControlFacilitador`.`ControlFacilitador_Id` AND `CNove_TipoOrigen`='CREACION' LIMIT 1)='CREACION','CREACION',`OPE_ControlFacilitador`.`CFaci_Novedad`),`OPE_ControlFacilitador`.`CFaci_Novedad`) AS `CFaci_Novedad`,
+						IF(`OPE_ControlFacilitador`.`CFaci_Novedad`='SI', IF(`t1`.`CNove_TipoOrigen`='CREACION','CREACION',`OPE_ControlFacilitador`.`CFaci_Novedad`),`OPE_ControlFacilitador`.`CFaci_Novedad`) AS `CFaci_Novedad`,
 						(SELECT `Repo_Estado` FROM `OPE_ControlFacilitadorReportes` WHERE `OPE_ControlFacilitadorReportes`.`Repo_ProgramacionId` = `OPE_ControlFacilitador`.`Programacion_Id`) AS `CFaci_Reporte`,
 						IF(@bus!=`OPE_ControlFacilitador`.`Prog_Bus`, IF(@colBus=0, @colBus:=1, @colBus:=0 ), @colBus:= @colBus ) AS `Prog_colBus`,
 						(CASE WHEN @bus!=`OPE_ControlFacilitador`.`Prog_Bus` THEN @bus:=`OPE_ControlFacilitador`.`Prog_Bus` END ) AS `xB`,IF(@tabla!=`OPE_ControlFacilitador`.`Prog_Tabla`, IF(@colTabla=0, @colTabla:=1, @colTabla:=0 ), @colTabla:= @colBus ) AS `Prog_colTabla`,
@@ -355,6 +359,10 @@ class CRUD
 					ON 
 						`OPE_ControlFacilitadorEDT`.`ControlFacilitador_Id`=`OPE_ControlFacilitador`.`ControlFacilitador_Id` AND
 						`OPE_ControlFacilitadorEDT`.`CFaci_Version`='1'
+					LEFT JOIN
+						( SELECT `CNove_ControlFacilitadorId`, `CNove_TipoOrigen` FROM `OPE_ControlCambiosNovedad` WHERE `CNove_TipoOrigen`='CREACION') AS `t1`
+					ON 
+						`t1`.`CNove_ControlFacilitadorId`=`OPE_ControlFacilitador`.`ControlFacilitador_Id`  AND `t1`.`CNove_TipoOrigen`='CREACION'
 					WHERE 
 						`OPE_ControlFacilitador`.`Prog_Fecha`='$Prog_Fecha' AND 
 						`OPE_ControlFacilitador`.`Prog_Operacion`='$Prog_Operacion' 
