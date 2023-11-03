@@ -4,7 +4,7 @@
 ///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///:: DECLARACION DE VARIABLES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-var cod_ot, ot_origen, ot_bus, ot_kilometraje, ot_date_crea, ot_date_ct, ot_asociado, ot_hmotor, ot_cgm_crea, ot_cgm_ct, ot_estado, ot_resp_asoc, ot_descrip, ot_tecnico, ot_check, ot_obs_cgm, ot_sistema, ot_inicio, ot_fin, ot_codfalla, ot_at, ot_obs_asoc, ot_montado, ot_dmontado, ot_busmont, ot_busdmont, ot_motivo, ot_obs_aom, ot_ca, ot_date_ca, ot_componente_raiz, ot_obs_aom2, ot_accidentes_id, ot_semana_cierre, ot_cod_vinculada;
+var ot_id, ot_origen, ot_bus, ot_kilometraje, ot_date_crea, ot_date_ct, ot_asociado, ot_hmotor, ot_cgm_crea, ot_cgm_ct, ot_estado, ot_resp_asoc, ot_descrip, ot_tecnico, ot_check, ot_obs_cgm, ot_sistema, ot_inicio, ot_fin, ot_codfalla, ot_at, ot_obs_asoc, ot_montado, ot_dmontado, ot_busmont, ot_busdmont, ot_motivo, ot_obs_aom, ot_ca, ot_date_ca, ot_componente_raiz, ot_obs_aom2, ot_accidentes_id, ot_semana_cierre, ot_cod_vinculada;
 var opcionOT;
 
 ///:: JS DOM OT CORRECTIVAS :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
@@ -12,7 +12,7 @@ $(document).ready(function(){
   $("#formProcesarOT").hide();
 
   // Si hay cambios en el codigo OT se oculta el form
-  $("#cod_ot").on('change', function () {
+  $("#ot_id").on('change', function () {
     $("#formProcesarOT").hide();
   });
 
@@ -34,8 +34,8 @@ $(document).ready(function(){
     }
   });
 
-  $("#cod_ot").keypress(function(event) {
-    if (event.keyCode === 13 && $("#cod_ot").val().length>0) {
+  $("#ot_id").keypress(function(event) {
+    if (event.keyCode === 13 && $("#ot_id").val().length>0) {
       $("#btnCargarOT").focus();
     }
   });
@@ -88,10 +88,10 @@ $(document).ready(function(){
     f_CargarVariablesVacioOT(); //Se inicializan las variables en vacio, se cargan en blanco
     $("#ot_accidentes_id").prop("disabled",true);
     opcionOT = 0; //1=CREAR 2=EDITAR
-    cod_ot = $("#cod_ot").val();
+    ot_id = $("#ot_id").val();
   
-    if(cod_ot==""){
-      $("#cod_ot").focus();
+    if(ot_id==""){
+      $("#ot_id").focus();
       Swal.fire({
         position: 'center',
         icon: 'warning',
@@ -108,7 +108,7 @@ $(document).ready(function(){
         type: "POST",
         datatype:"json",
         async: false,    
-        data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,cod_ot:cod_ot},    
+        data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,ot_id:ot_id},    
         success: function(data){
           data = $.parseJSON(data);
           f_CargarVariablesOT(data);
@@ -155,7 +155,7 @@ $(document).ready(function(){
               type: "POST",
               datatype:"json",
               async: false,
-              data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,cod_ot:cod_ot},    
+              data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,ot_id:ot_id},    
               success: function(data){
                 $("#div_vales").html(data);
               }
@@ -166,7 +166,7 @@ $(document).ready(function(){
           }else{
             Swal.fire({
               title: '¿Está seguro de crear?',
-              html: "Se creará la OT N° : "+cod_ot+" !!!",
+              html: "Se creará la OT N° : "+ot_id+" !!!",
               icon: 'warning',
               showCancelButton: true,
               cancelButtonColor: '#d33',
@@ -188,7 +188,7 @@ $(document).ready(function(){
           }
         }
       });
-      f_tabla_horas_tecnicos(cod_ot);
+      f_tabla_horas_tecnicos(ot_id);
     }
   });
   ///:: FIN DE BOTON CARGA DE OT CORRECTIVAS ::::::::::::::::::::::::::::::::::::::::::::::///
@@ -207,7 +207,7 @@ $(document).ready(function(){
     let t_html        = "";
     let a_data        = [];
     let array_data    = [];
-    cod_ot            = $("#cod_ot").val();
+    ot_id            = $("#ot_id").val();
     f_LimpiaMsOT();
     f_CargarVariablesEditadasOT();
     array_horas_tecnicos = tabla_horas_tecnicos.rows().data().toArray();
@@ -225,7 +225,7 @@ $(document).ready(function(){
     }
 
     if(ot_estado=="CERRADO"){
-      bvalidarOT = f_validarOT(cod_ot, ot_origen, ot_bus, ot_kilometraje, ot_date_crea, ot_asociado, ot_hmotor, ot_cgm_crea, ot_cgm_ct, ot_estado, ot_resp_asoc, ot_descrip, ot_tecnico,  ot_check, ot_obs_cgm, ot_sistema, ot_inicio, ot_fin, ot_codfalla, ot_at, ot_obs_asoc, ot_montado, ot_dmontado, ot_busmont, ot_busdmont, ot_motivo, ot_componente_raiz, ot_obs_aom2, ot_semana_cierre);
+      bvalidarOT = f_validarOT(ot_id, ot_origen, ot_bus, ot_kilometraje, ot_date_crea, ot_asociado, ot_hmotor, ot_cgm_crea, ot_cgm_ct, ot_estado, ot_resp_asoc, ot_descrip, ot_tecnico,  ot_check, ot_obs_cgm, ot_sistema, ot_inicio, ot_fin, ot_codfalla, ot_at, ot_obs_asoc, ot_montado, ot_dmontado, ot_busmont, ot_busdmont, ot_motivo, ot_componente_raiz, ot_obs_aom2, ot_semana_cierre);
       bvalidarKm = f_validarKm(ot_bus,ot_fin,ot_kilometraje);
     
       if(bvalidarOT!=""){
@@ -260,7 +260,7 @@ $(document).ready(function(){
     }
 
     if(ot_cod_vinculada!=''){
-      a_data = f_BuscarDataBD("manto_ot", "cod_ot", ot_cod_vinculada);
+      a_data = f_BuscarDataBD("manto_ot", "ot_id", ot_cod_vinculada);
       if(a_data.length==0){
         mensaje_ot_vinculada = "*El N° OT Vinculada no existe!!!";
         //rptaGuardarOT = 'invalido';
@@ -313,7 +313,7 @@ $(document).ready(function(){
             type: "POST",
             datatype:"json",
             async: false,
-            data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion, cod_ot:cod_ot, ot_origen:ot_origen, ot_bus:ot_bus, ot_kilometraje:ot_kilometraje, ot_date_crea:ot_date_crea,  ot_date_ct:ot_date_ct, ot_asociado:ot_asociado, ot_hmotor:ot_hmotor, ot_cgm_crea:ot_cgm_crea, ot_cgm_ct:ot_cgm_ct, ot_estado:ot_estado, ot_resp_asoc:ot_resp_asoc,   ot_descrip:ot_descrip, ot_tecnico:ot_tecnico, ot_obs_cgm:ot_obs_cgm, ot_check:ot_check, ot_sistema:ot_sistema, ot_inicio:ot_inicio, ot_fin:ot_fin, ot_codfalla:ot_codfalla,   ot_at:ot_at, ot_obs_asoc:ot_obs_asoc, ot_montado:ot_montado, ot_dmontado:ot_dmontado, ot_busmont:ot_busmont, ot_busdmont:ot_busdmont, ot_motivo:ot_motivo,  ot_obs_aom:ot_obs_aom, ot_ca:ot_ca, ot_date_ca:ot_date_ca, ot_componente_raiz:ot_componente_raiz, ot_obs_aom2:ot_obs_aom2, ot_accidentes_id:ot_accidentes_id, ot_semana_cierre:ot_semana_cierre, ot_cod_vinculada:ot_cod_vinculada, array_data:array_data},
+            data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion, ot_id:ot_id, ot_origen:ot_origen, ot_bus:ot_bus, ot_kilometraje:ot_kilometraje, ot_date_crea:ot_date_crea,  ot_date_ct:ot_date_ct, ot_asociado:ot_asociado, ot_hmotor:ot_hmotor, ot_cgm_crea:ot_cgm_crea, ot_cgm_ct:ot_cgm_ct, ot_estado:ot_estado, ot_resp_asoc:ot_resp_asoc,   ot_descrip:ot_descrip, ot_tecnico:ot_tecnico, ot_obs_cgm:ot_obs_cgm, ot_check:ot_check, ot_sistema:ot_sistema, ot_inicio:ot_inicio, ot_fin:ot_fin, ot_codfalla:ot_codfalla,   ot_at:ot_at, ot_obs_asoc:ot_obs_asoc, ot_montado:ot_montado, ot_dmontado:ot_dmontado, ot_busmont:ot_busmont, ot_busdmont:ot_busdmont, ot_motivo:ot_motivo,  ot_obs_aom:ot_obs_aom, ot_ca:ot_ca, ot_date_ca:ot_date_ca, ot_componente_raiz:ot_componente_raiz, ot_obs_aom2:ot_obs_aom2, ot_accidentes_id:ot_accidentes_id, ot_semana_cierre:ot_semana_cierre, ot_cod_vinculada:ot_cod_vinculada, array_data:array_data},
             success: function(data){
 
             }
@@ -326,9 +326,9 @@ $(document).ready(function(){
             timer: 1500
           })      
           $("#formProcesarOT").hide();
-          cod_ot = "";
-          $("#cod_ot").val(cod_ot);
-          $("#cod_ot").focus();
+          ot_id = "";
+          $("#ot_id").val(ot_id);
+          $("#ot_id").focus();
           ot_observadas = f_ot_observadas();
           $("#ot_alerta").html(ot_observadas);      
         }
@@ -347,9 +347,9 @@ $(document).ready(function(){
   ///:: BOTON CANCELAR OT CORRECTIVAS :::::::::::::::::::::::::::::::::::::::::::::::::::::///
   $(document).on("click", ".btn_cancelar_ot", function(){
     $("#formProcesarOT").hide();
-    cod_ot = "";
-    $("#cod_ot").val(cod_ot);
-    $("#cod_ot").focus();
+    ot_id = "";
+    $("#ot_id").val(ot_id);
+    $("#ot_id").focus();
   });
   ///:: BOTON CANCELAR OT CORRECTIVAS :::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
@@ -367,19 +367,19 @@ $(document).ready(function(){
   ///:: EVENTO DEL BOTON VER PROCESAR OT CORRECTIVAS ::::::::::::::::::::::::::::::::::::::///
   $("#btn_procesar_ver_ot").click(function(){
     $("#form_modal_ver_ot").trigger("reset");
-    cod_ot = $("#cod_ot").val();
+    ot_id = $("#ot_id").val();
       Accion = 'ver_ot';
       $.ajax({
         url: "Ajax.php",
         type: "POST",
         datatype:"json",
         async: false,    
-        data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,cod_ot:cod_ot},    
+        data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,ot_id:ot_id},    
         success: function(data){
           $("#div_ver_ot").html(data);
         }
       });
-      f_tabla_ver_horas_tecnicos(cod_ot);
+      f_tabla_ver_horas_tecnicos(ot_id);
       $(".modal-header").css( "background-color", "#17a2b8");
       $(".modal-header").css( "color", "white" );
       $(".modal-title").text("INFORMACION OTs CORRECTIVAS");
@@ -399,14 +399,14 @@ $(document).ready(function(){
 ///:: FUNCIONES DE OT CORRECTIVAS :::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///:: FUNCION PARA VALIDAR LOS DATOS INGRESADOS AL FORMULARIO :::::::::::::::::::::::::::::///
-function f_validarOT(pcod_ot, pot_origen, pot_bus, pot_kilometraje, pot_date_crea, pot_asociado, pot_hmotor, pot_cgm_crea, pot_cgm_ct, pot_estado, pot_resp_asoc, pot_descrip, pot_tecnico, pot_check, pot_obs_cgm, pot_sistema, pot_inicio, pot_fin, pot_codfalla, pot_at, pot_obs_asoc, pot_montado, pot_dmontado, pot_busmont, pot_busdmont, pot_motivo, pot_componente_raiz, pot_obs_aom2, pot_accidentes_id, pot_semana_cierre, pot_cod_vinculada){
+function f_validarOT(pot_id, pot_origen, pot_bus, pot_kilometraje, pot_date_crea, pot_asociado, pot_hmotor, pot_cgm_crea, pot_cgm_ct, pot_estado, pot_resp_asoc, pot_descrip, pot_tecnico, pot_check, pot_obs_cgm, pot_sistema, pot_inicio, pot_fin, pot_codfalla, pot_at, pot_obs_asoc, pot_montado, pot_dmontado, pot_busmont, pot_busdmont, pot_motivo, pot_componente_raiz, pot_obs_aom2, pot_accidentes_id, pot_semana_cierre, pot_cod_vinculada){
     f_LimpiaMsOT();
     let NoLetrasMayuscEspacio=/[^A-Z \Ñ]/;
     let rptaOT="";    
     let color_amarillo = "yellow"
 /*
-    if(pcod_ot==''){
-      $("#cod_ot").addClass("color-error");
+    if(pot_id==''){
+      $("#ot_id").addClass("color-error");
       rptaOT="invalido";
     }
 
@@ -575,7 +575,7 @@ function f_validarOT(pcod_ot, pot_origen, pot_bus, pot_kilometraje, pot_date_cre
 
 ///:: MENSAJE DE ALERTA DEL FORMULARIO COLOR DE CAMPOS ::::::::::::::::::::::::::::::::::::/// 
 function f_LimpiaMsOT(){
-  $('#cod_ot').removeClass("color-error");
+  $('#ot_id').removeClass("color-error");
   $('#ot_origen').removeClass("color-error");
   $('#ot_bus').removeClass("color-error");
   $('#ot_kilometraje').removeClass("color-error");
@@ -615,7 +615,7 @@ function f_LimpiaMsOT(){
 ///:: SE CARGAN LAS VARIABLES CON LA INFORMACION DE LA BASE DE DATOS ::::::::::::::::::::::///
 function f_CargarVariablesOT(p_data){
   $.each(p_data, function(idx, obj){ 
-    cod_ot              = obj.cod_ot;
+    ot_id              = obj.ot_id;
     ot_origen           = obj.ot_origen;
     ot_bus              = obj.ot_bus;
     ot_kilometraje      = obj.ot_kilometraje;
@@ -656,7 +656,7 @@ function f_CargarVariablesOT(p_data){
 ///:: SE INICIALIZAN LAS VARIABLES DE LA OT CORRECTIVA ::::::::::::::::::::::::::::::::::::///
 function f_CargarVariablesVacioOT(){
   f_LimpiaMsOT();
-  cod_ot              = '';
+  ot_id              = '';
   ot_origen           = '';
   ot_bus              = '';
   ot_kilometraje      = '';
@@ -710,7 +710,7 @@ function f_CargaVariablesHtmlOT(){
       }
   });
 
-  $('#cod_ot').val(cod_ot);
+  $('#ot_id').val(ot_id);
   $('#ot_origen').val(ot_origen);
   $('#ot_bus').val(ot_bus);
   $('#ot_kilometraje').val(ot_kilometraje);
@@ -752,7 +752,7 @@ function f_CargaVariablesHtmlOT(){
   }
 
   // Se cargan los div
-  html = f_MostrarDiv("formProcesarOT","div_CodigoOT",cod_ot);
+  html = f_MostrarDiv("formProcesarOT","div_CodigoOT",ot_id);
   $("#div_CodigoOT").html(html);
   html = f_MostrarDiv("formProcesarOT","div_ot_estadoactual",ot_estado);
   $("#div_ot_estadoactual").html(html);
@@ -766,7 +766,7 @@ function f_CargaVariablesHtmlOT(){
 
 ///:: SE CARGAN LAS VARIABLES CON LOS VALORES EDITADOS ::::::::::::::::::::::::::::::::::::///
 function f_CargarVariablesEditadasOT(){
-  cod_ot              = $.trim($('#cod_ot').val());
+  ot_id              = $.trim($('#ot_id').val());
   ot_origen           = $.trim($('#ot_origen').val());
   ot_bus              = $.trim($('#ot_bus').val());
   ot_kilometraje      = $.trim($('#ot_kilometraje').val());
@@ -850,11 +850,11 @@ function f_validarKm(pot_bus,pot_inicio,pot_kilometraje){
 ///:: FIN DE VALIDA EL KM REALIZADO :::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///:: FUNCION DE PERMITE CREAR UNA OT :::::::::::::::::::::::::::::::::::::::::::::::::::::///
-function f_PreguntaCrear(pcod_ot){
+function f_PreguntaCrear(pot_id){
   let rptaPreguntaCrear = 0;
   Swal.fire({
     title: '¿Está seguro de crear?',
-    html: "Se creará la OT N° : "+pcod_ot+" !!!",
+    html: "Se creará la OT N° : "+pot_id+" !!!",
     icon: 'warning',
     showCancelButton: true,
     cancelButtonColor: '#d33',

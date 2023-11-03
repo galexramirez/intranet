@@ -108,7 +108,7 @@ class CRUD
 
 	function LeerOT($FechaInicioOT,$FechaTerminoOT)
 	{
-		$consulta = "SELECT IF(`ot_tipo`='CORRECTIVAS',CONCAT_WS('-','C',`ot_id`),CONCAT_WS('-','P',`ot_id`)) AS `cod_ot`, `ot_estado`, DATE_FORMAT(`ot_date_crea`,'%d-%m-%Y %H:%i') AS `ot_date_crea`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`ot_cgm_crea` LIMIT 1) AS `ot_cgm_crea`, `ot_bus`, `ot_origen`, `ot_asociado`, `ot_tecnico`, `ot_descrip`, DATE_FORMAT(`ot_fin`,'%d-%m-%Y %H:%i') AS `ot_fin`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`ot_cgm_ct`LIMIT 1) AS `ot_cgm_ct`, DATE_FORMAT(`ot_date_ca`,'%d-%m-%Y %H:%i') AS `ot_date_ca`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`ot_ca`LIMIT 1) AS `ot_ca`, `ot_kilometraje`, IF(`tvale`.`nvale`>'0',SUBSTRING(CONCAT('00',`tvale`.`nvale`),-2),'') AS `ot_vales` FROM `manto_orden_trabajo` LEFT JOIN (SELECT `manto_vales`.`va_ot`, COUNT(*) AS `nvale` FROM `manto_vales` GROUP BY `manto_vales`.`va_ot`) AS `tvale` ON `tvale`.`va_ot`=`manto_orden_trabajo`.`cod_ot` WHERE DATE_FORMAT(`ot_date_crea`,'%Y-%m-%d')>='$FechaInicioOT' AND DATE_FORMAT(`ot_date_crea`,'%Y-%m-%d')<='$FechaTerminoOT'";
+		$consulta = "SELECT IF(`ot_tipo`='CORRECTIVAS',CONCAT_WS('-','C',`ot_id`),CONCAT_WS('-','P',`ot_id`)) AS `ot_id`, `ot_estado`, DATE_FORMAT(`ot_date_crea`,'%d-%m-%Y %H:%i') AS `ot_date_crea`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`ot_cgm_crea` LIMIT 1) AS `ot_cgm_crea`, `ot_bus`, `ot_origen`, `ot_asociado`, `ot_tecnico`, `ot_descrip`, DATE_FORMAT(`ot_fin`,'%d-%m-%Y %H:%i') AS `ot_fin`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`ot_cgm_ct`LIMIT 1) AS `ot_cgm_ct`, DATE_FORMAT(`ot_date_ca`,'%d-%m-%Y %H:%i') AS `ot_date_ca`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`ot_ca`LIMIT 1) AS `ot_ca`, `ot_kilometraje`, IF(`tvale`.`nvale`>'0',SUBSTRING(CONCAT('00',`tvale`.`nvale`),-2),'') AS `ot_vales` FROM `manto_orden_trabajo` LEFT JOIN (SELECT `manto_vales`.`va_ot`, COUNT(*) AS `nvale` FROM `manto_vales` GROUP BY `manto_vales`.`va_ot`) AS `tvale` ON `tvale`.`va_ot`=`manto_orden_trabajo`.`ot_id` WHERE DATE_FORMAT(`ot_date_crea`,'%Y-%m-%d')>='$FechaInicioOT' AND DATE_FORMAT(`ot_date_crea`,'%Y-%m-%d')<='$FechaTerminoOT'";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();        
@@ -118,13 +118,13 @@ class CRUD
 		$this->conexion=null;
    	}   
 
-	function CrearOT($cod_ot, $ot_origen, $ot_bus, $ot_kilometraje, $ot_date_crea, $ot_date_ct, $ot_asociado, $ot_hmotor, $ot_cgm_crea, $ot_cgm_ct, $ot_estado, $ot_resp_asoc, $ot_descrip, $ot_tecnico, $ot_check, $ot_obs_cgm, $ot_sistema, $ot_inicio, $ot_fin, $ot_codfalla, $ot_at, $ot_obs_asoc, $ot_montado, $ot_dmontado, $ot_busmont, $ot_busdmont, $ot_motivo, $ot_obs_aom, $ot_ca, $ot_date_ca, $ot_componente_raiz, $ot_obs_aom2, $ot_accidentes_id, $ot_cod_vinculada)
+	function CrearOT($ot_id, $ot_origen, $ot_bus, $ot_kilometraje, $ot_date_crea, $ot_date_ct, $ot_asociado, $ot_hmotor, $ot_cgm_crea, $ot_cgm_ct, $ot_estado, $ot_resp_asoc, $ot_descrip, $ot_tecnico, $ot_check, $ot_obs_cgm, $ot_sistema, $ot_inicio, $ot_fin, $ot_codfalla, $ot_at, $ot_obs_asoc, $ot_montado, $ot_dmontado, $ot_busmont, $ot_busdmont, $ot_motivo, $ot_obs_aom, $ot_ca, $ot_date_ca, $ot_componente_raiz, $ot_obs_aom2, $ot_accidentes_id, $ot_semana_cierre, $ot_cod_vinculada)
 	{
         $ot_ca 		= $_SESSION['USUARIO_ID'];
 		$ot_date_ca = date("Y-m-d H:i:s");
 		$ot_obs_aom = $ot_obs_aom2;
 
-		$consulta=" INSERT INTO `manto_orden_trabajo`(`cod_ot`, `ot_origen`, `ot_bus`, `ot_kilometraje`, `ot_date_crea`, `ot_date_ct`, `ot_asociado`, `ot_hmotor`, `ot_cgm_crea`, `ot_cgm_ct`, `ot_estado`, `ot_resp_asoc`, `ot_descrip`, `ot_tecnico`, `ot_check`, `ot_obs_cgm`, `ot_sistema`, `ot_inicio`, `ot_fin`, `ot_codfalla`, `ot_at`, `ot_obs_asoc`, `ot_montado`, `ot_dmontado`, `ot_busmont`, `ot_busdmont`, `ot_motivo`, `ot_obs_aom`, `ot_ca`, `ot_date_ca`, `ot_componente_raiz`, `ot_accidentes_id`, `ot_semana_cierre`, `ot_cod_vinculada`) VALUES ('$cod_ot', '$ot_origen', '$ot_bus', '$ot_kilometraje', IF('$ot_date_crea'='',NULL,'$ot_date_crea'), IF('$ot_date_ct'='',NULL,'$ot_date_ct'), '$ot_asociado', '$ot_hmotor', '$ot_cgm_crea', '$ot_cgm_ct', '$ot_estado', '$ot_resp_asoc', '$ot_descrip', '$ot_tecnico', '$ot_check', '$ot_obs_cgm', '$ot_sistema', IF('$ot_inicio'='',NULL,'$ot_inicio'), IF('$ot_fin'='',NULL,'$ot_fin'), '$ot_codfalla', '$ot_at', '$ot_obs_asoc', '$ot_montado', '$ot_dmontado', '$ot_busmont', '$ot_busdmont', '$ot_motivo', '$ot_obs_aom', '$ot_ca', '$ot_date_ca', '$ot_componente_raiz', '$ot_accidentes_id', '$ot_semana_cierre', IF('$ot_cod_vinculada'='',NULL,'$ot_cod_vinculada')) ";
+		$consulta=" INSERT INTO `manto_orden_trabajo`(`ot_id`, `ot_origen`, `ot_bus`, `ot_kilometraje`, `ot_date_crea`, `ot_date_ct`, `ot_asociado`, `ot_hmotor`, `ot_cgm_crea`, `ot_cgm_ct`, `ot_estado`, `ot_resp_asoc`, `ot_descrip`, `ot_tecnico`, `ot_check`, `ot_obs_cgm`, `ot_sistema`, `ot_inicio`, `ot_fin`, `ot_codfalla`, `ot_at`, `ot_obs_asoc`, `ot_montado`, `ot_dmontado`, `ot_busmont`, `ot_busdmont`, `ot_motivo`, `ot_obs_aom`, `ot_ca`, `ot_date_ca`, `ot_componente_raiz`, `ot_accidentes_id`, `ot_semana_cierre`, `ot_cod_vinculada`) VALUES ('$ot_id', '$ot_origen', '$ot_bus', '$ot_kilometraje', IF('$ot_date_crea'='',NULL,'$ot_date_crea'), IF('$ot_date_ct'='',NULL,'$ot_date_ct'), '$ot_asociado', '$ot_hmotor', '$ot_cgm_crea', '$ot_cgm_ct', '$ot_estado', '$ot_resp_asoc', '$ot_descrip', '$ot_tecnico', '$ot_check', '$ot_obs_cgm', '$ot_sistema', IF('$ot_inicio'='',NULL,'$ot_inicio'), IF('$ot_fin'='',NULL,'$ot_fin'), '$ot_codfalla', '$ot_at', '$ot_obs_asoc', '$ot_montado', '$ot_dmontado', '$ot_busmont', '$ot_busdmont', '$ot_motivo', '$ot_obs_aom', '$ot_ca', '$ot_date_ca', '$ot_componente_raiz', '$ot_accidentes_id', '$ot_semana_cierre', IF('$ot_cod_vinculada'='',NULL,'$ot_cod_vinculada')) ";
 
 		$resultado = $this->conexion->prepare($consulta);
         $resultado->execute();        
@@ -133,9 +133,9 @@ class CRUD
 		$this->conexion=null;
 	}
 	
-	function BorrarOT($cod_ot)
+	function BorrarOT($ot_id)
 	{
-		$consulta="DELETE FROM `manto_orden_trabajo` WHERE `cod_ot`='$cod_ot'";
+		$consulta="DELETE FROM `manto_orden_trabajo` WHERE `ot_id`='$ot_id'";
 
 		$resultado = $this->conexion->prepare($consulta);
         $resultado->execute();        
@@ -143,9 +143,9 @@ class CRUD
 		$this->conexion=null;
 	}
 
-	function CargarOT($cod_ot)
+	function CargarOT($ot_id)
 	{
-		$consulta="SELECT `cod_ot`, `ot_origen`, `ot_bus`, `ot_kilometraje`, `ot_date_crea`, DATE_FORMAT(`ot_date_ct`,'%d-%m-%Y %H:%i') AS `ot_date_ct`, `ot_asociado`, `ot_hmotor`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`ot_cgm_crea` LIMIT 1) AS `ot_cgm_crea`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`ot_cgm_ct` LIMIT 1) AS `ot_cgm_ct`, `ot_estado`, `ot_reg_rec`, `ot_resp_asoc`, `ot_descrip`, `ot_tecnico`, `ot_check`, `ot_obs_cgm`, `ot_recep_aom`, `ot_date_recep_aom`, `ot_sistema`, `ot_inicio`, `ot_fin`, `ot_codfalla`, `ot_at`, `ot_obs_asoc`, `ot_montado`, `ot_dmontado`, `ot_busmont`, `ot_busdmont`, `ot_motivo`, `ot_obs_aom`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`ot_ca` LIMIT 1) AS `ot_ca`, DATE_FORMAT(`ot_date_ca`,'%d-%m-%Y %H:%i') AS `ot_date_ca`, `ot_obs_km`, `ot_date_rec_cgm`, `ot_pin`, `ot_componente_raiz`, `ot_accidentes_id`, `ot_semana_cierre`, `ot_cod_vinculada` FROM `manto_orden_trabajo` WHERE `ot_id`='$cod_ot'";
+		$consulta="SELECT `ot_id`, `ot_origen`, `ot_bus`, `ot_kilometraje`, `ot_date_crea`, DATE_FORMAT(`ot_date_ct`,'%d-%m-%Y %H:%i') AS `ot_date_ct`, `ot_asociado`, `ot_hmotor`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`ot_cgm_crea` LIMIT 1) AS `ot_cgm_crea`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`ot_cgm_ct` LIMIT 1) AS `ot_cgm_ct`, `ot_estado`, `ot_reg_rec`, `ot_resp_asoc`, `ot_descrip`, `ot_tecnico`, `ot_check`, `ot_obs_cgm`, `ot_recep_aom`, `ot_date_recep_aom`, `ot_sistema`, `ot_inicio`, `ot_fin`, `ot_codfalla`, `ot_at`, `ot_obs_asoc`, `ot_montado`, `ot_dmontado`, `ot_busmont`, `ot_busdmont`, `ot_motivo`, `ot_obs_aom`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`ot_ca` LIMIT 1) AS `ot_ca`, DATE_FORMAT(`ot_date_ca`,'%d-%m-%Y %H:%i') AS `ot_date_ca`, `ot_obs_km`, `ot_date_rec_cgm`, `ot_pin`, `ot_componente_raiz`, `ot_accidentes_id`, `ot_semana_cierre`, `ot_cod_vinculada` FROM `manto_orden_trabajo` WHERE `ot_id`='$ot_id'";
 
 		$resultado = $this->conexion->prepare($consulta);
         $resultado->execute();
@@ -225,7 +225,7 @@ class CRUD
 		$this->conexion=null;
 	}
 
-	function EditarOT($cod_ot, $ot_origen, $ot_bus, $ot_kilometraje, $ot_date_crea, $ot_date_ct, $ot_asociado, $ot_hmotor, $ot_cgm_crea, $ot_cgm_ct, $ot_estado, $ot_resp_asoc, $ot_descrip, $ot_tecnico, $ot_check, $ot_obs_cgm, $ot_sistema, $ot_inicio, $ot_fin, $ot_codfalla, $ot_at, $ot_obs_asoc, $ot_montado, $ot_dmontado, $ot_busmont, $ot_busdmont, $ot_motivo, $ot_obs_aom, $ot_ca, $ot_date_ca, $ot_componente_raiz, $ot_obs_aom2, $ot_accidentes_id, $ot_semana_cierre, $ot_cod_vinculada)
+	function EditarOT($ot_id, $ot_origen, $ot_bus, $ot_kilometraje, $ot_date_crea, $ot_date_ct, $ot_asociado, $ot_hmotor, $ot_cgm_crea, $ot_cgm_ct, $ot_estado, $ot_resp_asoc, $ot_descrip, $ot_tecnico, $ot_check, $ot_obs_cgm, $ot_sistema, $ot_inicio, $ot_fin, $ot_codfalla, $ot_at, $ot_obs_asoc, $ot_montado, $ot_dmontado, $ot_busmont, $ot_busdmont, $ot_motivo, $ot_obs_aom, $ot_ca, $ot_date_ca, $ot_componente_raiz, $ot_obs_aom2, $ot_accidentes_id, $ot_semana_cierre, $ot_cod_vinculada)
 	{
         $ot_ca = $_SESSION['USUARIO_ID'];
 		$nombre_cierra_adm = $_SESSION['Usua_NombreCorto'];
@@ -237,7 +237,7 @@ class CRUD
 			$ot_obs_aom = date_format(date_create($ot_date_ca),"d-m-Y H:i")." ".$ot_estado." ".$nombre_cierra_adm."<br>".$ot_obs_aom;
 		}
 
-		$consulta = "UPDATE `manto_orden_trabajo` SET `cod_ot`='$cod_ot', `ot_origen`='$ot_origen', `ot_bus`='$ot_bus', `ot_kilometraje`='$ot_kilometraje', `ot_date_crea`=IF('$ot_date_crea' = '', NULL, '$ot_date_crea'), `ot_date_ct`=IF('$ot_date_ct' = '', NULL, '$ot_date_ct'), `ot_asociado`='$ot_asociado', `ot_hmotor`='$ot_hmotor', `ot_cgm_crea`='$ot_cgm_crea', `ot_cgm_ct`='$ot_cgm_ct', `ot_estado`='$ot_estado', `ot_resp_asoc`='$ot_resp_asoc', `ot_descrip`='$ot_descrip', `ot_tecnico`='$ot_tecnico', `ot_check`='$ot_check', `ot_obs_cgm`='$ot_obs_cgm', `ot_sistema`='$ot_sistema', `ot_inicio`=IF('$ot_inicio' = '', NULL, '$ot_inicio'), `ot_fin`=IF('$ot_fin' = '', NULL, '$ot_fin'), `ot_codfalla`='$ot_codfalla', `ot_at`='$ot_at', `ot_obs_asoc`='$ot_obs_asoc', `ot_montado`='$ot_montado', `ot_dmontado`='$ot_dmontado', `ot_busmont`='$ot_busmont', `ot_busdmont`='$ot_busdmont', `ot_motivo`='$ot_motivo', `ot_obs_aom`='$ot_obs_aom', `ot_ca`='$ot_ca', `ot_date_ca`=IF('$ot_date_ca' = '', NULL, '$ot_date_ca'), `ot_componente_raiz`='$ot_componente_raiz', `ot_accidentes_id`='$ot_accidentes_id', `ot_semana_cierre`='$ot_semana_cierre', `ot_cod_vinculada`=IF('$ot_cod_vinculada'='',NULL,'$ot_cod_vinculada') WHERE `cod_ot` = '$cod_ot'";
+		$consulta = "UPDATE `manto_orden_trabajo` SET `ot_id`='$ot_id', `ot_origen`='$ot_origen', `ot_bus`='$ot_bus', `ot_kilometraje`='$ot_kilometraje', `ot_date_crea`=IF('$ot_date_crea' = '', NULL, '$ot_date_crea'), `ot_date_ct`=IF('$ot_date_ct' = '', NULL, '$ot_date_ct'), `ot_asociado`='$ot_asociado', `ot_hmotor`='$ot_hmotor', `ot_cgm_crea`='$ot_cgm_crea', `ot_cgm_ct`='$ot_cgm_ct', `ot_estado`='$ot_estado', `ot_resp_asoc`='$ot_resp_asoc', `ot_descrip`='$ot_descrip', `ot_tecnico`='$ot_tecnico', `ot_check`='$ot_check', `ot_obs_cgm`='$ot_obs_cgm', `ot_sistema`='$ot_sistema', `ot_inicio`=IF('$ot_inicio' = '', NULL, '$ot_inicio'), `ot_fin`=IF('$ot_fin' = '', NULL, '$ot_fin'), `ot_codfalla`='$ot_codfalla', `ot_at`='$ot_at', `ot_obs_asoc`='$ot_obs_asoc', `ot_montado`='$ot_montado', `ot_dmontado`='$ot_dmontado', `ot_busmont`='$ot_busmont', `ot_busdmont`='$ot_busdmont', `ot_motivo`='$ot_motivo', `ot_obs_aom`='$ot_obs_aom', `ot_ca`='$ot_ca', `ot_date_ca`=IF('$ot_date_ca' = '', NULL, '$ot_date_ca'), `ot_componente_raiz`='$ot_componente_raiz', `ot_accidentes_id`='$ot_accidentes_id', `ot_semana_cierre`='$ot_semana_cierre', `ot_cod_vinculada`=IF('$ot_cod_vinculada'='',NULL,'$ot_cod_vinculada') WHERE `ot_id` = '$ot_id'";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();        
@@ -284,9 +284,9 @@ class CRUD
 		$this->conexion=null;
    	}   
 
-	function ver_ot($cod_ot)
+	function ver_ot($ot_id)
 	{
-		$consulta="SELECT `cod_ot`, `ot_origen`, `ot_bus`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`ot_cgm_crea` LIMIT 1) AS `ot_cgm_crea`, `ot_date_crea`, `ot_asociado`, `ot_resp_asoc`, `ot_kilometraje`, `ot_hmotor`, `ot_check`, `ot_descrip`, `ot_obs_cgm`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`ot_cgm_ct` LIMIT 1) AS `ot_cgm_ct`, `ot_date_ct`, `ot_inicio`, `ot_fin`, `ot_sistema`, `ot_codfalla`, `ot_at`, `ot_obs_asoc`, `ot_montado`, `ot_dmontado`, `ot_busdmont`, `ot_busmont`, `ot_motivo`, `ot_componente_raiz`, `ot_tecnico`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`ot_ca` LIMIT 1) AS `ot_ca`, `ot_date_ca`, `ot_estado`, `ot_obs_aom`, `ot_accidentes_id`, `ot_semana_cierre`, `ot_cod_vinculada` FROM `manto_orden_trabajo` WHERE `ot_id` = '$cod_ot'";
+		$consulta="SELECT `ot_id`, `ot_origen`, `ot_bus`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`ot_cgm_crea` LIMIT 1) AS `ot_cgm_crea`, `ot_date_crea`, `ot_asociado`, `ot_resp_asoc`, `ot_kilometraje`, `ot_hmotor`, `ot_check`, `ot_descrip`, `ot_obs_cgm`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`ot_cgm_ct` LIMIT 1) AS `ot_cgm_ct`, `ot_date_ct`, `ot_inicio`, `ot_fin`, `ot_sistema`, `ot_codfalla`, `ot_at`, `ot_obs_asoc`, `ot_montado`, `ot_dmontado`, `ot_busdmont`, `ot_busmont`, `ot_motivo`, `ot_componente_raiz`, `ot_tecnico`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`ot_ca` LIMIT 1) AS `ot_ca`, `ot_date_ca`, `ot_estado`, `ot_obs_aom`, `ot_accidentes_id`, `ot_semana_cierre`, `ot_cod_vinculada` FROM `manto_orden_trabajo` WHERE `ot_id` = '$ot_id'";
 		   
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();
@@ -296,9 +296,9 @@ class CRUD
 		$this->conexion=null;
 	}
    
-	function ver_vale($cod_ot)
+	function ver_vale($ot_id)
 	{
-		$consulta	= "SELECT `cod_vale`, `va_ot`, `manto_orden_trabajo`.`ot_bus` AS `va_bus`, `manto_orden_trabajo`.`ot_origen` AS `va_origen`, `va_asociado`, `va_responsable`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`va_genera` LIMIT 1) AS `va_genera`, `va_date_genera`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`va_cierre_adm` LIMIT 1) AS `va_cierre_adm`, `va_date_cierre_adm`, `va_estado`, `va_garantia`, `manto_orden_trabajo`.`ot_descrip` AS `va_descrip`, `va_obs_cgm`, `va_obs_aom` FROM `manto_vales` LEFT JOIN `manto_orden_trabajo` ON `cod_ot`=`va_ot` WHERE `va_ot`='$cod_ot'";
+		$consulta	= "SELECT `cod_vale`, `va_ot`, `manto_orden_trabajo`.`ot_bus` AS `va_bus`, `manto_orden_trabajo`.`ot_origen` AS `va_origen`, `va_asociado`, `va_responsable`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`va_genera` LIMIT 1) AS `va_genera`, `va_date_genera`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`va_cierre_adm` LIMIT 1) AS `va_cierre_adm`, `va_date_cierre_adm`, `va_estado`, `va_garantia`, `manto_orden_trabajo`.`ot_descrip` AS `va_descrip`, `va_obs_cgm`, `va_obs_aom` FROM `manto_vales` LEFT JOIN `manto_orden_trabajo` ON `ot_id`=`va_ot` WHERE `va_ot`='$ot_id'";
    
 		$resultado 	= $this->conexion->prepare($consulta);
 		$resultado->execute();
@@ -322,7 +322,7 @@ class CRUD
 
 	function descargar_ot($FechaInicioOT,$FechaTerminoOT)
 	{
-		$consulta 	= "SELECT IF(`ot_tipo`='CORRECTIVAS',CONCAT_WS('-','C',`ot_id`),CONCAT_WS('-','P',`ot_id`)) AS `cod_ot`, `ot_estado`, DATE_FORMAT(`ot_date_crea`,'%d-%m-%Y %H:%i') AS `ot_date_crea`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`ot_cgm_crea` LIMIT 1) AS `ot_cgm_crea`, `ot_bus`, `ot_origen`, `ot_asociado`, `ot_resp_asoc`, `ot_descrip`, `ot_kilometraje`, `ot_hmotor`, `ot_sistema`, `ot_codfalla`, `ot_check`, DATE_FORMAT(`ot_inicio`,'%d-%m-%Y %H:%i') AS `ot_inicio`, DATE_FORMAT(`ot_fin`,'%d-%m-%Y %H:%i') AS `ot_fin`, TIMESTAMPDIFF(MINUTE,`ot_inicio`,`ot_fin`) AS `ot_duracion_actividad`, `ot_at`, `ot_obs_asoc`, `ot_tecnico`, `ot_montado`, `ot_dmontado`, `ot_busmont`, `ot_busdmont`, `ot_motivo`, DATE_FORMAT(`ot_date_ct`,'%d-%m-%Y %H:%i') AS `ot_date_ct`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`ot_cgm_ct` LIMIT 1) AS `ot_cgm_ct`, `ot_obs_cgm`, DATE_FORMAT(`ot_date_ca`,'%d-%m-%Y %H:%i') AS `ot_date_ca`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`ot_ca` LIMIT 1) AS `ot_ca`, `ot_obs_aom`, '' AS `ot_semana`, '' AS `ot_turno`, '' AS `ot_publicacion` FROM `manto_orden_trabajo` WHERE DATE_FORMAT(`ot_date_crea`,'%Y-%m-%d')>='$FechaInicioOT' AND DATE_FORMAT(`ot_date_crea`,'%Y-%m-%d')<='$FechaTerminoOT' ";
+		$consulta 	= "SELECT IF(`ot_tipo`='CORRECTIVAS',CONCAT_WS('-','C',`ot_id`),CONCAT_WS('-','P',`ot_id`)) AS `ot_id`, `ot_estado`, DATE_FORMAT(`ot_date_crea`,'%d-%m-%Y %H:%i') AS `ot_date_crea`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`ot_cgm_crea` LIMIT 1) AS `ot_cgm_crea`, `ot_bus`, `ot_origen`, `ot_asociado`, `ot_resp_asoc`, `ot_descrip`, `ot_kilometraje`, `ot_hmotor`, `ot_sistema`, `ot_codfalla`, `ot_check`, DATE_FORMAT(`ot_inicio`,'%d-%m-%Y %H:%i') AS `ot_inicio`, DATE_FORMAT(`ot_fin`,'%d-%m-%Y %H:%i') AS `ot_fin`, TIMESTAMPDIFF(MINUTE,`ot_inicio`,`ot_fin`) AS `ot_duracion_actividad`, `ot_at`, `ot_obs_asoc`, `ot_tecnico`, `ot_montado`, `ot_dmontado`, `ot_busmont`, `ot_busdmont`, `ot_motivo`, DATE_FORMAT(`ot_date_ct`,'%d-%m-%Y %H:%i') AS `ot_date_ct`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`ot_cgm_ct` LIMIT 1) AS `ot_cgm_ct`, `ot_obs_cgm`, DATE_FORMAT(`ot_date_ca`,'%d-%m-%Y %H:%i') AS `ot_date_ca`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`ot_ca` LIMIT 1) AS `ot_ca`, `ot_obs_aom`, '' AS `ot_semana`, '' AS `ot_turno`, '' AS `ot_publicacion` FROM `manto_orden_trabajo` WHERE DATE_FORMAT(`ot_date_crea`,'%Y-%m-%d')>='$FechaInicioOT' AND DATE_FORMAT(`ot_date_crea`,'%Y-%m-%d')<='$FechaTerminoOT' ";
 	
 		$resultado 	= $this->conexion->prepare($consulta);
 		$resultado->execute();        
@@ -332,7 +332,7 @@ class CRUD
 		$this->conexion=null;
 	}   
 
-	function cargar_horas_tecnicos($cod_ot)
+	function cargar_horas_tecnicos($ot_id)
 	{
 		$consulta	= "	SELECT 
 							`manto_ot_horas_tecnicos`.`ht_tecnico_nombres` AS `tecnico_nombres`,
@@ -340,7 +340,7 @@ class CRUD
 							DATE_FORMAT(`manto_ot_horas_tecnicos`.`ht_hora_fin`,'%d-%m-%Y %H:%i') AS `hora_fin`,
 							DATE_FORMAT(TIMEDIFF(`manto_ot_horas_tecnicos`.`ht_hora_fin`,`manto_ot_horas_tecnicos`.`ht_hora_inicio`),'%H:%i') AS `total_horas`
 						FROM `manto_ot_horas_tecnicos`
-						WHERE `manto_ot_horas_tecnicos`.`ht_cod_ot`='$cod_ot' ";
+						WHERE `manto_ot_horas_tecnicos`.`ht_ot_id`='$ot_id' ";
    
 		$resultado 	= $this->conexion->prepare($consulta);
 		$resultado->execute();
@@ -350,9 +350,9 @@ class CRUD
 		$this->conexion=null;
 	}
 
-	function crear_horas_tecnicos($ht_cod_ot, $ht_tecnico_nombres, $ht_hora_inicio, $ht_hora_fin)
+	function crear_horas_tecnicos($ht_ot_id, $ht_tecnico_nombres, $ht_hora_inicio, $ht_hora_fin)
 	{
-		$consulta = " INSERT INTO `manto_ot_horas_tecnicos` (`ht_cod_ot`, `ht_tecnico_nombres`, `ht_hora_inicio`, `ht_hora_fin`) VALUES ('$ht_cod_ot', '$ht_tecnico_nombres', '$ht_hora_inicio', '$ht_hora_fin') ";
+		$consulta = " INSERT INTO `manto_ot_horas_tecnicos` (`ht_ot_id`, `ht_tecnico_nombres`, `ht_hora_inicio`, `ht_hora_fin`) VALUES ('$ht_ot_id', '$ht_tecnico_nombres', '$ht_hora_inicio', '$ht_hora_fin') ";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();        
@@ -360,9 +360,9 @@ class CRUD
 
 	}
 
-	function eliminar_horas_tecnicos($ht_cod_ot)
+	function eliminar_horas_tecnicos($ht_ot_id)
 	{
-		$consulta = " DELETE FROM `manto_ot_horas_tecnicos` WHERE `ht_cod_ot`='$ht_cod_ot' ";
+		$consulta = " DELETE FROM `manto_ot_horas_tecnicos` WHERE `ht_ot_id`='$ht_ot_id' ";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();        
@@ -424,7 +424,7 @@ class CRUD
 			break;
 
 			case 'manto_vales':
-				$consulta = " SELECT COUNT(*) AS `registro` FROM `manto_orden_trabajo` RIGHT JOIN `$tabla` ON `$tabla`.`va_ot`=`manto_orden_trabajo`.`cod_ot` AND `$tabla`.`va_estado`!='$estado' WHERE `ot_semana_cierre`='$semana' ";
+				$consulta = " SELECT COUNT(*) AS `registro` FROM `manto_orden_trabajo` RIGHT JOIN `$tabla` ON `$tabla`.`va_ot`=`manto_orden_trabajo`.`ot_id` AND `$tabla`.`va_estado`!='$estado' WHERE `ot_semana_cierre`='$semana' ";
 			break;
 		}
 
@@ -463,7 +463,7 @@ class CRUD
 
 	function codigos_repuestos($otc_semana)
 	{
-		$consulta = " SELECT `cod_rv`, DATE_FORMAT(`va_date_cierre_adm`,'%Y-%m-%d') AS `va_date_cierre_adm`, `rv_repuesto`, `va_ruc` FROM `manto_rep_vale` RIGHT JOIN (SELECT `manto_vales`.`cod_vale`, `manto_vales`.`va_ot`, `manto_vales`.`va_date_cierre_adm`, `manto_vales`.`va_ruc`,`manto_orden_trabajo`.`cod_ot`, `manto_orden_trabajo`.`ot_semana_cierre` FROM `manto_orden_trabajo` RIGHT JOIN `manto_vales` ON `manto_orden_trabajo`.`cod_ot`=`manto_vales`.`va_ot` WHERE `ot_semana_cierre`='$otc_semana') AS `t1` ON `manto_rep_vale`.`rv_vale`=`t1`.`cod_vale` ";
+		$consulta = " SELECT `cod_rv`, DATE_FORMAT(`va_date_cierre_adm`,'%Y-%m-%d') AS `va_date_cierre_adm`, `rv_repuesto`, `va_ruc` FROM `manto_rep_vale` RIGHT JOIN (SELECT `manto_vales`.`cod_vale`, `manto_vales`.`va_ot`, `manto_vales`.`va_date_cierre_adm`, `manto_vales`.`va_ruc`,`manto_orden_trabajo`.`ot_id`, `manto_orden_trabajo`.`ot_semana_cierre` FROM `manto_orden_trabajo` RIGHT JOIN `manto_vales` ON `manto_orden_trabajo`.`ot_id`=`manto_vales`.`va_ot` WHERE `ot_semana_cierre`='$otc_semana') AS `t1` ON `manto_rep_vale`.`rv_vale`=`t1`.`cod_vale` ";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();

@@ -104,7 +104,7 @@
 													</div>
 													<div class="col-lg-6">
 														<div class="form-group form-control-sm mb-1">
-															<input type="text" class="form-control form-control-sm mb-1" id="iva_ot" disabled>
+															<input type="text" class="form-control form-control-sm mb-1" id="iva_ot_id" disabled>
 														</div>
 													</div>
 												</div>
@@ -334,12 +334,12 @@
 									<div class="row">
 										<div class="col-lg-5">
 											<div class="form-group form-control-sm mb-1">
-												<label for="va_ot" class="col-form-label form-control-sm mb-1">N° OT :</label>
+												<label for="va_ot_id" class="col-form-label form-control-sm mb-1">N° OT :</label>
 											</div>
 										</div>
 										<div class="col-lg-7">
 											<div class="form-group form-control-sm mb-1">
-												<input tabindex="1" type="text" class="form-control form-control-sm mb-1" id="va_ot">
+												<input tabindex="1" type="text" class="form-control form-control-sm mb-1" id="va_ot_id">
 											</div>
 										</div>
 									</div>
@@ -653,7 +653,7 @@
 													</div>
 													<div class="col-lg-6">
 														<div class="form-group form-control-sm mb-1">
-															<input type="text" class="form-control form-control-sm mb-1" id="ipva_ot" disabled>
+															<input type="text" class="form-control form-control-sm mb-1" id="ipva_ot_id" disabled>
 														</div>
 													</div>
 												</div>

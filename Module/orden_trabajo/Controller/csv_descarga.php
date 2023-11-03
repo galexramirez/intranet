@@ -58,7 +58,7 @@ fputcsv($output, $header_args);
 
 // write actual content to csv file
         foreach ($data as $row) {
-            $data_array[] = [$row['cod_ot'],
+            $data_array[] = [$row['ot_id'],
                             $row['ot_estado'],
                             $row['ot_date_crea'],
                             $row['ot_cgm_crea'],

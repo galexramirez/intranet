@@ -188,7 +188,7 @@ class Logico
 
     }
 
-    public function editar_pedido($pedido_id, $pedi_fechacreacion, $pedi_fecharequerimiento, $pedi_prioridad, $pedi_centrocosto, $pedi_proceso, $pedi_nombre_contacto, $pedi_direccion_entrega, $pedi_orden_compra_directa, $pedi_tipo, $pedi_estado, $pedi_log, $obs_log, $array_data)
+    public function editar_pedido($pedido_id, $pedi_fechacreacion, $pedi_fecharequerimiento, $pedi_prioridad, $pedi_bus, $pedi_centrocosto, $pedi_proceso, $pedi_nombre_contacto, $pedi_direccion_entrega, $pedi_orden_compra_directa, $pedi_tipo, $pedi_estado, $pedi_log, $obs_log, $array_data)
 	{
         $pedi_fecha = date("d-m-Y H:i:s");
         $pedi_log1 = "";
@@ -207,7 +207,7 @@ class Logico
 
         MModel($this->Modulo, 'CRUD');
         $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->editar_pedido($pedido_id, $pedi_fechacreacion, $pedi_fecharequerimiento, $pedi_prioridad, $pedi_bus, $pedi_centrocosto, $pedi_ordcompdirecta, $pedi_log1, $pedi_estado);
+        $Respuesta=$InstanciaAjax->editar_pedido($pedido_id, $pedi_fechacreacion, $pedi_fecharequerimiento, $pedi_prioridad, $pedi_bus, $pedi_centrocosto, $pedi_orden_compra_directa, $pedi_log1, $pedi_estado);
 
         MModel($this->Modulo, 'CRUD');
         $InstanciaAjax= new CRUD();
@@ -222,7 +222,7 @@ class Logico
                 
                 MModel($this->Modulo, 'CRUD');
                 $InstanciaAjax= new CRUD();
-                $Respuesta=$InstanciaAjax->crear_material_pedido($mp_pedidoid, $mp_materialid, $mp_unidadmedida, $mp_cantidad, $mp_observaciones);
+                $Respuesta=$InstanciaAjax->crear_material_pedido($mp_pedidoid, $mp_materialid, $mp_unidadmedida, $mp_cantidad, $pedi_bus, $mp_observaciones);
             }
         }
 
@@ -553,7 +553,7 @@ class Logico
                     $tmc_seleccion      = $row2['tmc_seleccion'];
                     $tmc_pedidoid       = $row2['tmc_pedidoid'];
                     $tmc_cotizacionid   = $row2['tmc_cotizacionid'];
-                    $tmc_subtotal       = $tmc_subtotal + round( (floatval($row2['tmc_preciocotizacion']) * floatval($row2['tmc_cantidad'])), 2) ;
+                    $tmc_subtotal       = $tmc_subtotal + round( (floatval($row2['tmc_preciocotizacion']) * floatval($row2['tmc_cantidad_solicitada'])), 2) ;
                 }
             }
             $tmc_igv    = $tmc_subtotal * round( (floatval($valor_igv)/100), 2);

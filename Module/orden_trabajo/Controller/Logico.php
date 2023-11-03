@@ -125,7 +125,7 @@ class Logico
         print json_encode($Respuesta, JSON_UNESCAPED_UNICODE);
     }
 
-    public function CrearOT($cod_ot, $ot_origen, $ot_bus, $ot_kilometraje, $ot_date_crea, $ot_date_ct, $ot_asociado, $ot_hmotor, $ot_cgm_crea, $ot_cgm_ct, $ot_estado, $ot_resp_asoc, $ot_descrip, $ot_tecnico, $ot_check, $ot_obs_cgm, $ot_sistema, $ot_inicio, $ot_fin, $ot_codfalla, $ot_at, $ot_obs_asoc, $ot_montado, $ot_dmontado, $ot_busmont, $ot_busdmont, $ot_motivo, $ot_obs_aom, $ot_ca, $ot_date_ca, $ot_componente_raiz, $ot_obs_aom2, $ot_accidentes_id, $ot_semana_cierre, $ot_cod_vinculada, $array_data)
+    public function CrearOT($ot_id, $ot_origen, $ot_bus, $ot_kilometraje, $ot_date_crea, $ot_date_ct, $ot_asociado, $ot_hmotor, $ot_cgm_crea, $ot_cgm_ct, $ot_estado, $ot_resp_asoc, $ot_descrip, $ot_tecnico, $ot_check, $ot_obs_cgm, $ot_sistema, $ot_inicio, $ot_fin, $ot_codfalla, $ot_at, $ot_obs_asoc, $ot_montado, $ot_dmontado, $ot_busmont, $ot_busdmont, $ot_motivo, $ot_obs_aom, $ot_ca, $ot_date_ca, $ot_componente_raiz, $ot_obs_aom2, $ot_accidentes_id, $ot_semana_cierre, $ot_cod_vinculada, $array_data)
     {
         if($ot_kilometraje==""){
             $ot_kilometraje="0";
@@ -157,9 +157,9 @@ class Logico
 
         MModel($this->Modulo, 'CRUD');
         $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->CrearOT($cod_ot, $ot_origen, $ot_bus, $ot_kilometraje, $ot_date_crea, $ot_date_ct, $ot_asociado, $ot_hmotor, $ot_cgm_crea, $ot_cgm_ct, $ot_estado, $ot_resp_asoc, $ot_descrip, $ot_tecnico, $ot_check, $ot_obs_cgm, $ot_sistema, $ot_inicio, $ot_fin, $ot_codfalla, $ot_at, $ot_obs_asoc, $ot_montado, $ot_dmontado, $ot_busmont, $ot_busdmont, $ot_motivo, $ot_obs_aom, $ot_ca, $ot_date_ca, $ot_componente_raiz, $ot_obs_aom2, $ot_accidentes_id, $ot_semana_cierre, $ot_cod_vinculada);
+        $Respuesta=$InstanciaAjax->CrearOT($ot_id, $ot_origen, $ot_bus, $ot_kilometraje, $ot_date_crea, $ot_date_ct, $ot_asociado, $ot_hmotor, $ot_cgm_crea, $ot_cgm_ct, $ot_estado, $ot_resp_asoc, $ot_descrip, $ot_tecnico, $ot_check, $ot_obs_cgm, $ot_sistema, $ot_inicio, $ot_fin, $ot_codfalla, $ot_at, $ot_obs_asoc, $ot_montado, $ot_dmontado, $ot_busmont, $ot_busdmont, $ot_motivo, $ot_obs_aom, $ot_ca, $ot_date_ca, $ot_componente_raiz, $ot_obs_aom2, $ot_accidentes_id, $ot_semana_cierre, $ot_cod_vinculada);
 
-        $ht_cod_ot = $cod_ot;
+        $ht_ot_id = $ot_id;
         foreach($array_data as $row){
             $ht_tecnico_nombres = $row['tecnico_nombres'];
             $ht_hora_inicio     = $row['hora_inicio'];
@@ -167,11 +167,11 @@ class Logico
     
             MModel($this->Modulo, 'CRUD');
             $InstanciaAjax  = new CRUD();
-            $Respuesta      = $InstanciaAjax->crear_horas_tecnicos($ht_cod_ot, $ht_tecnico_nombres, $ht_hora_inicio, $ht_hora_fin);    
+            $Respuesta      = $InstanciaAjax->crear_horas_tecnicos($ht_ot_id, $ht_tecnico_nombres, $ht_hora_inicio, $ht_hora_fin);    
         }
     }
 
-    public function CargarVales($cod_ot)
+    public function CargarVales($ot_id)
     {
         $valeshtml = "";
         $TablaBD = "manto_vales";
@@ -179,7 +179,7 @@ class Logico
 
         MModel($this->Modulo,'CRUD');
         $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$cod_ot);
+        $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$ot_id);
         foreach ($Respuesta as $row) {
             $cod_vale = $row['cod_vale'];
             $va_asociado = $row['va_asociado'];
@@ -345,7 +345,7 @@ class Logico
         echo $validakm;
     }
 
-    public function EditarOT($cod_ot, $ot_origen, $ot_bus, $ot_kilometraje, $ot_date_crea, $ot_date_ct, $ot_asociado, $ot_hmotor, $ot_cgm_crea, $ot_cgm_ct, $ot_estado, $ot_resp_asoc, $ot_descrip, $ot_tecnico, $ot_check, $ot_obs_cgm, $ot_sistema, $ot_inicio, $ot_fin, $ot_codfalla, $ot_at, $ot_obs_asoc, $ot_montado, $ot_dmontado, $ot_busmont, $ot_busdmont, $ot_motivo, $ot_obs_aom, $ot_ca, $ot_date_ca, $ot_componente_raiz, $ot_obs_aom2, $ot_accidentes_id, $ot_semana_cierre, $ot_cod_vinculada, $array_data)
+    public function EditarOT($ot_id, $ot_origen, $ot_bus, $ot_kilometraje, $ot_date_crea, $ot_date_ct, $ot_asociado, $ot_hmotor, $ot_cgm_crea, $ot_cgm_ct, $ot_estado, $ot_resp_asoc, $ot_descrip, $ot_tecnico, $ot_check, $ot_obs_cgm, $ot_sistema, $ot_inicio, $ot_fin, $ot_codfalla, $ot_at, $ot_obs_asoc, $ot_montado, $ot_dmontado, $ot_busmont, $ot_busdmont, $ot_motivo, $ot_obs_aom, $ot_ca, $ot_date_ca, $ot_componente_raiz, $ot_obs_aom2, $ot_accidentes_id, $ot_semana_cierre, $ot_cod_vinculada, $array_data)
     {
         $TablaBD = "glo_roles";
         $CampoBD = "roles_nombrecorto";
@@ -373,13 +373,13 @@ class Logico
 
         MModel($this->Modulo,'CRUD');
         $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->EditarOT($cod_ot, $ot_origen, $ot_bus, $ot_kilometraje, $ot_date_crea, $ot_date_ct, $ot_asociado, $ot_hmotor, $ot_cgm_crea, $ot_cgm_ct, $ot_estado, $ot_resp_asoc, $ot_descrip, $ot_tecnico, $ot_check, $ot_obs_cgm, $ot_sistema, $ot_inicio, $ot_fin, $ot_codfalla, $ot_at, $ot_obs_asoc, $ot_montado, $ot_dmontado, $ot_busmont, $ot_busdmont, $ot_motivo, $ot_obs_aom, $ot_ca, $ot_date_ca, $ot_componente_raiz, $ot_obs_aom2, $ot_accidentes_id, $ot_semana_cierre, $ot_cod_vinculada);
+        $Respuesta=$InstanciaAjax->EditarOT($ot_id, $ot_origen, $ot_bus, $ot_kilometraje, $ot_date_crea, $ot_date_ct, $ot_asociado, $ot_hmotor, $ot_cgm_crea, $ot_cgm_ct, $ot_estado, $ot_resp_asoc, $ot_descrip, $ot_tecnico, $ot_check, $ot_obs_cgm, $ot_sistema, $ot_inicio, $ot_fin, $ot_codfalla, $ot_at, $ot_obs_asoc, $ot_montado, $ot_dmontado, $ot_busmont, $ot_busdmont, $ot_motivo, $ot_obs_aom, $ot_ca, $ot_date_ca, $ot_componente_raiz, $ot_obs_aom2, $ot_accidentes_id, $ot_semana_cierre, $ot_cod_vinculada);
 
 
-        $ht_cod_ot = $cod_ot;
+        $ht_ot_id = $ot_id;
         MModel($this->Modulo, 'CRUD');
         $InstanciaAjax  = new CRUD();
-        $Respuesta      = $InstanciaAjax->eliminar_horas_tecnicos($ht_cod_ot);
+        $Respuesta      = $InstanciaAjax->eliminar_horas_tecnicos($ht_ot_id);
 
         foreach($array_data as $row){
             $ht_tecnico_nombres = $row['tecnico_nombres'];
@@ -388,7 +388,7 @@ class Logico
     
             MModel($this->Modulo, 'CRUD');
             $InstanciaAjax  = new CRUD();
-            $Respuesta      = $InstanciaAjax->crear_horas_tecnicos($ht_cod_ot, $ht_tecnico_nombres, $ht_hora_inicio, $ht_hora_fin);    
+            $Respuesta      = $InstanciaAjax->crear_horas_tecnicos($ht_ot_id, $ht_tecnico_nombres, $ht_hora_inicio, $ht_hora_fin);    
         }
     }
 
@@ -435,7 +435,7 @@ class Logico
         echo $html;
     }
 
-    public function ver_ot($cod_ot)
+    public function ver_ot($ot_id)
     {
         $html       = "";
         $valeshtml  = "";
@@ -443,9 +443,9 @@ class Logico
         
         MModel($this->Modulo,'CRUD');
         $InstanciaAjax  = new CRUD();
-        $Respuesta      = $InstanciaAjax->ver_ot($cod_ot);
+        $Respuesta      = $InstanciaAjax->ver_ot($ot_id);
         foreach ($Respuesta as $row) {
-            $cod_ot             = $row['cod_ot'];
+            $ot_id             = $row['ot_id'];
             $ot_origen          = $row['ot_origen'];
             $ot_bus             = $row['ot_bus'];
             $ot_cgm_crea        = $row['ot_cgm_crea'];
@@ -505,7 +505,7 @@ class Logico
 
         MModel($this->Modulo,'CRUD');
         $InstanciaAjax  = new CRUD();
-        $Respuesta      = $InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$cod_ot);
+        $Respuesta      = $InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$ot_id);
         foreach ($Respuesta as $row) {
             $cod_vale       = $row['cod_vale'];
             $va_asociado    = $row['va_asociado'];
@@ -554,7 +554,7 @@ class Logico
                                             </div>	
                                             <div class="col-lg-3 border border-muted border-radius rounded d-flex align-items-center">
                                                 <div class="form-group form-control-sm mb-1 text-center">
-                                                    <h6 class="font-weight-bold">N° '.$cod_ot.'</h6>
+                                                    <h6 class="font-weight-bold">N° '.$ot_id.'</h6>
                                                 </div>
                                             </div>		
                                         </div>
@@ -829,13 +829,13 @@ class Logico
         echo $html;
     }
 
-    public function ver_vale($cod_ot)
+    public function ver_vale($ot_id)
     {
         $html = "";
         
         MModel($this->Modulo,'CRUD');
         $InstanciaAjax  = new CRUD();
-        $Respuesta      = $InstanciaAjax->ver_vale($cod_ot);
+        $Respuesta      = $InstanciaAjax->ver_vale($ot_id);
         foreach ($Respuesta as $row) {
             $cod_vale           = $row['cod_vale'];
             $va_ot              = $row['va_ot'];
@@ -1017,7 +1017,7 @@ class Logico
         $mi_carpeta = $_SERVER['DOCUMENT_ROOT']."/Services/Json";
         $date       = date('d-m-Y-'.substr((string)microtime(), 1, 8));
         $date       = str_replace(".", "", $date);
-        $filename   = "OTs".$ib_Tipo."_".$date;
+        $filename   = "OTs_".$date;
         $file_json  = $filename.".json";
         $data       = json_encode($Respuesta, JSON_UNESCAPED_UNICODE);
         file_put_contents($mi_carpeta."/".$file_json, $data);

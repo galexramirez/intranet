@@ -199,7 +199,7 @@ switch ($Accion)
 
       MController($Modulo,'Logico');
       $InstanciaAjax= new Logico();
-      $Respuesta=$InstanciaAjax->editar_pedido($pedido_id, $pedi_fechacreacion, $pedi_fecharequerimiento, $pedi_prioridad, $pedi_centrocosto, $pedi_proceso, $pedi_nombre_contacto, $pedi_direccion_entrega, $pedi_orden_compra_directa, $pedi_tipo, $pedi_estado, $pedi_log, $obs_log, $array_data);
+      $Respuesta=$InstanciaAjax->editar_pedido($pedido_id, $pedi_fechacreacion, $pedi_fecharequerimiento, $pedi_prioridad, $pedi_bus, $pedi_centrocosto, $pedi_proceso, $pedi_nombre_contacto, $pedi_direccion_entrega, $pedi_orden_compra_directa, $pedi_tipo, $pedi_estado, $pedi_log, $obs_log, $array_data);
    break;
 
    case 'estado_pedido':

@@ -145,9 +145,9 @@ $(document).ready(function(){
     ///:: EVENTO DEL BOTON EDITAR :::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
     $(document).on("click", ".btnEditarOT", function(){		
         fila_ot = $(this).closest('tr'); 
-        cod_ot = fila_ot.find('td:eq(1)').text();
-        cod_ot = cod_ot.substring(2);
-        $("#cod_ot").val(cod_ot);
+        ot_id = fila_ot.find('td:eq(1)').text();
+        ot_id = ot_id.substring(2);
+        $("#ot_id").val(ot_id);
         $('#nav-profile-tab').tab('show')
         document.getElementById("btnCargarOT").click();
         $("#ot_tecnico").focus().select();
@@ -159,13 +159,13 @@ $(document).ready(function(){
         let t_title = "";
         $("#form_modal_informacion").trigger("reset");
         fila_ot = $(this).closest('tr'); 
-        cod_ot  = fila_ot.find('td:eq(1)').text();
-        if(cod_ot.substring(0,1)=="C"){
+        ot_id  = fila_ot.find('td:eq(1)').text();
+        if(ot_id.substring(0,1)=="C"){
             t_title = "INFORMACION OTs CORRECTIVAS";
         }else{
             t_title = "INFORMACION OTs PREVENTIVAS";
         }
-        cod_ot  = cod_ot.substring(2);
+        ot_id  = ot_id.substring(2);
         
         Accion = 'ver_ot';
         $.ajax({
@@ -173,12 +173,12 @@ $(document).ready(function(){
           type: "POST",
           datatype:"json",
           async: false,    
-          data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,cod_ot:cod_ot},    
+          data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,ot_id:ot_id},    
           success: function(data){
             $("#div_info_detalle").html(data);
           }
         });
-        f_tabla_ver_horas_tecnicos(cod_ot);
+        f_tabla_ver_horas_tecnicos(ot_id);
         $(".modal-header").css( "background-color", "#17a2b8");
         $(".modal-header").css( "color", "white" );
         $(".modal-title").text(t_title);
@@ -195,8 +195,8 @@ $(document).ready(function(){
     $(document).on("click", ".btn_ver_vales", function(){		
         $("#form_modal_informacion").trigger("reset");
         fila_ot = $(this).closest('tr'); 
-        cod_ot  = fila_ot.find('td:eq(1)').text();
-        cod_ot  = cod_ot.substring(2);
+        ot_id  = fila_ot.find('td:eq(1)').text();
+        ot_id  = ot_id.substring(2);
         
         Accion = 'ver_vale';
         $.ajax({
@@ -204,7 +204,7 @@ $(document).ready(function(){
           type: "POST",
           datatype:"json",
           async: false,    
-          data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,cod_ot:cod_ot},    
+          data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,ot_id:ot_id},    
           success: function(data){
             $("#div_info_detalle").html(data);
           }
@@ -298,8 +298,8 @@ function f_ot_observadas(){
     return rpta_ot_observadas;
 }
 
-function f_editar_ot(p_cod_ot){
-    $("#cod_ot").val(p_cod_ot);
+function f_editar_ot(p_ot_id){
+    $("#ot_id").val(p_ot_id);
     $('#nav-profile-tab').tab('show')
     document.getElementById("btnCargarOT").click();
     $("#ot_tecnico").focus().select();

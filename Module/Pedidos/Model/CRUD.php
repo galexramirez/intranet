@@ -192,7 +192,7 @@ class CRUD
 	function crear_material_pedido($mp_pedidoid, $mp_materialid, $mp_unidadmedida, $mp_cantidad, $mp_bus, $mp_observaciones)
 	{
 		$consulta="INSERT INTO `manto_materialespedidos` (`mp_pedidoid`, `mp_materialid`, `mp_unidadmedida`, `mp_cantidad`, `mp_bus`, `mp_observaciones`) VALUES ('$mp_pedidoid','$mp_materialid','$mp_unidadmedida','$mp_cantidad','$mp_bus','$mp_observaciones')";
-		echo $consulta;
+
 		$resultado = $this->conexion->prepare($consulta);
         $resultado->execute();        
 		$this->conexion=null;
@@ -396,6 +396,7 @@ class CRUD
 	function editar_pedido_orden_compra($orco_pedidoid, $pedi_ordencompraid, $pedi_estado, $pedi_estado_obs, $pedi_log)
 	{
 		$consulta = "UPDATE `manto_pedidos` SET `pedi_ordencompraid` = '$pedi_ordencompraid', `pedi_estado` = '$pedi_estado', `pedi_estado_obs` = '$pedi_estado_obs', `pedi_log` = '$pedi_log'  WHERE `pedido_id`='$orco_pedidoid'";
+
 		$resultado = $this->conexion->prepare($consulta);
         $resultado->execute();        
 

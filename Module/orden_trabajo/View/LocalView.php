@@ -111,7 +111,7 @@
 								<div class="input-group mt-3">
 							  		<div class="input-group-prepend">
        									<span class="input-group-text form-control-sm" id="basic-addon1">OT N° P-</span>
-        								<input type="text" class="form-control form-control-sm" id="cod_ot" placeholder="Código OT" aria-label="cod_ot" aria-describedby="basic-addon1">
+        								<input type="text" class="form-control form-control-sm" id="ot_id" placeholder="Código OT" aria-label="ot_id" aria-describedby="basic-addon1">
 							  		</div>
       							</div>
 							</div>

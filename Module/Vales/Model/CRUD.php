@@ -19,7 +19,7 @@ class CRUD
 
 	function LeerVales($FechaInicioVales,$FechaTerminoVales)
 	{
-		$consulta = "SELECT `cod_vale`, IF(`va_ot`='0','',`va_ot`) AS `va_ot`, `manto_ot`.`ot_bus` AS `va_bus`, `manto_ot`.`ot_origen` AS `va_origen`, `va_asociado`, `va_responsable`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`va_genera` LIMIT 1) AS `va_genera`, DATE_FORMAT(`va_date_genera`,'%d-%m-%Y %H:%i') AS `va_date_genera`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`va_cierra` LIMIT 1) AS `va_cierra`, DATE_FORMAT(`va_date_cierra`,'%d-%m-%Y %H:%i') AS `va_date_cierra`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`va_cierre_adm` LIMIT 1) AS `va_cierre_adm`, DATE_FORMAT(`va_date_cierre_adm`,'%d-%m-%Y %H:%i') AS `va_date_cierre_adm`, `va_estado` FROM `manto_vales` LEFT JOIN `manto_ot` ON `cod_ot`=`va_ot` WHERE DATE_FORMAT(`va_date_genera`,'%Y-%m-%d')>='$FechaInicioVales' AND DATE_FORMAT(`va_date_genera`,'%Y-%m-%d')<='$FechaTerminoVales'";
+		$consulta = "SELECT `cod_vale`, IF(`va_ot_id`='0','',`va_ot_id`) AS `va_ot_id`, `manto_ot`.`ot_bus` AS `va_bus`, `manto_ot`.`ot_origen` AS `va_origen`, `va_asociado`, `va_responsable`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`va_genera` LIMIT 1) AS `va_genera`, DATE_FORMAT(`va_date_genera`,'%d-%m-%Y %H:%i') AS `va_date_genera`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`va_cierra` LIMIT 1) AS `va_cierra`, DATE_FORMAT(`va_date_cierra`,'%d-%m-%Y %H:%i') AS `va_date_cierra`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`va_cierre_adm` LIMIT 1) AS `va_cierre_adm`, DATE_FORMAT(`va_date_cierre_adm`,'%d-%m-%Y %H:%i') AS `va_date_cierre_adm`, `va_estado` FROM `manto_vales` LEFT JOIN `manto_ot` ON `ot_id`=`va_ot_id` WHERE DATE_FORMAT(`va_date_genera`,'%Y-%m-%d')>='$FechaInicioVales' AND DATE_FORMAT(`va_date_genera`,'%Y-%m-%d')<='$FechaTerminoVales'";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();        
@@ -41,15 +41,15 @@ class CRUD
 		$this->conexion=null;
 	}
 	
-	function generar_vales($cod_vale, $va_ot, $va_genera, $va_date_genera, $va_asociado, $va_responsable, $va_garantia, $va_obs_cgm, $va_obs_aom, $va_estado, $nombre_cierre_adm)
+	function generar_vales($cod_vale, $va_ot_id, $va_genera, $va_date_genera, $va_asociado, $va_responsable, $va_garantia, $va_obs_cgm, $va_obs_aom, $va_estado, $nombre_cierre_adm)
 	{
         $va_cierre_adm = $_SESSION['USUARIO_ID'];
 		$va_date_cierre_adm = date("Y-m-d H:i:s");
 		$va_obs_aom = date_format(date_create($va_date_cierre_adm),"d-m-Y H:i")." ".$nombre_cierre_adm.": Registro Sistema ".$va_obs_aom;
-		if($va_ot==""){
-			$va_ot='0';
+		if($va_ot_id==""){
+			$va_ot_id='0';
 		}
-		$consulta="INSERT INTO `manto_vales`(`cod_vale`, `va_ot`, `va_genera`, `va_date_genera`, `va_asociado`, `va_responsable`, `va_cierre_adm`, `va_date_cierre_adm`, `va_garantia`, `va_obs_cgm`, `va_obs_aom`, `va_estado`) VALUES ('$cod_vale', '$va_ot', '$va_genera', '$va_date_genera', '$va_asociado', '$va_responsable', '$va_cierre_adm', '$va_date_cierre_adm', '$va_garantia', '$va_obs_cgm', '$va_obs_aom', '$va_estado')";
+		$consulta="INSERT INTO `manto_vales`(`cod_vale`, `va_ot_id`, `va_genera`, `va_date_genera`, `va_asociado`, `va_responsable`, `va_cierre_adm`, `va_date_cierre_adm`, `va_garantia`, `va_obs_cgm`, `va_obs_aom`, `va_estado`) VALUES ('$cod_vale', '$va_ot_id', '$va_genera', '$va_date_genera', '$va_asociado', '$va_responsable', '$va_cierre_adm', '$va_date_cierre_adm', '$va_garantia', '$va_obs_cgm', '$va_obs_aom', '$va_estado')";
 
 		$resultado = $this->conexion->prepare($consulta);
         $resultado->execute();        
@@ -77,7 +77,7 @@ class CRUD
 
 	function cargar_vales($cod_vale)
 	{
-		$consulta="SELECT `cod_vale`, `va_ot`, `manto_ot`.`ot_bus` AS `va_bus`, `manto_ot`.`ot_origen` AS `va_origen`, `va_asociado`, `va_responsable`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`va_genera` LIMIT 1) AS `va_genera`, `va_date_genera`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`va_cierre_adm` LIMIT 1) AS `va_cierre_adm`, `va_date_cierre_adm`, `va_estado`, `va_garantia`, CONCAT(`manto_ot`.`ot_origen`,' - ',`manto_ot`.`ot_descrip`) AS `va_descrip`, `va_obs_cgm`, `va_obs_aom` FROM `manto_vales` LEFT JOIN `manto_ot` ON `cod_ot`=`va_ot` WHERE `cod_vale`='$cod_vale'";
+		$consulta="SELECT `cod_vale`, `va_ot_id`, `manto_ot`.`ot_bus` AS `va_bus`, `manto_ot`.`ot_origen` AS `va_origen`, `va_asociado`, `va_responsable`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`va_genera` LIMIT 1) AS `va_genera`, `va_date_genera`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`va_cierre_adm` LIMIT 1) AS `va_cierre_adm`, `va_date_cierre_adm`, `va_estado`, `va_garantia`, CONCAT(`manto_ot`.`ot_origen`,' - ',`manto_ot`.`ot_descrip`) AS `va_descrip`, `va_obs_cgm`, `va_obs_aom` FROM `manto_vales` LEFT JOIN `manto_ot` ON `ot_id`=`va_ot_id` WHERE `cod_vale`='$cod_vale'";
 
 		$resultado = $this->conexion->prepare($consulta);
         $resultado->execute();
@@ -146,13 +146,13 @@ class CRUD
 		$this->conexion=null;
 	}
 
-	function editar_vales($cod_vale, $va_ot, $va_genera, $va_date_genera, $va_asociado, $va_responsable, $va_garantia, $va_obs_cgm, $tva_obs_aom, $va_obs_aom, $va_estado, $nombre_cierre_adm)
+	function editar_vales($cod_vale, $va_ot_id, $va_genera, $va_date_genera, $va_asociado, $va_responsable, $va_garantia, $va_obs_cgm, $tva_obs_aom, $va_obs_aom, $va_estado, $nombre_cierre_adm)
 	{
         $va_cierre_adm 		= $_SESSION['USUARIO_ID'];
 		$va_date_cierre_adm = date("Y-m-d H:i:s");
 		$va_obs_aom 		= $va_estado." ".date_format(date_create($va_date_cierre_adm),"d-m-Y H:i")." ".$nombre_cierre_adm." Editar: ".$va_obs_aom."<br>".$tva_obs_aom;
 
-		$consulta = "UPDATE `manto_vales` SET `va_ot`=IF('$va_ot'='','0','$va_ot'),`va_genera`='$va_genera',`va_date_genera`='$va_date_genera',`va_asociado`='$va_asociado',`va_responsable`='$va_responsable',`va_cierre_adm`='$va_cierre_adm',`va_date_cierre_adm`='$va_date_cierre_adm',`va_garantia`='$va_garantia', `va_obs_cgm`='$va_obs_cgm', `va_obs_aom`='$va_obs_aom', `va_estado`='$va_estado' WHERE `cod_vale`='$cod_vale'";
+		$consulta = "UPDATE `manto_vales` SET `va_ot_id`=IF('$va_ot_id'='','0','$va_ot_id'),`va_genera`='$va_genera',`va_date_genera`='$va_date_genera',`va_asociado`='$va_asociado',`va_responsable`='$va_responsable',`va_cierre_adm`='$va_cierre_adm',`va_date_cierre_adm`='$va_date_cierre_adm',`va_garantia`='$va_garantia', `va_obs_cgm`='$va_obs_cgm', `va_obs_aom`='$va_obs_aom', `va_estado`='$va_estado' WHERE `cod_vale`='$cod_vale'";
 
 		$resultado = $this->conexion->prepare($consulta);
         $resultado->execute();        
@@ -294,12 +294,12 @@ class CRUD
 
 	function LeerReporte($FechaInicioReporte,$FechaTerminoReporte)
 	{
-		//$consulta = "SELECT `manto_vales`.`cod_vale`, `manto_vales`.`va_estado`, `manto_vales`.`va_ot`, `manto_vales`.`va_asociado`, `manto_vales`.`va_responsable`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`manto_vales`.`va_genera` LIMIT 1) AS `va_genera`, DATE_FORMAT(`manto_vales`.`va_date_genera`,'%Y-%m-%d') AS `va_date_genera`, `manto_vales`.`va_obs_cgm`, `manto_vales`.`va_garantia`, `manto_ot`.`ot_bus`, `manto_ot`.`ot_origen`, `manto_ot`.`ot_descrip`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`manto_vales`.`va_cierre_adm` LIMIT 1) AS `va_cierre_adm`, DATE_FORMAT(`manto_vales`.`va_date_cierre_adm`,'%Y-%m-%d') AS `va_date_cierre_adm`, TIME_FORMAT(`manto_vales`.`va_date_cierre_adm`,'%H:%i') AS `va_time_cierre_adm`, `manto_vales`.`va_obs_aom`, `manto_rep_vale`.`rv_repuesto`, `manto_rep_vale`.`rv_cantidad`, `manto_repuestos`.`rep_desc`, `manto_repuestos`.`rep_unida` AS `rep_unidad` FROM `manto_rep_vale`, `manto_repuestos`, `manto_vales` LEFT JOIN `manto_ot` ON `manto_vales`.`va_ot`=`manto_ot`.`cod_ot` WHERE `manto_vales`.`va_date_genera`>='$FechaInicioReporte' AND `manto_vales`.`va_date_genera`<='$FechaTerminoReporte' AND `manto_vales`.`cod_vale`=`manto_rep_vale`.`rv_vale` AND `manto_rep_vale`.`rv_repuesto`=`manto_repuestos`.`cod_rep` ORDER BY `manto_vales`.`va_date_genera`, `manto_vales`.`cod_vale` ASC";
+		//$consulta = "SELECT `manto_vales`.`cod_vale`, `manto_vales`.`va_estado`, `manto_vales`.`va_ot_id`, `manto_vales`.`va_asociado`, `manto_vales`.`va_responsable`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`manto_vales`.`va_genera` LIMIT 1) AS `va_genera`, DATE_FORMAT(`manto_vales`.`va_date_genera`,'%Y-%m-%d') AS `va_date_genera`, `manto_vales`.`va_obs_cgm`, `manto_vales`.`va_garantia`, `manto_ot`.`ot_bus`, `manto_ot`.`ot_origen`, `manto_ot`.`ot_descrip`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`manto_vales`.`va_cierre_adm` LIMIT 1) AS `va_cierre_adm`, DATE_FORMAT(`manto_vales`.`va_date_cierre_adm`,'%Y-%m-%d') AS `va_date_cierre_adm`, TIME_FORMAT(`manto_vales`.`va_date_cierre_adm`,'%H:%i') AS `va_time_cierre_adm`, `manto_vales`.`va_obs_aom`, `manto_rep_vale`.`rv_repuesto`, `manto_rep_vale`.`rv_cantidad`, `manto_repuestos`.`rep_desc`, `manto_repuestos`.`rep_unida` AS `rep_unidad` FROM `manto_rep_vale`, `manto_repuestos`, `manto_vales` LEFT JOIN `manto_ot` ON `manto_vales`.`va_ot_id`=`manto_ot`.`ot_id` WHERE `manto_vales`.`va_date_genera`>='$FechaInicioReporte' AND `manto_vales`.`va_date_genera`<='$FechaTerminoReporte' AND `manto_vales`.`cod_vale`=`manto_rep_vale`.`rv_vale` AND `manto_rep_vale`.`rv_repuesto`=`manto_repuestos`.`cod_rep` ORDER BY `manto_vales`.`va_date_genera`, `manto_vales`.`cod_vale` ASC";
 
 		$consulta = "(SELECT 
 						`manto_vales`.`cod_vale`, 
 						`manto_vales`.`va_estado`, 
-						`manto_vales`.`va_ot`, 
+						`manto_vales`.`va_ot_id`, 
 						`manto_vales`.`va_asociado`, 
 						`manto_vales`.`va_responsable`, 
 						(SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`manto_vales`.`va_genera` LIMIT 1) AS `va_genera`,
@@ -324,7 +324,7 @@ class CRUD
 					LEFT JOIN
 						`manto_ot`
 					ON
-						`manto_vales`.`va_ot`=`manto_ot`.`cod_ot`
+						`manto_vales`.`va_ot_id`=`manto_ot`.`ot_id`
 					WHERE 
 						`manto_vales`.`va_date_genera`>='$FechaInicioReporte' AND
 						`manto_vales`.`va_date_genera`<='$FechaTerminoReporte' AND
@@ -337,7 +337,7 @@ class CRUD
 					(SELECT
 						`manto_vales`.`cod_vale`, 
 						`manto_vales`.`va_estado`, 
-						`manto_vales`.`va_ot`, 
+						`manto_vales`.`va_ot_id`, 
 						`manto_vales`.`va_asociado`, 
 						`manto_vales`.`va_responsable`, 
 						(SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`manto_vales`.`va_genera` LIMIT 1) AS `va_genera`,
@@ -360,7 +360,7 @@ class CRUD
 					LEFT JOIN
 						`manto_ot`
 					ON
-						`manto_vales`.`va_ot`=`manto_ot`.`cod_ot`
+						`manto_vales`.`va_ot_id`=`manto_ot`.`ot_id`
 					WHERE
 						NOT EXISTS (
 							SELECT 
@@ -399,7 +399,7 @@ class CRUD
 		$consulta = "SELECT 
 							`manto_vales`.`cod_vale`, 
 							`manto_vales`.`va_estado`, 
-							`manto_vales`.`va_ot`, 
+							`manto_vales`.`va_ot_id`, 
 							`manto_vales`.`va_asociado`, 
 							`manto_vales`.`va_responsable`, 
 							(SELECT `colaborador`.`Colab_nombre_corto` FROM `colaborador` WHERE `colaborador`.`Colaborador_Id`=`manto_vales`.`va_genera`) AS `va_genera`,
@@ -425,7 +425,7 @@ class CRUD
 						LEFT JOIN `manto_repuestos`
 						ON `manto_repuestos`.`cod_rep`=`manto_rep_vale`.`rv_repuesto`
 						LEFT JOIN `manto_ot`
-						ON `manto_vales`.`va_ot`=`manto_ot`.`cod_ot`
+						ON `manto_vales`.`va_ot_id`=`manto_ot`.`ot_id`
 						WHERE 
 							DATE_FORMAT(`manto_vales`.`va_date_genera`,'%Y-%m-%d')>='$FechaInicioVales' AND
 							DATE_FORMAT(`manto_vales`.`va_date_genera`,'%Y-%m-%d')<='$FechaTerminoVales'
