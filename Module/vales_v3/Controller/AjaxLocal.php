@@ -111,7 +111,7 @@ switch ($Accion)
 
    case 'generar_vales':
       $cod_vale         = $_POST['cod_vale'];
-      $va_ot            = $_POST['va_ot'];
+      $va_ot_id            = $_POST['va_ot_id'];
       $va_genera        = $_POST['va_genera'];
       $va_date_genera   = $_POST['va_date_genera'];
       $va_asociado      = $_POST['va_asociado'];
@@ -126,12 +126,12 @@ switch ($Accion)
 
       MController($Modulo,'Logico');
       $InstanciaAjax= new Logico();
-      $Respuesta=$InstanciaAjax->generar_vales($cod_vale, $va_ot, $va_genera, $va_date_genera, $va_asociado, $va_responsable, $va_garantia, $va_obs_cgm, $tva_obs_aom, $va_obs_aom, $va_estado, $va_tipo, $array_data);
+      $Respuesta=$InstanciaAjax->generar_vales($cod_vale, $va_ot_id, $va_genera, $va_date_genera, $va_asociado, $va_responsable, $va_garantia, $va_obs_cgm, $tva_obs_aom, $va_obs_aom, $va_estado, $va_tipo, $array_data);
    break;
 
    case 'editar_vales':
       $cod_vale         = $_POST['cod_vale'];
-      $va_ot            = $_POST['va_ot'];
+      $va_ot_id            = $_POST['va_ot_id'];
       $va_genera        = $_POST['va_genera'];
       $va_date_genera   = $_POST['va_date_genera'];
       $va_asociado      = $_POST['va_asociado'];
@@ -146,7 +146,7 @@ switch ($Accion)
 
       MController($Modulo,'Logico');
       $InstanciaAjax = new Logico();
-      $Respuesta     = $InstanciaAjax->editar_vales($cod_vale, $va_ot, $va_genera, $va_date_genera, $va_asociado, $va_responsable, $va_garantia, $va_obs_cgm, $tva_obs_aom, $va_obs_aom, $va_estado, $va_tipo, $array_data);
+      $Respuesta     = $InstanciaAjax->editar_vales($cod_vale, $va_ot_id, $va_genera, $va_date_genera, $va_asociado, $va_responsable, $va_garantia, $va_obs_cgm, $tva_obs_aom, $va_obs_aom, $va_estado, $va_tipo, $array_data);
    break;
 
    case 'cargar_vales':

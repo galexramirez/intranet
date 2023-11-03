@@ -136,7 +136,7 @@ $(document).ready(function(){
         $("#cod_vale").val(cod_vale);
         $('#nav-profile-tab').tab('show');
         document.getElementById("btn_cargar_vales").click();
-        $("#va_ot").focus().select();
+        $("#va_ot_id").focus().select();
     });
     ///:: FIN EVENTO DEL BOTON EDITAR :::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
@@ -157,7 +157,7 @@ $(document).ready(function(){
             data = $.parseJSON(data);
             $.each(data, function(idx, obj){ 
                 icod_vale           = obj.cod_vale;
-                iva_ot              = obj.va_ot;
+                iva_ot_id              = obj.va_ot_id;
                 iva_genera          = obj.va_genera;
                 iva_date_genera     = obj.va_date_genera;
                 iva_asociado        = obj.va_asociado;
@@ -174,7 +174,7 @@ $(document).ready(function(){
           }
         });
         $('#icod_vale').text(icod_vale);
-        $('#iva_ot').text(iva_ot);
+        $('#iva_ot_id').text(iva_ot_id);
         $('#iva_genera').text(iva_genera);
         $('#iva_date_genera').text(iva_date_genera);
         $('#iva_asociado').text(iva_asociado);
@@ -312,7 +312,7 @@ function f_editar_vales(p_cod_vale){
     $("#cod_vale").val(p_cod_vale);
     $('#nav-profile-tab').tab('show');
     document.getElementById("btn_cargar_vales").click();
-    $("#va_ot").focus().select();
+    $("#va_ot_id").focus().select();
 }
 
 function f_imprimir_documento(){

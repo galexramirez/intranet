@@ -11,7 +11,7 @@ class Logico
 			
 	}
 
-    public function generar_vales($cod_vale, $va_ot_id, $va_genera, $va_date_genera, $va_asociado, $va_responsable, $va_garantia, $va_obs_cgm, $tva_obs_aom, $va_obs_aom, $va_estado, $array_data)
+    public function generar_vales($cod_vale, $va_ot, $va_genera, $va_date_genera, $va_asociado, $va_responsable, $va_garantia, $va_obs_cgm, $tva_obs_aom, $va_obs_aom, $va_estado, $array_data)
 	{
         $TablaBD = "glo_roles";
         $CampoBD = "roles_dni";
@@ -37,7 +37,7 @@ class Logico
 
         MModel($this->Modulo, 'CRUD');
         $InstanciaAjax  = new CRUD();
-        $Respuesta      = $InstanciaAjax->generar_vales($cod_vale, $va_ot_id, $va_genera, $va_date_genera, $va_asociado, $va_responsable, $va_garantia, $va_obs_cgm, $va_obs_aom, $va_estado, $nombre_cierre_adm);
+        $Respuesta      = $InstanciaAjax->generar_vales($cod_vale, $va_ot, $va_genera, $va_date_genera, $va_asociado, $va_responsable, $va_garantia, $va_obs_cgm, $va_obs_aom, $va_estado, $nombre_cierre_adm);
 
         $rv_vale = $cod_vale;
 
@@ -65,7 +65,7 @@ class Logico
         }
     }
 
-    public function editar_vales($cod_vale, $va_ot_id, $va_genera, $va_date_genera, $va_asociado, $va_responsable, $va_garantia, $va_obs_cgm, $tva_obs_aom, $va_obs_aom, $va_estado, $array_data)
+    public function editar_vales($cod_vale, $va_ot, $va_genera, $va_date_genera, $va_asociado, $va_responsable, $va_garantia, $va_obs_cgm, $tva_obs_aom, $va_obs_aom, $va_estado, $array_data)
 	{
     
         $va_cierre_adm  = $_SESSION['USUARIO_ID'];
@@ -94,7 +94,7 @@ class Logico
 
         MModel($this->Modulo, 'CRUD');
         $InstanciaAjax  = new CRUD();
-        $Respuesta      = $InstanciaAjax->editar_vales($cod_vale, $va_ot_id, $va_genera, $va_date_genera, $va_asociado, $va_responsable, $va_garantia, $va_obs_cgm, $tva_obs_aom, $va_obs_aom, $va_estado, $nombre_cierre_adm);
+        $Respuesta      = $InstanciaAjax->editar_vales($cod_vale, $va_ot, $va_genera, $va_date_genera, $va_asociado, $va_responsable, $va_garantia, $va_obs_cgm, $tva_obs_aom, $va_obs_aom, $va_estado, $nombre_cierre_adm);
 
         MModel($this->Modulo, 'CRUD');
         $InstanciaAjax  = new CRUD();
@@ -171,23 +171,23 @@ class Logico
         echo $va_responsable;
     }
 
-    public function BuscarOT($va_ot_id)
+    public function BuscarOT($va_ot)
     {
         $rpta_ot        = "";
         $rpta_bus       = "";
         $rpta_descrip   = "";
 
         $TablaBD = "manto_ot";
-        $CampoBD = "ot_id";
+        $CampoBD = "cod_ot";
         MModel($this->Modulo,'CRUD');
         $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$va_ot_id);
+        $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$va_ot);
         foreach ($Respuesta as $row) {
-            $rpta_ot        = $row['ot_id'];
+            $rpta_ot        = $row['cod_ot'];
             $rpta_bus       = $row['ot_bus'];
             $rpta_descrip   = $row['ot_origen']." - ".$row['ot_descrip'];
         }
-        $data[] = ["va_ot_id" => $rpta_ot, "va_bus" => $rpta_bus, "va_descrip" => $rpta_descrip];
+        $data[] = ["va_ot" => $rpta_ot, "va_bus" => $rpta_bus, "va_descrip" => $rpta_descrip];
 
 		print json_encode($data, JSON_UNESCAPED_UNICODE);//envio el array final el formato json a AJAX
 

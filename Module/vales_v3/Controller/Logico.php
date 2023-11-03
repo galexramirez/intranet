@@ -1,5 +1,4 @@
 <?php
-//session_start();
 class Logico
 {
 	var $Modulo = "vales_v3";
@@ -11,7 +10,7 @@ class Logico
 			
 	}
 
-    public function generar_vales($cod_vale, $va_ot, $va_genera, $va_date_genera, $va_asociado, $va_responsable, $va_garantia, $va_obs_cgm, $tva_obs_aom, $va_obs_aom, $va_estado, $va_tipo, $array_data)
+    public function generar_vales($cod_vale, $va_ot_id, $va_genera, $va_date_genera, $va_asociado, $va_responsable, $va_garantia, $va_obs_cgm, $tva_obs_aom, $va_obs_aom, $va_estado, $va_tipo, $array_data)
 	{
         $TablaBD = "colaborador";
         $CampoBD = "Colaborador_id";
@@ -48,7 +47,7 @@ class Logico
 
         MModel($this->Modulo, 'CRUD');
         $InstanciaAjax  = new CRUD();
-        $Respuesta      = $InstanciaAjax->generar_vales($cod_vale, $va_ot, $va_genera, $va_date_genera, $va_asociado, $va_responsable, $va_garantia, $va_obs_cgm, $va_obs_aom, $va_estado, $nombre_cierre_adm, $va_tipo, $va_ruc);
+        $Respuesta      = $InstanciaAjax->generar_vales($cod_vale, $va_ot_id, $va_genera, $va_date_genera, $va_asociado, $va_responsable, $va_garantia, $va_obs_cgm, $va_obs_aom, $va_estado, $nombre_cierre_adm, $va_tipo, $va_ruc);
 
         $rv_vale = $cod_vale;
 
@@ -89,7 +88,7 @@ class Logico
         }
     }
 
-    public function editar_vales($cod_vale, $va_ot, $va_genera, $va_date_genera, $va_asociado, $va_responsable, $va_garantia, $va_obs_cgm, $tva_obs_aom, $va_obs_aom, $va_estado, $va_tipo, $array_data)
+    public function editar_vales($cod_vale, $va_ot_id, $va_genera, $va_date_genera, $va_asociado, $va_responsable, $va_garantia, $va_obs_cgm, $tva_obs_aom, $va_obs_aom, $va_estado, $va_tipo, $array_data)
 	{
     
         $va_cierre_adm  = $_SESSION['USUARIO_ID'];
@@ -129,7 +128,7 @@ class Logico
 
         MModel($this->Modulo, 'CRUD');
         $InstanciaAjax  = new CRUD();
-        $Respuesta      = $InstanciaAjax->editar_vales($cod_vale, $va_ot, $va_genera, $va_date_genera, $va_asociado, $va_responsable, $va_garantia, $va_obs_cgm, $tva_obs_aom, $va_obs_aom, $va_estado, $nombre_cierre_adm, $va_tipo, $va_ruc);
+        $Respuesta      = $InstanciaAjax->editar_vales($cod_vale, $va_ot_id, $va_genera, $va_date_genera, $va_asociado, $va_responsable, $va_garantia, $va_obs_cgm, $tva_obs_aom, $va_obs_aom, $va_estado, $nombre_cierre_adm, $va_tipo, $va_ruc);
 
         MModel($this->Modulo, 'CRUD');
         $InstanciaAjax  = new CRUD();
@@ -189,7 +188,6 @@ class Logico
                 }
             break;
             
-            //default: ;
         }
         echo $rptaFecha;
     }
@@ -258,7 +256,7 @@ class Logico
         $mi_carpeta = $_SERVER['DOCUMENT_ROOT']."/Services/Json";
         $date       = date('d-m-Y-'.substr((string)microtime(), 1, 8));
         $date       = str_replace(".", "", $date);
-        $filename   = "Vales".$ib_Tipo."_".$date;
+        $filename   = "Vales_".$date;
         $file_json  = $filename.".json";
         $data       = json_encode($Respuesta, JSON_UNESCAPED_UNICODE);
         file_put_contents($mi_carpeta."/".$file_json, $data);

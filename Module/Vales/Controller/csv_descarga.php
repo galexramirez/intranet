@@ -48,7 +48,7 @@ foreach ($data as $row) {
     $data_array[] = [
         $row['cod_vale'],
         $row['va_estado'],
-        $row['va_ot_id'],
+        $row['va_ot'],
         $row['ot_bus'],
         $row['ot_origen'],
         $row['va_asociado'],

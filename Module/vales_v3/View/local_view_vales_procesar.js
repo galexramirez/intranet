@@ -4,7 +4,7 @@
 ///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///:: DECLARACION DE VARIABLES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-var cod_vale, va_ot, va_genera, va_date_genera, va_asociado, va_responsable, va_obs_cgm, va_cierre_adm, va_date_cierre_adm, va_obs_aom, va_estado, va_garantia, va_bus, tva_estado, va_descrip, tva_obs_aom, opcion_vales, va_tipo, va_ruc;
+var cod_vale, va_ot_id, va_genera, va_date_genera, va_asociado, va_responsable, va_obs_cgm, va_cierre_adm, va_date_cierre_adm, va_obs_aom, va_estado, va_garantia, va_bus, tva_estado, va_descrip, tva_obs_aom, opcion_vales, va_tipo, va_ruc;
 var vale_ot_estado;
 ///:: TERMINO DECLARACION DE VARIABLES ::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
@@ -36,20 +36,20 @@ $(document).ready(function(){
   });
 
   ///:: SI HAY CAMBIOS EN N° OT SE ACTUALIZA BUS Y DESCRIPCION ::::::::::::::::::::::::::::///
-  $("#va_ot").on('change', function () {
-    va_ot          = $("#va_ot").val();
+  $("#va_ot_id").on('change', function () {
+    va_ot_id          = $("#va_ot_id").val();
     va_bus         = "";
     va_descrip     = "";
     vale_ot_estado = "REGISTRADO";
 
-    a_data = f_BuscarDataBD("manto_ot", "cod_ot", va_ot);
+    a_data = f_BuscarDataBD("manto_ot", "ot_id", va_ot_id);
     $.each(a_data, function(idx, obj){
-      va_ot       = obj.cod_ot;
+      va_ot_id       = obj.ot_id;
       va_bus      = obj.ot_bus;
       va_descrip  = obj.ot_origen + " - " + obj.ot_descrip;
     });
     if(a_data.length == 0){
-      va_ot           = $("#va_ot").val();
+      va_ot_id           = $("#va_ot_id").val();
       vale_ot_estado  = "NO REGISTRADO";
       Swal.fire({
         position          : 'center',
@@ -60,7 +60,7 @@ $(document).ready(function(){
       })
     }
 
-    $("#va_ot").val(va_ot);
+    $("#va_ot_id").val(va_ot_id);
     $("#va_bus").val(va_bus);
     $("#va_descrip").val(va_descrip);
   });
@@ -113,7 +113,7 @@ $(document).ready(function(){
               $("#va_responsable").val(va_responsable);
             }
             $("#form_procesar_vales").show();
-            $("#va_ot").focus().select();
+            $("#va_ot_id").focus().select();
             f_CargaVariablesHtmlVales();
             opcion_vales  = "EDITAR"; 
             div_show      = f_MostrarDiv("form_seleccionar_procesar_vales","btn_seleccion_procesar_vales", "vacio","");
@@ -133,7 +133,7 @@ $(document).ready(function(){
             {
               if(result.isConfirmed){
                 $("#form_procesar_vales").show();
-                $("#va_ot").focus().select();
+                $("#va_ot_id").focus().select();
                 f_CargaVariablesHtmlVales();
                 opcion_vales  = "CREAR";
                 div_show      = f_MostrarDiv("form_seleccionar_procesar_vales","btn_seleccion_procesar_vales", "vacio","");
@@ -142,7 +142,7 @@ $(document).ready(function(){
             });
           }
           // SE HABILITAN LOS CAMPOS DE CABECERA
-          $("#va_ot").prop("disabled",false);
+          $("#va_ot_id").prop("disabled",false);
           $("#va_asociado").prop("disabled",false);
           $("#va_responsable").prop("disabled",false);
           $("#va_garantia").prop("disabled",false);
@@ -168,7 +168,7 @@ $(document).ready(function(){
     let grabar_vale       = "";
     vale_ot_estado        = "REGISTRADO";
     cod_vale              = $('#cod_vale').val();
-    va_ot                 = $('#va_ot').val();
+    va_ot_id                 = $('#va_ot_id').val();
     va_genera             = $('#va_genera').val();
     va_date_genera        = $('#va_date_genera').val();
     va_asociado           = $('#va_asociado').val();
@@ -182,7 +182,7 @@ $(document).ready(function(){
     $("#va_date_genera").removeClass("color-error");
     $("#va_estado").removeClass("color-error");
 
-    a_data = f_BuscarDataBD("manto_ot", "cod_ot", va_ot);
+    a_data = f_BuscarDataBD("manto_ot", "ot_id", va_ot_id);
     $.each(array_vales_repuestos, function(idx, obj){ 
       rv_repuesto = obj.rv_repuesto;
       rpta_data = f_BuscarDataBD("manto_preciosproveedor", "precioprov_codproveedor", rv_repuesto);
@@ -252,7 +252,7 @@ $(document).ready(function(){
         type            : "POST",
         datatype        : "json",
         async           : false,
-        data            : { MoS:MoS,NombreMoS:NombreMoS,Accion:Accion, cod_vale:cod_vale, va_ot:va_ot, va_genera:va_genera, va_date_genera:va_date_genera, va_asociado:va_asociado, va_responsable, va_responsable, va_garantia:va_garantia, va_obs_cgm:va_obs_cgm, tva_obs_aom:tva_obs_aom, va_obs_aom:va_obs_aom, va_estado:va_estado, va_tipo:va_tipo, array_data:array_data },
+        data            : { MoS:MoS,NombreMoS:NombreMoS,Accion:Accion, cod_vale:cod_vale, va_ot_id:va_ot_id, va_genera:va_genera, va_date_genera:va_date_genera, va_asociado:va_asociado, va_responsable, va_responsable, va_garantia:va_garantia, va_obs_cgm:va_obs_cgm, tva_obs_aom:tva_obs_aom, va_obs_aom:va_obs_aom, va_estado:va_estado, va_tipo:va_tipo, array_data:array_data },
         success         : function(data){
 
         }
@@ -310,7 +310,7 @@ $(document).ready(function(){
           data = $.parseJSON(data);
           $.each(data, function(idx, obj){ 
               ipcod_vale           = obj.cod_vale;
-              ipva_ot              = obj.va_ot;
+              ipva_ot_id              = obj.va_ot_id;
               ipva_genera          = obj.va_genera;
               ipva_date_genera     = obj.va_date_genera;
               ipva_asociado        = obj.va_asociado;
@@ -327,7 +327,7 @@ $(document).ready(function(){
         }
       });
       $('#ipcod_vale').val(ipcod_vale);
-      $('#ipva_ot').val(ipva_ot);
+      $('#ipva_ot_id').val(ipva_ot_id);
       $('#ipva_genera').val(ipva_genera);
       $('#ipva_date_genera').val(ipva_date_genera);
       $('#ipva_asociado').val(ipva_asociado);
@@ -391,7 +391,7 @@ $(document).ready(function(){
 function f_CargarVariablesVacioVales(){
   f_LimpiaVales();
   cod_vale            = "";
-  va_ot               = "";
+  va_ot_id               = "";
   va_genera           = "";
   va_date_genera      = "";
   va_asociado         = "";
@@ -413,10 +413,10 @@ function f_CargarVariablesVacioVales(){
 function f_CargarVariablesVales(p_data){
   $.each(p_data, function(idx, obj){ 
     cod_vale = obj.cod_vale;
-    if(obj.va_ot=='0'){
-      va_ot = '';
+    if(obj.va_ot_id=='0'){
+      va_ot_id = '';
     }else{
-      va_ot = obj.va_ot;  
+      va_ot_id = obj.va_ot_id;  
     }
     va_genera           = obj.va_genera;
     va_date_genera      = obj.va_date_genera;
@@ -438,7 +438,7 @@ function f_CargarVariablesVales(p_data){
 ///:: SE CARGAN LAS VARIABLES HTML CON LA INFORMACION :::::::::::::::::::::::::::::::::::::///
 function f_CargaVariablesHtmlVales(){
   $('#tcod_vale').val(cod_vale);
-  $('#va_ot').val(va_ot);
+  $('#va_ot_id').val(va_ot_id);
   $('#va_genera').val(va_genera);
   $('#va_date_genera').val(va_date_genera);
   $('#va_asociado').val(va_asociado);
@@ -458,7 +458,7 @@ function f_CargaVariablesHtmlVales(){
 ///:: FIN CARGAN LAS VARIABLES HTML CON LA INFORMACION ::::::::::::::::::::::::::::::::::::///
 
 ///:: SE VALIDA LOS DATOS DE VALES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-function f_ValidarVales(pcod_vale, pva_ot, pva_genera, pva_date_genera, pva_asociado, pva_responsable, pva_garantia, pva_obs_cgm, pva_obs_aom, pva_estado){
+function f_ValidarVales(pcod_vale, pva_ot_id, pva_genera, pva_date_genera, pva_asociado, pva_responsable, pva_garantia, pva_obs_cgm, pva_obs_aom, pva_estado){
   NoLetrasMayuscEspacio=/[^A-Z \Ñ]/;
   let rpta_ValesCabecera="";
   f_LimpiaVales();
@@ -467,8 +467,8 @@ function f_ValidarVales(pcod_vale, pva_ot, pva_genera, pva_date_genera, pva_asoc
     rpta_ValesCabecera="invalido";
   }
 
-  if(pva_ot==""){
-    $("#va_ot").addClass("color-error");
+  if(pva_ot_id==""){
+    $("#va_ot_id").addClass("color-error");
     rpta_ValesCabecera="invalido";
   }
 
@@ -519,7 +519,7 @@ function f_ValidarVales(pcod_vale, pva_ot, pva_genera, pva_date_genera, pva_asoc
 ///:: REMUEVE EL COLOR DE ERROR EN LOS CAMPOS ::::::::::::::::::::::::::::::::::::::::::::/// 
 function f_LimpiaVales(){
   $("#cod_vale").removeClass("color-error");
-  $("#va_ot").removeClass("color-error");
+  $("#va_ot_id").removeClass("color-error");
   $("#va_genera").removeClass("color-error");
   $("#va_date_genera").removeClass("color-error");
   $("#va_asociado").removeClass("color-error");

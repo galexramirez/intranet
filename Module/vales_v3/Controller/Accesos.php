@@ -118,7 +118,7 @@ class Accesos
 				$columnashtml = '[	{"defaultContent": " '.$defaultContent1.' "},
 									{"data": "cod_vale"},
 									{"data": "va_estado"},
-									{"data": "va_ot"},
+									{"data": "va_ot_id"},
 									{"data": "va_bus"},
 									{"data": "va_origen"},
 									{"data": "va_asociado"},
@@ -217,7 +217,7 @@ class Accesos
 													</div>	
 													<div>
 														<div class="font-weight-bold">'.$row['cod_vale'].'</div>
-														<span class="small text-gray-500">'.$row['vale_date_genera'].' - '.$row['va_ot'].' - '.$row['va_asociado'].'</span>
+														<span class="small text-gray-500">'.$row['vale_date_genera'].' - '.$row['va_ot_id'].' - '.$row['va_asociado'].'</span>
 													</div>
 												</a>';		
 						}
