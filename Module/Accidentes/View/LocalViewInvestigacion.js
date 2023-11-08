@@ -4,7 +4,7 @@
 ///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///:: DECLARACION DE VARIABLES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-var Investigacion_Id, tAcci_TipoEvento, tAcci_FechaAccidente, tAcci_HoraAccidente, tAcci_NombreCGO, tAcci_NombreColaborador, tAcci_FechaIngreso, tAcci_Antiguedad, tAcci_ReconoceResponsabilidadAccidente, tAcci_TablaAccidente, tAcci_ServicioAccidente, tAcci_TipoBus, Acci_Trafico, Acci_GravedadEvento, Acci_DatosRegistro, Acci_FactorDeterminante, Acci_ResponsabilidadDeterminante, Acci_FactorContributivo, Acci_ResponsabilidadContributivo, Acci_TipoExpediente, Acci_EventoReportado, Acci_ResponsabilidadAccidente, Acci_GradoFalta, Acci_Reincidencia, Acci_CodigoRIT, Acci_DescripcionRIT, Acci_AccionDisciplinaria, Acci_ReporteGDH, Acci_FechaReporteGDH, Acci_Premio, Acci_FechaCierreReporte, Acci_TiempoInvestigacion, Acci_CumplimientoMeta, Acci_RatioCumplimiento, Acci_DelayRegistro, Acci_CumplimientoRegistro, Acci_FechaRegistro, Acci_LugarReferencia, Acci_Frecuencia, Acci_Probabilidad, Acci_Severidad, acci_log_informe_final, acci_nro_siniestro, acci_doc_reporte_atencion_rimac;
+var Investigacion_Id, Acci_Trafico, Acci_GravedadEvento, Acci_DatosRegistro, Acci_FactorDeterminante, Acci_ResponsabilidadDeterminante, Acci_FactorContributivo, Acci_ResponsabilidadContributivo, Acci_TipoExpediente, Acci_EventoReportado, Acci_ResponsabilidadAccidente, Acci_GradoFalta, Acci_Reincidencia, Acci_CodigoRIT, Acci_DescripcionRIT, Acci_AccionDisciplinaria, Acci_ReporteGDH, Acci_FechaReporteGDH, Acci_Premio, Acci_FechaCierreReporte, Acci_TiempoInvestigacion, Acci_CumplimientoMeta, Acci_RatioCumplimiento, Acci_DelayRegistro, Acci_CumplimientoRegistro, Acci_FechaRegistro, Acci_LugarReferencia, Acci_Frecuencia, Acci_Probabilidad, Acci_Severidad, acci_log_informe_final, acci_nro_siniestro, acci_doc_reporte_atencion_rimac;
 var Acci_EstadoInvestigacion, opcionInvestigacion, filaInvestigacion;
 var inv_FechaInicio, inv_FechaTermino;
 
@@ -432,7 +432,7 @@ $(document).on("click", ".btnCargarInvestigacion", function(){
   filaInvestigacion   = $(this).closest('tr'); 
   Investigacion_Id    = filaInvestigacion.find('td:eq(0)').text();
   opcionInvestigacion = 0; // 1: CREAR, 2:EDITAR
-  //Accion              = 'CargarInvestigacion';
+
   $("#btn_guardar_informe_final").prop("disabled",false);
   f_cargar_datos_fila(filaInvestigacion);
   accif_antiguedad       = f_antiguedad(filaInvestigacion.find('td:eq(6)').text(),filaInvestigacion.find('td:eq(2)').text());
@@ -678,17 +678,6 @@ function f_EdicionCamposInvestigacion(tOpcion,bValor){
 ///:: SE CARGAN LAS VARIABLES CON LA INFORMACION DE LA BASE DE DATOS :::::::::::::::::::::///
 function f_CargarVariablesInvestigacion(p_data){
   $.each(p_data, function(idx, obj){ 
-    tAcci_TipoEvento                        = obj.Acci_TipoEvento;
-    tAcci_FechaAccidente                    = obj.Acci_Fecha;
-    tAcci_HoraAccidente                     = obj.Acci_Hora;
-    tAcci_NombreCGO                         = obj.Acci_NombreCGO;
-    tAcci_NombreColaborador                 = obj.Acci_NombreColaborador;
-    tAcci_FechaIngreso                      = obj.Colab_FechaIngreso;
-    tAcci_Antiguedad                        = obj.Acci_Antiguedad;
-    tAcci_ReconoceResponsabilidadAccidente  = obj.Acci_ReconoceResponsabilidad;
-    tAcci_TablaAccidente                    = obj.Acci_Tabla;
-    tAcci_ServicioAccidente                 = obj.Acci_Servicio;
-    tAcci_TipoBus                           = obj.Acci_TipoBus;
     Acci_Trafico                            = obj.Acci_Trafico;
     Acci_GravedadEvento                     = obj.Acci_GravedadEvento;
     Acci_DatosRegistro                      = obj.Acci_DatosRegistro;
@@ -725,17 +714,6 @@ function f_CargarVariablesInvestigacion(p_data){
 
 ///::::::::::: SE INICIALIZAN LAS VARIABLES DE LA INVESTIGACION ::::::::::::///
 function f_CargarVariablesVacioInvestigacion(){
-  tAcci_TipoEvento                        = "";
-  tAcci_FechaAccidente                    = "";
-  tAcci_HoraAccidente                     = "";
-  tAcci_NombreCGO                         = "";
-  tAcci_NombreColaborador                 = "";
-  tAcci_FechaIngreso                      = "";
-  tAcci_Antiguedad                        = "";
-  tAcci_ReconoceResponsabilidadAccidente  = "";
-  tAcci_TablaAccidente                    = "";
-  tAcci_ServicioAccidente                 = "";
-  tAcci_TipoBus                           = "";
   Acci_Trafico                            = "";
   Acci_GravedadEvento                     = "";
   Acci_DatosRegistro                      = "";
@@ -770,17 +748,6 @@ function f_CargarVariablesVacioInvestigacion(){
 
 ///::::::::::: SE CARGAN LAS VARIABLES HTML CON LA INFORMACION
 function f_CargaVariablesHtmlInvestigacion(){
-  $('#tAcci_TipoEvento').val(tAcci_TipoEvento);
-  $('#tAcci_FechaAccidente').val(tAcci_FechaAccidente);
-  $('#tAcci_HoraAccidente').val(tAcci_HoraAccidente);
-  $('#tAcci_NombreCGO').val(tAcci_NombreCGO);
-  $('#tAcci_NombreColaborador').val(tAcci_NombreColaborador);
-  $('#tAcci_FechaIngreso').val(tAcci_FechaIngreso);
-  $('#tAcci_Antiguedad').val(tAcci_Antiguedad);
-  $('#tAcci_ReconoceResponsabilidadAccidente').val(tAcci_ReconoceResponsabilidadAccidente);
-  $('#tAcci_TablaAccidente').val(tAcci_TablaAccidente);
-  $('#tAcci_ServicioAccidente').val(tAcci_ServicioAccidente);
-  $('#tAcci_TipoBus').val(tAcci_TipoBus);
   $('#Acci_Trafico').val(Acci_Trafico);
   $('#Acci_GravedadEvento').val(Acci_GravedadEvento);
   $('#Acci_DatosRegistro').val(Acci_DatosRegistro);
@@ -837,17 +804,6 @@ function f_CargaVariablesHtmlInvestigacion(){
 
 ///:: SE CARGAN LAS VARIABLES CON LOS VALORES EDITADOS DE LA INVESTIGACION :::::::::::::::///
 function f_CargarVariablesEditadasInvestigacion(){
-  tAcci_TipoEvento                        = $.trim($('#tAcci_TipoEvento').val());
-  tAcci_FechaAccidente                    = $.trim($('#tAcci_FechaAccidente').val());
-  tAcci_HoraAccidente                     = $.trim($('#tAcci_HoraAccidente').val());
-  tAcci_NombreCGO                         = $.trim($('#tAcci_NombreCGO').val());
-  tAcci_NombreColaborador                 = $.trim($('#tAcci_NombreColaborador').val());
-  tAcci_FechaIngreso                      = $.trim($('#tAcci_FechaIngreso').val());
-  tAcci_Antiguedad                        = $.trim($('#tAcci_Antiguedad').val());
-  tAcci_ReconoceResponsabilidadAccidente  = $.trim($('#tAcci_ReconoceResponsabilidadAccidente').val());
-  tAcci_TablaAccidente                    = $.trim($('#tAcci_TablaAccidente').val());
-  tAcci_ServicioAccidente                 = $.trim($('#tAcci_ServicioAccidente').val());
-  tAcci_TipoBus                           = $.trim($('#tAcci_TipoBus').val());
   Acci_Trafico                            = $.trim($('#Acci_Trafico').val());
   Acci_GravedadEvento                     = $.trim($('#Acci_GravedadEvento').val());
   Acci_DatosRegistro                      = $.trim($('#Acci_DatosRegistro').val());
@@ -873,9 +829,7 @@ function f_CargarVariablesEditadasInvestigacion(){
   Acci_FechaReporteGDH                    = $.trim($('#Acci_FechaReporteGDH').val());
   Acci_Premio                             = $.trim($('#Acci_Premio').val());
   Acci_FechaCierreReporte                 = $.trim($('#Acci_FechaCierreReporte').val());
-  //Acci_TiempoInvestigacion                = $.trim($('#Acci_TiempoInvestigacion').val());
   Acci_CumplimientoMeta                   = $.trim($('#Acci_CumplimientoMeta').val());
-  //Acci_DelayRegistro                      = $.trim($('#Acci_DelayRegistro').val());
   Acci_CumplimientoRegistro               = $.trim($('#Acci_CumplimientoRegistro').val());
   Acci_FechaRegistro                      = $.trim($('#Acci_FechaRegistro').val());
   Acci_LugarReferencia                    = $.trim($('#Acci_LugarReferencia').val());

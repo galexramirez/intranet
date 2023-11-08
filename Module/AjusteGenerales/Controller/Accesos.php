@@ -55,7 +55,7 @@ class Accesos
 											<th>AÑO</th>
 											<th>MES</th>
 											<th>PROCESO</th>
-											<th>DESCRICION</th>
+											<th>DESCRIPCION</th>
 											<th>FECHA INICIO</th>
 											<th>FECHA TERMINO</th>
 											<th>ACCIONES</th>
