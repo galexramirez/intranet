@@ -1215,7 +1215,7 @@
 										<div class="col-lg-2">
 				  							<div class="form-group">
 												<label for="accif_hora" class="col-form-label form-control-sm">Hora</label>
-												<input type="time" readonly class="form-control form-control-sm" id="accif_hora">
+												<input type="text" readonly class="form-control form-control-sm" id="accif_hora">
 				  							</div> 
 			      						</div>
 										<div class="col-lg-3">

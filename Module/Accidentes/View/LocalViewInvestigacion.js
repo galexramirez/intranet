@@ -428,12 +428,21 @@ $("#btnBuscarInvestigacion").on("click",function(){
 
 ///:::::::::::::::::::::::: BOTON CARGAR INVESTIGACION ::::::::::::::::::::::::::::::::::::///
 $(document).on("click", ".btnCargarInvestigacion", function(){
+  let a_data = [];
   filaInvestigacion   = $(this).closest('tr'); 
   Investigacion_Id    = filaInvestigacion.find('td:eq(0)').text();
   opcionInvestigacion = 0; // 1: CREAR, 2:EDITAR
   //Accion              = 'CargarInvestigacion';
   $("#btn_guardar_informe_final").prop("disabled",false);
   f_cargar_datos_fila(filaInvestigacion);
+  accif_antiguedad       = f_antiguedad(filaInvestigacion.find('td:eq(6)').text(),filaInvestigacion.find('td:eq(2)').text());
+  a_data = f_BuscarDataBD('OPE_AccidentesInformePreliminar','Accidentes_Id',Investigacion_Id);
+  $.each(a_data, function(idx, obj){ 
+    accif_horas_trabajadas = obj.Acci_HorasTrabajadas;
+  });
+  $("#accif_antiguedad").val(accif_antiguedad);
+  $("#accif_horas_trabajadas").val(accif_horas_trabajadas);
+  
   f_CargarVariablesVacioInvestigacion(); // se inicialiazan las variables de investigacion
   f_EdicionCamposInvestigacion('disabled', false);
 
@@ -987,27 +996,23 @@ function f_cargar_datos_fila(p_fila){
   accif_hora                      = p_fila.find('td:eq(3)').text();
   accif_piloto                    = p_fila.find('td:eq(5)').text();
   accif_fecha_ingreso             = p_fila.find('td:eq(6)').text();
-  accif_antiguedad                = p_fila.find('td:eq(7)').text();
-  accif_horas_trabajadas          = p_fila.find('td:eq(8)').text();
-  accif_tabla                     = p_fila.find('td:eq(9)').text();
-  accif_servicio                  = p_fila.find('td:eq(10)').text();
-  accif_bus                       = p_fila.find('td:eq(11)').text();
-  accif_placa                     = p_fila.find('td:eq(12)').text();
-  accif_tipo_bus                  = p_fila.find('td:eq(13)').text();
-  accif_direccion                 = p_fila.find('td:eq(14)').text();
-  accif_sentido                   = p_fila.find('td:eq(15)').text();
-  accif_tipo_accidente            = p_fila.find('td:eq(16)').text();
-  accif_clase_accidente           = p_fila.find('td:eq(17)').text();
-  accif_evento                    = p_fila.find('td:eq(18)').text();
-  accif_reconoce_responsabilidad  = p_fila.find('td:eq(19)').text();
-  accif_cantidad_lesionados       = p_fila.find('td:eq(20)').text();
+  accif_tabla                     = p_fila.find('td:eq(7)').text();
+  accif_servicio                  = p_fila.find('td:eq(8)').text();
+  accif_bus                       = p_fila.find('td:eq(9)').text();
+  accif_placa                     = p_fila.find('td:eq(10)').text();
+  accif_tipo_bus                  = p_fila.find('td:eq(11)').text();
+  accif_direccion                 = p_fila.find('td:eq(12)').text();
+  accif_sentido                   = p_fila.find('td:eq(13)').text();
+  accif_tipo_accidente            = p_fila.find('td:eq(14)').text();
+  accif_clase_accidente           = p_fila.find('td:eq(15)').text();
+  accif_evento                    = p_fila.find('td:eq(16)').text();
+  accif_reconoce_responsabilidad  = p_fila.find('td:eq(17)').text();
+  accif_cantidad_lesionados       = p_fila.find('td:eq(18)').text();
 
   $("#accif_fecha").val(accif_fecha);
   $("#accif_hora").val(accif_hora);
   $("#accif_piloto").val(accif_piloto);
   $("#accif_fecha_ingreso").val(accif_fecha_ingreso);
-  $("#accif_antiguedad").val(accif_antiguedad);
-  $("#accif_horas_trabajadas").val(accif_horas_trabajadas);
   $("#accif_tabla").val(accif_tabla);
   $("#accif_servicio").val(accif_servicio);
   $("#accif_bus").val(accif_bus);
@@ -1020,4 +1025,4 @@ function f_cargar_datos_fila(p_fila){
   $("#accif_evento").val(accif_evento);
   $("#accif_reconoce_responsabilidad").val(accif_reconoce_responsabilidad);
   $("#accif_cantidad_lesionados").val(accif_cantidad_lesionados);
-} 
+}

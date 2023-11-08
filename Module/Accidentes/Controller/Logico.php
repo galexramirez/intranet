@@ -51,7 +51,51 @@ class Logico
         }
         echo $rpta_Diferencia;
     }
-    
+
+    public function antiguedad($inicio,$final)
+    {
+        $n_dias = '';
+        $n_meses = '';
+        $n_anios = '';
+        $rpta_antiguedad = '';
+
+        $firstDate  = new DateTime($inicio);
+        if($final!=''){
+            $secondDate = new DateTime();    
+        }else{
+            $secondDate = new DateTime($final);
+        }
+        
+        $intvl = $firstDate->diff($secondDate);
+        $n_anios = $intvl->y;
+        $n_meses = $intvl->m;
+        $n_dias = $intvl->d ;
+
+        if($n_anios>0){ 
+            if($n_anios==1){
+                $rpta_antiguedad = $n_anios.' año ';
+            }else{
+                $rpta_antiguedad = $n_anios.' años ';
+            }
+        }
+        if($n_meses>0){ 
+            if($n_meses==1){
+                $rpta_antiguedad .= $n_meses.' mes ';
+            }else{
+                $rpta_antiguedad .= $n_meses.' meses ';
+            }
+        }
+        if($n_dias>0){ 
+            if($n_dias==1){
+                $rpta_antiguedad .= $n_dias.' dia ';
+            }else{
+                $rpta_antiguedad .= $n_dias.' dias ';
+            }
+        }
+
+        echo $rpta_antiguedad;
+    }
+
     public function BuscarColaborador($Acci_NombreColaborador)
     {
         //Ejecuta Modelo
@@ -286,7 +330,7 @@ class Logico
         unlink($file_png);
     }
 
-    public function GrabarImagen($Accidentes_Id,$Acci_TipoImagen,$Acci_Imagen){
+    public function GrabarImagen($Accidentes_Id, $Acci_TipoImagen, $Acci_Imagen){
         $imagen_nueva_ruta = $_SERVER['DOCUMENT_ROOT']."/Services/image/imagen_nueva.jpg";
         $ancho_nuevo = 600;
         $alto_nuevo = 400;
@@ -297,14 +341,14 @@ class Logico
             $alto_original = imagesy($imagen_original);
     
             if($ancho_original <= $ancho_nuevo && $alto_original <= $alto_nuevo){
-                move_uploaded_file($imagen_original, $imagen_nueva_ruta);
+                move_uploaded_file($Acci_Imagen, $imagen_nueva_ruta);
             }else{
                 if($ancho_original >= $alto_original){ // imagen horizontal
-                    $ancho_nuevo = $ancho_nuevo;
-                    $nuevo_alto = ($nuevo_ancho * $alto_original) / $ancho_original;
+                    //$ancho_nuevo = $ancho_nuevo;
+                    $alto_nuevo = ($ancho_nuevo * $alto_original) / $ancho_original;
                 }else{ // imagen vertical
-                    $nuevo_alto = $nuevo_alto;
-                    $nuevo_ancho = ($ancho_original / $alto_original) * $nuevo_alto;
+                    //$alto_nuevo = $alto_nuevo;
+                    $ancho_nuevo = ($ancho_original / $alto_original) * $alto_nuevo;
                 }
                 $imagen_nueva = imagecreatetruecolor($ancho_nuevo, $alto_nuevo);
                 imagecopyresampled($imagen_nueva, $imagen_original, 0, 0, 0, 0, $ancho_nuevo, $alto_nuevo, $ancho_original, $alto_original);  
@@ -337,11 +381,11 @@ class Logico
                 move_uploaded_file($Acci_Imagen, $imagen_nueva_ruta);
             }else{
                 if($ancho_original >= $alto_original){ // imagen horizontal
-                    $ancho_nuevo = $ancho_nuevo;
-                    $nuevo_alto = ($nuevo_ancho * $alto_original) / $ancho_original;
+                    //$ancho_nuevo = $ancho_nuevo;
+                    $alto_nuevo = ($ancho_nuevo * $alto_original) / $ancho_original;
                 }else{ // imagen vertical
-                    $nuevo_alto = $nuevo_alto;
-                    $nuevo_ancho = ($ancho_original / $alto_original) * $nuevo_alto;
+                    //$alto_nuevo = $alto_nuevo;
+                    $ancho_nuevo = ($ancho_original / $alto_original) * $alto_nuevo;
                 }
                 $imagen_nueva = imagecreatetruecolor($ancho_nuevo, $alto_nuevo);
                 imagecopyresampled($imagen_nueva, $imagen_original, 0, 0, 0, 0, $ancho_nuevo, $alto_nuevo, $ancho_original, $alto_original);  

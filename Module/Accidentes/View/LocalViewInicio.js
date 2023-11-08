@@ -130,6 +130,22 @@ function f_DiferenciaFecha(p_inicio,p_final,p_dias){
   return rptaDiferencia;
 }
 
+function f_antiguedad(p_inicio,p_final){
+  let rpta_antiguedad="";
+  Accion='antiguedad';
+  $.ajax({
+    url     : "Ajax.php",
+    type    : "POST",
+    datatype: "json",
+    async   : false,
+    data    : {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,inicio:p_inicio,final:p_final},
+    success : function(data){
+      rpta_antiguedad = data;
+    }
+  });
+  return rpta_antiguedad;
+}
+
 ///:: FUNCION CANTIDAD DE HORAS TRABAJADAS HASTA UNA HORA DETERMINADA :::::::::::::::::::::///
 function f_horas_trabajadas(p_operacion, p_fecha, p_dni, p_hora){
   let rpta_horas_trabajadas = "";

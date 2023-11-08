@@ -70,6 +70,15 @@ switch ($Accion)
       $Respuesta=$InstanciaAjax->CalculoFecha($inicio,$calculo);
    break;
 
+   case 'antiguedad':
+      $inicio= $_POST['inicio'];
+      $final = $_POST['final'];
+
+      MController($Modulo,'Logico');
+      $InstanciaAjax= new Logico();
+      $Respuesta=$InstanciaAjax->antiguedad($inicio,$final);
+   break;
+
    case 'DiferenciaFecha':
       $inicio = $_POST['inicio'];
       $final = $_POST['final'];
