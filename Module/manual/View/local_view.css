@@ -1,0 +1,117 @@
+/* ::::::::::: ESTILOS AGREGADOS PARA EL SIDEBAR :::::::::: */
+.my-segundonivel {
+  margin-top: 50px;
+  }
+
+#my-sideBar-manual{
+  position: fixed;
+  z-index: 900;
+  width: 250px;
+  display: flex;
+  flex-wrap: nowrap;
+  /*max-height: 100vh;*/
+  overflow-x: auto;
+  flex-shrink: 0;
+  /*height: 100vh;*/
+  height: 100%;
+  border-width: 1px 0;
+}
+
+.my-menu{
+  width: 250px; 
+}
+
+#my-sideBar-manual a{
+  color: #6c757d;
+}
+
+#my-sideBar-manual a:hover{
+  color: #343a40;
+}
+
+#my-sideBar-manual .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+  background:#2A4C38 !important;
+}
+
+#my-sideBar-manual .nav-pills .nav-link {
+  border-radius: 0px;
+}
+
+
+
+.my-sideBarClassMostrar{
+  visibility: visible;  
+  }
+
+.my-sideBarClassOcultar{
+  visibility: collapse;  
+  }
+
+
+.my-contenido-con-sidebar{
+  margin-left: 250px;
+  }
+.my-contenido-sin-sidebar{
+    margin-left:30px;
+    }
+
+
+
+/* ::::::::::: ESTILOS AGREGADOS SCROLLBAR:::::::::: */
+
+::-webkit-scrollbar {
+/*  width: 10px;
+  height: 7px;*/
+  width: 14px;
+  height: 10px;
+
+}
+::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+::-webkit-scrollbar-thumb {
+  background: #7777;
+  border: 0px none #7777;
+  border-radius: 0px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #7777;
+}
+::-webkit-scrollbar-thumb:active {
+  background: #7777;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+  border: 0px none #7777;
+  border-radius: 50px;
+}
+::-webkit-scrollbar-track:hover {
+  background: transparent;
+}
+::-webkit-scrollbar-track:active {
+  background: transparent;
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+
+/*:::::: stylos para Opciones Sydebar*/
+
+#activo{
+  background: #38DA49;
+}
+
+#activo a{
+  background: #e6e7e9;
+  color: #2A4C38;
+  /*font-weight: bold; */
+}
+
+.modal-backdrop.show{
+  opacity: .4 !important;
+  width: 100% !important;
+  height: 100% !important;
+  fill: alpha(opacity=40);
+}

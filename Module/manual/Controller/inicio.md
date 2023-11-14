@@ -1,0 +1,9 @@
+## MANUAL DEL SISTEMA INTEGRADO DE PRODUCCION
+
+### INICIO
+
+#### USUARIO Y PASSWORD
+![PANTALLA DE INGRESO](Module/manual/View/img/sesion/sesion_0001.jpg)
+
+#### RECUPERA CONTRASEÑA
+![SOLICITUD DE RECUPERAR CONTRASEÑA](Module/manual/View/img/sesion/sesion_0002.jpg)

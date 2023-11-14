@@ -136,6 +136,10 @@
 
         case '/desempeno_piloto':
             MController('desempeno_piloto','Renderice');    break;     
+        
+        case '/manual':
+            MController('manual','renderice');    break;     
+    
             
         default: header('Location: /inicio');
         }
