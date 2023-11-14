@@ -1,117 +1,152 @@
-/* ::::::::::: ESTILOS AGREGADOS PARA EL SIDEBAR :::::::::: */
-.my-segundonivel {
-  margin-top: 50px;
-  }
+/* 1.0 Data Tables */
 
-#my-sideBar-manual{
-  position: fixed;
-  z-index: 900;
-  width: 250px;
-  display: flex;
-  flex-wrap: nowrap;
-  /*max-height: 100vh;*/
-  overflow-x: auto;
-  flex-shrink: 0;
-  /*height: 100vh;*/
-  height: 100%;
-  border-width: 1px 0;
+input{
+    width: 100% !important;
+}
+  
+.filters_manual th{
+    padding:0px !important;
+    font-size: 11px
 }
 
-.my-menu{
-  width: 250px; 
+th{
+    font-size: 9px;
+    font-weight: 500;
+}
+  
+.dataTables_scrollHeadInner{
+  width: 100%-6px !important;
+}
+  
+.dataTables_filter{
+   padding-right: 100px;
+}
+  
+table.dataTable thead {
+    background: #2A4C38;
+    color:white;
 }
 
-#my-sideBar-manual a{
-  color: #6c757d;
+table.dataTable tfoot {
+    background: #2A4C38;
+    color:white;
 }
 
-#my-sideBar-manual a:hover{
-  color: #343a40;
+div.dataTables_wrapper div.dataTables_length {
+    float: left !important;
 }
 
-#my-sideBar-manual .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
-  background:#2A4C38 !important;
+div.dataTables_wrapper div.dataTables_filter {
+    float: right !important;
 }
 
-#my-sideBar-manual .nav-pills .nav-link {
-  border-radius: 0px;
+div.dataTables_wrapper div.dataTables_info {
+    float: left !important;
 }
 
-
-
-.my-sideBarClassMostrar{
-  visibility: visible;  
-  }
-
-.my-sideBarClassOcultar{
-  visibility: collapse;  
-  }
-
-
-.my-contenido-con-sidebar{
-  margin-left: 250px;
-  }
-.my-contenido-sin-sidebar{
-    margin-left:30px;
-    }
-
-
-
-/* ::::::::::: ESTILOS AGREGADOS SCROLLBAR:::::::::: */
-
-::-webkit-scrollbar {
-/*  width: 10px;
-  height: 7px;*/
-  width: 14px;
-  height: 10px;
-
-}
-::-webkit-scrollbar-button {
-  width: 0px;
-  height: 0px;
-}
-::-webkit-scrollbar-thumb {
-  background: #7777;
-  border: 0px none #7777;
-  border-radius: 0px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #7777;
-}
-::-webkit-scrollbar-thumb:active {
-  background: #7777;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-  border: 0px none #7777;
-  border-radius: 50px;
-}
-::-webkit-scrollbar-track:hover {
-  background: transparent;
-}
-::-webkit-scrollbar-track:active {
-  background: transparent;
-}
-::-webkit-scrollbar-corner {
-  background: transparent;
+div.dataTables_wrapper div.dataTables_paginate {
+    float: right !important;
 }
 
-
-/*:::::: stylos para Opciones Sydebar*/
-
-#activo{
-  background: #38DA49;
+div.dt-buttons {
+    float: left !important;
 }
 
-#activo a{
-  background: #e6e7e9;
-  color: #2A4C38;
-  /*font-weight: bold; */
+/* Paginado */
+.page-item.active .page-link {
+    background-color: #2A4C38;
+    border-color: #2A4C38;
 }
 
-.modal-backdrop.show{
-  opacity: .4 !important;
-  width: 100% !important;
-  height: 100% !important;
-  fill: alpha(opacity=40);
+.page-link {
+    color: #bec3bf;
+}
+
+table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td {
+    padding: 5px 5px 5px 5px !important;
+}
+
+/* Botones de mostrar y ocultar informacion adicional */
+
+table.dataTable td.dt-control:before {
+    height: 1em;
+    width: 1em;
+    display: inline-block;
+    color: white;
+    border: 0.15em solid white;
+    border-radius: 1em;
+    box-shadow: 0 0 0.2em #444;
+    box-sizing: content-box;
+    text-align: center;
+    text-indent: 0 !important;
+    font-family: "Courier New",Courier,monospace;
+    line-height: 1em; 
+    content: "+";
+    background-color: #31b131;
+}
+
+table.dataTable tr.dt-hasChild td.dt-control:before {
+    content: "-";
+    background-color: #d33333;
+}
+
+/* Cierre 1.0 DataTables */
+
+
+/* 2.0 Tablas */
+
+#tabla_manual thead {
+    background: #2A4C38;
+    color:white;
+}
+
+/* tamaño de texto de tablas*/
+
+#tabla_manual {
+    font-size: 12px;
+}
+
+.table-fixed tbody {
+    height: 120px;
+    overflow-y: auto;
+    width: 100%;
+}
+
+/* Cierre 2.0 Tablas */
+
+/* 3.0 Tabs */
+
+.nav-tabs .nav-link.active {
+    background-color:#F2F3F5 !important;
+    border-color: #dee2e6 #dee2e6 #F2F3F5;
+}
+
+.nav-tabs .nav-link {
+    border-color: #dee2e6 #dee2e6 #dee2e6;
+    background: #f8f9fa;
+    color: #bec3bf;
+
+}
+
+/* Cierre 3.0 Tabs */
+
+.color-error {
+    background-color: #ffff006b !important;
+}
+
+.color-observado {
+    color : red;
+}
+
+/* PARA OCULTAR EL INCREMENTO DEL CAMPO NUMBER
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

@@ -1,107 +1,135 @@
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no,">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="Module/manual/View/img/favicon.ico">
+<!-- 2.2 CONTENIDO DE MODULO -->
+<div id="contenido" class="my-contenido-con-sidebar  p-0">
 
-    <title> <?= DF_TITULO; ?> <?= DF_MENSAJE; ?></title>
+	<nav class="navbar navbar-light bg-light p-0">
+		<div class="container-fluid">
+			<div class="row justify-content-between w-100 align-items-center">
 
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="Services/Resources/bootstrap/css/bootstrap.min.css">
+				<div class="col-4">
+					<a class="navbar-brand text-muted" href="#">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
+						<path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+						</svg>
+						<?= $NombreDeModuloVista ?>
+					</a>
+				</div>
+				<div class="col-4 text-right">
+					<a class="navbar-brand text-muted" href="manual" target="_blank">
+						<i class="bi bi-question-circle-fill" title="Ayuda">
+							<svg style="color: blue" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/></svg>
+						</i>
+					</a>
+				</div>
+			</div>
+		</div>
+	</nav>
 
-    <!-- Custom styles for this template -->
-    <link href="Module/manual/View/local_view.css" rel="stylesheet">
+	<!-- Contenido para el Modulo -->
+	<div class="my-contenidoModulo container-fluid pl-0 pr-0 ml-0 mr-0">
 
-    <!-- Librerias externas para mostrar u ocultar el password -->
-    <link rel='stylesheet' href='Services/Resources/bootstrap-4.5.2-dist/css/bootstrap.min.css' type='text/css' media='all'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<nav>
+	 		<div class="nav nav-tabs" id="nav-tab-manual" role="tablist">
+				<!-- PHP Accesos CreacionTabs -->
+			</div>
+		</nav>
 
+		<div class="tab-content" id="nav-tabContent">
+			<!------------------------------------------------------------------------------->
+	  		<!-- TAB LISTADO MANUAL DE USUARIO  --------------------------------------------->
+			<!------------------------------------------------------------------------------->
+			<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+				<form id="form_seleccion_listado_manual" class="row col-sm-12 container-fluid" enctype="multipart/form-data" action="" method="post">	    
+					<div class="row align-items-end pb-4 col-sm-12">
+						<div class="col-lg-1 pt-3">             	
+							<div class="form-group" id="div_btn_seleccion_listado_manual">
+							</div>
+			       		</div> 
+					</div>
+				</form>
+			   	<div class="container-fluid caja">
+					<div class="row w-100 p-0 m-0">
+				       	<div class="col-lg-12">
+				       		<div class="table-responsive" id="div_tabla_manual">
+				            </div>
+				        </div>
+				    </div>  
+				</div>
+			</div>
 
-  </head>
+			<!------------------------------------------------------------------------------->
+			<!-- TAB REGISTRO MANUAL DE USUARIO --------------------------------------------->
+			<!------------------------------------------------------------------------------->
+			<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+				<form id="form_seleccion_manual_registro" class="row col-sm-12 container-fluid" onsubmit="return false;">	    
+					<div class="row align-items-end pb-1 col-sm-12 mb-1">
+						<div class="col-lg-1">
+							<div class="form-group">
+								<label for="manual_id" class="col-form-label form-control-sm">ID</label>
+								<input type="number" readonly class="form-control form-control-sm" id="manual_id">
+							</div>
+						</div>
+						<div class="col-lg-1">
+							<div class="form-group">
+								<label for="man_capitulo" class="col-form-label form-control-sm">CAPITULO</label>
+								<input type="number" class="form-control form-control-sm man_capitulo" id="man_capitulo">
+							</div>
+						</div>
+						<div class="col-lg-1">
+							<div class="form-group">
+								<label for="man_sub_capitulo" class="col-form-label form-control-sm">SUB CAP.</label>
+								<input type="number" class="form-control form-control-sm man_sub_capitulo" id="man_sub_capitulo">
+							</div>
+						</div>
+						<div class="col-lg-3">
+							<div class="form-group">
+								<label for="man_descripcion" class="col-form-label form-control-sm">DESCRIPCION (Máx. 100 caract.)</label>
+								<input type="text" class="form-control form-control-sm text-uppercase" id="man_descripcion" maxlength="100">
+							</div>
+						</div>
+						<div class="col-lg-4">
+							<div class="form-group" id="div_btn_seleccion_manual_registro">
+							</div>
+						</div>
+					</div>
+				</form>
 
-  <body>
+				<div class="container-fluid ml-0 mr-0 mb-0 pt-3">
+					<form id="form_manual_html" enctype="multipart/form-data" action="" method="post" onsubmit="return false;">    
+						<div class="row align-items-end pb-4 col-sm-12" id="div_manual_html">
+							
+						</div>
+					</form>
+				</div>
 
-  <div class="container-fluid my-segundonivel p-0">
-    <div id="my-sideBar-manual" class="border-rigth">
-      <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-light overflow-auto p-0 my-menu">
-        <a href="manual" class="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
-          <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="Module/manual/View/img/favicon.ico"/></svg>
-          <span class="fs-5 fw-semibold">MANUAL DE SINPRO</span>
-        </a>
-        <ul class="list-unstyled ps-0">
-          <li class="mb-1">
-            <button class='btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed' data-toggle='collapse' data-target='#ajustes-collapse' aria-expanded='false'>
-              AJUSTES
-            </button>
-            <div class="collapse" id="ajustes-collapse">
-              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                <li><a href="#" class="nav-link ml-2" onclick="f_capitulo('ajustes_generales')">AJUSTES GENERALES</a></li>
-                <li><a href="#" class="nav-link ml-2" onclick="f_capitulo('ajustes_mantenimiento')">AJUSTES DE MANTENIMIENTO</a></li>
-                <li><a href="#" class="nav-link ml-2" onclick="f_capitulo('ajustes_operaciones')">AJUSTE DE OPERACIONES</a></li>
-                <li><a href="#" class="nav-link ml-2" onclick="f_capitulo('ajustes_usuario')">AJUSTE DE USUARIO</a></li>
-                <li><a href="#" class="nav-link ml-2" onclick="f_capitulo('maestro_uno')">MAESTRO UNO</a></li>
-                <li><a href="#" class="nav-link ml-2" onclick="f_capitulo('usuario')">USUARIO</a></li>
-              </ul>
-            </div>
-          </li>
-          <li class="mb-1">
-            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-toggle="collapse" data-target="#mantenimiento-collapse" aria-expanded="false">
-              MANTENIMIENTO
-            </button>
-            <div class="collapse" id="mantenimiento-collapse">
-              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                <li><a href="#" class="nav-link ml-2" onclick="f_capitulo('componentes')">COMPONENTES</a></li>
-                <li><a href="#" class="nav-link ml-2" onclick="f_capitulo('dashboard_mantenimiento')">DASHBOARD DE MANTENIMIENTO</a></li>
-                <li><a href="#" class="nav-link ml-2" onclick="f_capitulo('infobus')">INFOBUS</a></li>
-                <li><a href="#" class="nav-link ml-2" onclick="f_capitulo('check_list')">INSPECCION CHECK LIST</a></li>
-                <li><a href="#" class="nav-link ml-2" onclick="f_capitulo('inspeccion_flota')">INSPECCION DE FLOTA</a></li>
-                <li><a href="#" class="nav-link ml-2" onclick="f_capitulo('inventario')">INVENTARIO</a></li>
-                <li><a href="#" class="nav-link ml-2" onclick="f_capitulo('kilometraje')">KILOMETRAJE</a></li>
-                <li><a href="#" class="nav-link ml-2" onclick="f_capitulo('materiales_servicios')">MATERIALES Y SERVICIOS</a></li>
-                <li><a href="#" class="nav-link ml-2" onclick="f_capitulo('orden_trabajo')">ORDEN DE TRABAJO</a></li>
-                <li><a href="#" class="nav-link ml-2" onclick="f_capitulo('ot_correctivas')">OT CORRECTIVAS</a></li>
-                <li><a href="#" class="nav-link ml-2" onclick="f_capitulo('ot_preventivas')">OT PREVENTIVAS</a></li>
-                <li><a href="#" class="nav-link ml-2" onclick="f_capitulo('pedidos')">PEDIDOS</a></li>
-                <li><a href="#" class="nav-link ml-2" onclick="f_capitulo('vales')">VALES</a></li>
-                <li><a href="#" class="nav-link ml-2" onclick="f_capitulo('vales_v3')">VALES 3.0</a></li>
-              </ul>
-            </div>
-          </li>
-          <li class="mb-1">
-            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-toggle="collapse" data-target="#operaciones-collapse" aria-expanded="false">
-              OPERACIONES
-            </button>
-            <div class="collapse" id="operaciones-collapse">
-              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                <li><a href="#" class="nav-link ml-2" onclick="f_capitulo('analisis_novedades')">AJUSTES GENERALES</a></li>
-                <li><a href="#" class="nav-link ml-2" onclick="f_capitulo('comportamiento')">AJUSTES DE MANTENIMIENTO</a></li>
-                <li><a href="#" class="nav-link ml-2" onclick="f_capitulo('control_facilitador')">AJUSTE DE OPERACIONES</a></li>
-                <li><a href="#" class="nav-link ml-2" onclick="f_capitulo('costo_accidentes')">AJUSTE DE USUARIO</a></li>
-                <li><a href="#" class="nav-link ml-2" onclick="f_capitulo('desempeno_piloto')">MAESTRO UNO</a></li>
-                <li><a href="#" class="nav-link ml-2" onclick="f_capitulo('despacho_flota')">USUARIO</a></li>
-                <li><a href="#" class="nav-link ml-2" onclick="f_capitulo('inasistencias')">INASISTENCIAS</a></li>
-                <li><a href="#" class="nav-link ml-2" onclick="f_capitulo('informe_preliminar')">INFORME PRELIMINAR</a></li>
-                <li><a href="#" class="nav-link ml-2" onclick="f_capitulo('nomina')">NOMINA</a></li>
-                <li><a href="#" class="nav-link ml-2" onclick="f_capitulo('novedades_piloto')">NOVEDADES DE PILOTO</a></li>
-                <li><a href="#" class="nav-link ml-2" onclick="f_capitulo('programacion_carga')">PROGRAMACION CARGA</a></li>
-                <li><a href="#" class="nav-link ml-2" onclick="f_capitulo('solicitudes')">SOLICITUDES</a></li>
-              </ul>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div id="div_capitulo" class="my-contenido-con-sidebar p-0">
-    </div>
-  </div>
-    <footer>
-      <script src='Services/Resources/jquery-3.2.1/jquery-3.2.1.min.js' type='text/javascript'></script> 
-      <script src='Services/Resources/bootstrap-4.5.2-dist/js/bootstrap.min.js' type='text/javascript'></script>
-      <script src='Services/Resources/showdownjs-showdown-7cbadb8/dist/showdown.min.js' type='text/javascript'></script>
-      <script src='Module/manual/View/local_view.js' type='text/javascript'></script>
-    </footer>
-  </body>
-</html>
+				<!-- MODAL CRUD LOG MANUAL DE USUARIO -->
+				<div class="row modal fade" id="modal_crud_log_manual" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog modal-lg" role="document">
+			        	<div class="modal-content">
+					    	<div class="modal-header">
+			                	<h5 class="modal-title" id="exampleModalLabel"></h5>
+			                	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+			                	</button>
+			            	</div>
+					  		<form id="form_modal_log_manual" enctype="multipart/form-data" action="" method="post">    
+			      		    	<div class="modal-body">
+									<div class="row align-items-end">
+										<div class="col-lg-12">
+											<div class="form-control-sm mb-1 overflow-auto h-100 border border-muted border-radius rounded" id="div_log_manual">
+											</div>
+			      		            	</div>
+									</div>  
+								</div>
+			      		    	<div class="modal-footer">
+								  	<button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+								</div>
+							</form>
+			        	</div>
+			    	</div>
+				</div>
+				<!-- Termino de CRUD LOG PEDIDOS --> 
+
+			</div>
+
+		</div>
+	</div>
+</div>

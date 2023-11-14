@@ -64,6 +64,7 @@ class Accesos
 			case "nav-tab-detalle_check_list":
 				$tabshtml = '	<a class="nav-item nav-link active" id="nav-observaciones-tab" data-toggle="tab" href="#nav-observaciones" role="tab" aria-controls="nav-observaciones" aria-selected="true">Observaciones</a>
 								<a class="nav-item nav-link" id="nav-falla_via-tab" data-toggle="tab" href="#nav-falla_via" role="tab" aria-controls="nav-falla_via" aria-selected="false">Fallas en Vía</a>';
+			break;
 
 		}
 		echo $tabshtml;
