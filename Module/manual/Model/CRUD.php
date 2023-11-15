@@ -172,9 +172,22 @@ class CRUD
 		$this->conexion=null;
 	}
 
-	function buscar_manual()
+	function select_modulo_nombre()
 	{
-		$consulta = " SELECT `glo_manual`.`manual_id`, `glo_manual`.`man_capitulo`, `glo_manual`.`man_sub_capitulo`, `glo_manual`.`man_descripcion`, `glo_manual`.`man_usuario_genera`, `glo_manual`.`man_fecha_genera`, `colaborador`.`Colab_nombre_corto` FROM `glo_manual` LEFT JOIN `colaborador` ON `colaborador`.`Colaborador_id`=`glo_manual`.`man_usuario_genera` ORDER BY `man_capitulo`, `man_sub_capitulo` ASC ";
+		$usuario_id = $_SESSION['USUARIO_ID'];
+		
+		$consulta = " SELECT `Modulo`.`Mod_NombreVista` AS `detalle` FROM `Permisos` LEFT JOIN `Modulo` ON `Modulo`.`Modulo_Id`=`Permisos`.`PER_ModuloId` AND `Modulo`.`mod_tipo`='Modulo' WHERE `PER_UsuarioId`='$usuario_id' ORDER BY `Mod_NombreVista` ";
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();
+		
+		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+		return $data;   
+		$this->conexion=null;
+	}
+
+	function buscar_manual($man_modulo_id)
+	{
+		$consulta = " SELECT `glo_manual`.`manual_id`, `Modulo`.`Mod_Nombre`, `glo_manual`.`man_titulo`, `colaborador`.`Colab_nombre_corto`, `glo_manual`.`man_fecha_genera` FROM `glo_manual` LEFT JOIN `colaborador` ON `colaborador`.`Colaborador_id`=`glo_manual`.`man_usuario_genera` LEFT JOIN `Modulo` ON `Modulo`.`Modulo_Id`=`glo_manual`.`man_modulo_id` WHERE `glo_manual`.`man_modulo_id`='$man_modulo_id' ORDER BY `Mod_Nombre`, `man_titulo` ASC ";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();        
@@ -184,20 +197,20 @@ class CRUD
 		$this->conexion=null;
 	}
 
-	function crear_manual_registro($manual_id, $man_capitulo, $man_sub_capitulo, $man_descripcion, $man_html)
+	function crear_manual_registro($man_modulo_id, $man_titulo, $man_html)
 	{
 		$man_usuario_genera = $_SESSION['USUARIO_ID'];
 		$nombre_usuario = $_SESSION['Usua_NombreCorto'];
 		$man_fecha_genera = date("Y-m-d H:i:s");
 		$man_log = date_format(date_create($man_fecha_genera),"d-m-Y H:i")." ".$nombre_usuario." : CREACION <br>";
 
-		$consulta = " INSERT INTO `glo_manual` (`man_capitulo`, `man_sub_capitulo`, `man_descripcion`, `man_usuario_genera`, `man_fecha_genera`, `man_log`) VALUES ('$man_capitulo', '$man_sub_capitulo', '$man_descripcion', '$man_usuario_genera', '$man_fecha_genera', '$man_log') ";
-		echo $consulta;
+		$consulta = " INSERT INTO `glo_manual` (`man_modulo_id`, `man_titulo`, `man_usuario_genera`, `man_fecha_genera`, `man_log`) VALUES ('$man_modulo_id', '$man_titulo', '$man_usuario_genera', '$man_fecha_genera', '$man_log') ";
+
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();
 
-		$consulta = " SELECT * FROM `glo_manual` WHERE `man_capitulo`='$man_capitulo' AND `man_sub_capitulo`='$man_sub_capitulo' ";
-		echo $consulta;
+		$consulta = " SELECT * FROM `glo_manual` WHERE `man_modulo_id`='$man_modulo_id' AND `man_titulo`='$man_titulo' ";
+
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();
 		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
@@ -213,7 +226,7 @@ class CRUD
 		$this->conexion=null;
 	}
 
-	function editar_manual_registro($manual_id, $man_capitulo, $man_sub_capitulo, $man_descripcion, $man_html)
+	function editar_manual_registro($manual_id, $man_html)
 	{
 		$man_log_anterior = '';
 		$consulta = " SELECT * FROM `glo_manual` WHERE `manual_id`='$manual_id' ";
@@ -229,13 +242,13 @@ class CRUD
 		$man_fecha_genera = date("Y-m-d H:i:s");
 		$man_log = date_format(date_create($man_fecha_genera),"d-m-Y H:i")." ".$nombre_usuario." : EDICION <br>".$man_log_anterior;
 
-		$consulta = " UPDATE FROM `glo_manual` SET `man_capitulo`='$man_capitulo', `man_sub_capitulo`='$man_sub_capitulo', `man_descripcion`='$man_descripcion', `man_log`='$man_log' WHERE `manual_id`='$manual_id' ";
-		echo $consulta;
+		$consulta = " UPDATE `glo_manual` SET `man_log`='$man_log' WHERE `manual_id`='$manual_id' ";
+
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();
 
-		$consulta = " UPDATE FROM `glo_manual_html` SET `man_html`='$man_html' WHERE `manual_id`='$manual_id' ";
-		echo $consulta;
+		$consulta = " UPDATE `glo_manual_html` SET `man_html`='$man_html' WHERE `manual_id`='$manual_id' ";
+
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();
 

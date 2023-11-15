@@ -172,34 +172,36 @@ switch ($Accion)
       $Respuesta     = $InstanciaAjax->contar_dato($nombre_tabla, $campo_buscar, $condicion_where);
    break;
 
+   case 'select_modulo_nombre':
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta     = $InstanciaAjax->select_modulo_nombre();
+   break;
+
    case 'buscar_manual':
+      $man_modulo_id = $_POST['man_modulo_id'];
+
       MModel($Modulo,'CRUD');
       $instancia_ajax = new CRUD();
-      $respuesta = $instancia_ajax->buscar_manual();
+      $respuesta = $instancia_ajax->buscar_manual($man_modulo_id);
    break;
 
    case 'crear_manual_registro':
-      $manual_id        = $_POST['manual_id'];
-      $man_capitulo     = $_POST['man_capitulo'];
-      $man_sub_capitulo = $_POST['man_sub_capitulo'];
-      $man_descripcion  = $_POST['man_descripcion'];
-      $man_html         = $_POST['man_html'];
+      $man_modulo_id = $_POST['man_modulo_id'];
+      $man_titulo  = strtoupper($_POST['man_titulo']);
 
       MModel($Modulo,'CRUD');
       $instancia_ajax = new CRUD();
-      $respuesta = $instancia_ajax->crear_manual_registro($manual_id, $man_capitulo, $man_sub_capitulo, $man_descripcion, $man_html);
+      $respuesta = $instancia_ajax->crear_manual_registro($man_modulo_id, $man_titulo, $man_html);
    break;
 
    case 'editar_manual_registro':
       $manual_id        = $_POST['manual_id'];
-      $man_capitulo     = $_POST['man_capitulo'];
-      $man_sub_capitulo = $_POST['man_sub_capitulo'];
-      $man_descripcion  = $_POST['man_descripcion'];
       $man_html         = $_POST['man_html'];
 
       MModel($Modulo,'CRUD');
       $instancia_ajax = new CRUD();
-      $respuesta = $instancia_ajax->editar_manual_registro($manual_id, $man_capitulo, $man_sub_capitulo, $man_descripcion, $man_html);
+      $respuesta = $instancia_ajax->editar_manual_registro($manual_id, $man_html);
    break;
 
    case 'borrar_manual_registro':

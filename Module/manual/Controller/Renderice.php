@@ -42,9 +42,9 @@
                     <script type='text/javascript' src='Services/Resources/cdn.datatables.net/fixedheader/3.1.9/js/dataTables.fixedHeader.min.js'></script>
                     <script type='text/javascript' src='Services/Resources/cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js'></script>
                     <script src='Services/Resources/jquery-ui-1.12.1/jquery-ui.min.js'></script>
-                    <script src='https://cdn.tiny.cloud/1/zk5fdrzjc8vn41f8lvc5tl1o1j6fuccttpo0ap39hocc48ey/tinymce/6/tinymce.min.js' referrerpolicy='origin'></script>";
+                    <script src='Services/Resources/tinymce_6.7.2_dev/tinymce/js/tinymce/tinymce.min.js' referrerpolicy='origin'></script> ";
 
-                    //<script src='Services/Resources/tinymce_6.7.2_dev/tinymce/js/tinymce/tinymce.min.js' referrerpolicy='origin'></script> ";
+                    //<script src='https://cdn.tiny.cloud/1/zk5fdrzjc8vn41f8lvc5tl1o1j6fuccttpo0ap39hocc48ey/tinymce/6/tinymce.min.js' referrerpolicy='origin'></script>";
 
 // 4.0 CONTRUCCION DE LA VISTA
 

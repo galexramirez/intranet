@@ -177,5 +177,18 @@ class Logico
 		echo $rpta_contar_dato;
 	}
 
+    public function select_modulo_nombre()
+	{
+		MModel($this->Modulo, 'CRUD');
+		$InstanciaAjax= new CRUD();
+		$Respuesta=$InstanciaAjax->select_modulo_nombre();
+
+		$html = '<option value="">Seleccione una opcion</option>';
+		
+		foreach ($Respuesta as $row) {
+            $html .= "<option value='".$row['detalle']."'>".$row['detalle']."</option>";
+		}
+		echo $html;
+	}
 
 }

@@ -40,7 +40,13 @@
 			<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 				<form id="form_seleccion_listado_manual" class="row col-sm-12 container-fluid" enctype="multipart/form-data" action="" method="post">	    
 					<div class="row align-items-end pb-4 col-sm-12">
-						<div class="col-lg-1 pt-3">             	
+				      	<div class="col-lg-2">
+					  	    <div class="form-group">
+						      	<label for="sel_modulo_nombre" class="col-form-label form-control-sm">MODULO</label>
+						       	<select class="form-control form-control-sm" id="sel_modulo_nombre"></select>
+						   	</div>
+			      		</div>
+						<div class="col-lg-2">
 							<div class="form-group" id="div_btn_seleccion_listado_manual">
 							</div>
 			       		</div> 
@@ -54,6 +60,65 @@
 				        </div>
 				    </div>  
 				</div>
+				
+				<!--MODAL CRUD CREAR MANUAL REGISTRO -->
+				<div class="row modal fade" id="modal_crud_manual_registro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			    	<div class="modal-dialog" role="document">
+			        	<div class="modal-content">
+						    <div class="modal-header">
+				                <h5 class="modal-title" id="exampleModalLabel"></h5>
+				                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+				                </button>
+			    	        </div>
+						  	<form id="form_manual_registro">    
+				      		    <div class="modal-body">
+				      		        <div class="row">
+				      		            <div class="col-lg-12">
+					  		                <div class="form-group">
+							                  	<label for="new_man_modulo_nombre" class="col-form-label form-control-sm">MODULO</label>
+							                   	<select class="form-control form-control-sm" id="new_man_modulo_nombre"></select>
+						    	           	</div>
+			      		            	</div>
+			      		    	    </div>
+			      		        	<div class="row"> 
+									  	<div class="col-lg-12">
+					  		                <div class="form-group">
+							                  	<label for="new_man_titulo" class="col-form-label form-control-sm">TITULO (Máx. 100 caract.)</label>
+							                   	<input type="text" class="form-control form-control-sm text-uppercase" id="new_man_titulo" length="100">
+						    	           	</div>
+			      		            	</div>
+			      		    	    </div>
+								</div>
+			      		    	<div class="modal-footer">
+			      		        	<button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+			      		        	<button type="submit" id="btn_generar_manual_registro" class="btn btn-dark">Generar</button>
+			      		    	</div>
+			      			</form>    
+			        	</div>
+			    	</div>
+				</div>  			
+
+				<!-- MODAL CRUD VER INFORMACION DE MANUAL EN HTML -->
+				<div class="row modal fade" id="modal_crud_ver_manual" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog modal-xl" role="document">
+			        	<div class="modal-content">
+						<!--<div class="modal-content ui-widget-content" id="modal-resizable_ver_manual">-->
+					    	<div class="modal-header dragable_touch">
+			                	<h5 class="modal-title" id="exampleModalLabel"></h5>
+			                	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+			                	</button>
+			            	</div>
+							<form id="form_modal_ver_manual" enctype="multipart/form-data" action="" method="post">    
+								<div class="modal-body">
+									<div id="div_ver_manual_html">
+									</div>
+								</div>
+							</form>
+						</div>
+			    	</div>
+				</div>
+				<!-- FIN MODAL CRUD VER INFORMACION DE MANUAL EN HTML -->
+
 			</div>
 
 			<!------------------------------------------------------------------------------->
@@ -68,22 +133,16 @@
 								<input type="number" readonly class="form-control form-control-sm" id="manual_id">
 							</div>
 						</div>
-						<div class="col-lg-1">
+						<div class="col-lg-2">
 							<div class="form-group">
-								<label for="man_capitulo" class="col-form-label form-control-sm">CAPITULO</label>
-								<input type="number" class="form-control form-control-sm man_capitulo" id="man_capitulo">
-							</div>
-						</div>
-						<div class="col-lg-1">
-							<div class="form-group">
-								<label for="man_sub_capitulo" class="col-form-label form-control-sm">SUB CAP.</label>
-								<input type="number" class="form-control form-control-sm man_sub_capitulo" id="man_sub_capitulo">
+								<label for="man_modulo_nombre" class="col-form-label form-control-sm">MODULO</label>
+								<select class="form-control form-control-sm man_modulo_nombre" id="man_modulo_nombre"></select>
 							</div>
 						</div>
 						<div class="col-lg-3">
 							<div class="form-group">
-								<label for="man_descripcion" class="col-form-label form-control-sm">DESCRIPCION (Máx. 100 caract.)</label>
-								<input type="text" class="form-control form-control-sm text-uppercase" id="man_descripcion" maxlength="100">
+								<label for="man_titulo" class="col-form-label form-control-sm">TITULO</label>
+								<select class="form-control form-control-sm man_titulo" id="man_titulo"></select>
 							</div>
 						</div>
 						<div class="col-lg-4">
@@ -126,7 +185,7 @@
 			        	</div>
 			    	</div>
 				</div>
-				<!-- Termino de CRUD LOG PEDIDOS --> 
+				<!-- TERMINO CRUD LOG MANUAL DE USUARIO --> 
 
 			</div>
 
