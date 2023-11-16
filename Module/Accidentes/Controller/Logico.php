@@ -304,11 +304,11 @@ class Logico
         $CampoBD = "Accidentes_Id";
         
         MModel($this->Modulo, 'CRUD');
-        $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$Accidentes_Id);
+        $InstanciaAjax = new CRUD();
+        $Respuesta = $InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$Accidentes_Id);
         
         foreach ($Respuesta as $row) {
-            if($Accidentes_Id = $row['Accidentes_Id']){
+            if($Accidentes_Id == $row['Accidentes_Id'] && $Acci_TipoImagen==$row['Acci_TipoImagen']){
                 $crear_qr = "EXISTE";
             };
         }
@@ -316,7 +316,7 @@ class Logico
         //Ejecuta Modelo
         MModel($this->Modulo,'CRUD');
         $InstanciaAjax = new CRUD();
-    
+
         if($Tipo=="CREAR"){
             if($crear_qr==""){
                 $Respuesta=$InstanciaAjax->GrabarImagen($Accidentes_Id,$Acci_TipoImagen,$Acci_Imagen);
@@ -324,8 +324,7 @@ class Logico
         }else{
             $Respuesta=$InstanciaAjax->EditarImagen($Accidentes_Id,$Acci_TipoImagen,$Acci_Imagen);
         }
-
-        
+       
         // eliminar archivo png generado
         unlink($file_png);
     }
