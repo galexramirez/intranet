@@ -49,6 +49,16 @@ switch ($Accion)
       $Respuesta=$InstanciaAjax->DivFormulario($NombreFormulario,$NombreObjeto);
    break;
 
+   case 'MostrarDiv':
+      $NombreFormulario = $_POST['NombreFormulario'];
+      $NombreObjeto     = $_POST['NombreObjeto'];
+      $Dato             = $_POST['Dato'];
+
+      MController($Modulo,'Accesos');
+      $InstanciaAjax = new Accesos();
+      $Respuesta     = $InstanciaAjax->MostrarDiv($NombreFormulario,$NombreObjeto,$Dato);
+   break;
+
    case 'BuscarDataBD':
       $TablaBD    = $_POST['TablaBD'];
       $CampoBD    = $_POST['CampoBD'];
@@ -57,6 +67,16 @@ switch ($Accion)
       MController($Modulo,'Logico');
       $InstanciaAjax = new Logico();
       $Respuesta     = $InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$DataBuscar);
+   break;
+
+   case 'buscar_dato':
+      $nombre_tabla     = $_POST['nombre_tabla'];
+      $campo_buscar     = $_POST['campo_buscar'];
+      $condicion_where  = $_POST['condicion_where'];
+
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta     = $InstanciaAjax->buscar_dato($nombre_tabla, $campo_buscar, $condicion_where);
    break;
 
    case 'SelectTipos':
