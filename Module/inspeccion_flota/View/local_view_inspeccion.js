@@ -33,6 +33,7 @@ $(document).ready(function(){
   });
 
   $("#reg_insp_componente").on('change', function () {
+    $("#reg_insp_posicion").prop("disabled",false);
     reg_insp_componente = $("#reg_insp_componente").val();
     let contar_posicion = f_contar_dato("manto_inspeccion_posicion","insp_posicion","`insp_bus_tipo`='"+reg_insp_bus_tipo+"' AND `insp_codigo`='"+reg_insp_codigo+"' AND `insp_componente`='"+reg_insp_componente+"'");
     reg_insp_falla = "";
@@ -49,7 +50,8 @@ $(document).ready(function(){
  
     if(contar_posicion=="1"){
       reg_insp_posicion = f_buscar_dato("manto_inspeccion_posicion","insp_posicion","`insp_bus_tipo`='"+reg_insp_bus_tipo+"' AND `insp_codigo`='"+reg_insp_codigo+"' AND `insp_componente`='"+reg_insp_componente+"'");
-      $("#reg_insp_falla").focus().select();      
+      $("#reg_insp_falla").focus().select();
+      $("#reg_insp_posicion").prop("disabled",true);
     }else{
       reg_insp_posicion = '';
     }
@@ -60,6 +62,7 @@ $(document).ready(function(){
   });
 
   $("#reg_insp_posicion").on('change', function (){
+    $("#reg_insp_falla").prop("disabled",false);
     reg_insp_accion = "";
     let contar_falla = f_contar_dato("manto_inspeccion_falla_accion","insp_falla","`insp_bus_tipo`='"+reg_insp_bus_tipo+"' AND `insp_codigo`='"+reg_insp_codigo+"' AND `insp_componente`='"+reg_insp_componente+"'");
 
@@ -68,7 +71,8 @@ $(document).ready(function(){
 
     if(contar_falla=="1"){
       reg_insp_falla = f_buscar_dato("manto_inspeccion_falla_accion","insp_falla","`insp_bus_tipo`='"+reg_insp_bus_tipo+"' AND `insp_codigo`='"+reg_insp_codigo+"' AND `insp_componente`='"+reg_insp_componente+"'");
-      $("#reg_insp_accion").focus().select();      
+      $("#reg_insp_accion").focus().select();
+      $("#reg_insp_falla").prop("disabled",true);
     }else{
       reg_insp_falla = "";
     }
@@ -78,6 +82,7 @@ $(document).ready(function(){
   })
 
   $("#reg_insp_falla").on('change', function (){
+    $("#reg_insp_accion").prop("disabled",false);
     reg_insp_falla = $("#reg_insp_falla").val();
     let contar_accion = f_contar_dato("manto_inspeccion_falla_accion","insp_accion","`insp_bus_tipo`='"+reg_insp_bus_tipo+"' AND `insp_codigo`='"+reg_insp_codigo+"' AND `insp_componente`='"+reg_insp_componente+"' AND `insp_falla`='"+reg_insp_falla+"'");
     reg_insp_accion = "";
@@ -87,6 +92,7 @@ $(document).ready(function(){
     if(contar_accion=="1"){
       reg_insp_accion = f_buscar_dato("manto_inspeccion_falla_accion","insp_accion","`insp_bus_tipo`='"+reg_insp_bus_tipo+"' AND `insp_codigo`='"+reg_insp_codigo+"' AND `insp_componente`='"+reg_insp_componente+"' AND `insp_falla`='"+reg_insp_falla+"'");
       $("#btn_agregar_inspeccion_registro_posicion").focus().select();      
+      $("#reg_insp_accion").prop("disabled",true);
     }else{
       reg_insp_accion = "";
     }
@@ -245,6 +251,10 @@ $(document).ready(function(){
       $("#reg_insp_accion").val(reg_insp_accion);
       $("#btn_agregar_inspeccion_registro_posicion").prop("disabled",false);
 
+      $("#reg_insp_posicion").prop("disabled",false);
+      $("#reg_insp_falla").prop("disabled",false);
+      $("#reg_insp_accion").prop("disabled",false);
+
       f_registrar_inspeccion_registro_posicion();
     }
   });
@@ -370,6 +380,10 @@ function f_codigo_observado(p_codigo_inspeccion){
   reg_insp_falla = "";
   reg_insp_accion = "";
   
+  $("#reg_insp_posicion").prop("disabled",false);
+  $("#reg_insp_falla").prop("disabled",false);
+  $("#reg_insp_accion").prop("disabled",false);
+
   $("#reg_insp_componente").val(reg_insp_componente);
   $("#reg_insp_posicion").val(reg_insp_posicion);
   $("#reg_insp_falla").val(reg_insp_falla);

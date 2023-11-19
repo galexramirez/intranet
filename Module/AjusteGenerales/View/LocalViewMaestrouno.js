@@ -82,7 +82,7 @@ $(document).ready(function()
 
     /// ::::::::::::::: CREA Y EDITA USUARIO :::::::::::::///
     $('#formMaestrouno').submit(function(e){                         
-        let validacionMaestrouno;
+        let validacionMaestrouno='';
         e.preventDefault(); //evita el comportambiento normal del submit, es decir, recarga total de la página
         ttablamaestrouno_id = $.trim($('#ttablamaestrouno_id').val());
         ttablamaestrouno_operacion = $.trim($('#ttablamaestrouno_operacion').val());
@@ -91,11 +91,22 @@ $(document).ready(function()
 
         validacionMaestrouno = f_validarMaestrouno(ttablamaestrouno_tipo,ttablamaestrouno_operacion,ttablamaestrouno_detalle);
         
+        if(validacionMaestrouno===''){
+            let a_data = [];
+            a_data = f_BuscarDataBD("glo_tipotablamaestrouno","ttablamaestrouno_tipo",ttablamaestrouno_tipo);
+            $.each(a_data, function(idx, obj){ 
+                if(obj.ttablamaestrouno_operacion===ttablamaestrouno_operacion.toUpperCase() && obj.ttablamaestrouno_tipo===ttablamaestrouno_tipo.toUpperCase() && obj.ttablamaestrouno_detalle===ttablamaestrouno_detalle.toUpperCase()){
+                    validacionMaestrouno = "invalido";
+                    t_msg = "<br> Registro ya existe !!!";
+                }
+            });
+        }
+
         if(validacionMaestrouno == "invalido"){
             Swal.fire({
               position: 'center',
               icon: 'error',
-              title: '*Falta Completar Información!!!',
+              title: '*Falta Completar Información!!!'+t_msg,
               showConfirmButton: false,
               timer: 1500
             })

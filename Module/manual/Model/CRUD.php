@@ -187,7 +187,7 @@ class CRUD
 
 	function buscar_manual($man_modulo_id)
 	{
-		$consulta = " SELECT `glo_manual`.`manual_id`, `Modulo`.`Mod_Nombre`, `glo_manual`.`man_titulo`, `colaborador`.`Colab_nombre_corto`, `glo_manual`.`man_fecha_genera` FROM `glo_manual` LEFT JOIN `colaborador` ON `colaborador`.`Colaborador_id`=`glo_manual`.`man_usuario_genera` LEFT JOIN `Modulo` ON `Modulo`.`Modulo_Id`=`glo_manual`.`man_modulo_id` WHERE `glo_manual`.`man_modulo_id`='$man_modulo_id' ORDER BY `Mod_Nombre`, `man_titulo` ASC ";
+		$consulta = " SELECT `glo_manual`.`manual_id`, `Modulo`.`Mod_NombreVista`, `glo_manual`.`man_titulo`, `colaborador`.`Colab_nombre_corto`, `glo_manual`.`man_fecha_genera` FROM `glo_manual` LEFT JOIN `colaborador` ON `colaborador`.`Colaborador_id`=`glo_manual`.`man_usuario_genera` LEFT JOIN `Modulo` ON `Modulo`.`Modulo_Id`=`glo_manual`.`man_modulo_id` WHERE `glo_manual`.`man_modulo_id`='$man_modulo_id' ORDER BY `Mod_Nombre`, `man_titulo` ASC ";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();        

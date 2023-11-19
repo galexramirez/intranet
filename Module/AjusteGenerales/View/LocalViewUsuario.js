@@ -82,7 +82,8 @@ $(document).ready(function()
 
     /// ::::::::::::::: CREA Y EDITA USUARIO :::::::::::::///
     $('#formUsuario').submit(function(e){                         
-        let validacionUsuario;
+        let validacionUsuario = '';
+        let t_msg = '';
         e.preventDefault(); //evita el comportambiento normal del submit, es decir, recarga total de la página
         ttablausuario_id = $.trim($('#ttablausuario_id').val());
         ttablausuario_operacion = $.trim($('#ttablausuario_operacion').val());
@@ -90,12 +91,23 @@ $(document).ready(function()
         ttablausuario_detalle = $.trim($('#ttablausuario_detalle').val());
 
         validacionUsuario = f_validarUsuario(ttablausuario_tipo,ttablausuario_operacion,ttablausuario_detalle);
+
+        if(validacionUsuario===''){
+            let a_data = [];
+            a_data = f_BuscarDataBD("glo_tipotablausuario","ttablausuario_tipo",ttablausuario_tipo);
+            $.each(a_data, function(idx, obj){ 
+                if(obj.ttablausuario_operacion===ttablausuario_operacion.toUpperCase() && obj.ttablausuario_tipo===ttablausuario_tipo.toUpperCase() && obj.ttablausuario_detalle===ttablausuario_detalle.toUpperCase()){
+                    validacionUsuario = "invalido";
+                    t_msg = "<br> Registro ya existe !!!";
+                }
+            });
+        }
         
         if(validacionUsuario == "invalido"){
             Swal.fire({
               position          : 'center',
               icon              : 'error',
-              title             : '*Falta Completar Información!!!',
+              title             : '*Falta Completar Información!!!'+t_msg,
               showConfirmButton : false,
               timer             : 1500
             })

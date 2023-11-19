@@ -147,7 +147,7 @@ $(document).ready(function(){
         let rpta_borrar_usuarios = "";
         Swal.fire({
             title               : '¿Está seguro?',
-            text                : "Se eliminara el registro "+Usuario_Id+"!",
+            text                : "Se eliminara el registro "+Usuario_Id+" con todos sus accesos a modulos !",
             icon                : 'warning',
             showCancelButton    : true,
             confirmButtonColor  : '#3085d6',

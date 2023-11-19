@@ -78,7 +78,12 @@ class CRUD
 		$consulta = "DELETE FROM `usuario` WHERE `Usuario_Id`='$Usuario_Id'";
   		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();   
-        $this->conexion=null;	
+
+		$consulta = "DELETE FROM `Permisos` WHERE `PER_UsuarioId`='$Usuario_Id'";
+		$resultado = $this->conexion->prepare($consulta);
+	  	$resultado->execute();   
+
+		$this->conexion=null;	
 	}  		
 
 	function select_combo($nombre_tabla, $es_campo_unico, $campo_select, $condicion_where)
