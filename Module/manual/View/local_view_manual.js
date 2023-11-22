@@ -24,7 +24,7 @@ $(document).ready(function(){
     man_modulo_id = '';
     man_modulo_nombre = $("#man_modulo_nombre").val();
     man_titulo = $("#man_titulo").val();
-    man_modulo_id = f_buscar_dato("Modulo", "Modulo_Id", "`Mod_Nombre`='"+man_modulo_nombre+"'");
+    man_modulo_id = f_buscar_dato("Modulo", "Modulo_Id", "`Mod_NombreVista`='"+man_modulo_nombre+"'");
     if(man_modulo_id!=='' && man_titulo!==''){
       manual_id = f_buscar_dato("glo_manual", "manual_id", "`man_modulo_id`='"+man_modulo_id+"' AND `man_titulo`='"+man_titulo+"'");
     }

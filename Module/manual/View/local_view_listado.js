@@ -102,7 +102,7 @@ $(document).ready(function(){
           "dataSrc"   : ""
         },
         "columns"     : columnas_tabla,
-        "order"       : [[1, 'asc'],[2, 'asc']]
+        "order"       : [[3, 'asc']]
       });  
     }else{
       Swal.fire({

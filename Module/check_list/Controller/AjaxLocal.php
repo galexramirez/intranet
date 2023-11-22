@@ -319,24 +319,22 @@ switch ($Accion)
    case 'crear_check_list_componente': 
       $chl_bus_tipo    = $_POST['chl_bus_tipo'];
       $chl_codigo      = $_POST['chl_codigo'];
-      $chl_descripcion = strtoupper($_POST['chl_descripcion']);
       $chl_componente  = strtoupper($_POST['chl_componente']);
        
       MModel($Modulo,'CRUD');
       $InstanciaAjax= new CRUD();
-      $Respuesta=$InstanciaAjax->crear_check_list_componente($chl_bus_tipo, $chl_codigo, $chl_descripcion, $chl_componente);
+      $Respuesta=$InstanciaAjax->crear_check_list_componente($chl_bus_tipo, $chl_codigo, $chl_componente);
    break;
 
    case 'editar_check_list_componente': 
       $check_list_componente_id = $_POST['check_list_componente_id'];
       $chl_bus_tipo          = $_POST['chl_bus_tipo'];
       $chl_codigo            = $_POST['chl_codigo'];
-      $chl_descripcion       = strtoupper($_POST['chl_descripcion']);
       $chl_componente        = strtoupper($_POST['chl_componente']);
        
       MModel($Modulo,'CRUD');
       $InstanciaAjax= new CRUD();
-      $Respuesta=$InstanciaAjax->editar_check_list_componente($check_list_componente_id, $chl_bus_tipo, $chl_codigo, $chl_descripcion, $chl_componente);
+      $Respuesta=$InstanciaAjax->editar_check_list_componente($check_list_componente_id, $chl_bus_tipo, $chl_codigo, $chl_componente);
    break;
 
    case 'borrar_check_list_componente':

@@ -97,7 +97,7 @@ class CRUD
 
 	function select_codigo_check_list($chl_bus_tipo)
 	{
-		$consulta = "SELECT * FROM `manto_check_list_codigo` WHERE `chl_bus_tipo`='$chl_bus_tipo' ORDER BY `chl_codigo` ";
+		$consulta = "SELECT * FROM `manto_check_list_codigo` WHERE `chl_bus_tipo`='$chl_bus_tipo' ORDER BY `chl_orden` ";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();
@@ -109,7 +109,7 @@ class CRUD
 
 	function select_codigo_falla_via($fav_bus_tipo)
 	{
-		$consulta = "SELECT * FROM `manto_falla_via_codigo` WHERE `fav_bus_tipo`='$fav_bus_tipo' ORDER BY `fav_codigo` ";
+		$consulta = "SELECT * FROM `manto_falla_via_codigo` WHERE `fav_bus_tipo`='$fav_bus_tipo' ORDER BY `fav_orden` ";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();
@@ -345,9 +345,9 @@ class CRUD
 		$this->conexion=null;
 	}
 
-	function crear_check_list_componente($chl_bus_tipo, $chl_codigo, $chl_descripcion, $chl_componente)
+	function crear_check_list_componente($chl_bus_tipo, $chl_codigo, $chl_componente)
 	{
-		$consulta = " INSERT INTO `manto_check_list_componente` (`chl_bus_tipo`, `chl_codigo`, `chl_descripcion`, `chl_componente`) VALUES ('$chl_bus_tipo', '$chl_codigo', '$chl_descripcion', '$chl_componente') ";
+		$consulta = " INSERT INTO `manto_check_list_componente` (`chl_bus_tipo`, `chl_codigo`, `chl_componente`) VALUES ('$chl_bus_tipo', '$chl_codigo', '$chl_componente') ";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();
@@ -355,9 +355,9 @@ class CRUD
 		$this->conexion=null;
 	}
 
-	function editar_check_list_componente($check_list_componente_id, $chl_bus_tipo, $chl_codigo, $chl_descripcion, $chl_componente)
+	function editar_check_list_componente($check_list_componente_id, $chl_bus_tipo, $chl_codigo, $chl_componente)
 	{
-		$consulta = " UPDATE `manto_check_list_componente` SET `chl_bus_tipo` = '$chl_bus_tipo', `chl_codigo` = '$chl_codigo', `chl_descripcion` = '$chl_descripcion', `chl_componente` = '$chl_componente' WHERE `check_list_componente_id` = '$check_list_componente_id' ";
+		$consulta = " UPDATE `manto_check_list_componente` SET `chl_bus_tipo` = '$chl_bus_tipo', `chl_codigo` = '$chl_codigo', `chl_componente` = '$chl_componente' WHERE `check_list_componente_id` = '$check_list_componente_id' ";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();

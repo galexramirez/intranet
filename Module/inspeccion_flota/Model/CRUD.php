@@ -97,7 +97,7 @@ class CRUD
 
 	function select_codigo_inspeccion($insp_bus_tipo)
 	{
-		$consulta = "SELECT * FROM `manto_inspeccion_codigo` WHERE `insp_bus_tipo`='$insp_bus_tipo' ORDER BY `insp_codigo` ";
+		$consulta = "SELECT * FROM `manto_inspeccion_codigo` WHERE `insp_bus_tipo`='$insp_bus_tipo' ORDER BY `insp_orden` ";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();

@@ -175,7 +175,7 @@ $(document).ready(function(){
         url       : "Ajax.php",
         type      : "POST",
         datatype  : "json",
-        data      : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, check_list_componente_id:check_list_componente_id, chl_bus_tipo:com_chl_bus_tipo, chl_codigo:com_chl_codigo, chl_descripcion:com_chl_descripcion, chl_componente:com_chl_componente },
+        data      : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, check_list_componente_id:check_list_componente_id, chl_bus_tipo:com_chl_bus_tipo, chl_codigo:com_chl_codigo, chl_componente:com_chl_componente },
         success: function(data) {
           tabla_check_list_componente.ajax.reload(null, false);
           Swal.fire({
