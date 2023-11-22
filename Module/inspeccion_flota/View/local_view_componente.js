@@ -175,7 +175,7 @@ $(document).ready(function(){
         url       : "Ajax.php",
         type      : "POST",
         datatype  : "json",
-        data      : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, inspeccion_componente_id:inspeccion_componente_id, insp_bus_tipo:com_insp_bus_tipo, insp_codigo:com_insp_codigo, insp_descripcion:com_insp_descripcion, insp_componente:com_insp_componente },
+        data      : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, inspeccion_componente_id:inspeccion_componente_id, insp_bus_tipo:com_insp_bus_tipo, insp_codigo:com_insp_codigo, insp_componente:com_insp_componente },
         success: function(data) {
           tabla_inspeccion_componente.ajax.reload(null, false);
           Swal.fire({

@@ -335,9 +335,9 @@ class CRUD
 		$this->conexion=null;
 	}
 
-	function crear_inspeccion_componente($insp_bus_tipo, $insp_codigo, $insp_descripcion, $insp_componente)
+	function crear_inspeccion_componente($insp_bus_tipo, $insp_codigo, $insp_componente)
 	{
-		$consulta = " INSERT INTO `manto_inspeccion_componente` (`insp_bus_tipo`, `insp_codigo`, `insp_descripcion`, `insp_componente`) VALUES ('$insp_bus_tipo', '$insp_codigo', '$insp_descripcion', '$insp_componente') ";
+		$consulta = " INSERT INTO `manto_inspeccion_componente` (`insp_bus_tipo`, `insp_codigo`, `insp_componente`) VALUES ('$insp_bus_tipo', '$insp_codigo', '$insp_componente') ";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();
@@ -345,9 +345,9 @@ class CRUD
 		$this->conexion=null;
 	}
 
-	function editar_inspeccion_componente($inspeccion_componente_id, $insp_bus_tipo, $insp_codigo, $insp_descripcion, $insp_componente)
+	function editar_inspeccion_componente($inspeccion_componente_id, $insp_bus_tipo, $insp_codigo, $insp_componente)
 	{
-		$consulta = " UPDATE `manto_inspeccion_componente` SET `insp_bus_tipo` = '$insp_bus_tipo', `insp_codigo` = '$insp_codigo', `insp_descripcion` = '$insp_descripcion', `insp_componente` = '$insp_componente' WHERE `inspeccion_componente_id` = '$inspeccion_componente_id' ";
+		$consulta = " UPDATE `manto_inspeccion_componente` SET `insp_bus_tipo` = '$insp_bus_tipo', `insp_codigo` = '$insp_codigo', `insp_componente` = '$insp_componente' WHERE `inspeccion_componente_id` = '$inspeccion_componente_id' ";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();

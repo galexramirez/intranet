@@ -330,6 +330,18 @@ class CRUD
 
 	}
 
+	function buscar_dato($nombre_tabla, $campo_buscar, $condicion_where)
+	{
+		$consulta = "SELECT `$nombre_tabla`.`$campo_buscar` FROM `$nombre_tabla` WHERE ".$condicion_where;
+
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();
+		
+		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+		return $data;   
+		$this->conexion=null;
+	}
+
 	function GrabarImagen($Accidentes_Id,$Acci_TipoImagen,$Acci_Imagen)
 	{
 		$Acci_ImagenFecha = date("Y-m-d H:i:s");

@@ -52,6 +52,19 @@ class Logico
         echo $rpta_Diferencia;
     }
 
+    public function buscar_dato($nombre_tabla, $campo_buscar, $condicion_where)
+	{
+		$rpta_buscar_dato = "";
+        MModel($this->Modulo, 'CRUD');
+		$InstanciaAjax= new CRUD();
+		$Respuesta=$InstanciaAjax->buscar_dato($nombre_tabla, $campo_buscar, $condicion_where);
+
+        foreach ($Respuesta as $row) {
+			$rpta_buscar_dato = $row[$campo_buscar];
+		}
+		echo $rpta_buscar_dato;
+	}
+
     public function antiguedad($inicio,$final)
     {
         $n_dias = '';
@@ -604,26 +617,26 @@ class Logico
         $Acci_FechaElaboracionInforme = date("Y-m-d H:i:s");
 		$Acci_CodigoSuscribeInformacion = $_SESSION['USUARIO_ID'];
 
-        $TablaBD = "usuario";
-        $CampoBD = "Usuario_Id";
+        $TablaBD = "colaborador";
+        $CampoBD = "Colaborador_id";
         
         MModel($this->Modulo, 'CRUD');
         $InstanciaAjax= new CRUD();
         $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$Acci_CodigoSuscribeInformacion);
 
         foreach ($Respuesta as $row) {
-            $Acci_NombreSuscribeInformacion = $row['Usua_Nombres'];
+            $Acci_NombreSuscribeInformacion = $row['Colab_ApellidosNombres'];
         }
 
-        $CampoBD = "Usua_Nombres";
+        $CampoBD = "Colab_ApellidosNombres";
         
         MModel($this->Modulo, 'CRUD');
-        $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$Acci_NombreColaborador);
+        $InstanciaAjax = new CRUD();
+        $Respuesta = $InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$Acci_NombreColaborador);
 
         foreach ($Respuesta as $row) {
-            $Acci_Dni = $row['Usuario_Id'];
-            $Acci_CodigoColaborador = $row['Usua_UsuarioWeb'];
+            $Acci_Dni = $row['Colaborador_id'];
+            $Acci_CodigoColaborador = $row['Colab_CodigoCortoPT'];
         }
 
         MModel($this->Modulo, 'CRUD');
@@ -631,7 +644,7 @@ class Logico
         $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$Acci_NombreCGO);
 
         foreach ($Respuesta as $row) {
-            $Acci_CodigoCGO = $row['Usuario_Id'];
+            $Acci_CodigoCGO = $row['Colaborador_id'];
         }
 
         MModel($this->Modulo, 'CRUD');
@@ -639,7 +652,7 @@ class Logico
         $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$Acci_NombrePersonalApoyo);
 
         foreach ($Respuesta as $row) {
-            $Acci_CodigoPersonalApoyo = $row['Usuario_Id'];
+            $Acci_CodigoPersonalApoyo = $row['Colaborador_id'];
         }
 
         MModel($this->Modulo, 'CRUD');
@@ -647,7 +660,7 @@ class Logico
         $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$Acci_NombreCGM);
 
         foreach ($Respuesta as $row) {
-            $Acci_CodigoCGM = $row['Usuario_Id'];
+            $Acci_CodigoCGM = $row['Colaborador_id'];
         }
 
         MModel($this->Modulo, 'CRUD');
@@ -655,7 +668,7 @@ class Logico
         $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$Acci_NombrePersonalApoyoManto);
 
         foreach ($Respuesta as $row) {
-            $Acci_CodigoPersonalApoyoManto = $row['Usuario_Id'];
+            $Acci_CodigoPersonalApoyoManto = $row['Colaborador_id'];
         }
 
         if($Acci_MontoConciliado==""){

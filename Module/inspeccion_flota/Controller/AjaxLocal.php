@@ -319,24 +319,22 @@ switch ($Accion)
    case 'crear_inspeccion_componente': 
       $insp_bus_tipo    = $_POST['insp_bus_tipo'];
       $insp_codigo      = $_POST['insp_codigo'];
-      $insp_descripcion = strtoupper($_POST['insp_descripcion']);
       $insp_componente  = strtoupper($_POST['insp_componente']);
        
       MModel($Modulo,'CRUD');
       $InstanciaAjax= new CRUD();
-      $Respuesta=$InstanciaAjax->crear_inspeccion_componente($insp_bus_tipo, $insp_codigo, $insp_descripcion, $insp_componente);
+      $Respuesta=$InstanciaAjax->crear_inspeccion_componente($insp_bus_tipo, $insp_codigo, $insp_componente);
    break;
 
    case 'editar_inspeccion_componente': 
       $inspeccion_componente_id = $_POST['inspeccion_componente_id'];
       $insp_bus_tipo          = $_POST['insp_bus_tipo'];
       $insp_codigo            = $_POST['insp_codigo'];
-      $insp_descripcion       = strtoupper($_POST['insp_descripcion']);
       $insp_componente        = strtoupper($_POST['insp_componente']);
        
       MModel($Modulo,'CRUD');
       $InstanciaAjax= new CRUD();
-      $Respuesta=$InstanciaAjax->editar_inspeccion_componente($inspeccion_componente_id, $insp_bus_tipo, $insp_codigo, $insp_descripcion, $insp_componente);
+      $Respuesta=$InstanciaAjax->editar_inspeccion_componente($inspeccion_componente_id, $insp_bus_tipo, $insp_codigo, $insp_componente);
    break;
 
    case 'borrar_inspeccion_componente':

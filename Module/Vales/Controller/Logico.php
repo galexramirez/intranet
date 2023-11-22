@@ -6,9 +6,7 @@ class Logico
 
 	function Contenido($NombreDeModuloVista)    
 	{		
-			
 		MView('Vales','local_view',compact('NombreDeModuloVista') );
-			
 	}
 
     public function generar_vales($cod_vale, $va_ot, $va_genera, $va_date_genera, $va_asociado, $va_responsable, $va_garantia, $va_obs_cgm, $tva_obs_aom, $va_obs_aom, $va_estado, $array_data)
@@ -355,5 +353,18 @@ class Logico
 
         echo $rpta_vales_observadas;
     }
+
+    public function buscar_dato($nombre_tabla, $campo_buscar, $condicion_where)
+	{
+		$rpta_buscar_dato = "";
+        MModel($this->Modulo, 'CRUD');
+		$InstanciaAjax= new CRUD();
+		$Respuesta=$InstanciaAjax->buscar_dato($nombre_tabla, $campo_buscar, $condicion_where);
+
+        foreach ($Respuesta as $row) {
+			$rpta_buscar_dato = $row[$campo_buscar];
+		}
+		echo $rpta_buscar_dato;
+	}
 
 }

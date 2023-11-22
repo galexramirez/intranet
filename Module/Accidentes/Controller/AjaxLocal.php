@@ -89,6 +89,16 @@ switch ($Accion)
       $Respuesta=$InstanciaAjax->DiferenciaFecha($inicio,$final,$dias);
    break;
 
+   case 'buscar_dato':
+      $nombre_tabla     = $_POST['nombre_tabla'];
+      $campo_buscar     = $_POST['campo_buscar'];
+      $condicion_where  = $_POST['condicion_where'];
+
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta     = $InstanciaAjax->buscar_dato($nombre_tabla, $campo_buscar, $condicion_where);
+   break;
+
    ///:::::::::::::::::::::::::::::: FIN DE CREACION DE OBJETOS :::::::::::::::::::::::::::::::::::::///
 
    case 'BuscarAccidentes':
