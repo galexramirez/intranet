@@ -88,6 +88,29 @@ class CRUD
 		$this->conexion=null;
 	}
 
+	function BuscarDataBD($TablaBD,$CampoBD,$DataBuscar)
+	{
+		$consulta="SELECT * FROM `$TablaBD` WHERE `$CampoBD` = '$DataBuscar'";
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();
+		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+
+		return $data;
+		$this->conexion=null;
+	}
+
+	function buscar_dato($nombre_tabla, $campo_buscar, $condicion_where)
+	{
+		$consulta = "SELECT `$nombre_tabla`.`$campo_buscar` FROM `$nombre_tabla` WHERE ".$condicion_where;
+
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();
+		
+		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+		return $data;   
+		$this->conexion=null;
+	}
+
 	function buscar_inasistencias($fecha_inicio, $fecha_termino)
 	{
 		$inas_estadoinasistencias = 'CIERRE OPERACIONAL';

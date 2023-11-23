@@ -75,6 +75,7 @@ class Logico
 
     public function SelectAnios()
     {
+        $html = '';
         //Ejecuta Modelo
         MModel($this->Modulo,'CRUD');
         $InstanciaAjax= new CRUD();
@@ -95,7 +96,20 @@ class Logico
 
         print json_encode($Respuesta, JSON_UNESCAPED_UNICODE);
     }
-    
+
+    public function buscar_dato($nombre_tabla, $campo_buscar, $condicion_where)
+	{
+		$rpta_buscar_dato = "";
+        MModel($this->Modulo, 'CRUD');
+		$InstanciaAjax= new CRUD();
+		$Respuesta=$InstanciaAjax->buscar_dato($nombre_tabla, $campo_buscar, $condicion_where);
+
+        foreach ($Respuesta as $row) {
+			$rpta_buscar_dato = $row[$campo_buscar];
+		}
+		echo $rpta_buscar_dato;
+	}
+
     public function CompararFechaActual($fecha)
     {
         $rptaComparar = "";
@@ -740,7 +754,7 @@ class Logico
 
         $precioprov_log = "<strong>".$precioprov_fecha."</strong> ".$usuario." ANULACIÓN <br>".$precioprov_log1;
 
-        MModel($this->$Modulo,'CRUD');
+        MModel($this->Modulo,'CRUD');
         $InstanciaAjax= new CRUD();
         $Respuesta=$InstanciaAjax->AnularPreciosProveedor($precioprov_id, $precioprov_estado, $precioprov_log);
     }
@@ -767,14 +781,14 @@ class Logico
 
         MModel($this->Modulo,'CRUD');
         $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$precioprov_cargaid);
+        $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD, $CampoBD, $precioprov_cargaid);
 		
         foreach($Respuesta as $row){
             $precioprov_id = $row['precioprov_id'];
 			$precioprov_log1 = $row['precioprov_log'];
             $precioprov_log = "<strong>".$precioprov_fecha."</strong> ".$usuario." ANULACIÓN <br>".$precioprov_log1;
 
-            MModel($this->$Modulo,'CRUD');
+            MModel($this->Modulo,'CRUD');
             $InstanciaAjax= new CRUD();
             $Respuesta2=$InstanciaAjax->AnularPreciosProveedor($precioprov_id, $precioprov_estado, $precioprov_log);
         }

@@ -105,6 +105,26 @@ switch ($Accion) {
       $Respuesta     = $InstanciaAjax->select_combo($nombre_tabla, $es_campo_unico, $campo_select, $campo_inicial, $condicion_where);
    break;
 
+   case 'BuscarDataBD':
+      $TablaBD    = $_POST['TablaBD'];
+      $CampoBD    = $_POST['CampoBD'];
+      $DataBuscar = $_POST['DataBuscar'];
+
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta     = $InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$DataBuscar);
+   break;
+
+   case 'buscar_dato':
+      $nombre_tabla     = $_POST['nombre_tabla'];
+      $campo_buscar     = $_POST['campo_buscar'];
+      $condicion_where  = $_POST['condicion_where'];
+
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta     = $InstanciaAjax->buscar_dato($nombre_tabla, $campo_buscar, $condicion_where);
+   break;
+
    case 'buscar_inasistencias':
       $fecha_inicio  = $_POST['fecha_inicio'];
       $fecha_termino = $_POST['fecha_termino'];
@@ -164,14 +184,6 @@ switch ($Accion) {
       MModel($Modulo, 'CRUD');
       $InstanciaAjax = new CRUD();
       $Respuesta     = $InstanciaAjax->buscar_accidentes($fecha_inicio, $fecha_termino);
-   break;
-
-   case 'ver_accidentes':
-      $accidentes_id= $_POST['accidentes_id'];
-
-      MController($Modulo,'Logico');
-      $InstanciaAjax = new Logico();
-      $Respuesta     = $InstanciaAjax->ver_accidentes($accidentes_id);
    break;
 
    case 'descargar_accidentes':

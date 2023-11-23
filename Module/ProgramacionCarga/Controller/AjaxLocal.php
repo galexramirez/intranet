@@ -61,6 +61,26 @@ switch ($Accion)
       $Respuesta=$InstanciaAjax->MostrarDiv($NombreFormulario,$NombreObjeto,$Dato);
    break;
 
+   case 'BuscarDataBD':
+      $TablaBD    = $_POST['TablaBD'];
+      $CampoBD    = $_POST['CampoBD'];
+      $DataBuscar = $_POST['DataBuscar'];
+
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta     = $InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$DataBuscar);
+   break;
+
+   case 'buscar_dato':
+      $nombre_tabla     = $_POST['nombre_tabla'];
+      $campo_buscar     = $_POST['campo_buscar'];
+      $condicion_where  = $_POST['condicion_where'];
+
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta     = $InstanciaAjax->buscar_dato($nombre_tabla, $campo_buscar, $condicion_where);
+   break;
+
    case 'LeerProgramacionCarga':
          //Recepcion de Variables del JS
             $Calendario_Semana=$_POST['Semana'];

@@ -1,19 +1,19 @@
+var MoS, NombreMoS, Accion, div_show;    
+MoS ='Module';
+NombreMoS ='Nomina';
+
 $(document).ready(function()
 {
+  div_show = f_MostrarDiv("contenido", "div_alertsDropdown_ayuda", NombreMoS);
+  $("#div_alertsDropdown_ayuda").html(div_show);
+
   $('#tablaUsuarios').hide();  
 
   ///::::::::::::::: JS CARGA DE DATA TABLE :::::::::::::://
   $("#btnCargarNomina").on("click",function()
   {
-      var MoS,NombreMoS,Accion;    
-      var FechaInicio = $("#FechaInicio").val();
-      var FechaTermino = $("#FechaTermino").val();
-    
-      // Nivel Modulo o Servicio donde se esta trabajando    
-      MoS='Module';
-      // Nombre del Modulo o Servicio donde se esta trabajando      
-      NombreMoS='Nomina';
-      // Nombre
+      let FechaInicio = $("#FechaInicio").val();
+      let FechaTermino = $("#FechaTermino").val();
       Accion='CargarNomina';
 
       validacion = validar(FechaInicio,FechaTermino);
@@ -131,3 +131,69 @@ function LimpiaMs(){
     $("#MsFechaTermino").css("display", "none" );
 }
 
+function f_MostrarDiv(pNombreFormulario,pNombreObjeto,pDato){
+  let rptaMostrarDiv="";
+  Accion='MostrarDiv';
+  $.ajax({
+    url: "Ajax.php",
+    type: "POST",
+    datatype:"json",
+    async: false,
+    data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,NombreFormulario:pNombreFormulario,NombreObjeto:pNombreObjeto,Dato:pDato},    
+    success: function(data){
+      rptaMostrarDiv = data;
+    }
+  });
+  return rptaMostrarDiv;
+}
+
+//::::::::::::::::::::::::::::::::: BUSCAR DATA EN BD :::::::::::::::::::::::::::::://
+function f_BuscarDataBD(pTablaBD,pCampoBD,pDataBuscar){
+  let rptaData;
+  Accion='BuscarDataBD';
+  $.ajax({
+    url: "Ajax.php",
+    type: "POST",
+    datatype:"json",
+    async: false,
+    data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,TablaBD:pTablaBD,CampoBD:pCampoBD,DataBuscar:pDataBuscar},    
+    success: function(data){
+      rptaData = $.parseJSON(data);
+    }
+  });
+  return rptaData;
+}
+
+function f_buscar_dato(p_nombre_tabla, p_campo_buscar, p_condicion_where){
+  let rpta_buscar = "";
+  Accion = 'buscar_dato';
+  $.ajax({
+    url       : "Ajax.php",
+    type      : "POST",
+    datatype  : "json",
+    async     : false,
+    data      : {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, nombre_tabla:p_nombre_tabla, campo_buscar:p_campo_buscar, condicion_where:p_condicion_where},
+    success   : function(data){
+      rpta_buscar = data;
+    }
+  });
+  return rpta_buscar;
+}
+
+function f_ayuda_modulo(man_titulo){
+  let man_modulo_id = f_buscar_dato("Modulo", "Modulo_Id", "`Mod_Nombre` = '"+NombreMoS+"'");
+  let manual_id = f_buscar_dato("glo_manual", "manual_id", "`man_modulo_id` = '"+man_modulo_id+"' AND `man_titulo` = '"+man_titulo+"'");
+  let man_html = f_buscar_dato("glo_manual_html", "man_html", "`manual_id`='"+manual_id+"'");
+  $("#div_ver_ayuda_html").html(man_html);
+
+  $("#form_modal_ver_ayuda").trigger("reset");
+  $(".modal-header").css( "background-color", "#17a2b8");
+  $(".modal-header").css( "color", "white" );
+  $(".modal-title").text( man_titulo );
+  $('#modal_crud_ver_ayuda').modal('show');	   
+  $('#modal-resizable_ver_ayuda').resizable();
+  $(".modal-dialog").draggable({
+    cursor: "move",
+    handle: ".dragable_touch",
+  });         
+}

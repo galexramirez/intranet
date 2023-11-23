@@ -40,6 +40,18 @@ class CRUD
 		$this->conexion=null;
 	}
 
+	function buscar_dato($nombre_tabla, $campo_buscar, $condicion_where)
+	{
+		$consulta = "SELECT `$nombre_tabla`.`$campo_buscar` FROM `$nombre_tabla` WHERE ".$condicion_where;
+
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();
+		
+		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+		return $data;   
+		$this->conexion=null;
+	}
+
 	function MaxId($TablaBD,$CampoId)
 	{
 		$consulta = "SELECT MAX(`$CampoId`) AS `MaxId` FROM `$TablaBD`";
@@ -450,7 +462,7 @@ class CRUD
   		$this->conexion=null;	
 	}  		
 
-	function BuscarLogImagen($matimag_codprovedor, $matimag_ruc, $matimag_tipoimagen)
+	function BuscarLogImagen($matimag_codproveedor, $matimag_ruc, $matimag_tipoimagen)
 	{
 		$consulta="SELECT `matimag_log` FROM `manto_materialesimagen` WHERE `matimag_codproveedor`='$matimag_codproveedor' AND `matimag_ruc`='$matimag_ruc' AND `matimag_tipoimagen`='$matimag_tipoimagen'";
 		$resultado = $this->conexion->prepare($consulta);
@@ -463,7 +475,7 @@ class CRUD
 
 	function AnularPreciosProveedor($precioprov_id, $precioprov_estado, $precioprov_log)
 	{
-		$consulta="UPDATE `manto_preciosproveedor` SET `precioprov_estado` = '$precioprov_estado', `precioprov_log` = '$precioprov_log' WHERE `precioprov_id`='$precioprpov_id'";
+		$consulta="UPDATE `manto_preciosproveedor` SET `precioprov_estado` = '$precioprov_estado', `precioprov_log` = '$precioprov_log' WHERE `precioprov_id`='$precioprov_id'";
 		
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();

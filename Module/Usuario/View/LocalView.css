@@ -69,3 +69,23 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+.nav-link-alert {
+    color: #d1d3e2;
+}
+
+.nav-item .nav-link-alert {
+    position: relative;
+}
+
+.nav-item .nav-link-alert {
+/*    height: 4.375rem;*/
+    display: flex;
+    align-items: center;
+/*    padding: 0 0.75rem;*/
+}
+
+.drop-titulo{
+    font-size: 12px;
+    font-weight: 500;
+}

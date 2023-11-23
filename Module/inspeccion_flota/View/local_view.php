@@ -1,5 +1,5 @@
 <!-- 2.2 CONTENIDO DE MODULO -->
-<div id="contenido" class="my-contenido-con-sidebar  p-0">
+<div id="contenido" class="my-contenido-con-sidebar p-0">
 
 	<nav class="navbar navbar-light bg-light p-0 navbar-expand topbar static-top">
 		<div class="container-fluid">

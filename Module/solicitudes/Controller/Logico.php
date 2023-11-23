@@ -51,6 +51,19 @@ class Logico
         print json_encode($Respuesta, JSON_UNESCAPED_UNICODE);
     }
 
+    public function buscar_dato($nombre_tabla, $campo_buscar, $condicion_where)
+	{
+		$rpta_buscar_dato = "";
+        MModel($this->Modulo, 'CRUD');
+		$InstanciaAjax= new CRUD();
+		$Respuesta=$InstanciaAjax->buscar_dato($nombre_tabla, $campo_buscar, $condicion_where);
+
+        foreach ($Respuesta as $row) {
+			$rpta_buscar_dato = $row[$campo_buscar];
+		}
+		echo $rpta_buscar_dato;
+	}
+
 	function DocumentRoot()
     {
         $miCarpeta = '';
@@ -69,7 +82,7 @@ class Logico
         $micarpeta      = $_SERVER['DOCUMENT_ROOT']."/Services/Json";
         $date           = date('d-m-Y-'.substr((string)microtime(), 1, 8));
         $date           = str_replace(".", "", $date);
-        $filename       = "Solicitudes".$ib_Tipo."_".$date;
+        $filename       = "Solicitudes_".$date;
         $file_json      = $filename.".json";
         $data           = json_encode($Respuesta, JSON_UNESCAPED_UNICODE);
         file_put_contents($micarpeta."/".$file_json, $data);

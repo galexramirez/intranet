@@ -166,3 +166,8 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
     align-items: center;
 /*    padding: 0 0.75rem;*/
 }
+
+.drop-titulo{
+    font-size: 12px;
+    font-weight: 500;
+}

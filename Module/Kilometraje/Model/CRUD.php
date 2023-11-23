@@ -17,6 +17,29 @@ class CRUD
 		$this->conexion=$Instancia->Conectar(); 	
 	}
 
+	function BuscarDataBD($TablaBD,$CampoBD,$DataBuscar)
+	{
+		$consulta="SELECT * FROM `$TablaBD` WHERE `$CampoBD` = '$DataBuscar'";
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();
+		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+
+		return $data;
+		$this->conexion=null;
+	}
+
+	function buscar_dato($nombre_tabla, $campo_buscar, $condicion_where)
+	{
+		$consulta = "SELECT `$nombre_tabla`.`$campo_buscar` FROM `$nombre_tabla` WHERE ".$condicion_where;
+
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();
+		
+		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+		return $data;   
+		$this->conexion=null;
+	}
+
 	function SelectTipos($TtablaKilometraje_Operacion,$TtablaKilometraje_Tipo)
 	{
 		$consulta="SELECT `manto_tipotablaKilometraje`.`TtablaKilometraje_Detalle` AS 'Detalle' FROM `manto_tipotablaKilometraje` WHERE `manto_tipotablaKilometraje`.`TtablaKilometraje_Operacion` = '$TtablaKilometraje_Operacion' AND `manto_tipotablaKilometraje`.`TtablaKilometraje_Tipo` = '$TtablaKilometraje_Tipo' ORDER BY `Detalle` ASC";

@@ -124,6 +124,19 @@ class Logico
         print json_encode($Respuesta, JSON_UNESCAPED_UNICODE);
     }
 
+    public function buscar_dato($nombre_tabla, $campo_buscar, $condicion_where)
+	{
+		$rpta_buscar_dato = "";
+        MModel($this->Modulo, 'CRUD');
+		$InstanciaAjax= new CRUD();
+		$Respuesta=$InstanciaAjax->buscar_dato($nombre_tabla, $campo_buscar, $condicion_where);
+
+        foreach ($Respuesta as $row) {
+			$rpta_buscar_dato = $row[$campo_buscar];
+		}
+		echo $rpta_buscar_dato;
+	}
+    
     public function CrearOT($cod_ot, $ot_origen, $ot_bus, $ot_kilometraje, $ot_date_crea, $ot_date_ct, $ot_asociado, $ot_hmotor, $ot_cgm_crea, $ot_cgm_ct, $ot_estado, $ot_resp_asoc, $ot_descrip, $ot_tecnico, $ot_check, $ot_obs_cgm, $ot_sistema, $ot_inicio, $ot_fin, $ot_codfalla, $ot_at, $ot_obs_asoc, $ot_montado, $ot_dmontado, $ot_busmont, $ot_busdmont, $ot_motivo, $ot_obs_aom, $ot_ca, $ot_date_ca, $ot_componente_raiz, $ot_obs_aom2, $ot_accidentes_id, $ot_semana_cierre, $ot_cod_vinculada, $array_data)
     {
         if($ot_kilometraje==""){
@@ -1016,7 +1029,7 @@ class Logico
         $mi_carpeta = $_SERVER['DOCUMENT_ROOT']."/Services/Json";
         $date       = date('d-m-Y-'.substr((string)microtime(), 1, 8));
         $date       = str_replace(".", "", $date);
-        $filename   = "OTs".$ib_Tipo."_".$date;
+        $filename   = "OTs_".$date;
         $file_json  = $filename.".json";
         $data       = json_encode($Respuesta, JSON_UNESCAPED_UNICODE);
         file_put_contents($mi_carpeta."/".$file_json, $data);

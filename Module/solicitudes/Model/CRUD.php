@@ -180,6 +180,18 @@ class CRUD
 		$this->conexion=null;
 	}
 
+	function buscar_dato($nombre_tabla, $campo_buscar, $condicion_where)
+	{
+		$consulta = "SELECT `$nombre_tabla`.`$campo_buscar` FROM `$nombre_tabla` WHERE ".$condicion_where;
+
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();
+		
+		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+		return $data;   
+		$this->conexion=null;
+	}
+
 	function descargar_solicitudes($fecha_inicio, $fecha_termino)
 	{
 		$consulta = "SELECT *, (SELECT `glo_roles`.`roles_apellidosnombres` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`ope_solicitudes`.`soli_dni` LIMIT 1) AS `soli_apellidos_nombres`, (SELECT `ope_solicitudes_pdf`.`spdf_solicitudes_id` FROM `ope_solicitudes_pdf` WHERE `ope_solicitudes_pdf`.`spdf_solicitudes_id`=`ope_solicitudes`.`solicitudes_id` AND `spdf_pdf`!='') AS `soli_pdf`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`ope_solicitudes`.`soli_usuario` LIMIT 1) AS `soli_usuario_nombres`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`ope_solicitudes`.`soli_responsable` LIMIT 1) AS `soli_responsable_nombres` FROM `ope_solicitudes` WHERE DATE_FORMAT(`soli_fecha_ingreso`,'%Y-%m-%d')>='$fecha_inicio' AND DATE_FORMAT(`soli_fecha_ingreso`,'%Y-%m-%d')<='$fecha_termino'";

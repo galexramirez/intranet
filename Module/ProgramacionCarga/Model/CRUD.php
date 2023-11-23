@@ -18,6 +18,18 @@ class CRUD
 		$this->conexion=$Instancia->Conectar(); 	
 	}
 
+	function buscar_dato($nombre_tabla, $campo_buscar, $condicion_where)
+	{
+		$consulta = "SELECT `$nombre_tabla`.`$campo_buscar` FROM `$nombre_tabla` WHERE ".$condicion_where;
+
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();
+		
+		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+		return $data;   
+		$this->conexion=null;
+	}
+
 	function LeerProgramacionCarga($Calendario_Semana)
 	{
 		$consulta="SELECT `PrgRg_Id`, UPPER(DATE_FORMAT(`PrgRg_FechaProgramado`, '%Y-%m-%d %W')) AS `PrgRg_FechaProgramado`, DATE_FORMAT(`PrgRg_FechaCargada`, '%Y-%m-%d %H:%i:%s') AS `PrgRg_FechaCargada`,`PrgRg_Operacion`,(SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni` = `PrgRg_UsuarioId` LIMIT 1) AS `PrgRg_UsuarioId` FROM `ProgramacionRegistroCarga` LEFT JOIN `Calendario` ON `PrgRg_FechaProgramado`=`Calendario_Id` WHERE `Calendario_Semana`='$Calendario_Semana' ORDER BY `PrgRg_FechaProgramado` DESC"; 

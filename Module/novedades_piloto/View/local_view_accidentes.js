@@ -148,28 +148,6 @@ $(document).ready(function(){
       f_unlink_pdf(x_pdf);
     }
 
-    /* 
-    Accion = 'ver_accidentes';
-    $.ajax({
-      url: "Ajax.php",
-      type: "POST",
-      datatype:"json",
-      async: false,    
-      data: {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, accidentes_id:accidentes_id},    
-      success: function(data){
-        $("#div_ver_accidentes").html(data);
-      }
-    });
-    $(".modal-header").css( "background-color", "#17a2b8");
-    $(".modal-header").css( "color", "white" );
-    $(".modal-title").text( "ACCIDENTES" );
-    $('#modal_crud_ver_accidentes').modal('show');
-    $('#modal-resizable_ver_accidentes').resizable();
-    $(".modal-dialog").draggable({
-      cursor: "move",
-      handle: ".dragable_touch",
-    });        
-    */
   });
   ///:: FIN EVENTO DE BOTON VER INASIETNCIAS ::::::::::::::::::::::::::::::::::::::::::::::///
 
