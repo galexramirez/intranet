@@ -10,33 +10,36 @@ mi_carpeta    = f_DocumentRoot();
 MoS           = "Module";
 NombreMoS     = "Comportamiento";
 idiomaEspanol = {
-  "lengthMenu": "&nbsp&nbsp&nbsp&nbspMostrar _MENU_ registros",
-  "zeroRecords": "No se encuentran resultados",
-  "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-  "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+  "lengthMenu"  : "&nbsp&nbsp&nbsp&nbspMostrar _MENU_ registros",
+  "zeroRecords" : "No se encuentran resultados",
+  "info"        : "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+  "infoEmpty"   : "Mostrando registros del 0 al 0 de un total de 0 registros",
   "infoFiltered": "(Filtrado de un total de _MAX_ registros)",
-  "sSearch": "Buscar:",
-  "oPaginate": 
+  "sSearch"     : "Buscar:",
+  "oPaginate"   : 
     {
-      "sFirst": "Primero",
-      "sLast": "Ultimo",
-      "sNext": "Siguiente",
-      "sPrevious": "Anterior"
+      "sFirst"  : "Primero",
+      "sLast"   : "Ultimo",
+      "sNext"   : "Siguiente",
+      "sPrevious" : "Anterior"
     },
-  "select":
+  "select"      :
     {
-      "rows":
+      "rows"    :
       {
-        "_": "Seleccionadas %d filas",
-        "0": "Click a una fila para seleccionarla",
-        "1": "Seleccionada 1 fila"
+        "_"     : "Seleccionadas %d filas",
+        "0"     : "Click a una fila para seleccionarla",
+        "1"     : "Seleccionada 1 fila"
       }
     },
-  "sProcessing": "Procesando...",
+  "sProcessing" : "Procesando...",
 };
 
 ///:: ACTIVA LOS TABS DE COMPORTAMIENTO :::::::::::::::::::::::::::::::::::::::::::::::::::///
 $(document).ready(function() {
+  div_show = f_MostrarDiv("contenido", "div_alertsDropdown_ayuda", NombreMoS);
+  $("#div_alertsDropdown_ayuda").html(div_show);
+
   // CREACION Y ACCESOS A LOS TABS DEL MODULO
   div_tabs = f_CreacionTabs("nav-tab-Comportamiento","");
   $("#nav-tab-Comportamiento").html(div_tabs);
@@ -165,6 +168,41 @@ function f_select_combo(p_nombre_tabla, p_es_campo_unico, p_campo_select, p_camp
     }
   });
   return rpta_select_combo;
+}
+
+function f_buscar_dato(p_nombre_tabla, p_campo_buscar, p_condicion_where){
+  let rpta_buscar = "";
+  Accion = 'buscar_dato';
+  $.ajax({
+    url       : "Ajax.php",
+    type      : "POST",
+    datatype  : "json",
+    async     : false,
+    data      : {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, nombre_tabla:p_nombre_tabla, campo_buscar:p_campo_buscar, condicion_where:p_condicion_where},
+    success   : function(data){
+      rpta_buscar = data;
+    }
+  });
+  return rpta_buscar;
+}
+
+function f_ayuda_modulo(man_titulo){
+  let man_modulo_id = f_buscar_dato("Modulo", "Modulo_Id", "`Mod_Nombre` = '"+NombreMoS+"'");
+  let manual_id = f_buscar_dato("glo_manual", "manual_id", "`man_modulo_id` = '"+man_modulo_id+"' AND `man_titulo` = '"+man_titulo+"'");
+  let man_html = f_buscar_dato("glo_manual_html", "man_html", "`manual_id`='"+manual_id+"'");
+  $("#div_ver_ayuda_html").html(man_html);
+
+  $("#form_modal_ver_ayuda").trigger("reset");
+  $(".modal-header").css( "background-color", "#17a2b8");
+  $(".modal-header").css( "color", "white" );
+  $(".modal-title").text( man_titulo );
+  $('#modal_crud_ver_ayuda').modal('show');	   
+  $('#modal-resizable_ver_ayuda').resizable();
+  $(".modal-dialog").draggable({
+    cursor: "move",
+    handle: ".dragable_touch",
+  });         
+
 }
 
 ///:: FUNCIONES DE ACCESOS ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///

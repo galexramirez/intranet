@@ -52,6 +52,19 @@ class Logico
         echo $rptaComparar;
     }
 
+    public function buscar_dato($nombre_tabla, $campo_buscar, $condicion_where)
+	{
+		$rpta_buscar_dato = "";
+        MModel($this->Modulo, 'CRUD');
+		$InstanciaAjax= new CRUD();
+		$Respuesta=$InstanciaAjax->buscar_dato($nombre_tabla, $campo_buscar, $condicion_where);
+
+        foreach ($Respuesta as $row) {
+			$rpta_buscar_dato = $row[$campo_buscar];
+		}
+		echo $rpta_buscar_dato;
+	}
+
     public function DocumentRoot()
     {
         $miCarpeta = '';

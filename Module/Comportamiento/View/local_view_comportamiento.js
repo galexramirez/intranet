@@ -586,22 +586,6 @@ function f_select_combo_comportamiento(){
 }
 ///:: FIN SE CARGAN LOS COMBOS SELECT DE COMPORTAMIENTO :::::::::::::::::::::::::::::::::::///
 
-function f_buscar_dato(p_nombre_tabla, p_campo_buscar, p_condicion_where){
-  let rpta_buscar = "";
-  Accion = 'buscar_dato';
-  $.ajax({
-    url       : "Ajax.php",
-    type      : "POST",
-    datatype  : "json",
-    async     : false,
-    data      : {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, nombre_tabla:p_nombre_tabla, campo_buscar:p_campo_buscar, condicion_where:p_condicion_where},
-    success   : function(data){
-      rpta_buscar = data;
-    }
-  });
-  return rpta_buscar;
-}
-
 function f_select_tabla(p_fecha, p_operacion){
   let rpta_select_tabla = "";
   Accion = 'select_tabla';

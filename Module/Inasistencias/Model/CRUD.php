@@ -31,6 +31,18 @@ class CRUD
 	   $this->conexion=null;
 	}
 	
+	function buscar_dato($nombre_tabla, $campo_buscar, $condicion_where)
+	{
+		$consulta = "SELECT `$nombre_tabla`.`$campo_buscar` FROM `$nombre_tabla` WHERE ".$condicion_where;
+
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();
+		
+		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+		return $data;   
+		$this->conexion=null;
+	}
+	
 	function select_tabla($Prog_Fecha, $operacion)
 	{
 		$consulta = "SELECT DISTINCT `OPE_ControlFacilitador`.`Prog_Tabla` AS `Tabla` FROM `OPE_ControlFacilitador` WHERE `Prog_Fecha`='$Prog_Fecha' AND `Prog_Operacion`='$operacion' ORDER BY `Tabla` ASC";

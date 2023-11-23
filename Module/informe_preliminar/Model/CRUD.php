@@ -146,6 +146,17 @@ class CRUD
 		$this->conexion=null;
 	}
 
+	function buscar_dato($nombre_tabla, $campo_buscar, $condicion_where)
+	{
+		$consulta = "SELECT `$nombre_tabla`.`$campo_buscar` FROM `$nombre_tabla` WHERE ".$condicion_where;
+
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();
+		
+		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+		return $data;   
+		$this->conexion=null;
+	}
 	function buscar_imagen($accidentes_id,$Acci_TipoImagen)
 	{
 		$consulta="SELECT TO_BASE64 (`Acci_Imagen`) AS `b64_Foto` FROM `OPE_AccidentesImagen` WHERE `Accidentes_Id`='$accidentes_id' AND `Acci_TipoImagen`='$Acci_TipoImagen'";

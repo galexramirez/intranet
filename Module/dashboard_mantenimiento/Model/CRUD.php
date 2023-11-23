@@ -27,6 +27,18 @@ class CRUD
 		$this->conexion=null;
 	}
 
+	function buscar_dato($nombre_tabla, $campo_buscar, $condicion_where)
+	{
+		$consulta = "SELECT `$nombre_tabla`.`$campo_buscar` FROM `$nombre_tabla` WHERE ".$condicion_where;
+
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();
+		
+		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+		return $data;   
+		$this->conexion=null;
+	}
+
 	function datos_grafico_pie($tabla, $campo, $fecha_inicio, $fecha_termino, $campo_fecha, $valor, $categoria)
 	{
 		$consulta	= " SELECT `$campo` AS `$categoria`, COUNT(*) AS `$valor` FROM `$tabla` WHERE `$tabla`.`$campo_fecha`>='$fecha_inicio' AND `$campo_fecha`<='$fecha_termino' GROUP BY `$campo` ";

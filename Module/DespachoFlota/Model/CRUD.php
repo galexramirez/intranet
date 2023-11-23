@@ -17,6 +17,18 @@ class CRUD
 		$this->conexion=$Instancia->Conectar(); 	
 	}
 
+	function buscar_dato($nombre_tabla, $campo_buscar, $condicion_where)
+	{
+		$consulta = "SELECT `$nombre_tabla`.`$campo_buscar` FROM `$nombre_tabla` WHERE ".$condicion_where;
+
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();
+		
+		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+		return $data;   
+		$this->conexion=null;
+	}
+
 	function BuscarProgramacion($Prog_Fecha,$turno_DespachoFlota)
 	{
 		$Repo_TipoId = "DESPACHOFLOTA";

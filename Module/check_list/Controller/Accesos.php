@@ -793,6 +793,10 @@ class Accesos
 						$InstanciaAjax	= new CRUD();
 						$Respuesta	= $InstanciaAjax->BuscarDataBD("glo_manual", "man_modulo_id", $man_modulo_id );
 
+						usort($Respuesta, function($a, $b) {
+                            return $a['man_titulo'] <=> $b['man_titulo'];
+                        });
+						
 						$Mostrar_div = '	<h5 class="dropdown-header">
 												AYUDA
 											</h5>';

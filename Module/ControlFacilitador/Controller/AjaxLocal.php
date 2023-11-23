@@ -409,7 +409,7 @@ switch ($Accion)
       $Respuesta=$InstanciaAjax->KmRecorridos($Prog_Operacion,$Prog_Sentido,$Prog_Servicio,$Prog_LugarOrigen,$Prog_LugarDestino);
    break;
 
-   case 'horas_trabajdas':
+   case 'horas_trabajadas':
       $operacion  = $_POST['operacion'];
       $fecha      = $_POST['fecha'];
       $codigo     = $_POST['codigo'];
@@ -417,7 +417,7 @@ switch ($Accion)
       
       MController($Modulo,'Logico');
       $InstanciaAjax = new Logico();
-      $Respuesta     = $InstanciaAjax->horas_trabajdas($operacion, $fecha, $codigo, $hora);      
+      $Respuesta     = $InstanciaAjax->horas_trabajadas($operacion, $fecha, $codigo, $hora);      
    break;
    //:::::::::::::::::::::::::::::::::::::::::::: NOVEDAD CARGA :::::::::::::::::::::::::::::::::::::::::::::::://
 

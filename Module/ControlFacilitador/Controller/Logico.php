@@ -2448,7 +2448,7 @@ class Logico
         
         MModel($this->Modulo, 'CRUD');
         $InstanciaAjax  = new CRUD();
-        $Respuesta      = $InstanciaAjax->horas_trabajdas($operacion, $fecha, $codigo, $hora);
+        $Respuesta      = $InstanciaAjax->horas_trabajadas($operacion, $fecha, $codigo, $hora);
 
         foreach ($Respuesta as $row) {
             $rpta_horas_trabajadas = $row['horas_trabajadas'];
