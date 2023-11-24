@@ -16,9 +16,7 @@
     $Respuesta=$Instancia2->ValidaModulo($NombreDeModulo);     	    
     if ($Respuesta=="Falso")
         { session_destroy();  header('Location: /inicio'); }
-    $Respuesta=$Instancia2->PermisoAlModulo($NombreDeModulo);
-
-
+    
  // 3.0 RECURSOS PARA EL MODULO     
     $InsertHead="   <link rel='stylesheet' href='Module/Nomina/View/LocalView.css' type='text/css' media='all'>
                     <link rel='stylesheet' type='text/css' href='Services/Resources/DataTables-10.25/datatables/datatables.min.css'> 
@@ -36,6 +34,7 @@
                     <script type='text/javascript' src='Services/Resources/DataTables-10.25/datatables/Buttons-1.7.1/js/buttons.bootstrap4.min.js'></script>
                     <script type='text/javascript' src='Services/Resources/DataTables-10.25/datatables/Buttons-1.7.1/js/buttons.html5.min.js'></script>
                     <script type='text/javascript' src='Services/Resources/DataTables-10.25/datatables/Buttons-1.7.1/js/buttons.print.min.js'></script>
+                    <script src='Module/Nomina/View/local_view_inicio.js' type='text/javascript'></script>
                     <script src='Module/Nomina/View/LocalView.js' type='text/javascript'></script>  ";
 
 // 4.0 CONTRUCCION DE LA VISTA

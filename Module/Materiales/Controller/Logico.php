@@ -656,7 +656,7 @@ class Logico
             $precioprov_log = "";
             $precioprov_id = $row['precioprov_id'];
             $precioprov_log2 = $row['precioprov_log'];
-            $precioprov_log = "<strong>".$precioprov_estado."</strong> ".$matimag_fecha." ".$usuario." EDICION: GRABAR PDF <br>".$precioprov_log2;
+            $precioprov_log = "<strong>".$matimag_fecha."</strong> ".$usuario." EDICION: GRABAR PDF <br>".$precioprov_log2;
 
             MModel($this->Modulo,'CRUD');
             $InstanciaAjax= new CRUD();
@@ -781,7 +781,7 @@ class Logico
 
         MModel($this->Modulo,'CRUD');
         $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD, $CampoBD, $precioprov_cargaid);
+        $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD, $CampoBD, $cpm_id);
 		
         foreach($Respuesta as $row){
             $precioprov_id = $row['precioprov_id'];

@@ -8,6 +8,7 @@ var tabla_inasistencias, rgdh_fecha_inicio, rgdh_fecha_termino;
 rgdh_fecha_inicio   = "";
 rgdh_fecha_termino  = "";
 mi_carpeta          = f_DocumentRoot();
+
 ///:: JS DOM INASISTENCIAS GDH ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 $(document).ready(function(){
   if(rgdh_fecha_inicio=="" && rgdh_fecha_termino==""){

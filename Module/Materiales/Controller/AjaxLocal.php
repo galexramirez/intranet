@@ -126,15 +126,6 @@ switch ($Accion)
       $Respuesta = $InstanciaAjax->EditarMateriales($material_id, $material_descripcion, $material_unidadmedida, $material_patrimonial, $material_categoria, $material_estado, $material_observaciones, $material_obslog);
    break;
 
-   case 'EditarCodigoPatrimonial':
-      $material_id = $_POST['material_id'];
-      $material_patrimonial = $_POST['material_patrimonial'];
-
-      MController($Modulo,'Logico');
-      $InstanciaAjax= new Logico();
-      $Respuesta=$InstanciaAjax->EditarCodigoPatrimonial($material_id, $material_patrimonial);
-   break;
-
    case 'LeerPreciosProveedor':
       $asignarcod_ruc = $_POST['asignarcod_ruc'];
       $asignarcod_fecha = $_POST['asignarcod_fecha'];
@@ -313,7 +304,7 @@ switch ($Accion)
 
       MController($Modulo,'Logico');
       $InstanciaAjax= new Logico();
-      $Respuesta=$InstanciaAjax->AunlarCargarPreciosProveedor($cpm_id);
+      $Respuesta=$InstanciaAjax->AnularCargarPreciosProveedor($cpm_id);
    break;
 
    case 'AnularPreciosProveedor':

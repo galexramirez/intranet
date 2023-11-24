@@ -9,7 +9,7 @@ class Accesos
 		switch($NombreTabs) 
  		{
 			case "":
-				$tabshtml = '';
+				$tabshtml = ' ';
 			break;
 
 		}
@@ -21,10 +21,28 @@ class Accesos
 		$tablahtml = "";
         switch ($NombreTabla) 
 		{
-			case "":
-				$tablahtml = '';
+			case "tabla_nomina":
+				$tablahtml = '	<table id="tabla_nomina" class="table table-striped table-bordered table-condensed w-100">
+									<thead class="text-center">
+										<tr>
+											<th>FECHA</th>
+											<th>CODIGO</th>
+											<th>DNI</th>
+											<th>APELLIDOS Y NOMBRES</th>
+											<th>HORA INICIO</th>
+											<th>HORA TERMINO</th>
+											<th>AMPLITUD</th>
+											<th>DURACION</th>
+											<th>TIPO OPERACION</th>
+											<th>SERVICIO</th>
+										</tr>
+									</thead>
+									<tbody>                           
+									</tbody>
+								</table> ';
 			break;
-        }
+
+		}
 		echo $tablahtml;
 	}
 
@@ -33,8 +51,18 @@ class Accesos
 		$columnashtml = "";
         switch ($NombreTabla) 
 		{
-			case "":
-				$columnastabla = '';
+			case "tabla_nomina":
+				$columnashtml = '[	{"data": "Fecha"},
+									{"data": "Codigo"},                    
+									{"data": "DNI"},                    
+									{"data": "ApellidosNombres"},                    
+									{"data": "HoraInicio"},
+									{"data": "HoraTermino"},                    
+									{"data": "Amplitud"},
+									{"data": "Duracion"},
+									{"data": "TipoOperacion"},
+									{"data": "Servicio"}
+								] ';
 			break;
 
         }

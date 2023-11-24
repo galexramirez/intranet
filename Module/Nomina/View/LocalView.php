@@ -29,25 +29,23 @@
 	</nav>
 	
 	<section class="container-fluid py-3">
-		<form id="formUsuarios" class="row col-sm-12 container-fluid" enctype="multipart/form-data" action="" method="post">	    
+		<form id="form_nomina" class="row col-sm-12 container-fluid" enctype="multipart/form-data" action="" method="post">	    
 			<div class="row align-items-end pb-4 col-sm-12">
-				<div class="col-lg-2">
+				<div class="col-lg-1">
 			      	<div class="form-group">
-						<label for="" class="col-form-label">Fecha de Inicio:</label>
-						<input type="date" class="form-control" id="FechaInicio" placeholder="aaaa-mm-dd" >
-			    		<div id="MsFechaInicio"class="invalid-feedback">Complete el campo.</div>
+						<label for="fecha_inicio" class="col-form-label">F.INICIO</label>
+						<input type="date" class="form-control form-control-sm" id="fecha_inicio" placeholder="aaaa-mm-dd" >
 			      	</div>
 			    </div>
-				<div class="col-lg-2">
+				<div class="col-lg-1">
 			      	<div class="form-group">
-						<label for="" class="col-form-label">Fecha de Término:</label>
-						<input type="date" class="form-control" id="FechaTermino" placeholder="aaaa-mm-dd" >
-			    		<div id="MsFechaTermino"class="invalid-feedback">Complete el campo.</div>
+						<label for="fecha_termino" class="col-form-label">F.TERMINO</label>
+						<input type="date" class="form-control form-control-sm" id="fecha_termino" placeholder="aaaa-mm-dd" >
 			      	</div>
 			    </div>
-				<div class="col-lg-2">             	
+				<div class="col-lg-1">
 					<div class="form-group">
-						<button type="button" id="btnCargarNomina"class="btn btn-success"> Cargar Nomina </button>
+						<button type="button" id="btn_cargar_nomina" class="btn btn-secondary btn-sm btn_cargar_nomina">Cargar</button>
 					</div>
 			    </div> 
 			</div>
@@ -56,44 +54,8 @@
 	
 	<div class="row p-3">
 		<div class="col-auto m-0">
-			<div class="table-responsive">
-				<table id="tablaUsuarios" class="table table-striped table-bordered table-condensed ">
-        			<thead class="text-center">
-            			<tr>
-						<th>Fecha</th>
-						<th>Código</th>
-            		    <th>DNI</th>
-						<th>Apellidos y Nombres</th>
-						<th>Hora de Inicio</th>
-						<th>Hora de Término</th>
-						<th>Amplitud</th>
-						<th>Duración</th>
-						<th>Tipo de Operación</th>
-						<th>Servicio</th>
-						</tr>
-        			</thead>
-        			<tbody>                           
-        			</tbody>
-				<!--<tfoot class="text-center">
-            			<tr>
-            		    <th>Fecha de Ingreso</th>
-						<th>Año</th>
-						<th>Mes</th>
-						<th>Semana</th>
-						<th>Fecha</th>
-						<th>Dia</th>
-						<th>Coóigo</th>
-            		    <th>DNI</th>
-						<th>Apellidos y Nombres</th>
-						<th>Hora de Inicio</th>
-						<th>Hora de Termino</th>
-						<th>Amplitud</th>
-						<th>Duración</th>
-						<th>Tipo de Colaborador</th>
-						<th>Servicio</th>
-            			</tr>
-        			</tfoot>  -->      
-    			</table>
+			<div class="table-responsive" id="div_tabla_nomina">
+				
 			</div>
     	</div>
 	</div>

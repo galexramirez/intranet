@@ -1,3 +1,7 @@
+th{
+    font-size: 11px;
+    font-weight: 500;
+}
 
 table.dataTable thead {
     background: #2A4C38;
@@ -30,8 +34,7 @@ div.dt-buttons {
    /* width: 180px !important; */
 }
 
-
-#tablaUsuarios{
+#tabla_nomina{
     font-size: 12px;
 }
 
@@ -48,6 +51,10 @@ div.dt-buttons {
 
 table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td {
   padding: 5px 5px 5px 5px !important;
+}
+
+.color-error {
+    background-color: #ffff006b !important;
 }
 
 .nav-link-alert {
