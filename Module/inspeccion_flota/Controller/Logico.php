@@ -23,11 +23,11 @@ class Logico
 		echo $html;
 	}
 
-    public function select_combo($nombre_tabla, $es_campo_unico, $campo_select, $campo_inicial, $condicion_where)
+    public function select_combo($nombre_tabla, $es_campo_unico, $campo_select, $campo_inicial, $condicion_where, $order_by)
 	{
 		MModel($this->Modulo, 'CRUD');
 		$InstanciaAjax= new CRUD();
-		$Respuesta=$InstanciaAjax->select_combo($nombre_tabla, $es_campo_unico, $campo_select, $condicion_where);
+		$Respuesta=$InstanciaAjax->select_combo($nombre_tabla, $es_campo_unico, $campo_select, $condicion_where, $order_by);
 
 		$html = '<option value="">Seleccione una opcion</option>';
 		
@@ -216,7 +216,7 @@ class Logico
         }else{
             MModel($this->Modulo,'CRUD');
             $InstanciaAjax = new CRUD();
-            $Respuesta = $InstanciaAjax->BuscarDataBD("Buses","Bus_Tipo2",$insp_bus_tipo);
+            $Respuesta = $InstanciaAjax->buscar_data_bd("Buses", "`Bus_Tipo2`='".$insp_bus_tipo."' AND `Bus_Estado`='DISPONIBLE' AND `Bus_Tipo`='UNIDAD' ORDER BY `Bus_NroExterno` ASC");
             foreach($Respuesta as $row){
                 MModel($this->Modulo,'CRUD');
                 $InstanciaAjax = new CRUD();
@@ -328,14 +328,14 @@ class Logico
                                     </div>
                                 </div>
                                 <div class="card-body card-block">
-                                    <div class="d-flex justify-content-between">
-                                        <div class="p2">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="p2 ml-1">
                                             <button type="button" class="btn btn-success btn-sm" onclick="f_codigo_correcto('. $row["insp_codigo"] .')">Correcto</a>
                                         </div>
-                                        <div class="p2">
+                                        <div class="p2 ml-1">
                                             <button type="button" class="btn btn-warning btn-sm" onclick="f_codigo_no_inspeccionado('. $row["insp_codigo"] .')">No Inspeccionado</a>
                                         </div>
-                                        <div class="p2">
+                                        <div class="p2 ml-1">
                                             <button type="button" class="btn btn-danger btn-sm" onclick="f_codigo_observado('. $row["insp_codigo"] .')">Observado</a>
                                         </div>
                                     </div>

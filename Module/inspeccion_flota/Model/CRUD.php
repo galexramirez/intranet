@@ -75,17 +75,24 @@ class CRUD
 		$this->conexion=null;
 	}
 
-	function select_combo($nombre_tabla, $es_campo_unico, $campo_select, $condicion_where)
+	function select_combo($nombre_tabla, $es_campo_unico, $campo_select, $condicion_where, $order_by)
 	{
 		$distinct 	= "";
 		$c_where 	= "";
+		$c_order 	= "";
+		
 		if($es_campo_unico == "SI"){
 			$distinct = "DISTINCT";
 		}
 		if($condicion_where!=""){
 			$c_where = "WHERE ".$condicion_where;
 		}
-		$consulta = "SELECT ".$distinct." `$nombre_tabla`.`$campo_select` AS `detalle` FROM `$nombre_tabla` ".$c_where." ORDER BY `$nombre_tabla`.`$campo_select`";
+		
+		if($order_by!=""){
+			$c_order = "ORDER BY ".$order_by;
+		}
+
+		$consulta = "SELECT ".$distinct." `$nombre_tabla`.`$campo_select` AS `detalle` FROM `$nombre_tabla` ".$c_where." ".$c_order;
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();

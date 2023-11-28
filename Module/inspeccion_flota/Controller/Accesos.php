@@ -555,7 +555,7 @@ class Accesos
 					case "div_seleccion_buses":
 						MModel($this->Modulo, 'CRUD');
 						$InstanciaAjax= new CRUD();
-						$Respuesta = $InstanciaAjax->BuscarDataBD('Buses', 'Bus_Tipo2', $Dato);
+						$Respuesta = $InstanciaAjax->buscar_data_bd("Buses", "`Bus_Tipo2`='".$Dato."' AND `Bus_Estado`='DISPONIBLE' AND `Bus_Tipo`='UNIDAD' ORDER BY `Bus_NroExterno` ASC");
 						$Mostrar_div = '	<div class="col-lg-12">
 												<div class="overflow-auto border border-muted border-radius rounded p-3 w-100" style="max-width:max-content; max-height:500px;"> ';
 						foreach ($Respuesta as $row){

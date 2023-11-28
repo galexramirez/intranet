@@ -9,14 +9,14 @@ var reg_insp_bus_tipo, reg_insp_codigo, reg_insp_posicion, reg_insp_falla, reg_i
 
 ///:: JS DOM REGISTRO INSPECCION FLOTA ::::::::::::::::::::::::::::::::::::::::::::::::::::///
 $(document).ready(function(){
-  let select_reg_insp = "";
+  let select_reg_insp = "", contar_posicion="", contar_falla="", contar_accion="";
   div_show = f_MostrarDiv("form_seleccion_inspeccion_registro","btn_seleccion_inspeccion_registro","");
   $("#div_btn_seleccion_inspeccion_registro").html(div_show);
 
   $("#reg_inspeccion_id").on('change', function () {
     reg_inspeccion_id = $("#reg_inspeccion_id").val();
     reg_inspeccion_bus = "";
-    select_reg_insp = f_select_combo("manto_inspeccion_detalle", "NO", "insp_bus", "", "`inspeccion_id`='"+reg_inspeccion_id+"' AND `insp_detalle_estado`='PENDIENTE'");
+    select_reg_insp = f_select_combo("manto_inspeccion_detalle", "NO", "insp_bus", "", "`inspeccion_id`='"+reg_inspeccion_id+"' AND `insp_detalle_estado`='PENDIENTE'", "`insp_bus`");
     $("#reg_inspeccion_bus").html(select_reg_insp);      
     $("#reg_inspeccion_bus").val(reg_inspeccion_bus);
     div_show = f_MostrarDiv("form_seleccion_inspeccion_registro","btn_seleccion_inspeccion_registro","");
@@ -32,22 +32,16 @@ $(document).ready(function(){
     $("#div_btn_enviar_inspeccion_registro").empty();
   });
 
+  ///:: SELECCION INSPECCION COMPONENTE DE INSPECCION DE FLOTA ::::::::::::::::::::::::::::///
   $("#reg_insp_componente").on('change', function () {
     $("#reg_insp_posicion").prop("disabled",false);
+    $("#reg_insp_falla").prop("disabled",false);
+    $("#reg_insp_accion").prop("disabled",false);
     reg_insp_componente = $("#reg_insp_componente").val();
-    let contar_posicion = f_contar_dato("manto_inspeccion_posicion","insp_posicion","`insp_bus_tipo`='"+reg_insp_bus_tipo+"' AND `insp_codigo`='"+reg_insp_codigo+"' AND `insp_componente`='"+reg_insp_componente+"'");
+    contar_posicion = f_contar_dato("manto_inspeccion_posicion","insp_posicion","`insp_bus_tipo`='"+reg_insp_bus_tipo+"' AND `insp_codigo`='"+reg_insp_codigo+"' AND `insp_componente`='"+reg_insp_componente+"'");
     reg_insp_falla = "";
     reg_insp_accion = "";
 
-    select_reg_insp = f_select_combo("manto_inspeccion_posicion","NO","insp_posicion","","`insp_bus_tipo`='"+reg_insp_bus_tipo+"' AND `insp_codigo`='"+reg_insp_codigo+"' AND `insp_componente`='"+reg_insp_componente+"'","insp_posicion");
-    $("#reg_insp_posicion").html(select_reg_insp);
-
-    select_reg_insp = f_select_combo("manto_inspeccion_falla_accion","SI","insp_falla","","`insp_bus_tipo`='"+reg_insp_bus_tipo+"' AND `insp_codigo`='"+reg_insp_codigo+"' AND `insp_componente`='"+reg_insp_componente+"'","insp_falla");
-    $("#reg_insp_falla").html(select_reg_insp);
-
-    select_reg_insp = f_select_combo("manto_inspeccion_falla_accion","NO","insp_accion","","`insp_bus_tipo`='"+reg_insp_bus_tipo+"' AND `insp_codigo`='"+reg_insp_codigo+"' AND `insp_componente`='"+reg_insp_componente+"' AND `insp_falla`='"+reg_insp_falla+"'","insp_accion");
-    $("#reg_insp_accion").html(select_reg_insp);
- 
     if(contar_posicion=="1"){
       reg_insp_posicion = f_buscar_dato("manto_inspeccion_posicion","insp_posicion","`insp_bus_tipo`='"+reg_insp_bus_tipo+"' AND `insp_codigo`='"+reg_insp_codigo+"' AND `insp_componente`='"+reg_insp_componente+"'");
       $("#reg_insp_falla").focus().select();
@@ -55,19 +49,48 @@ $(document).ready(function(){
     }else{
       reg_insp_posicion = '';
     }
+
+    select_reg_insp = f_select_combo("manto_inspeccion_posicion","NO","insp_posicion","","`insp_bus_tipo`='"+reg_insp_bus_tipo+"' AND `insp_codigo`='"+reg_insp_codigo+"' AND `insp_componente`='"+reg_insp_componente+"'","CAST(`insp_posicion` AS UNSIGNED)");
+    $("#reg_insp_posicion").html(select_reg_insp);
+
+    contar_falla = f_contar_dato("manto_inspeccion_falla_accion","insp_falla","`insp_bus_tipo`='"+reg_insp_bus_tipo+"' AND `insp_codigo`='"+reg_insp_codigo+"' AND `insp_componente`='"+reg_insp_componente+"'");
+
+    if(contar_posicion=="1" && contar_falla=="1"){
+      reg_insp_falla = f_buscar_dato("manto_inspeccion_falla_accion","insp_falla","`insp_bus_tipo`='"+reg_insp_bus_tipo+"' AND `insp_codigo`='"+reg_insp_codigo+"' AND `insp_componente`='"+reg_insp_componente+"'");
+      $("#reg_insp_accion").focus().select();
+      $("#reg_insp_falla").prop("disabled",true);
+    }else{
+      reg_insp_falla = "";
+    }
+
+    select_reg_insp = f_select_combo("manto_inspeccion_falla_accion","SI","insp_falla","","`insp_bus_tipo`='"+reg_insp_bus_tipo+"' AND `insp_codigo`='"+reg_insp_codigo+"' AND `insp_componente`='"+reg_insp_componente+"'","`insp_falla`");
+    $("#reg_insp_falla").html(select_reg_insp);
+
+    contar_accion = f_contar_dato("manto_inspeccion_falla_accion","insp_accion","`insp_bus_tipo`='"+reg_insp_bus_tipo+"' AND `insp_codigo`='"+reg_insp_codigo+"' AND `insp_componente`='"+reg_insp_componente+"' AND `insp_falla`='"+reg_insp_falla+"'");
+
+    if(contar_posicion=="1" && contar_falla=="1" && contar_accion=="1"){
+      reg_insp_accion = f_buscar_dato("manto_inspeccion_falla_accion","insp_accion","`insp_bus_tipo`='"+reg_insp_bus_tipo+"' AND `insp_codigo`='"+reg_insp_codigo+"' AND `insp_componente`='"+reg_insp_componente+"' AND `insp_falla`='"+reg_insp_falla+"'");
+      $("#btn_agregar_inspeccion_registro_posicion").focus().select();      
+      $("#reg_insp_accion").prop("disabled",true);
+    }else{
+      reg_insp_accion = "";
+    }
+
+    select_reg_insp = f_select_combo("manto_inspeccion_falla_accion","NO","insp_accion","","`insp_bus_tipo`='"+reg_insp_bus_tipo+"' AND `insp_codigo`='"+reg_insp_codigo+"' AND `insp_componente`='"+reg_insp_componente+"' AND `insp_falla`='"+reg_insp_falla+"'","`insp_accion`");
+    $("#reg_insp_accion").html(select_reg_insp);
     
     $("#reg_insp_posicion").val(reg_insp_posicion);
     $("#reg_insp_falla").val(reg_insp_falla);
     $("#reg_insp_accion").val(reg_insp_accion);
   });
+  ///:: FIN SELECCION INSPECCION COMPONENTE DE INSPECCION DE FLOTA ::::::::::::::::::::::::///
 
+  ///:: SELECCION INSPECCION POSICION DE INSPECCION DE FLOTA ::::::::::::::::::::::::::::::///
   $("#reg_insp_posicion").on('change', function (){
     $("#reg_insp_falla").prop("disabled",false);
+    $("#reg_insp_accion").prop("disabled",false);
     reg_insp_accion = "";
-    let contar_falla = f_contar_dato("manto_inspeccion_falla_accion","insp_falla","`insp_bus_tipo`='"+reg_insp_bus_tipo+"' AND `insp_codigo`='"+reg_insp_codigo+"' AND `insp_componente`='"+reg_insp_componente+"'");
-
-    select_reg_insp = f_select_combo("manto_inspeccion_falla_accion","NO","insp_accion","","`insp_bus_tipo`='"+reg_insp_bus_tipo+"' AND `insp_codigo`='"+reg_insp_codigo+"' AND `insp_componente`='"+reg_insp_componente+"' AND `insp_falla`='"+reg_insp_falla+"'","insp_accion");
-    $("#reg_insp_accion").html(select_reg_insp);
+    contar_falla = f_contar_dato("manto_inspeccion_falla_accion","insp_falla","`insp_bus_tipo`='"+reg_insp_bus_tipo+"' AND `insp_codigo`='"+reg_insp_codigo+"' AND `insp_componente`='"+reg_insp_componente+"'");
 
     if(contar_falla=="1"){
       reg_insp_falla = f_buscar_dato("manto_inspeccion_falla_accion","insp_falla","`insp_bus_tipo`='"+reg_insp_bus_tipo+"' AND `insp_codigo`='"+reg_insp_codigo+"' AND `insp_componente`='"+reg_insp_componente+"'");
@@ -77,16 +100,34 @@ $(document).ready(function(){
       reg_insp_falla = "";
     }
 
+    select_reg_insp = f_select_combo("manto_inspeccion_falla_accion","NO","insp_accion","","`insp_bus_tipo`='"+reg_insp_bus_tipo+"' AND `insp_codigo`='"+reg_insp_codigo+"' AND `insp_componente`='"+reg_insp_componente+"' AND `insp_falla`='"+reg_insp_falla+"'","`insp_accion`");
+    $("#reg_insp_accion").html(select_reg_insp);
+
+    contar_accion = f_contar_dato("manto_inspeccion_falla_accion","insp_accion","`insp_bus_tipo`='"+reg_insp_bus_tipo+"' AND `insp_codigo`='"+reg_insp_codigo+"' AND `insp_componente`='"+reg_insp_componente+"' AND `insp_falla`='"+reg_insp_falla+"'");
+
+    if(contar_falla=="1" && contar_accion=="1"){
+      reg_insp_accion = f_buscar_dato("manto_inspeccion_falla_accion","insp_accion","`insp_bus_tipo`='"+reg_insp_bus_tipo+"' AND `insp_codigo`='"+reg_insp_codigo+"' AND `insp_componente`='"+reg_insp_componente+"' AND `insp_falla`='"+reg_insp_falla+"'");
+      $("#btn_agregar_inspeccion_registro_posicion").focus().select();      
+      $("#reg_insp_accion").prop("disabled",true);
+    }else{
+      reg_insp_accion = "";
+    }
+
+    select_reg_insp = f_select_combo("manto_inspeccion_falla_accion","NO","insp_accion","","`insp_bus_tipo`='"+reg_insp_bus_tipo+"' AND `insp_codigo`='"+reg_insp_codigo+"' AND `insp_componente`='"+reg_insp_componente+"' AND `insp_falla`='"+reg_insp_falla+"'","`insp_accion`");
+    $("#reg_insp_accion").html(select_reg_insp);
+
     $("#reg_insp_falla").val(reg_insp_falla);
     $("#reg_insp_accion").val(reg_insp_accion);
   })
+  ///:: FIN SELECCION INSPECCION POSICION DE INSPECCION DE FLOTA ::::::::::::::::::::::::::///
 
+  ///:: SELECCION INSPECCION FALLA DE INSPECCION DE FLOTA :::::::::::::::::::::::::::::::::///
   $("#reg_insp_falla").on('change', function (){
     $("#reg_insp_accion").prop("disabled",false);
     reg_insp_falla = $("#reg_insp_falla").val();
-    let contar_accion = f_contar_dato("manto_inspeccion_falla_accion","insp_accion","`insp_bus_tipo`='"+reg_insp_bus_tipo+"' AND `insp_codigo`='"+reg_insp_codigo+"' AND `insp_componente`='"+reg_insp_componente+"' AND `insp_falla`='"+reg_insp_falla+"'");
+    contar_accion = f_contar_dato("manto_inspeccion_falla_accion","insp_accion","`insp_bus_tipo`='"+reg_insp_bus_tipo+"' AND `insp_codigo`='"+reg_insp_codigo+"' AND `insp_componente`='"+reg_insp_componente+"' AND `insp_falla`='"+reg_insp_falla+"'");
     reg_insp_accion = "";
-    select_reg_insp = f_select_combo("manto_inspeccion_falla_accion","NO","insp_accion","","`insp_bus_tipo`='"+reg_insp_bus_tipo+"' AND `insp_codigo`='"+reg_insp_codigo+"' AND `insp_componente`='"+reg_insp_componente+"' AND `insp_falla`='"+reg_insp_falla+"'","insp_accion");
+    select_reg_insp = f_select_combo("manto_inspeccion_falla_accion","NO","insp_accion","","`insp_bus_tipo`='"+reg_insp_bus_tipo+"' AND `insp_codigo`='"+reg_insp_codigo+"' AND `insp_componente`='"+reg_insp_componente+"' AND `insp_falla`='"+reg_insp_falla+"'","`insp_accion`");
     $("#reg_insp_accion").html(select_reg_insp);
 
     if(contar_accion=="1"){
@@ -99,6 +140,7 @@ $(document).ready(function(){
 
     $("#reg_insp_accion").val(reg_insp_accion);
   })
+  ///:: FIN SELECCION INSPECCION FALLA DE INSPECCION DE FLOTA :::::::::::::::::::::::::::::///
 
   ///:: INICIO BOTONES DE INSPECCION REGISTRO :::::::::::::::::::::::::::::::::::::::::::::///
   
@@ -181,7 +223,7 @@ $(document).ready(function(){
       });
       reg_inspeccion_id = $("#reg_inspeccion_id").val();
       reg_inspeccion_bus = "";
-      select_reg_insp = f_select_combo("manto_inspeccion_detalle", "NO", "insp_bus", "", "`inspeccion_id`='"+reg_inspeccion_id+"' AND `insp_detalle_estado`='PENDIENTE'");
+      select_reg_insp = f_select_combo("manto_inspeccion_detalle", "NO", "insp_bus", "", "`inspeccion_id`='"+reg_inspeccion_id+"' AND `insp_detalle_estado`='PENDIENTE'", "`insp_bus`");
       $("#reg_inspeccion_bus").html(select_reg_insp);      
       $("#reg_inspeccion_bus").val(reg_inspeccion_bus);
       div_show = f_MostrarDiv("form_seleccion_inspeccion_registro","btn_seleccion_inspeccion_registro","");
