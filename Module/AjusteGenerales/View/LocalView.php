@@ -95,6 +95,8 @@
 								   					<option disabled selected>Selecciona una opción</option>
 						    						<option value="ALIMENTADOR">ALIMENTADOR</option>
 							    					<option value="TRONCAL">TRONCAL</option>
+													<option value="PRE-TRONCAL">PRE-TRONCAL</option>
+													<option value="AUXILIO MECANICO">AUXILIO MECANICO</option>
 												</select>										  
 				  		                	</div>
 			      		            	</div>

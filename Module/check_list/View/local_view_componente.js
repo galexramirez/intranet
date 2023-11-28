@@ -32,7 +32,7 @@ $(document).ready(function(){
     $("#com_check_list_codigo").html(select_chl_componente);
     $("#fal_check_list_codigo").html(select_chl_componente);
     $("#pos_check_list_codigo").html(select_chl_componente);
-    select_chl_componente = f_select_combo("manto_check_list_componente", "NO", "chl_componente", "", "`chl_bus_tipo`='"+com_check_list_flota+"' AND `chl_codigo`='"+com_check_list_codigo+"'");
+    select_chl_componente = f_select_combo("manto_check_list_componente", "NO", "chl_componente", "", "`chl_bus_tipo`='"+com_check_list_flota+"' AND `chl_codigo`='"+com_check_list_codigo+"'", "`chl_componente`");
     $("#fal_check_list_componente").html(select_chl_componente);
     $("#pos_check_list_componente").html(select_chl_componente);
     $("#com_check_list_codigo").val(com_chl_codigo);
@@ -46,7 +46,7 @@ $(document).ready(function(){
   $("#com_check_list_codigo").on('change', function () {
     com_check_list_flota = $("#com_check_list_flota").val();
     com_check_list_codigo = $("#com_check_list_codigo").val();
-    select_chl_componente = f_select_combo("manto_check_list_componente", "NO", "chl_componente", "", "`chl_bus_tipo`='"+com_check_list_flota+"' AND `chl_codigo`='"+com_check_list_codigo+"'");
+    select_chl_componente = f_select_combo("manto_check_list_componente", "NO", "chl_componente", "", "`chl_bus_tipo`='"+com_check_list_flota+"' AND `chl_codigo`='"+com_check_list_codigo+"'", "`chl_componente`");
     $("#fal_check_list_componente").html(select_chl_componente);
     $("#pos_check_list_componente").html(select_chl_componente);
     $("#fal_check_list_codigo").val(com_check_list_codigo);
@@ -83,7 +83,7 @@ $(document).ready(function(){
     select_chl_componente = f_select_codigo_check_list(com_check_list_flota);
     $("#fal_check_list_codigo").html(select_chl_componente);
     $("#pos_check_list_codigo").html(select_chl_componente);
-    select_chl_componente = f_select_combo("manto_check_list_componente", "NO", "chl_componente", "", "`chl_bus_tipo`='"+com_check_list_flota+"' AND `chl_codigo`='"+com_check_list_codigo+"'");
+    select_chl_componente = f_select_combo("manto_check_list_componente", "NO", "chl_componente", "", "`chl_bus_tipo`='"+com_check_list_flota+"' AND `chl_codigo`='"+com_check_list_codigo+"'", "`chl_componente`");
     $("#fal_check_list_componente").html(select_chl_componente);
     $("#pos_check_list_componente").html(select_chl_componente);
     $("#fal_check_list_codigo").val(com_check_list_codigo);

@@ -7,36 +7,22 @@ $(document).ready(function()
 
     Accion='LeerBuses';
     tablaBuses = $('#tablaBuses').DataTable({
-        //Para cambiar el lenguaje a español
         language: idiomaEspanol,
-        //Para usar los botones
         responsive: "true",
         dom: 'Blfrtip', // Con Botones Excel,Pdf,Print
         buttons:[
             {
-                extend:     'excelHtml5',
-                text:       '<i class="fas fa-file-excel"></i> ',
-                titleAttr:  'Exportar a Excel',
-                className:  'btn btn-success'
-            },
-            {
-                extend:     'pdfHtml5',
-                text:       '<i class="fas fa-file-pdf"></i> ',
-                titleAttr:  'Exportar a PDF',
-                className:  'btn btn-danger'
-            },
-            {
-                extend:     'print',
-                text:       '<i class="fa fa-print"></i> ',
-                titleAttr:  'Imprimir',
-                className:  'btn btn-info'
+                extend      : 'excelHtml5',
+                text        : '<i class="fas fa-file-excel"></i> ',
+                titleAttr   : 'Exportar a Excel',
+                className   : 'btn btn-success'
             },
         ],
         "ajax":{            
-                "url": "Ajax.php", 
-                "method": 'POST', //usamos el metodo POST
-                "data":{MoS:MoS,NombreMoS:NombreMoS,Accion:Accion}, //enviamos opcion 4 para que haga un SELECT
-                "dataSrc":""
+                "url"       : "Ajax.php", 
+                "method"    : 'POST', //usamos el metodo POST
+                "data"      : {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion}, //enviamos opcion 4 para que haga un SELECT
+                "dataSrc"   : ""
                 },
         "columns": columnastabla
     });     

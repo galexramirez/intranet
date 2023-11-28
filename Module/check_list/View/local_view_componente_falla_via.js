@@ -32,7 +32,7 @@ $(document).ready(function(){
     $("#com_falla_via_codigo").html(select_falla_via_componente);
     $("#fal_falla_via_codigo").html(select_falla_via_componente);
     $("#pos_falla_via_codigo").html(select_falla_via_componente);
-    select_falla_via_componente = f_select_combo("manto_falla_via_componente", "NO", "fav_componente", "", "`fav_bus_tipo`='"+com_falla_via_flota+"' AND `fav_codigo`='"+com_falla_via_codigo+"'");
+    select_falla_via_componente = f_select_combo("manto_falla_via_componente", "NO", "fav_componente", "", "`fav_bus_tipo`='"+com_falla_via_flota+"' AND `fav_codigo`='"+com_falla_via_codigo+"'", "`fav_componente`");
     $("#fal_falla_via_componente").html(select_falla_via_componente);
     $("#pos_falla_via_componente").html(select_falla_via_componente);
     $("#com_falla_via_codigo").val(com_falla_via_codigo);
@@ -46,7 +46,7 @@ $(document).ready(function(){
   $("#com_falla_via_codigo").on('change', function () {
     com_falla_via_flota = $("#com_falla_via_flota").val();
     com_falla_via_codigo = $("#com_falla_via_codigo").val();
-    select_falla_via_componente = f_select_combo("manto_falla_via_componente", "NO", "fav_componente", "", "`fav_bus_tipo`='"+com_falla_via_flota+"' AND `fav_codigo`='"+com_falla_via_codigo+"'");
+    select_falla_via_componente = f_select_combo("manto_falla_via_componente", "NO", "fav_componente", "", "`fav_bus_tipo`='"+com_falla_via_flota+"' AND `fav_codigo`='"+com_falla_via_codigo+"'", "`fav_componente`");
     $("#fal_falla_via_componente").html(select_falla_via_componente);
     $("#pos_falla_via_componente").html(select_falla_via_componente);
     $("#fal_falla_via_codigo").val(com_falla_via_codigo);
@@ -83,7 +83,7 @@ $(document).ready(function(){
     select_falla_via_componente = f_select_codigo_falla_via(com_falla_via_flota);
     $("#fal_falla_via_codigo").html(select_falla_via_componente);
     $("#pos_falla_via_codigo").html(select_falla_via_componente);
-    select_falla_via_componente = f_select_combo("manto_falla_via_componente", "NO", "fav_componente", "", "`fav_bus_tipo`='"+com_falla_via_flota+"' AND `fav_codigo`='"+com_falla_via_codigo+"'");
+    select_falla_via_componente = f_select_combo("manto_falla_via_componente", "NO", "fav_componente", "", "`fav_bus_tipo`='"+com_falla_via_flota+"' AND `fav_codigo`='"+com_falla_via_codigo+"'", "`fav_componente`");
     $("#fal_falla_via_componente").html(select_falla_via_componente);
     $("#pos_falla_via_componente").html(select_falla_via_componente);
     $("#fal_falla_via_codigo").val(com_falla_via_codigo);

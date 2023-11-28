@@ -293,7 +293,7 @@ function f_valida_agregar_check_list(p_t_check_list_id, p_chl_fecha, p_chl_bus, 
     $("#chl_bus").addClass("color-error");
     rpta_valida_agregar_check_list = "invalido";
   }
-  if(p_chl_kilometraje==""){
+  if(p_chl_kilometraje=="" || p_chl_kilometraje.length>7){
     $("#chl_kilometraje").addClass("color-error");
     rpta_valida_agregar_check_list = "invalido";
   }
@@ -323,9 +323,9 @@ function f_limpia_check_list_registro(){
 
 function f_cargar_datos_check_list(){
   $("#div_btn_seleccion_check_list_registro").empty();  
-  select_check_list = f_select_combo("Buses","NO","Bus_NroExterno","","`Bus_NroExterno`!=''");
+  select_check_list = f_select_combo("Buses","NO","Bus_NroExterno","","`Bus_NroExterno`!='' AND `Bus_Tipo`='UNIDAD' AND `Bus_Estado`='DISPONIBLE' AND (`Bus_Tipo2`='ALIMENTADOR' OR `Bus_Tipo2`='ARTICULADO')","CAST(`Bus_NroExterno` AS UNSIGNED)");
   $("#chl_bus").html(select_check_list);
-  select_check_list = f_select_combo("glo_roles","NO","roles_apellidosnombres",chl_nombre_piloto,"`roles_perfil`='PILOTO'");
+  select_check_list = f_select_combo("glo_roles","NO","roles_apellidosnombres",chl_nombre_piloto,"`roles_perfil`='PILOTO'", "roles_apellidosnombres");
   $("#chl_nombre_piloto").html(select_check_list);
 
   $("#t_check_list_id").val(t_check_list_id);
@@ -343,7 +343,6 @@ function f_cargar_datos_check_list(){
   f_tabla_check_list_observaciones(check_list_id, chl_estado);
 
   f_tabla_check_list_falla_via(check_list_id, chl_estado);
-
 }
 
 ///:: TERMINO FUNCIONES REGISTRO DE CHECK LIST DE FLOTA :::::::::::::::::::::::::::::::::::///

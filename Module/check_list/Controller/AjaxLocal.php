@@ -74,10 +74,11 @@ switch ($Accion)
       $campo_select     = $_POST['campo_select'];
       $campo_inicial    = $_POST['campo_inicial'];
       $condicion_where  = $_POST['condicion_where'];
+      $order_by         = $_POST['order_by'];   
 
       MController($Modulo,'Logico');
       $InstanciaAjax = new Logico();
-      $Respuesta     = $InstanciaAjax->select_combo($nombre_tabla, $es_campo_unico, $campo_select, $campo_inicial, $condicion_where);
+      $Respuesta     = $InstanciaAjax->select_combo($nombre_tabla, $es_campo_unico, $campo_select, $campo_inicial, $condicion_where, $order_by);
    break;
 
    case 'select_codigo_check_list':

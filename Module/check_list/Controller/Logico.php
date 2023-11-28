@@ -23,11 +23,11 @@ class Logico
 		echo $html;
 	}
 
-    public function select_combo($nombre_tabla, $es_campo_unico, $campo_select, $campo_inicial, $condicion_where)
+    public function select_combo($nombre_tabla, $es_campo_unico, $campo_select, $campo_inicial, $condicion_where, $order_by)
 	{
 		MModel($this->Modulo, 'CRUD');
 		$InstanciaAjax= new CRUD();
-		$Respuesta=$InstanciaAjax->select_combo($nombre_tabla, $es_campo_unico, $campo_select, $condicion_where);
+		$Respuesta=$InstanciaAjax->select_combo($nombre_tabla, $es_campo_unico, $campo_select, $condicion_where, $order_by);
 
 		$html = '<option value="">Seleccione una opcion</option>';
 		

@@ -75,17 +75,21 @@ class CRUD
 		$this->conexion=null;
 	}
 
-	function select_combo($nombre_tabla, $es_campo_unico, $campo_select, $condicion_where)
+	function select_combo($nombre_tabla, $es_campo_unico, $campo_select, $condicion_where, $order_by)
 	{
-		$distinct 	= "";
-		$c_where 	= "";
+		$distinct = "";
+		$c_where  = "";
+		$c_order  = "";
 		if($es_campo_unico == "SI"){
 			$distinct = "DISTINCT";
 		}
 		if($condicion_where!=""){
 			$c_where = "WHERE ".$condicion_where;
 		}
-		$consulta = "SELECT ".$distinct." `$nombre_tabla`.`$campo_select` AS `detalle` FROM `$nombre_tabla` ".$c_where." ORDER BY `$nombre_tabla`.`$campo_select`";
+		if($order_by!=""){
+			$c_order = "ORDER BY ".$order_by;
+		}
+		$consulta = "SELECT ".$distinct." `$nombre_tabla`.`$campo_select` AS `detalle` FROM `$nombre_tabla` ".$c_where." ".$c_order;
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();
@@ -809,7 +813,7 @@ class CRUD
 						SELECT `manto_check_list_falla_via`.`check_list_id` AS `check_list_id`,
 							`manto_check_list_falla_via`.`fav_novedad_id` AS `novedad_id`,
 							`manto_check_list_falla_via`.`fav_codigo` AS `codigo`,
-							`manto_check_list_falla_via`.`fav_descripcion` AS `descripcion`,
+							`manto_check_list_falla_via`.`fav_descripcion_codigo` AS `descripcion`,
 							`manto_check_list_falla_via`.`fav_componente` AS `componente`,
 							`manto_check_list_falla_via`.`fav_posicion` AS `posicion`,
 							`manto_check_list_falla_via`.`fav_falla` AS `falla`,

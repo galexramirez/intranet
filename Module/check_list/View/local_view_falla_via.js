@@ -9,10 +9,11 @@ var array_falla_via, fila_check_list_falla_via, tabla_check_list_falla_via, fav_
 
 ///:: JS DOM REGISTRO INSPECCION FLOTA ::::::::::::::::::::::::::::::::::::::::::::::::::::///
 $(document).ready(function(){
-  let select_chl_fav='';
+  let select_chl_fav='', contar_componente_fav='', contar_posicion_fav='', contar_falla_fav='', contar_accion_fav='';
   fav_chl_bus_tipo = "";
   array_falla_via = [];
 
+  /*
   $("#fav_chl_novedad_id").on('change', function () {
     fav_chl_novedad_id = $("#fav_chl_novedad_id").val();
     fav_chl_descripcion_novedad = f_buscar_dato("OPE_Novedad","Nove_Descripcion","`Novedad_Id`='"+fav_chl_novedad_id+"'");
@@ -23,16 +24,16 @@ $(document).ready(function(){
     fav_chl_falla = "";
     fav_chl_accion = "";
 
-    select_chl_fav = f_select_combo("manto_falla_via_componente","NO","fav_componente","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"'","fav_componente");
+    select_chl_fav = f_select_combo("manto_falla_via_componente","NO","fav_componente","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"'","`fav_componente`");
     $("#fav_chl_componente").html(select_chl_fav);
 
-    select_chl_fav = f_select_combo("manto_falla_via_posicion","NO","fav_posicion","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'","fav_posicion");
+    select_chl_fav = f_select_combo("manto_falla_via_posicion","NO","fav_posicion","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'","`fav_posicion`");
     $("#fav_chl_posicion").html(select_chl_fav);
 
-    select_chl_fav = f_select_combo("manto_falla_via_falla_accion","SI","fav_falla","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'","fav_falla");
+    select_chl_fav = f_select_combo("manto_falla_via_falla_accion","SI","fav_falla","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'","`fav_falla`");
     $("#fav_chl_falla").html(select_chl_fav);
 
-    select_chl_fav = f_select_combo("manto_falla_via_falla_accion","NO","fav_accion","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'","fav_accion");
+    select_chl_fav = f_select_combo("manto_falla_via_falla_accion","NO","fav_accion","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'","`fav_accion`");
     $("#fav_chl_accion").html(select_chl_fav);
  
     $("#fav_chl_descripcion_novedad").val(fav_chl_descripcion_novedad);
@@ -43,28 +44,21 @@ $(document).ready(function(){
     $("#fav_chl_falla").val(fav_chl_falla);
     $("#fav_chl_accion").val(fav_chl_accion);
   });
+  */
 
+  ///:: CONSULTA DE CODIGO DE FALLA EN VIA ::::::::::::::::::::::::::::::::::::::::::::::::///
   $("#fav_chl_codigo").on('change', function () {
     $("#fav_chl_componente").prop("disabled",false);
+    $("#fav_chl_posicion").prop("disabled",false);
+    $("#fav_chl_falla").prop("disabled",false);
+    $("#fav_chl_accion").prop("disabled",false);
     fav_chl_codigo = $("#fav_chl_codigo").val();
     fav_chl_descripcion_codigo = f_buscar_dato("manto_falla_via_codigo","fav_descripcion","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"'");
-    let contar_componente_fav = f_contar_dato("manto_falla_via_componente","fav_componente","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"'");
+    contar_componente_fav = f_contar_dato("manto_falla_via_componente","fav_componente","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"'");
     fav_chl_componente = "";
     fav_chl_posicion = "";
     fav_chl_falla = "";
     fav_chl_accion = "";
-
-    select_chl_fav = f_select_combo("manto_falla_via_componente","NO","fav_componente","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"'","fav_componente");
-    $("#fav_chl_componente").html(select_chl_fav);
-
-    select_chl_fav = f_select_combo("manto_falla_via_posicion","NO","fav_posicion","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'","fav_posicion");
-    $("#fav_chl_posicion").html(select_chl_fav);
-
-    select_chl_fav = f_select_combo("manto_falla_via_falla_accion","SI","fav_falla","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'","fav_falla");
-    $("#fav_chl_falla").html(select_chl_fav);
-
-    select_chl_fav = f_select_combo("manto_falla_via_falla_accion","NO","fav_accion","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'","fav_accion");
-    $("#fav_chl_accion").html(select_chl_fav);
 
     if(contar_componente_fav=="1"){
       fav_chl_componente = f_buscar_dato("manto_falla_via_componente","fav_componente","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"'");
@@ -74,28 +68,65 @@ $(document).ready(function(){
       fav_chl_componente = '';
     }
 
+    select_chl_fav = f_select_combo("manto_falla_via_componente","NO","fav_componente","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"'","`fav_componente`");
+    $("#fav_chl_componente").html(select_chl_fav);
+
+    contar_posicion_fav = f_contar_dato("manto_falla_via_posicion","fav_posicion","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'");
+
+    if(contar_componente_fav=="1" && contar_posicion_fav=="1"){
+      fav_chl_posicion = f_buscar_dato("manto_falla_via_posicion","fav_posicion","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'");
+      $("#fav_chl_falla").focus().select();
+      $("#fav_chl_posicion").prop("disabled",true);
+    }else{
+      fav_chl_posicion = '';
+    }
+
+    select_chl_fav = f_select_combo("manto_falla_via_posicion","NO","fav_posicion","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'","`fav_posicion`");
+    $("#fav_chl_posicion").html(select_chl_fav);
+
+    contar_falla_fav = f_contar_dato("manto_falla_via_falla_accion","fav_falla","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'");
+
+    if(contar_componente_fav=="1" && contar_posicion_fav=="1" && contar_falla_fav=="1"){
+      fav_chl_falla = f_buscar_dato("manto_falla_via_falla_accion","fav_falla","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'");
+      $("#fav_chl_accion").focus().select();
+      $("#fav_chl_falla").prop("disabled",true);   
+    }else{
+      fav_chl_falla = "";
+    }
+
+    select_chl_fav = f_select_combo("manto_falla_via_falla_accion","SI","fav_falla","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'","`fav_falla`");
+    $("#fav_chl_falla").html(select_chl_fav);
+
+    contar_accion_fav = f_contar_dato("manto_falla_via_falla_accion","fav_accion","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'");
+
+    if(contar_componente_fav=="1" && contar_posicion_fav=="1" && contar_falla_fav=="1" && contar_accion_fav=="1"){
+      fav_chl_accion = f_buscar_dato("manto_falla_via_falla_accion","fav_accion","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'");
+      $("#btn_check_list_registrar_falla_via").focus().select();
+      $("#fav_chl_accion").prop("disabled",true);
+    }else{
+      fav_chl_accion = "";
+    }
+
+    select_chl_fav = f_select_combo("manto_falla_via_falla_accion","NO","fav_accion","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'","`fav_accion`");
+    $("#fav_chl_accion").html(select_chl_fav);
+
     $("#fav_chl_descripcion_codigo").val(fav_chl_descripcion_codigo);
     $("#fav_chl_componente").val(fav_chl_componente);
     $("#fav_chl_posicion").val(fav_chl_posicion);
     $("#fav_chl_falla").val(fav_chl_falla);
     $("#fav_chl_accion").val(fav_chl_accion);
   });
+  ///:: FIN CONSULTA DE CODIGO DE FALLA EN VIA ::::::::::::::::::::::::::::::::::::::::::::///
 
+  ///:: CONSULTA DE COMPONENTE DE FALLA EN VIA ::::::::::::::::::::::::::::::::::::::::::::///
   $("#fav_chl_componente").on('change', function () {
     $("#fav_chl_posicion").prop("disabled",false);
+    $("#fav_chl_falla").prop("disabled",false);
+    $("#fav_chl_accion").prop("disabled",false);
     fav_chl_componente = $("#fav_chl_componente").val();
-    let contar_posicion_fav = f_contar_dato("manto_falla_via_posicion","fav_posicion","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'");
+    contar_posicion_fav = f_contar_dato("manto_falla_via_posicion","fav_posicion","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'");
     fav_chl_falla = "";
     fav_chl_accion = "";
-
-    select_chl_fav = f_select_combo("manto_falla_via_posicion","NO","fav_posicion","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'","fav_posicion");
-    $("#fav_chl_posicion").html(select_chl_fav);
-
-    select_chl_fav = f_select_combo("manto_falla_via_falla_accion","SI","fav_falla","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'","fav_falla");
-    $("#fav_chl_falla").html(select_chl_fav);
-
-    select_chl_fav = f_select_combo("manto_falla_via_falla_accion","NO","fav_accion","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'","fav_accion");
-    $("#fav_chl_accion").html(select_chl_fav);
 
     if(contar_posicion_fav=="1"){
       fav_chl_posicion = f_buscar_dato("manto_falla_via_posicion","fav_posicion","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'");
@@ -105,20 +136,49 @@ $(document).ready(function(){
       fav_chl_posicion = '';
     }
 
+    select_chl_fav = f_select_combo("manto_falla_via_posicion","NO","fav_posicion","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'","`fav_posicion`");
+    $("#fav_chl_posicion").html(select_chl_fav);
+
+    contar_falla_fav = f_contar_dato("manto_falla_via_falla_accion","fav_falla","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'");
+
+    if(contar_posicion_fav=="1" && contar_falla_fav=="1"){
+      fav_chl_falla = f_buscar_dato("manto_falla_via_falla_accion","fav_falla","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'");
+      $("#fav_chl_accion").focus().select();
+      $("#fav_chl_falla").prop("disabled",true);   
+    }else{
+      fav_chl_falla = "";
+    }
+
+    select_chl_fav = f_select_combo("manto_falla_via_falla_accion","SI","fav_falla","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'","`fav_falla`");
+    $("#fav_chl_falla").html(select_chl_fav);
+
+    contar_accion_fav = f_contar_dato("manto_falla_via_falla_accion","fav_accion","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'");
+
+    if(contar_posicion_fav=="1" && contar_falla_fav=="1" && contar_accion_fav=="1"){
+      fav_chl_accion = f_buscar_dato("manto_falla_via_falla_accion","fav_accion","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'");
+      $("#btn_check_list_registrar_falla_via").focus().select();
+      $("#fav_chl_accion").prop("disabled",true);
+    }else{
+      fav_chl_accion = "";
+    }
+
+    select_chl_fav = f_select_combo("manto_falla_via_falla_accion","NO","fav_accion","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'","`fav_accion`");
+    $("#fav_chl_accion").html(select_chl_fav);
+
     $("#fav_chl_posicion").val(fav_chl_posicion);
     $("#fav_chl_falla").val(fav_chl_falla);
     $("#fav_chl_accion").val(fav_chl_accion);
   });
+  ///:: FIN CONSULTA DE COMPONENTE DE FALLA EN VIA ::::::::::::::::::::::::::::::::::::::::///
 
+  ///:: CONSULTA DE POSICION DE FALLA EN VIA ::::::::::::::::::::::::::::::::::::::::::::::///
   $("#fav_chl_posicion").on('change', function (){
     $("#fav_chl_falla").prop("disabled",false);
+    $("#fav_chl_accion").prop("disabled",false);
     fav_chl_accion = "";
     
-    let contar_falla_fav = f_contar_dato("manto_falla_via_falla_accion","fav_falla","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'");
+    contar_falla_fav = f_contar_dato("manto_falla_via_falla_accion","fav_falla","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'");
     
-    select_chl_fav = f_select_combo("manto_falla_via_falla_accion","NO","fav_accion","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'","fav_accion");
-    $("#fav_chl_accion").html(select_chl_fav);
-
     if(contar_falla_fav=="1"){
       fav_chl_falla = f_buscar_dato("manto_falla_via_falla_accion","fav_falla","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'");
       $("#fav_chl_accion").focus().select();
@@ -127,17 +187,33 @@ $(document).ready(function(){
       fav_chl_falla = "";
     }
 
+    select_chl_fav = f_select_combo("manto_falla_via_falla_accion","NO","fav_accion","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'","`fav_accion`");
+    $("#fav_chl_accion").html(select_chl_fav);
+
+    contar_accion_fav = f_contar_dato("manto_falla_via_falla_accion","fav_accion","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'");
+
+    if(contar_falla_fav=="1" && contar_accion_fav=="1"){
+      fav_chl_accion = f_buscar_dato("manto_falla_via_falla_accion","fav_accion","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'");
+      $("#btn_check_list_registrar_falla_via").focus().select();
+      $("#fav_chl_accion").prop("disabled",true);
+    }else{
+      fav_chl_accion = "";
+    }
+
+    select_chl_fav = f_select_combo("manto_falla_via_falla_accion","NO","fav_accion","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'","`fav_accion`");
+
     $("#fav_chl_falla").val(fav_chl_falla);
     $("#fav_chl_accion").val(fav_chl_accion);
   })
+  ///:: FIN CONSULTA DE POSICION DE FALLA EN VIA ::::::::::::::::::::::::::::::::::::::::::///
 
+  ///:: CONSULTA DE FALLA EN VIA ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
   $("#fav_chl_falla").on('change', function (){
     $("#fav_chl_accion").prop("disabled",false);
     fav_chl_falla = $("#fav_chl_falla").val();
-    let contar_accion_fav = f_contar_dato("manto_falla_via_falla_accion","fav_accion","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'");
-    
+    contar_accion_fav = f_contar_dato("manto_falla_via_falla_accion","fav_accion","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'");
 
-    select_chl_fav = f_select_combo("manto_falla_via_falla_accion","NO","fav_accion","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'","fav_accion");
+    select_chl_fav = f_select_combo("manto_falla_via_falla_accion","NO","fav_accion","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'","`fav_accion`");
     $("#fav_chl_accion").html(select_chl_fav);
 
     if(contar_accion_fav=="1"){
@@ -150,6 +226,7 @@ $(document).ready(function(){
 
     $("#fav_chl_accion").val(fav_chl_accion);
   })
+  ///:: FIN CONSULTA DE FALLA EN VIA ::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
   ///:: INICIO BOTONES DE INSPECCION REGISTRO :::::::::::::::::::::::::::::::::::::::::::::///
 
@@ -173,6 +250,7 @@ $(document).ready(function(){
       fav_chl_falla = fav_fila_falla_via.closest('tr').find('td:eq(6)').text();
       fav_chl_accion = fav_fila_falla_via.closest('tr').find('td:eq(7)').text();
       
+      $("#fav_chl_codigo").prop("disabled",false);
       $("#fav_chl_componente").prop("disabled",false);
       $("#fav_chl_posicion").prop("disabled",false);
       $("#fav_chl_falla").prop("disabled",false);
