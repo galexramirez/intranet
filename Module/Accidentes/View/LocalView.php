@@ -613,7 +613,7 @@
 											<div class="row align-items-end">
 												<div class="col-lg-3">
 													<div class="form-group">
-								            			<label for="Acci_DNILesionado" class="col-form-label form-control-sm">DNI</label>
+								            			<label for="Acci_DNILesionado" class="col-form-label form-control-sm">DNI (8 c.)</label>
 														<input type="text" class="form-control form-control-sm" id="Acci_DNILesionado">
 				  				            		</div> 
 			      		            			</div>
@@ -678,7 +678,7 @@
 											<div class="row align-items-end">
 												<div class="col-lg-6">
 													<div class="form-group">
-								            			<label for="Acci_DNITercero" class="col-form-label form-control-sm">DNI</label>
+								            			<label for="Acci_DNITercero" class="col-form-label form-control-sm">DNI (8 c.)</label>
 														<input type="text" class="form-control form-control-sm" id="Acci_DNITercero">
 				  				            		</div> 
 			      		            			</div>

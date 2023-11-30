@@ -386,11 +386,16 @@ class CRUD
 
 	function buscar_check_list_falla_accion($chl_bus_tipo, $chl_codigo, $chl_componente)
 	{
+		$where_codigo = "";
+		if($chl_codigo!=""){
+			$where_codigo = "AND `manto_check_list_falla_accion`.`chl_codigo` = '$chl_codigo'";
+		}
+
 		$where_componente = "";
 		if($chl_componente!=""){
 			$where_componente = "AND `manto_check_list_falla_accion`.`chl_componente` = '$chl_componente'";
 		}
-		$consulta = " SELECT  `manto_check_list_falla_accion`.`check_list_falla_accion_id`,	`manto_check_list_falla_accion`.`chl_bus_tipo`, `manto_check_list_falla_accion`.`chl_codigo`, `manto_check_list_codigo`.`chl_descripcion`, `manto_check_list_falla_accion`.`chl_componente`, `manto_check_list_falla_accion`.`chl_falla`, `manto_check_list_falla_accion`.`chl_accion` FROM `manto_check_list_falla_accion` LEFT JOIN `manto_check_list_codigo` ON `manto_check_list_codigo`.`chl_codigo`=`manto_check_list_falla_accion`.`chl_codigo` AND `manto_check_list_codigo`.`chl_bus_tipo`=`manto_check_list_falla_accion`.`chl_bus_tipo` WHERE `manto_check_list_falla_accion`.`chl_bus_tipo`='$chl_bus_tipo' AND `manto_check_list_falla_accion`.`chl_codigo`='$chl_codigo' ".$where_componente." ORDER BY `manto_check_list_falla_accion`.`check_list_falla_accion_id`";
+		$consulta = " SELECT  `manto_check_list_falla_accion`.`check_list_falla_accion_id`,	`manto_check_list_falla_accion`.`chl_bus_tipo`, `manto_check_list_falla_accion`.`chl_codigo`, `manto_check_list_codigo`.`chl_descripcion`, `manto_check_list_falla_accion`.`chl_componente`, `manto_check_list_falla_accion`.`chl_falla`, `manto_check_list_falla_accion`.`chl_accion` FROM `manto_check_list_falla_accion` LEFT JOIN `manto_check_list_codigo` ON `manto_check_list_codigo`.`chl_codigo`=`manto_check_list_falla_accion`.`chl_codigo` AND `manto_check_list_codigo`.`chl_bus_tipo`=`manto_check_list_falla_accion`.`chl_bus_tipo` WHERE `manto_check_list_falla_accion`.`chl_bus_tipo`='$chl_bus_tipo' ".$where_codigo." ".$where_componente." ORDER BY `manto_check_list_falla_accion`.`check_list_falla_accion_id`";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();
@@ -431,12 +436,17 @@ class CRUD
 	}
 
 	function buscar_check_list_posicion($chl_bus_tipo, $chl_codigo, $chl_componente){
+		$where_codigo = "";
+		if($chl_codigo!=""){
+			$where_codigo = "AND `manto_check_list_posicion`.`chl_codigo` = '$chl_codigo'";
+		}
+
 		$where_componente = "";
 		if($chl_componente!=""){
 			$where_componente = "AND `manto_check_list_posicion`.`chl_componente` = '$chl_componente'";
 		}
 
-		$consulta = " SELECT  `manto_check_list_posicion`.`check_list_posicion_id`, `manto_check_list_posicion`.`chl_bus_tipo`, `manto_check_list_posicion`.`chl_codigo`, `manto_check_list_codigo`.`chl_descripcion`, `manto_check_list_posicion`.`chl_componente`, `manto_check_list_posicion`.`chl_posicion` FROM `manto_check_list_posicion` LEFT JOIN `manto_check_list_codigo` ON `manto_check_list_codigo`.`chl_codigo`=`manto_check_list_posicion`.`chl_codigo` AND `manto_check_list_codigo`.`chl_bus_tipo`=`manto_check_list_posicion`.`chl_bus_tipo` WHERE `manto_check_list_posicion`.`chl_bus_tipo`='$chl_bus_tipo'  AND `manto_check_list_posicion`.`chl_codigo`='$chl_codigo' ".$where_componente." ORDER BY `manto_check_list_posicion`.`check_list_posicion_id`";
+		$consulta = " SELECT  `manto_check_list_posicion`.`check_list_posicion_id`, `manto_check_list_posicion`.`chl_bus_tipo`, `manto_check_list_posicion`.`chl_codigo`, `manto_check_list_codigo`.`chl_descripcion`, `manto_check_list_posicion`.`chl_componente`, `manto_check_list_posicion`.`chl_posicion` FROM `manto_check_list_posicion` LEFT JOIN `manto_check_list_codigo` ON `manto_check_list_codigo`.`chl_codigo`=`manto_check_list_posicion`.`chl_codigo` AND `manto_check_list_codigo`.`chl_bus_tipo`=`manto_check_list_posicion`.`chl_bus_tipo` WHERE `manto_check_list_posicion`.`chl_bus_tipo`='$chl_bus_tipo' ".$where_codigo." ".$where_componente." ORDER BY `manto_check_list_posicion`.`check_list_posicion_id`";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();
@@ -613,11 +623,15 @@ class CRUD
 
 	function buscar_falla_via_falla_accion($fav_bus_tipo, $fav_codigo, $fav_componente)
 	{
+		$where_codigo = "";
+		if($fav_codigo!=""){
+			$where_codigo = "AND `manto_falla_via_falla_accion`.`fav_codigo` = '$fav_codigo'";
+		}
 		$where_componente = "";
 		if($fav_componente!=""){
 			$where_componente = "AND `manto_falla_via_falla_accion`.`fav_componente` = '$fav_componente'";
 		}
-		$consulta = " SELECT  `manto_falla_via_falla_accion`.`falla_via_falla_accion_id`, `manto_falla_via_falla_accion`.`fav_bus_tipo`, `manto_falla_via_falla_accion`.`fav_codigo`, `manto_falla_via_codigo`.`fav_descripcion`, `manto_falla_via_falla_accion`.`fav_componente`, `manto_falla_via_falla_accion`.`fav_falla`, `manto_falla_via_falla_accion`.`fav_accion` FROM `manto_falla_via_falla_accion` LEFT JOIN `manto_falla_via_codigo` ON `manto_falla_via_codigo`.`fav_codigo`=`manto_falla_via_falla_accion`.`fav_codigo` AND `manto_falla_via_codigo`.`fav_bus_tipo`=`manto_falla_via_falla_accion`.`fav_bus_tipo` WHERE `manto_falla_via_falla_accion`.`fav_bus_tipo`='$fav_bus_tipo' AND `manto_falla_via_falla_accion`.`fav_codigo`='$fav_codigo' ".$where_componente." ORDER BY `manto_falla_via_falla_accion`.`falla_via_falla_accion_id`";
+		$consulta = " SELECT  `manto_falla_via_falla_accion`.`falla_via_falla_accion_id`, `manto_falla_via_falla_accion`.`fav_bus_tipo`, `manto_falla_via_falla_accion`.`fav_codigo`, `manto_falla_via_codigo`.`fav_descripcion`, `manto_falla_via_falla_accion`.`fav_componente`, `manto_falla_via_falla_accion`.`fav_falla`, `manto_falla_via_falla_accion`.`fav_accion` FROM `manto_falla_via_falla_accion` LEFT JOIN `manto_falla_via_codigo` ON `manto_falla_via_codigo`.`fav_codigo`=`manto_falla_via_falla_accion`.`fav_codigo` AND `manto_falla_via_codigo`.`fav_bus_tipo`=`manto_falla_via_falla_accion`.`fav_bus_tipo` WHERE `manto_falla_via_falla_accion`.`fav_bus_tipo`='$fav_bus_tipo' ".$where_codigo." ".$where_componente." ORDER BY `manto_falla_via_falla_accion`.`falla_via_falla_accion_id`";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();
@@ -658,12 +672,17 @@ class CRUD
 	}
 
 	function buscar_falla_via_posicion($fav_bus_tipo, $fav_codigo, $fav_componente){
+		$where_codigo = "";
+		if($fav_codigo!=""){
+			$where_codigo = "AND `manto_falla_via_posicion`.`fav_codigo` = '$fav_codigo'";
+		}
+
 		$where_componente = "";
 		if($fav_componente!=""){
 			$where_componente = "AND `manto_falla_via_posicion`.`fav_componente` = '$fav_componente'";
 		}
 
-		$consulta = " SELECT  `manto_falla_via_posicion`.`falla_via_posicion_id`, `manto_falla_via_posicion`.`fav_bus_tipo`, `manto_falla_via_posicion`.`fav_codigo`, `manto_falla_via_codigo`.`fav_descripcion`, `manto_falla_via_posicion`.`fav_componente`, `manto_falla_via_posicion`.`fav_posicion` FROM `manto_falla_via_posicion` LEFT JOIN `manto_falla_via_codigo` ON `manto_falla_via_codigo`.`fav_codigo`=`manto_falla_via_posicion`.`fav_codigo` AND `manto_falla_via_codigo`.`fav_bus_tipo`=`manto_falla_via_posicion`.`fav_bus_tipo` WHERE `manto_falla_via_posicion`.`fav_bus_tipo`='$fav_bus_tipo'  AND `manto_falla_via_posicion`.`fav_codigo`='$fav_codigo' ".$where_componente." ORDER BY `manto_falla_via_posicion`.`falla_via_posicion_id`";
+		$consulta = " SELECT  `manto_falla_via_posicion`.`falla_via_posicion_id`, `manto_falla_via_posicion`.`fav_bus_tipo`, `manto_falla_via_posicion`.`fav_codigo`, `manto_falla_via_codigo`.`fav_descripcion`, `manto_falla_via_posicion`.`fav_componente`, `manto_falla_via_posicion`.`fav_posicion` FROM `manto_falla_via_posicion` LEFT JOIN `manto_falla_via_codigo` ON `manto_falla_via_codigo`.`fav_codigo`=`manto_falla_via_posicion`.`fav_codigo` AND `manto_falla_via_codigo`.`fav_bus_tipo`=`manto_falla_via_posicion`.`fav_bus_tipo` WHERE `manto_falla_via_posicion`.`fav_bus_tipo`='$fav_bus_tipo' ".$where_codigo." ".$where_componente." ORDER BY `manto_falla_via_posicion`.`falla_via_posicion_id`";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();

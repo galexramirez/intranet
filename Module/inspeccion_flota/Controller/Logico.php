@@ -329,13 +329,13 @@ class Logico
                                 </div>
                                 <div class="card-body card-block">
                                     <div class="d-flex justify-content-center">
-                                        <div class="p2 ml-1">
+                                        <div class="col-sm-3 ml-1 d-flex align-items-center justify-content-center bg-success rounded">
                                             <button type="button" class="btn btn-success btn-sm" onclick="f_codigo_correcto('. $row["insp_codigo"] .')">Correcto</a>
                                         </div>
-                                        <div class="p2 ml-1">
+                                        <div class="col-sm-6 ml-1 d-flex align-items-center justify-content-center bg-warning rounded">
                                             <button type="button" class="btn btn-warning btn-sm" onclick="f_codigo_no_inspeccionado('. $row["insp_codigo"] .')">No Inspeccionado</a>
                                         </div>
-                                        <div class="p2 ml-1">
+                                        <div class="col-sm-3 ml-1 d-flex align-items-center justify-content-center bg-danger rounded">
                                             <button type="button" class="btn btn-danger btn-sm" onclick="f_codigo_observado('. $row["insp_codigo"] .')">Observado</a>
                                         </div>
                                     </div>

@@ -878,12 +878,12 @@ class Logico
         $Respuesta=$InstanciaAjax->DescargarInfoBus($ib_FechaInicio,$ib_FechaTermino,$ib_Bus,$ib_Tipo,$ib_Sistema,$ib_Contenga, $ib_origen);
         //$Respuesta=$InstanciaAjax->DescargarInfoBus($ib_FechaInicio,$ib_FechaTermino,$ib_Bus,$ib_Tipo,$ib_Sistema,$ib_Contenga, $ib_origen, $file_out);
 
-        $micarpeta = $_SERVER['DOCUMENT_ROOT']."/Services/Json";
-        $date = date('d-m-Y-'.substr((string)microtime(), 1, 8));
-        $date = str_replace(".", "", $date);
-        $filename = "OTs".$ib_Tipo."_".$date;
-        $file_json = $filename.".json";
-        $data=json_encode($Respuesta, JSON_UNESCAPED_UNICODE);
+        $micarpeta  = $_SERVER['DOCUMENT_ROOT']."/Services/Json";
+        $date       = date('d-m-Y-'.substr((string)microtime(), 1, 8));
+        $date       = str_replace(".", "", $date);
+        $filename   = "OTs".$ib_Tipo."_".$date;
+        $file_json  = $filename.".json";
+        $data       = json_encode($Respuesta, JSON_UNESCAPED_UNICODE);
         file_put_contents($micarpeta."/".$file_json, $data);
         echo $filename;
         

@@ -379,11 +379,15 @@ class CRUD
 
 	function buscar_inspeccion_falla_accion($insp_bus_tipo, $insp_codigo, $insp_componente)
 	{
+		$where_codigo = "";
+		if($insp_codigo!=""){
+			$where_codigo = "AND `manto_inspeccion_falla_accion`.`insp_codigo` = '$insp_codigo'";
+		}
 		$where_componente = "";
 		if($insp_componente!=""){
 			$where_componente = "AND `manto_inspeccion_falla_accion`.`insp_componente` = '$insp_componente'";
 		}
-		$consulta = " SELECT  `manto_inspeccion_falla_accion`.`inspeccion_falla_accion_id`,	`manto_inspeccion_falla_accion`.`insp_bus_tipo`, `manto_inspeccion_falla_accion`.`insp_codigo`, `manto_inspeccion_codigo`.`insp_descripcion`, `manto_inspeccion_falla_accion`.`insp_componente`, `manto_inspeccion_falla_accion`.`insp_falla`, `manto_inspeccion_falla_accion`.`insp_accion` FROM `manto_inspeccion_falla_accion` LEFT JOIN `manto_inspeccion_codigo` ON `manto_inspeccion_codigo`.`insp_codigo`=`manto_inspeccion_falla_accion`.`insp_codigo` AND `manto_inspeccion_codigo`.`insp_bus_tipo`=`manto_inspeccion_falla_accion`.`insp_bus_tipo` WHERE `manto_inspeccion_falla_accion`.`insp_bus_tipo`='$insp_bus_tipo' AND `manto_inspeccion_falla_accion`.`insp_codigo`='$insp_codigo' ".$where_componente." ORDER BY `manto_inspeccion_falla_accion`.`inspeccion_falla_accion_id`";
+		$consulta = " SELECT  `manto_inspeccion_falla_accion`.`inspeccion_falla_accion_id`,	`manto_inspeccion_falla_accion`.`insp_bus_tipo`, `manto_inspeccion_falla_accion`.`insp_codigo`, `manto_inspeccion_codigo`.`insp_descripcion`, `manto_inspeccion_falla_accion`.`insp_componente`, `manto_inspeccion_falla_accion`.`insp_falla`, `manto_inspeccion_falla_accion`.`insp_accion` FROM `manto_inspeccion_falla_accion` LEFT JOIN `manto_inspeccion_codigo` ON `manto_inspeccion_codigo`.`insp_codigo`=`manto_inspeccion_falla_accion`.`insp_codigo` AND `manto_inspeccion_codigo`.`insp_bus_tipo`=`manto_inspeccion_falla_accion`.`insp_bus_tipo` WHERE `manto_inspeccion_falla_accion`.`insp_bus_tipo`='$insp_bus_tipo' ".$where_codigo." ".$where_componente." ORDER BY `manto_inspeccion_falla_accion`.`inspeccion_falla_accion_id`";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();
@@ -424,12 +428,16 @@ class CRUD
 	}
 
 	function buscar_inspeccion_posicion($insp_bus_tipo, $insp_codigo, $insp_componente){
+		$where_codigo = "";
+		if($insp_codigo!=""){
+			$where_codigo = "AND `manto_inspeccion_posicion`.`insp_codigo` = '$insp_codigo'";
+		}
 		$where_componente = "";
 		if($insp_componente!=""){
 			$where_componente = "AND `manto_inspeccion_posicion`.`insp_componente` = '$insp_componente'";
 		}
 
-		$consulta = " SELECT  `manto_inspeccion_posicion`.`inspeccion_posicion_id`, `manto_inspeccion_posicion`.`insp_bus_tipo`, `manto_inspeccion_posicion`.`insp_codigo`, `manto_inspeccion_codigo`.`insp_descripcion`, `manto_inspeccion_posicion`.`insp_componente`, `manto_inspeccion_posicion`.`insp_posicion` FROM `manto_inspeccion_posicion` LEFT JOIN `manto_inspeccion_codigo` ON `manto_inspeccion_codigo`.`insp_codigo`=`manto_inspeccion_posicion`.`insp_codigo` AND `manto_inspeccion_codigo`.`insp_bus_tipo`=`manto_inspeccion_posicion`.`insp_bus_tipo` WHERE `manto_inspeccion_posicion`.`insp_bus_tipo`='$insp_bus_tipo'  AND `manto_inspeccion_posicion`.`insp_codigo`='$insp_codigo' ".$where_componente." ORDER BY `manto_inspeccion_posicion`.`inspeccion_posicion_id`";
+		$consulta = " SELECT  `manto_inspeccion_posicion`.`inspeccion_posicion_id`, `manto_inspeccion_posicion`.`insp_bus_tipo`, `manto_inspeccion_posicion`.`insp_codigo`, `manto_inspeccion_codigo`.`insp_descripcion`, `manto_inspeccion_posicion`.`insp_componente`, `manto_inspeccion_posicion`.`insp_posicion` FROM `manto_inspeccion_posicion` LEFT JOIN `manto_inspeccion_codigo` ON `manto_inspeccion_codigo`.`insp_codigo`=`manto_inspeccion_posicion`.`insp_codigo` AND `manto_inspeccion_codigo`.`insp_bus_tipo`=`manto_inspeccion_posicion`.`insp_bus_tipo` WHERE `manto_inspeccion_posicion`.`insp_bus_tipo`='$insp_bus_tipo'  ".$where_codigo." ".$where_componente." ORDER BY `manto_inspeccion_posicion`.`inspeccion_posicion_id`";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();
