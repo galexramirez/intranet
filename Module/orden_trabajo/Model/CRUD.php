@@ -511,64 +511,155 @@ class CRUD
 
 	function leer_novedades($fecha_inicio, $fecha_termino)
 	{
-		$Nove_Novedad = "NOVEDAD_BUS";
-		$consulta = "	(SELECT  
-						CONCAT('NO-',`OPE_Novedad`.`Novedad_Id`) AS `id`,
-						`OPE_Novedad`.`Nove_FechaOperacion` AS `fecha`,
-						`colaborador`.`Colab_nombre_corto` AS `nombres_cgo`,
-						`OPE_Novedad`.`Nove_TipoNovedad` AS `tipo_novedad`,
-						`OPE_Novedad`.`Nove_DetalleNovedad` AS `detalle_novedad`,
-						CONCAT(SUBSTRING(`OPE_Novedad`.`Nove_Descripcion`,1,30),' ...') AS `descripcion`,
-						`OPE_Novedad`.`Nove_Operacion` AS `operacion`,
-						`OPE_Novedad`.`Nove_NombreColaborador` AS `nombres_piloto`,
-						`OPE_Novedad`.`Nove_Bus` AS `bus`,
-						`OPE_Novedad`.`Nove_LugarExacto` AS `lugar`,
-						`OPE_Novedad`.`Nove_HoraInicio` AS `hora_inicio`,
-						`OPE_Novedad`.`Nove_HoraFin` AS `hora_fin`,
-						`OPE_Novedad`.`Nove_Estado` AS `estado`,
-						CONCAT(SUBSTRING(`manto_orden_trabajo`.`ot_tipo`,1,1),'-',`manto_orden_trabajo`.`ot_id`) AS `ot_id`
+		$Nove_TipoNovedad = ['FALLA_COMUNICACION', 'FALLA_TELEMETRIA','FALLA_BUS' ];
+		$Nove_TipoNovedad = "'" . implode("','", $Nove_TipoNovedad) . "'";
+		$consulta = "( ";
+		$consulta .= "	SELECT  
+							CONCAT('NO-',`OPE_Novedad`.`Novedad_Id`) AS `id`,
+							`OPE_Novedad`.`Nove_FechaOperacion` AS `fecha`,
+							`colaborador`.`Colab_nombre_corto` AS `nombres_usuario_genera`,
+							'OPERACIONES' AS `origen`,
+							`OPE_Novedad`.`Nove_TipoNovedad` AS `tipo_novedad`,
+							`OPE_Novedad`.`Nove_Descripcion` AS `descripcion`,
+							'' AS `ot_accion`,
+							`OPE_Novedad`.`Nove_Operacion` AS `operacion`,
+							`OPE_Novedad`.`Nove_Bus` AS `bus`,
+							'' AS `componente`,
+							'' AS `posicion`,
+							'' AS `falla`,
+							'' AS `accion`,
+							'' AS `ot_id`
 						FROM 
-						`OPE_Novedad`
+							`OPE_Novedad`
 						LEFT JOIN
-						`manto_orden_trabajo`
+							`colaborador`
 						ON
-						`manto_orden_trabajo`.`ot_accidentes_id`=`OPE_Novedad`.`Novedad_Id` 
-						LEFT JOIN
-						`colaborador`
-						ON
-						`colaborador`.`Colaborador_id` = `OPE_Novedad`.`Nove_UsuarioId`
+							`colaborador`.`Colaborador_id` = `OPE_Novedad`.`Nove_UsuarioId`
 						WHERE 
-						`OPE_Novedad`.`Nove_Novedad` = '$Nove_Novedad'
-						AND `OPE_Novedad`.`Nove_FechaOperacion`>='$fecha_inicio' 
-						AND `OPE_Novedad`.`Nove_FechaOperacion`<='$fecha_termino'
+							`OPE_Novedad`.`Nove_TipoNovedad` IN ($Nove_TipoNovedad)
+							AND `OPE_Novedad`.`Nove_FechaOperacion`>='$fecha_inicio' 
+							AND `OPE_Novedad`.`Nove_FechaOperacion`<='$fecha_termino'
 						UNION
 						SELECT
-						CONCAT('IP-',`OPE_AccidentesInformePreliminar`.`Accidentes_Id`) AS `id`,
-						`OPE_AccidentesInformePreliminar`.`Acci_Fecha` AS `fecha`,
-						`colaborador`.`Colab_nombre_corto` AS `nombres_cgo`,
-						`OPE_AccidentesInformePreliminar`.`Acci_TipoAccidente` AS `tipo_novedad`,
-						`OPE_AccidentesInformePreliminar`.`Acci_ClaseAccidente` AS `detalle_novedad`,
-						CONCAT(SUBSTRING(`OPE_AccidentesInformePreliminar`.`Acci_Descripcion`,1,30),' ...') AS `descripcion`,
-						`OPE_AccidentesInformePreliminar`.`Acci_Operacion` AS `operacion`,
-						`OPE_AccidentesInformePreliminar`.`Acci_NombreColaborador` AS `nombres_piloto`,
-						`OPE_AccidentesInformePreliminar`.`Acci_Bus` AS `bus`,
-						`OPE_AccidentesInformePreliminar`.`Acci_Lugar` AS `lugar`,
-						`OPE_AccidentesInformePreliminar`.`Acci_Hora` AS `hora_inicio`,
-						`OPE_AccidentesInformePreliminar`.`Acci_HoraFinAtencion` AS `hora_fin`,
-						`OPE_AccidentesInformePreliminar`.`Acci_EstadoInformePreliminar`,
-						CONCAT(SUBSTRING(`manto_orden_trabajo`.`ot_tipo`,1,1),'-',`manto_orden_trabajo`.`ot_id`) AS `ot_id`
-						FROM `OPE_AccidentesInformePreliminar`
+							CONCAT('IP-',`OPE_AccidentesInformePreliminar`.`Accidentes_Id`) AS `id`,
+							`OPE_AccidentesInformePreliminar`.`Acci_Fecha` AS `fecha`,
+							`colaborador`.`Colab_nombre_corto` AS `nombres_usuario_genera`,
+							'INFORME PRELIMINAR' AS `origen`,
+							`OPE_AccidentesInformePreliminar`.`Acci_TipoAccidente` AS `tipo_novedad`,
+							`OPE_AccidentesInformePreliminar`.`Acci_Descripcion` AS `descripcion`,
+							'' AS `ot_accion`,
+							`OPE_AccidentesInformePreliminar`.`Acci_Operacion` AS `operacion`,
+							`OPE_AccidentesInformePreliminar`.`Acci_Bus` AS `bus`,
+							'' AS `componente`,
+							'' AS `posicion`,
+							'' AS `falla`,
+							'' AS `accion`,
+							CONCAT(SUBSTRING(`manto_orden_trabajo`.`ot_tipo`,1,1),'-',`manto_orden_trabajo`.`ot_id`) AS `ot_id`
+						FROM 
+							`OPE_AccidentesInformePreliminar`
 						LEFT JOIN
-						`manto_orden_trabajo`
+							`manto_orden_trabajo`
 						ON
-						`manto_orden_trabajo`.`ot_accidentes_id`=`OPE_AccidentesInformePreliminar`.`Accidentes_Id` 
+							`manto_orden_trabajo`.`ot_accidentes_id`=`OPE_AccidentesInformePreliminar`.`Accidentes_Id` 
 						LEFT JOIN
-						`colaborador`
+							`colaborador`
 						ON
-						`colaborador`.`Colaborador_id` = `OPE_AccidentesInformePreliminar`.`Acci_UsuarioId_Generar`
+							`colaborador`.`Colaborador_id` = `OPE_AccidentesInformePreliminar`.`Acci_UsuarioId_Generar`
 						WHERE 
-						`OPE_AccidentesInformePreliminar`.`Acci_Fecha`>='$fecha_inicio'
-						AND `OPE_AccidentesInformePreliminar`.`Acci_Fecha`<='$fecha_termino')
+							`OPE_AccidentesInformePreliminar`.`Acci_Fecha`>='$fecha_inicio'
+							AND `OPE_AccidentesInformePreliminar`.`Acci_Fecha`<='$fecha_termino'
+							AND `OPE_AccidentesInformePreliminar`.`Acci_DanosMateriales`='CON_DAÑOS_MATERIALES'
+						UNION
+						SELECT 
+							CONCAT('IF-',`manto_inspeccion_movimiento`.`inspeccion_movimiento_id`) AS `id`,
+						    DATE_FORMAT(`manto_inspeccion_movimiento`.`insp_fecha`,'%Y-%m-%d') AS `fecha`,
+						    `colaborador`.`Colab_nombre_corto` AS `nombres_usuario_genera`,
+						    'INSPECCION FLOTA' AS `origen`,
+						    'INSPECCION FLOTA' AS `tipo_novedad`,
+						    CONCAT(`manto_inspeccion_movimiento`.`insp_codigo`,'-',`manto_inspeccion_movimiento`.`insp_descripcion`) AS `descripcion`,
+						    CONCAT(`manto_inspeccion_movimiento`.`insp_componente`,'-',`manto_inspeccion_movimiento`.`insp_posicion`,'-',`manto_inspeccion_movimiento`.`insp_falla`,'-',`manto_inspeccion_movimiento`.`insp_accion`) AS `ot_accion`,
+							`manto_inspeccion_movimiento`.`insp_bus_tipo` AS `operacion`,
+						    `manto_inspeccion_movimiento`.`insp_bus` AS `bus`,
+						    `manto_inspeccion_movimiento`.`insp_componente` AS `componente`,
+						    `manto_inspeccion_movimiento`.`insp_posicion` AS `posicion`,
+						    `manto_inspeccion_movimiento`.`insp_falla` AS `falla`,
+						    `manto_inspeccion_movimiento`.`insp_accion` AS `accion`,
+						    CONCAT(SUBSTRING(`manto_inspeccion_movimiento`.`insp_ot_tipo`,1,1),'-',`manto_inspeccion_movimiento`.`insp_ot_id`) AS `ot_id`
+						FROM 
+							`manto_inspeccion_movimiento`
+						LEFT JOIN 
+							`colaborador`
+						ON
+							`colaborador`.`Colaborador_id`=`manto_inspeccion_movimiento`.`insp_usuario_id`
+						WHERE
+							DATE_FORMAT(`manto_inspeccion_movimiento`.`insp_fecha`,'%Y-%m-%d')>='$fecha_inicio'
+							AND DATE_FORMAT(`manto_inspeccion_movimiento`.`insp_fecha`,'%Y-%m-%d')<='$fecha_termino'
+						UNION
+						SELECT 
+							CONCAT('CL-',`manto_check_list_observaciones`.`check_list_observaciones_id`) AS `id`,
+    						`manto_check_list_registro`.`chl_fecha` AS `fecha`,
+							`colaborador`.`Colab_nombre_corto` AS `nombres_usuario_genera`,
+							'CHECK LIST' AS `origen`,
+							'CHECK LIST' AS `tipo_novedad`,
+							CONCAT(`manto_check_list_observaciones`.`chl_codigo`,'-',`manto_check_list_observaciones`.`chl_descripcion`) AS `descripcion`,
+							CONCAT(`manto_check_list_observaciones`.`chl_componente`,'-',`manto_check_list_observaciones`.`chl_posicion`,'-',`manto_check_list_observaciones`.`chl_falla`,'-',`manto_check_list_observaciones`.`chl_accion` ) AS `ot_accion`,
+    						`Buses`.`Bus_Operacion` AS `operacion`,
+    						`manto_check_list_registro`.`chl_bus` AS `bus`,
+							`manto_check_list_observaciones`.`chl_componente` AS `componente`,
+    						`manto_check_list_observaciones`.`chl_posicion` AS `posicion`,
+    						`manto_check_list_observaciones`.`chl_falla` AS `falla`,
+    						`manto_check_list_observaciones`.`chl_accion` AS `accion`,
+							CONCAT(SUBSTRING(`manto_check_list_observaciones`.`chl_ot_tipo`,1,1),'-',`manto_check_list_observaciones`.`chl_ot_id`) AS `ot_id`
+						FROM 
+							`manto_check_list_registro`
+						RIGHT JOIN
+							`manto_check_list_observaciones`
+						ON
+							`manto_check_list_registro`.`check_list_id`=`manto_check_list_observaciones`.`check_list_id`
+						LEFT JOIN
+							`colaborador`
+						ON
+							`colaborador`.`Colaborador_id`=`manto_check_list_registro`.`chl_usuario_id_genera`
+						LEFT JOIN
+							`Buses`
+						ON
+							`Buses`.`Bus_NroExterno`=`manto_check_list_registro`.`chl_bus`
+						WHERE
+							DATE_FORMAT(`manto_check_list_registro`.`chl_fecha`,'%Y-%m-%d')>='$fecha_inicio'
+							AND DATE_FORMAT(`manto_check_list_registro`.`chl_fecha`,'%Y-%m-%d')<='$fecha_termino'
+							UNION
+						SELECT 
+							CONCAT('FV-',`manto_check_list_falla_via`.`check_list_falla_via_id`) AS `id`,
+    						`manto_check_list_registro`.`chl_fecha` AS `fecha`,
+							`colaborador`.`Colab_nombre_corto` AS `nombres_usuario_genera`,
+							'CHECK LIST' AS `origen`,
+							'CHECK LIST' AS `tipo_novedad`,
+							`manto_check_list_falla_via`.`fav_descripcion_novedad` AS `descripcion`,
+							CONCAT(`manto_check_list_falla_via`.`fav_componente`,'-',`manto_check_list_falla_via`.`fav_posicion`,'-',`manto_check_list_falla_via`.`fav_falla`,'-',`manto_check_list_falla_via`.`fav_accion`) AS `ot_accion`,
+							`Buses`.`Bus_Operacion` AS `operacion`,
+                            `manto_check_list_registro`.`chl_bus` AS `bus`,
+    						`manto_check_list_falla_via`.`fav_componente` AS `componente`,
+    						`manto_check_list_falla_via`.`fav_posicion` AS `posicion`,
+    						`manto_check_list_falla_via`.`fav_falla` AS `falla`,
+    						`manto_check_list_falla_via`.`fav_accion` AS `accion`,
+                            CONCAT(SUBSTRING(`manto_check_list_falla_via`.`fav_ot_tipo`,1,1),'-',`manto_check_list_falla_via`.`fav_ot_id`) AS `ot_id`
+						FROM 
+							`manto_check_list_registro`
+						RIGHT JOIN
+							`manto_check_list_falla_via`
+						ON
+							`manto_check_list_registro`.`check_list_id`=`manto_check_list_falla_via`.`check_list_id`
+						LEFT JOIN
+							`colaborador`
+						ON
+							`colaborador`.`Colaborador_id`=`manto_check_list_registro`.`chl_usuario_id_genera`
+						LEFT JOIN
+							`Buses`
+						ON
+							`Buses`.`Bus_NroExterno`=`manto_check_list_registro`.`chl_bus`
+						WHERE
+							DATE_FORMAT(`manto_check_list_registro`.`chl_fecha`,'%Y-%m-%d')>='$fecha_inicio'
+							AND DATE_FORMAT(`manto_check_list_registro`.`chl_fecha`,'%Y-%m-%d')<='$fecha_termino')
 						ORDER BY `fecha` DESC";
 
 		$resultado = $this->conexion->prepare($consulta);

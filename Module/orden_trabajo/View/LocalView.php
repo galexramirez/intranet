@@ -851,9 +851,9 @@
 								<input type="date" class="form-control form-control-sm" id="fecha_termino_novedades" placeholder="dd/mm/aaaa" >
 			    		  	</div>
 			    		</div>
-						<div class="col-lg-1">
-							<div class="form-group">
-								<button type="button" id="btn_buscar_novedades" class="btn btn-secondary btn-sm btn_buscar_novedades"> Buscar </button>
+						<div class="col-lg-4">
+							<div class="form-group" id="div_btn_seleccion_novedades">
+								
 							</div>
 				    	</div>
 					</div>

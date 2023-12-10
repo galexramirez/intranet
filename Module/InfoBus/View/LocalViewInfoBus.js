@@ -184,7 +184,7 @@ $(document).ready(function(){
     ///::::::::::::::: JS CARGA DE DATA TABLE :::::::::::::://
     $("#btnDescargarInfoBus").on("click",function()
     {
-      let validacion, t_DiferenciaFecha;
+      let validacion="", t_DiferenciaFecha="";
       ib_FechaInicio  = $("#ib_FechaInicio").val();
       ib_FechaTermino = $("#ib_FechaTermino").val();
       ib_Bus      = $("#ib_Bus").val();

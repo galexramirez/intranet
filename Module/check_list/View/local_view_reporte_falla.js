@@ -103,7 +103,7 @@ $(document).ready(function(){
         "dataSrc"   : ""
       },
       "columns"     : columnas_tabla,
-      "order"       : [[2, 'asc']]
+      "order"       : [[2, 'desc'],[0, 'asc']]
     });    
   });
   ///:: FIN EVENTO BOTON BUSCAR REPORTE DE INSPECCION DE FLOTA ::::::::::::::::::::::::::::///
@@ -124,14 +124,14 @@ function f_color_filas_reporte_falla(row, data){
   
   // Columna
   if(data.chl_estado == 'ABIERTO') {
-    $("td:eq(6)",row).css({
+    $("td:eq(1)",row).css({
       "color":color_rojo,
     });
   }
 
   // Columna 
   if(data.chl_estado == 'CERRADO') {
-    $("td:eq(6)",row).css({
+    $("td:eq(1)",row).css({
       "color":color_verde,
     });
   }

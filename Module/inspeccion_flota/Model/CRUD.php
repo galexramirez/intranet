@@ -577,7 +577,7 @@ class CRUD
 	function buscar_falla($fecha_inicio, $fecha_termino)
 	{
 		$consulta = " SELECT 
-						CONCAT('F-',`manto_inspeccion_movimiento`.`inspeccion_movimiento_id`) AS `inspeccion_movimiento_id`,
+						CONCAT('IF-',`manto_inspeccion_movimiento`.`inspeccion_movimiento_id`) AS `inspeccion_movimiento_id`,
 						`manto_inspeccion_movimiento`.`inspeccion_id`,
 						`manto_inspeccion_movimiento`.`insp_movimiento_estado`,
 						`manto_inspeccion_movimiento`.`insp_bus_tipo`,

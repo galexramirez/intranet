@@ -12,11 +12,14 @@ mi_carpeta      = f_DocumentRoot();
 ///:: JS DOM OT CORRECTIVAS :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 $(document).ready(function(){
     if(fecha_inicio_novedades=="" && fecha_termino_novedades==""){
-        fecha_inicio_novedades = f_CalculoFecha("hoy","-1 Months");
+        fecha_inicio_novedades = f_CalculoFecha("hoy","0");
         fecha_termino_novedades = f_CalculoFecha("hoy","0");
         $('#fecha_inicio_novedades').val(fecha_inicio_novedades);
         $('#fecha_termino_novedades').val(fecha_termino_novedades);
     }
+
+    div_show = f_MostrarDiv("form_seleccion_novedades", "btn_seleccion_novedades", "");
+    $("#div_btn_seleccion_novedades").html(div_show);
 
     // Si hay cambios en el Fecha se ocultan botones y datatable
     $("#fecha_inicio_novedades").on('change', function () {
@@ -114,8 +117,8 @@ $(document).ready(function(){
             "columns": columnastabla,
             "columnDefs": [
                 {
-                    "targets"   : [14],
-                    "orderable" : false
+                    //"targets"   : [8],
+                    //"orderable" : false
                 }
             ],
             "order": [[1, 'desc']]

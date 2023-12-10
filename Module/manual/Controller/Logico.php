@@ -119,29 +119,6 @@ class Logico
         echo $rpta_dias;
     }
 
-    public function AutoCompletar($NombreTabla,$NombreCampo, $va_asociado, $va_date_genera, $va_tipo)
-    {
-        $rpta_autocompletar = [];
-        $va_ruc             = "";
-        $TablaBD            = "manto_proveedores";
-        $CampoBD            = "prov_razonsocial";
-
-        MModel($this->Modulo,'CRUD');
-        $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$va_asociado);
-        foreach ($Respuesta as $row) {
-            $va_ruc = $row['prov_ruc'];
-        }
-
-        MModel($this->Modulo,'CRUD');
-        $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->AutoCompletar($NombreTabla,$NombreCampo, $va_ruc, $va_date_genera, $va_tipo);
-        foreach ($Respuesta as $row) {
-            $rpta_autocompletar[] = ["value" => $row[$NombreCampo], "label" => "<strong>".$row[$NombreCampo]."</strong> ".$row['precioprov_descripcion']];
-        }
-		echo json_encode($rpta_autocompletar);
-    }
-
     public function DocumentRoot()
     {
         $mi_carpeta = '';

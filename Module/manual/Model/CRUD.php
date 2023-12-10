@@ -107,17 +107,6 @@ class CRUD
 		$this->conexion=null;
 	}
 
-	function AutoCompletar($NombreTabla, $NombreCampo, $va_ruc, $va_date_genera, $va_tipo)
-	{
-		$consulta = "SELECT DISTINCT `$NombreTabla`.`$NombreCampo`, `$NombreTabla`.`precioprov_descripcion` FROM `$NombreTabla` WHERE `precioprov_ruc`='$va_ruc' AND `precioprov_fechavigencia`<='$va_date_genera' AND `precioprov_tipo`='$va_tipo'";
-		$resultado = $this->conexion->prepare($consulta);
-		$resultado->execute();
-		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
-
-		return $data;
-		$this->conexion=null;
-	}
-
 	function buscar_dato($nombre_tabla, $campo_buscar, $condicion_where)
 	{
 		$consulta = "SELECT `$nombre_tabla`.`$campo_buscar` FROM `$nombre_tabla` WHERE ".$condicion_where;

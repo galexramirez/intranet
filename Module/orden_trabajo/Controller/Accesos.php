@@ -105,21 +105,20 @@ class Accesos
                 $tablahtml = '	<table id="tabla_novedades" class="table table-striped table-bordered table-condensed w-100">
 									<thead class="text-center">
 					   					<tr>
-							  				<th>ID</th>
+							  				<th>ID_NOVEDAD</th>
 											<th>FECHA</th>
 											<th>USUARIO_GENERA</th>
+											<th>ORIGEN</th>
 											<th>TIPO</th>
-											<th>DETALLE</th>
-											<th>DESCRIPCION</th>
+											<th>DESCRIPCION_DE_LA_NOVEDAD</th>
+											<th>ACCION_ORDEN_TRABAJO</th>
 											<th>OPERACION</th>
-											<th>PILOTO</th>
 											<th>BUS</th>
-											<th>LUGAR</th>
-											<th>H.INICIO</th>
-											<th>H.FIN</th>
-											<th>ESTADO</th>
+											<th>COMPONENTE</th>
+											<th>POSICION<ith>
+											<th>FALLA</th>
+											<th>ACCION</th>
 											<th>COD.OT</th>
-						   					<th>ACCIONES</th>
 					   					</tr>
 									</thead>
 									<tbody>                           
@@ -195,22 +194,20 @@ class Accesos
             break;
 
 			case "tabla_novedades":
-				$defaultContent1 = "<div class='text-center'><div class='btn-group'><button title='Abrir' class='btn btn-primary btn-sm btn_abrir_semana'><i class='bi bi-unlock-fill'> <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-unlock-fill' viewBox='0 0 16 16'><path d='M11 1a2 2 0 0 0-2 2v4a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h5V3a3 3 0 0 1 6 0v4a.5.5 0 0 1-1 0V3a2 2 0 0 0-2-2z'/></svg></i></button><button title='Cerrar' class='btn btn-success btn-sm btn_cerrar_semana_abierta'><i class='bi bi-unlock-fill'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-lock-fill' viewBox='0 0 16 16'><path d='M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z'/></svg></i></button></div></div>";
 				$columnashtml = '[	{"data": "id"},
                 					{"data": "fecha"},
-                					{"data": "nombres_cgo"},
+                					{"data": "nombres_usuario_genera"},
+									{"data": "origen"},
                 					{"data": "tipo_novedad"},
-                					{"data": "detalle_novedad"},
                 					{"data": "descripcion"},
-                					{"data": "operacion"},
-									{"data": "nombres_piloto"},
+                					{"data": "ot_accion"},
+									{"data": "operacion"},
 									{"data": "bus"},
-									{"data": "lugar"},
-									{"data": "hora_inicio"},
-									{"data": "hora_fin"},
-									{"data": "estado"},
-									{"data": "ot_id"},
-                					{"defaultContent": "'.$defaultContent1.'"}
+                					{"data": "componente"},
+									{"data": "posicion"},
+									{"data": "falla"},
+									{"data": "accion"},
+									{"data": "ot_id"}
       							]';
             break;
 
@@ -395,6 +392,31 @@ class Accesos
 
 				}
 			break;
+
+			case "form_seleccion_novedades":
+				switch($NombreObjeto)
+				{
+					case "btn_seleccion_novedades":
+						$Mostrar_div  = '<button type="button" id="btn_buscar_novedades" class="btn btn-secondary btn-sm btn_buscar_novedades ml-1">Buscar</button>';
+						$Mostrar_div .= '<button type="button" id="btn_generar_novedad_regular" class="btn btn-secondary btn-sm btn_generar_novedad ml-1">+ Novedad</button>';
+						$Mostrar_div .= '<button type="button" id="btn_codificar" class="btn btn-secondary btn-sm btn_codificar ml-1">Codificar</button>';
+						$Mostrar_div .= '<button type="button" id="btn_generar_ot" class="btn btn-secondary btn-sm btn_generar_ot ml-1">+ OT</button>';
+						$Mostrar_div .= '<button type="button" id="btn_no_genera_ot" class="btn btn-secondary btn-sm btn_no_generr_ot ml-1">- OT</button>';
+						/*switch($Dato)
+						{
+							case "":
+								MModel($this->Modulo, 'CRUD');
+								$InstanciaAjax = new CRUD();
+								$Respuesta = $InstanciaAjax->Permisos($this->Modulo,"");
+								if($Respuesta=="SI"){
+									$Mostrar_div .= '';
+								}
+							break;
+						}*/
+					break;
+				}
+			break;
+
 		}
 		echo $Mostrar_div;
     }

@@ -34,8 +34,8 @@ $(document).ready(function(){
     
   ///:: EVENTO BOTON BUSCAR REPORTE DE INSPECCION DE FLOTA ::::::::::::::::::::::::::::::::///
   $(document).on("click", ".btn_buscar_reporte", function(){
-    let repo_fecha_inicio = $("#sele_fecha_inicio").val();
-    let repo_fecha_termino = $("#sele_fecha_termino").val();
+    let repo_fecha_inicio = $("#repo_fecha_inicio").val();
+    let repo_fecha_termino = $("#repo_fecha_termino").val();
     rep_inspeccion_bus = "";
     /*rep_inspeccion_id = $("#rep_inspeccion_id").val();
     rep_inspeccion_bus = $("#rep_inspeccion_bus").val();*/

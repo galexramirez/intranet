@@ -799,7 +799,9 @@ class CRUD
 
 	function buscar_reporte_falla($fecha_inicio, $fecha_termino)
 	{
-		$consulta = " 	SELECT `manto_check_list_registro`.`check_list_id`,
+		$consulta = " 	SELECT 
+							`t2`.`chl_id`,
+							`manto_check_list_registro`.`check_list_id`,
 							`manto_check_list_registro`.`chl_fecha`,
 							`manto_check_list_registro`.`chl_bus`,
 							`manto_check_list_registro`.`chl_kilometraje`,
@@ -819,7 +821,9 @@ class CRUD
 						LEFT JOIN `colaborador`
 						ON `colaborador`.`Colaborador_id`=`manto_check_list_registro`.`chl_usuario_id_genera`
 						LEFT JOIN
-						(SELECT `manto_check_list_observaciones`.`check_list_id` AS `check_list_id`,
+						(SELECT 
+							CONCAT('CL-',`manto_check_list_observaciones`.`check_list_observaciones_id`) AS `chl_id`,
+							`manto_check_list_observaciones`.`check_list_id` AS `check_list_id`,
 							'' AS `novedad_id`,
 							`manto_check_list_observaciones`.`chl_codigo` AS `codigo`,
 							`manto_check_list_observaciones`.`chl_descripcion` AS `descripcion`,
@@ -829,7 +833,9 @@ class CRUD
 							`manto_check_list_observaciones`.`chl_accion` AS `accion`
 						FROM `manto_check_list_observaciones`
 						UNION
-						SELECT `manto_check_list_falla_via`.`check_list_id` AS `check_list_id`,
+						SELECT 
+							CONCAT('FV-',`manto_check_list_falla_via`.`check_list_falla_via_id`) AS `chl_id`,
+							`manto_check_list_falla_via`.`check_list_id` AS `check_list_id`,
 							`manto_check_list_falla_via`.`fav_novedad_id` AS `novedad_id`,
 							`manto_check_list_falla_via`.`fav_codigo` AS `codigo`,
 							`manto_check_list_falla_via`.`fav_descripcion_codigo` AS `descripcion`,

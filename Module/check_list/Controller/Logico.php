@@ -304,8 +304,8 @@ class Logico
         $InstanciaAjax = new CRUD();
         $Respuesta = $InstanciaAjax->BuscarDataBD("colaborador","Colab_ApellidosNombres",$chl_nombre_piloto);
         foreach ($Respuesta as $row){
-            $chl_codigo_piloto = $row['chl_codigo_piloto'];
-            $chl_dni_piloto = $row['chl_dni_piloto'];
+            $chl_codigo_piloto = $row['Colab_CodigoCortoPT'];
+            $chl_dni_piloto = $row['Colaborador_id'];
         }
 
         MModel($this->Modulo, 'CRUD');

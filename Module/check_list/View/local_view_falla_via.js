@@ -424,7 +424,7 @@ function f_tabla_check_list_falla_via(p_check_list_id, p_chl_estado){
   array_data = f_BuscarDataBD('manto_check_list_falla_via','check_list_id',p_check_list_id);
   if(array_data.length==0){
     array_data = [];
-    array_data = f_buscar_data_bd("OPE_Novedad", "`Nove_FechaOperacion`='"+chl_fecha+"' AND `Nove_Bus`='"+chl_bus+"' AND `Nove_Novedad`='NOVEDAD_BUS'");
+    array_data = f_buscar_data_bd("OPE_Novedad", "`Nove_FechaOperacion`='"+chl_fecha+"' AND `Nove_Bus`='"+chl_bus+"' AND `Nove_TipoNovedad` IN ('FALLA_COMUNICACION', 'FALLA_TELEMETRIA','FALLA_BUS' )");
     console.log(array_data);
     if(array_data.length>0){
       array_data.forEach(obj => {

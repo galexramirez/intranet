@@ -36,6 +36,9 @@ idioma_espanol = {
   
 ///:: DOM JS INSPECCION DE FLOTA :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 $(document).ready(function(){
+  div_show = f_MostrarDiv("contenido", "div_alertsDropdown_ayuda", NombreMoS);
+  $("#div_alertsDropdown_ayuda").html(div_show);
+
   div_tabs = f_CreacionTabs("nav-tab-manual","");
   $("#nav-tab-manual").html(div_tabs);
   $( "#tabs" ).tabs();
@@ -228,22 +231,24 @@ function f_DocumentRoot(){
   return rptaMiCarpeta;
 }
 
-///:: AUTOCOMPLETADO ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-function f_AutoCompletar(pNombreTabla,pNombreCampo, p_va_asociado, p_va_date_genera, p_va_tipo){
-  let rptaAutoCompletar="";
-  Accion='AutoCompletar';
-  $.ajax({
-    url: "Ajax.php",
-    type: "POST",
-    datatype:"json",
-    async: false,
-    data: {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, NombreTabla:pNombreTabla, NombreCampo:pNombreCampo, va_asociado:p_va_asociado, va_date_genera:p_va_date_genera, va_tipo:p_va_tipo},
-    success: function(data){
-      rptaAutoCompletar=$.parseJSON(data);
-    }
-  });
-  
-  return rptaAutoCompletar;
+
+function f_ayuda_modulo(man_titulo){
+  let man_modulo_id = f_buscar_dato("Modulo", "Modulo_Id", "`Mod_Nombre` = '"+NombreMoS+"'");
+  let manual_id = f_buscar_dato("glo_manual", "manual_id", "`man_modulo_id` = '"+man_modulo_id+"' AND `man_titulo` = '"+man_titulo+"'");
+  let man_html = f_buscar_dato("glo_manual_html", "man_html", "`manual_id`='"+manual_id+"'");
+  $("#div_ver_ayuda_html").html(man_html);
+
+  $("#form_modal_ver_ayuda").trigger("reset");
+  $(".modal-header").css( "background-color", "#17a2b8");
+  $(".modal-header").css( "color", "white" );
+  $(".modal-title").text( man_titulo );
+  $('#modal_crud_ver_ayuda').modal('show');	   
+  $('#modal-resizable_ver_ayuda').resizable();
+  $(".modal-dialog").draggable({
+    cursor: "move",
+    handle: ".dragable_touch",
+  });         
+
 }
 
 ///:: FUNCIONES DE ACCESOS ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///

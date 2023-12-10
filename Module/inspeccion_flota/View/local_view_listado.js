@@ -427,7 +427,7 @@ function f_color_filas_inspeccion(row, data){
 function f_carga_buses_seleccionados(p_insp_bus_tipo){
   let is_checked;
   let rpta_a_data = [];
-  let a_buses_flota = f_BuscarDataBD("Buses","Bus_Tipo2",p_insp_bus_tipo);
+  let a_buses_flota = f_buscar_data_bd("Buses", "`Bus_Tipo2`='"+p_insp_bus_tipo+"' AND `Bus_Estado`='DISPONIBLE' AND `Bus_Tipo`='UNIDAD' ORDER BY `Bus_NroExterno` ASC")
   $.each(a_buses_flota, function(idx, obj){ 
     Bus_NroExterno = obj.Bus_NroExterno;
     is_checked = document.getElementById(Bus_NroExterno).checked;

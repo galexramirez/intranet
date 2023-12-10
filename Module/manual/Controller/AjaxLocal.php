@@ -134,18 +134,6 @@ switch ($Accion)
       $Respuesta=$InstanciaAjax->dias_diferencia_fechas($inicio,$final);
    break;
 
-   case 'AutoCompletar':
-      $NombreTabla      = $_POST['NombreTabla'];
-      $NombreCampo      = $_POST['NombreCampo'];
-      $va_asociado      = $_POST['va_asociado'];
-      $va_date_genera   = substr($_POST['va_date_genera'],0,10);
-      $va_tipo          = $_POST['va_tipo'];
-
-      MController($Modulo,'Logico');
-      $InstanciaAjax= new Logico();
-      $Respuesta=$InstanciaAjax->AutoCompletar($NombreTabla,$NombreCampo, $va_asociado, $va_date_genera, $va_tipo);
-   break;
-
    case 'DocumentRoot':
       MController($Modulo,'Logico');
       $InstanciaAjax = new Logico();

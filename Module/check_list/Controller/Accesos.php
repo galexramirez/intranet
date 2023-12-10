@@ -284,13 +284,14 @@ class Accesos
                 $tablahtml = '	<table id="tabla_reporte_falla" class="table table-striped table-bordered table-condensed w-100"  >
 									<thead class="text-center">
 										<tr>
+											<th>ID</th>	
+											<th>ESTADO</th>	
 											<th>CHECK LIST</th>
 											<th>FECHA</th>
 											<th>BUS</th>
 											<th>KM</th>
 											<th>COD.PIL.</th>
 											<th>NOMBRE PILOTO</th>
-											<th>ESTADO</th>
 											<th>NOVEDAD ID</th>
 											<th>CODIGO</th>
 											<th>DESCRIPCION DEL CODIGO</th>
@@ -492,13 +493,14 @@ class Accesos
 			break;
 
 			case "tabla_reporte_falla":
-				$columnashtml = '[	{"data": "check_list_id"},
+				$columnashtml = '[	{"data": "chl_id"},
+									{"data": "chl_estado"},
+									{"data": "check_list_id"},
 									{"data": "chl_fecha"},					
 									{"data": "chl_bus"},
 									{"data": "chl_kilometraje"},
 									{"data": "chl_codigo_piloto"},
 									{"data": "chl_nombre_piloto"},
-									{"data": "chl_estado"},
 									{"data": "novedad_id"},
 									{"data": "codigo"},
 									{"data": "descripcion"},
