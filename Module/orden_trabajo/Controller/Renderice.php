@@ -47,6 +47,10 @@
                     <script src='Module/orden_trabajo/View/local_view_horas_tecnicos.js' type='text/javascript'></script>
                     <script src='Module/orden_trabajo/View/local_view_cierre_semanal.js' type='text/javascript'></script>
                     <script src='Module/orden_trabajo/View/local_view_novedades.js' type='text/javascript'></script>
+                    <script src='Module/orden_trabajo/View/local_view_novedad_regular.js' type='text/javascript'></script>
+                    <script src='Module/orden_trabajo/View/local_view_codificar_novedad.js' type='text/javascript'></script>
+                    <script src='Module/orden_trabajo/View/local_view_tc_ot_sistema.js' type='text/javascript'></script>
+                    <script src='Module/orden_trabajo/View/local_view_tc_ot_usuario.js' type='text/javascript'></script>
                     <script type='text/javascript' src='Services/Resources/cdn.datatables.net/fixedheader/3.1.9/js/dataTables.fixedHeader.min.js'></script>
                     <script type='text/javascript' src='Services/Resources/cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js'></script>
                     <script src='Services/Resources/jquery-ui-1.12.1/jquery-ui.min.js'></script> ";

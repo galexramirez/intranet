@@ -10,8 +10,5 @@ CREATE TABLE IF NOT EXISTS `BDLIMABUS`.`manto_novedad_regular` (
   `nreg_posicion` VARCHAR(100) NOT NULL,
   `nreg_falla` VARCHAR(45) NOT NULL,
   `nreg_accion` VARCHAR(45) NOT NULL,
-  `nreg_tipo_ot` VARCHAR(45) NULL,
-  `nreg_ot_id` INT NULL,
-  `mreg_estado` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`novedad_regular_id`))
 ENGINE = InnoDB;

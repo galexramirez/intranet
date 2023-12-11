@@ -7,6 +7,7 @@
 var MoS, NombreMoS, Accion, idiomaEspanol, div_tabs, div_tablas, div_boton, div_show, columnastabla, mi_carpeta;
 MoS       = 'Module';
 NombreMoS = 'orden_trabajo';
+mi_carpeta      = f_DocumentRoot();
 idiomaEspanol = {
     "lengthMenu"  : "&nbsp&nbsp&nbsp&nbspMostrar _MENU_ registros",
     "zeroRecords" : "No se encuentran resultados",
@@ -25,11 +26,14 @@ idiomaEspanol = {
 
 ///:: JS DOM OT CORRECTIVAS :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 $(document).ready(function(){
-  div_show = f_MostrarDiv("contenido", "div_alertsDropdown_ayuda", NombreMoS);
+  div_show = f_MostrarDiv("contenido", "div_alertsDropdown_ayuda", NombreMoS, "");
   $("#div_alertsDropdown_ayuda").html(div_show);
 
   div_tabs = f_CreacionTabs("nav-tab-OTCorrectivas","");
   $("#nav-tab-OTCorrectivas").html(div_tabs);
+
+  div_tabs = f_CreacionTabs("nav-tab-ajustes_ot","");
+  $("#nav-tab-ajustes_ot").html(div_tabs);
 
   $( "#tabs" ).tabs();
 });
@@ -226,6 +230,22 @@ function f_select_combo(p_nombre_tabla, p_es_campo_unico, p_campo_select, p_camp
 }
 ///:: FIN DE FUNCION QUE GENERA EL LISTADO DEL COMBO SELECT :::::::::::::::::::::::::::::::///
 
+function f_contar_dato(p_nombre_tabla, p_campo_buscar, p_condicion_where){
+  let rpta_contar = "";
+  Accion = 'contar_dato';
+  $.ajax({
+    url       : "Ajax.php",
+    type      : "POST",
+    datatype  : "json",
+    async     : false,
+    data      : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, nombre_tabla:p_nombre_tabla, campo_buscar:p_campo_buscar, condicion_where:p_condicion_where},
+    success   : function(data){
+      rpta_contar = data;
+    }
+  });
+  return rpta_contar;
+}
+
 ///:: FUNCIONES ACCESOS :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 function f_CreacionTabs(pNombreTabs,pTipoTabs){
   let rptaTabs="";
@@ -307,7 +327,7 @@ function f_DivFormulario(pNombreFormulario,pNombreObjeto){
   return rptaDivFormulario;
 }
 
-function f_MostrarDiv(pNombreFormulario,pNombreObjeto,pDato){
+function f_MostrarDiv(pNombreFormulario,pNombreObjeto,pDato1, pDato2){
   let rptaMostrarDiv="";
   Accion='MostrarDiv';
   $.ajax({
@@ -315,7 +335,7 @@ function f_MostrarDiv(pNombreFormulario,pNombreObjeto,pDato){
     type: "POST",
     datatype:"json",
     async: false,
-    data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,NombreFormulario:pNombreFormulario,NombreObjeto:pNombreObjeto,Dato:pDato},    
+    data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,NombreFormulario:pNombreFormulario,NombreObjeto:pNombreObjeto,Dato1:pDato1, Dato2:pDato2},    
     success: function(data){
       rptaMostrarDiv = data;
     }

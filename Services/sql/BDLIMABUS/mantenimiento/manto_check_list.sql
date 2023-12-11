@@ -82,8 +82,6 @@ CREATE TABLE IF NOT EXISTS `manto_check_list_falla_via` (
   `fav_accion` VARCHAR(45) NOT NULL,
   `fav_novedad_id` VARCHAR(15) NOT NULL,
   `fav_descripcion_novedad` VARCHAR(250) NOT NULL,
-  `fav_tipo_ot` VARCHAR(45) NULL,
-  `fav_ot_id` INT NULL,
   PRIMARY KEY (`check_list_falla_via_id`))
 ENGINE = InnoDB;
 

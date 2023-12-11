@@ -52,11 +52,12 @@ switch ($Accion)
    case 'MostrarDiv':
       $NombreFormulario = $_POST['NombreFormulario'];
       $NombreObjeto     = $_POST['NombreObjeto'];
-      $Dato             = $_POST['Dato'];
+      $Dato1             = $_POST['Dato1'];
+      $Dato2             = $_POST['Dato2'];
 
       MController($Modulo,'Accesos');
       $InstanciaAjax = new Accesos();
-      $Respuesta     = $InstanciaAjax->MostrarDiv($NombreFormulario,$NombreObjeto,$Dato);
+      $Respuesta     = $InstanciaAjax->MostrarDiv($NombreFormulario,$NombreObjeto,$Dato1, $Dato2);
    break;
 
    case 'DocumentRoot':
@@ -105,6 +106,16 @@ switch ($Accion)
       MController($Modulo,'Logico');
       $InstanciaAjax = new Logico();
       $Respuesta     = $InstanciaAjax->buscar_dato($nombre_tabla, $campo_buscar, $condicion_where);
+   break;
+
+   case 'contar_dato':
+      $nombre_tabla     = $_POST['nombre_tabla'];
+      $campo_buscar     = $_POST['campo_buscar'];
+      $condicion_where  = $_POST['condicion_where'];
+
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta     = $InstanciaAjax->contar_dato($nombre_tabla, $campo_buscar, $condicion_where);
    break;
 
    case 'DiferenciaFecha':
@@ -417,6 +428,105 @@ switch ($Accion)
       MModel($Modulo,'CRUD');
       $InstanciaAjax = new CRUD();
       $Respuesta     = $InstanciaAjax->leer_novedades($fecha_inicio, $fecha_termino);
+   break;
+
+   case 'crear_novedad_regular':
+      $nreg_bus = $_POST['nreg_bus'];
+      $nreg_descripcion = strtoupper($_POST['nreg_descripcion']);
+      $nreg_operacion = strtoupper($_POST['nreg_operacion']);
+      $nreg_componente = $_POST['nreg_componente'];
+      $nreg_posicion = $_POST['nreg_posicion'];
+      $nreg_falla = $_POST['nreg_falla'];
+      $nreg_accion = $_POST['nreg_accion'];
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta     = $InstanciaAjax->crear_novedad_regular($nreg_descripcion, $nreg_operacion, $nreg_bus, $nreg_componente, $nreg_posicion, $nreg_falla, $nreg_accion);
+   break;
+
+   case 'codificar_novedad':
+      $nope_tipo_novedad = strtoupper($_POST['nope_tipo_novedad']);
+      $nope_novedad_id = strtoupper($_POST['nope_novedad_id']);
+      $nope_componente = $_POST['nope_componente'];
+      $nope_posicion = $_POST['nope_posicion'];
+      $nope_falla = $_POST['nope_falla'];
+      $nope_accion = $_POST['nope_accion'];
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta = $InstanciaAjax->codificar_novedad($nope_tipo_novedad, $nope_novedad_id, $nope_componente, $nope_posicion, $nope_falla, $nope_accion);
+   break;
+
+   case 'leer_tc_ot_usuario':
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta     = $InstanciaAjax->leer_tc_ot_usuario();
+   break;
+
+   case 'crear_tc_ot_usuario':
+      $tc_ot_id = $_POST['tc_ot_id'];
+      $tc_categoria1 = strtoupper($_POST['tc_categoria1']);
+      $tc_categoria2 = strtoupper($_POST['tc_categoria2']);
+      $tc_categoria3 = strtoupper($_POST['tc_categoria3']);
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta     = $InstanciaAjax->crear_tc_ot_usuario($tc_ot_id, $tc_categoria1, $tc_categoria2, $tc_categoria3);
+   break;
+
+   case 'editar_tc_ot_usuario':
+      $tc_ot_id = $_POST['tc_ot_id'];
+      $tc_categoria1 = strtoupper($_POST['tc_categoria1']);
+      $tc_categoria2 = strtoupper($_POST['tc_categoria2']);
+      $tc_categoria3 = strtoupper($_POST['tc_categoria3']);
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta     = $InstanciaAjax->editar_tc_ot_usuario($tc_ot_id, $tc_categoria1, $tc_categoria2, $tc_categoria3);
+   break;
+
+   case 'borrar_tc_ot_usuario':
+      $tc_ot_id=$_POST['tc_ot_id'];
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta     = $InstanciaAjax->borrar_tc_ot_usuario($tc_ot_id);
+   break;
+
+   case 'leer_tc_ot_sistema':
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta     = $InstanciaAjax->leer_tc_ot_sistema();
+   break;
+
+   case 'crear_tc_ot_sistema':
+      $tc_ot_id = $_POST['tc_ot_id'];
+      $tc_categoria1 = strtoupper($_POST['tc_categoria1']);
+      $tc_categoria2 = strtoupper($_POST['tc_categoria2']);
+      $tc_categoria3 = strtoupper($_POST['tc_categoria3']);
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta     = $InstanciaAjax->crear_tc_ot_sistema($tc_ot_id, $tc_categoria1, $tc_categoria2, $tc_categoria3);
+   break;
+
+   case 'editar_tc_ot_sistema':
+      $tc_ot_id = $_POST['tc_ot_id'];
+      $tc_categoria1 = strtoupper($_POST['tc_categoria1']);
+      $tc_categoria2 = strtoupper($_POST['tc_categoria2']);
+      $tc_categoria3 = strtoupper($_POST['tc_categoria3']);
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta     = $InstanciaAjax->editar_tc_ot_sistema($tc_ot_id, $tc_categoria1, $tc_categoria2, $tc_categoria3);
+   break;
+
+   case 'borrar_tc_ot_sistema':
+      $tc_ot_id=$_POST['tc_ot_id'];
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta     = $InstanciaAjax->borrar_tc_ot_sistema($tc_ot_id);
    break;
 
    default: header('Location: /inicio');

@@ -54,7 +54,9 @@
 
 		<div class="tab-content" id="nav-tabContent">
 
-			<!-- TAB OT's -->
+			<!------------------------------------------------------------------------------->	
+			<!-- TAB OT's ------------------------------------------------------------------->
+			<!------------------------------------------------------------------------------->
 			<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 
 				<form id="formSeleccionOT" class="row col-sm-12 container-fluid" enctype="multipart/form-data" action="" method="post">	    
@@ -118,7 +120,9 @@
 				
 			</div>
 
-			<!-- TAB PROCESAR OT'S -->
+			<!------------------------------------------------------------------------------->
+			<!-- TAB PROCESAR OT'S ---------------------------------------------------------->
+			<!------------------------------------------------------------------------------->
 			<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
 
 				<form id="formSeleccionProcesarOT" class="row col-sm-12 container-fluid" onsubmit="return false;">	    
@@ -767,7 +771,9 @@
 
 			</div>
 
-			<!-- TAB CIERRE SEMANAL -->
+			<!------------------------------------------------------------------------------->
+			<!-- TAB CIERRE SEMANAL --------------------------------------------------------->
+			<!------------------------------------------------------------------------------->
 			<div class="tab-pane fade" id="nav-cierre_semanal" role="tabpanel" aria-labelledby="nav-cierre_semanal-tab">
 				<form id="form_seleccion_cierre_semanal" class="row col-sm-12 container-fluid" enctype="multipart/form-data" action="" method="post">	    
 					<div class="row align-items-end pb-1 col-sm-12">
@@ -835,7 +841,9 @@
 				</div>
 			</div>
 
-			<!-- TAB NOVEDADES -->
+			<!------------------------------------------------------------------------------->
+			<!-- TAB NOVEDADES -------------------------------------------------------------->
+			<!------------------------------------------------------------------------------->
 			<div class="tab-pane fade" id="nav-novedades" role="tabpanel" aria-labelledby="nav-novedades">
 				<form id="form_seleccion_novedades" class="row col-sm-12 container-fluid" enctype="multipart/form-data" action="" method="post">	    
 					<div class="row align-items-end pb-1 col-sm-12">
@@ -869,6 +877,368 @@
 		       		</div>  
 		   		</div>   
 	  		
+				<!--Modal para CRUD NOVEDAD REGULAR------------------------------------------>
+ 				<div class="row modal fade" id="modal_crud_novedad_regular" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				    <div class="modal-dialog modal-lg" role="document">
+				        <div class="modal-content">
+
+						    <div class="modal-header">
+				                <h5 class="modal-title" id="exampleModalLabel"></h5>
+				                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+				                </button>
+				            </div>
+
+						  	<form id="form_novedad_regular" enctype="multipart/form-data" action="" method="post">    
+				      		    <div class="modal-body">
+								  	<div class="row d-flex justify-content-araound">
+										<div class="col-lg-12">
+											<div class="row">
+												<div class="col-lg-2">
+			      						    		<div class="form-group form-control-sm">
+			      						    			<label for="nreg_operacion" class="col-form-label form-control-sm">OPERACION:</label>
+			      						    		</div>
+												</div>
+												<div class="col-lg-4">
+			      						    		<div class="form-group form-control-sm">
+													  	<select class="form-control form-control-sm" id="nreg_operacion"></select>	
+			      						    		</div>
+												</div>
+												<div class="col-lg-2">
+			      						    		<div class="form-group form-control-sm">
+			      						    			<label for="fav_chl_codigo" class="col-form-label form-control-sm">BUS:</label>
+			      						    		</div>
+												</div>
+												<div class="col-lg-4">
+			      						    		<div class="form-group form-control-sm">
+														<select class="form-control form-control-sm" id="nreg_bus"></select>
+			      						    		</div>
+												</div>
+											</div>
+			      						</div>
+									</div>
+									<div class="row d-flex justify-content-araound">
+										<div class="col-lg-12">
+											<div class="row">
+												<div class="col-lg-2">
+			      						    		<div class="form-group form-control-sm">
+			      						    			<label for="nreg_descripcion" class="col-form-label form-control-sm">DESCRIPCION:</label>
+			      						    		</div>
+												</div>
+												<div class="col-lg-10">
+													<div class="form-group shadow-textarea">
+						      				            <textarea class="form-control z-depth-1 text-uppercase" id="nreg_descripcion" rows="2" placeholder="escribe algo aqui..." maxlength="250"></textarea>
+						      				        </div>
+												</div>
+											</div>
+			      						</div>
+									</div>
+									<div class="row d-flex justify-content-araound">
+										<div class="col-lg-12">
+											<div class="row">
+												<div class="col-lg-2">
+			      						    		<div class="form-group form-control-sm">
+			      						    			<label for="nreg_componente" class="col-form-label form-control-sm">COMPONENTE:</label>
+			      						    		</div>
+												</div>
+												<div class="col-lg-10">
+			      						    		<div class="form-group form-control-sm">
+														<select class="form-control form-control-sm" id="nreg_componente"></select>
+			      						    		</div>
+												</div>
+											</div>
+			      						</div>
+									</div>
+									<div class="row d-flex justify-content-araound">
+										<div class="col-lg-12">
+											<div class="row">
+												<div class="col-lg-2">
+			      						    		<div class="form-group form-control-sm">
+			      						    			<label for="nreg_posicion" class="col-form-label form-control-sm">POSICION:</label>
+			      						    		</div>
+												</div>
+												<div class="col-lg-10">
+			      						    		<div class="form-group form-control-sm">
+														<select class="form-control form-control-sm" id="nreg_posicion"></select>
+			      						    		</div>
+												</div>
+											</div>
+			      						</div>
+									</div>
+									<div class="row d-flex justify-content-araound">
+										<div class="col-lg-12">
+											<div class="row">
+												<div class="col-lg-2">
+			      						    		<div class="form-group form-control-sm">
+			      						    			<label for="nreg_falla" class="col-form-label form-control-sm">FALLA:</label>
+			      						    		</div>
+												</div>
+												<div class="col-lg-10">
+			      						    		<div class="form-group form-control-sm">
+														<select class="form-control form-control-sm" id="nreg_falla"></select>
+			      						    		</div>
+												</div>
+											</div>
+			      						</div>
+									</div>
+									<div class="row d-flex justify-content-araound">
+										<div class="col-lg-12">
+											<div class="row">
+												<div class="col-lg-2">
+			      						    		<div class="form-group form-control-sm">
+			      						    			<label for="nreg_accion" class="col-form-label form-control-sm">ACCION:</label>
+			      						    		</div>
+												</div>
+												<div class="col-lg-10">
+			      						    		<div class="form-group form-control-sm">
+														<select class="form-control form-control-sm" id="nreg_accion"></select>
+			      						    		</div>
+												</div>
+											</div>
+			      						</div>
+									</div>
+				      		    </div>
+				      		    <div class="modal-footer">
+				      		        <button type="button" class="btn btn-light btn-sm" data-dismiss="modal">Cancelar</button>
+				      		        <button type="submit" id="btn_registrar_novedad_regular" class="btn btn-dark btn-sm btn_registrar_novedad_regular">Registrar</button>
+				      		    </div>
+				      		</form>    
+
+						</div>
+				    </div>
+				</div>  			
+
+				<!--Modal para CRUD CODIFICAR NOVEDAD OPERACION------------------------------>
+				<div class="row modal fade" id="modal_crud_codificar_novedad" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				    <div class="modal-dialog modal-lg" role="document">
+				        <div class="modal-content">
+
+						    <div class="modal-header">
+				                <h5 class="modal-title" id="exampleModalLabel"></h5>
+				                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+				                </button>
+				            </div>
+
+						  	<form id="form_codificar_novedad" enctype="multipart/form-data" action="" method="post">    
+				      		    <div class="modal-body">
+									<div class="row d-flex justify-content-araound">
+										<div class="col-lg-12">
+											<div class="row">
+												<div class="col-lg-2">
+			      						    		<div class="form-group form-control-sm">
+			      						    			<label for="nope_componente" class="col-form-label form-control-sm">COMPONENTE:</label>
+			      						    		</div>
+												</div>
+												<div class="col-lg-10">
+			      						    		<div class="form-group form-control-sm">
+														<select class="form-control form-control-sm" id="nope_componente"></select>
+			      						    		</div>
+												</div>
+											</div>
+			      						</div>
+									</div>
+									<div class="row d-flex justify-content-araound">
+										<div class="col-lg-12">
+											<div class="row">
+												<div class="col-lg-2">
+			      						    		<div class="form-group form-control-sm">
+			      						    			<label for="nope_posicion" class="col-form-label form-control-sm">POSICION:</label>
+			      						    		</div>
+												</div>
+												<div class="col-lg-10">
+			      						    		<div class="form-group form-control-sm">
+														<select class="form-control form-control-sm" id="nope_posicion"></select>
+			      						    		</div>
+												</div>
+											</div>
+			      						</div>
+									</div>
+									<div class="row d-flex justify-content-araound">
+										<div class="col-lg-12">
+											<div class="row">
+												<div class="col-lg-2">
+			      						    		<div class="form-group form-control-sm">
+			      						    			<label for="nope_falla" class="col-form-label form-control-sm">FALLA:</label>
+			      						    		</div>
+												</div>
+												<div class="col-lg-10">
+			      						    		<div class="form-group form-control-sm">
+														<select class="form-control form-control-sm" id="nope_falla"></select>
+			      						    		</div>
+												</div>
+											</div>
+			      						</div>
+									</div>
+									<div class="row d-flex justify-content-araound">
+										<div class="col-lg-12">
+											<div class="row">
+												<div class="col-lg-2">
+			      						    		<div class="form-group form-control-sm">
+			      						    			<label for="nope_accion" class="col-form-label form-control-sm">ACCION:</label>
+			      						    		</div>
+												</div>
+												<div class="col-lg-10">
+			      						    		<div class="form-group form-control-sm">
+														<select class="form-control form-control-sm" id="nope_accion"></select>
+			      						    		</div>
+												</div>
+											</div>
+			      						</div>
+									</div>
+				      		    </div>
+				      		    <div class="modal-footer">
+				      		        <button type="button" class="btn btn-light btn-sm" data-dismiss="modal">Cancelar</button>
+				      		        <button type="submit" id="btn_codificar_novedad" class="btn btn-dark btn-sm btn_codificar_novedad">Codificar</button>
+				      		    </div>
+				      		</form>    
+
+						</div>
+				    </div>
+				</div>  			
+
+			</div>
+
+			<!------------------------------------------------------------------------------->
+			<!-- TAB AJUSTE DE ORDEN DE TRABAJO---------------------------------------------->
+			<!------------------------------------------------------------------------------->
+			<div class="tab-pane fade" id="nav-ajustes_ot" role="tabpanel" aria-labelledby="nav-ajustes_ot">
+				<h5 class="pt-3 pl-3">Variables</h5>
+				<nav>
+	 				<div class="nav nav-tabs" id="nav-tab-ajustes_ot" role="tablist">
+					</div>
+				</nav>
+				<div class="tab-content" id="nav-tabContent-ajustes_ot">
+					<!------------------------------------------------------------------------------->
+					<!-- TAB AJUSTE VARIABLE DE USUARIO DE CHECK LIST DE FLOTA ---------------------->
+					<!------------------------------------------------------------------------------->
+					<div class="tab-pane fade show active" id="nav-ajustes_ot_usuario" role="tabpanel" aria-labelledby="nav-ajustes_ot_usuario-tab">
+						<section class="container-fluid py-3">
+							<button id="btn_nuevo_tc_ot_usuario" type="button" class="btn btn-secondary btn-sm btn_nuevo_tc_ot_usuario" data-toggle="modal">+ Nuevo</button>  
+						</section>
+						<div class="row p-3">
+							<div class="col-auto m-0">
+								<div class="table-responsive" id="div_tabla_tc_ot_usuario">
+								</div>
+							</div>
+						</div>
+						<!--Modal para CRUD-->
+						<div class="row modal fade" id="modal_crud_tc_ot_usuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel"></h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<form id="form_tc_ot_usuario">
+						  				<div class="modal-body">
+											<div class="row">
+												<div class="col-lg-6">
+													<div class="form-group">
+												  		<label for="tc_ot_id_usuario" class="col-form-label form-control-sm">ID</label>
+												   		<input type="text" readonly class="form-control form-control-sm" id="tc_ot_id_usuario">
+												 	</div>
+											 	</div>
+											 	<div class="col-lg-6">
+											  		<div class="form-group">
+														<label for="ot_cat1_usuario" class="col-form-label form-control-sm">CATEGORIA 1</label>
+												   		<input type="text" class="form-control form-control-sm text-uppercase" id="ot_cat1_usuario" maxlength="45">
+													</div> 
+											 	</div>    
+											</div>
+							  				<div class="row"> 
+												<div class="col-lg-6">
+											  		<div class="form-group">
+														<label for="ot_cat2_usuario" class="col-form-label form-control-sm">CATEGORIA 2</label>
+														<input type="text" class="form-control form-control-sm text-uppercase" id="ot_cat2_usuario" maxlength="45">
+													</div> 
+								  				</div>
+											</div>
+											<div class="row"> 
+								  				<div class="col-lg-12">
+											  		<div class="form-group">
+														<label for="ot_cat3_usuario" class="col-form-label form-control-sm">CATEGORIA 3</label>
+												  		<textarea class="form-control z-depth-1 text-uppercase" id="ot_cat3_usuario" rows="7" placeholder="escribe algo aqui..." maxlength="250"></textarea>
+													</div>               
+								   				</div>
+							  				</div>
+										</div>
+						  				<div class="modal-footer">
+							  				<button type="button" class="btn btn-light btn-sm" data-dismiss="modal">Cancelar</button>
+							  				<button type="submit" id="btn_guardar_tc_ot_usuario" class="btn btn-dark btn-sm btn_guardar_tc_ot_usuario">Guardar</button>
+						  				</div>
+									</form>    
+								</div>
+							</div>
+						</div>  
+					</div>
+					<!------------------------------------------------------------------------------->
+					<!-- TAB AJUSTE VARIABLE DE SISTEMA DE ORDEN DE TRABAJO ------------------------->
+					<!------------------------------------------------------------------------------->
+					<div class="tab-pane fade" id="nav-ajustes_ot_sistema" role="tabpanel" aria-labelledby="nav-ajustes_ot_sistema-tab">
+						<section class="container-fluid py-3">
+							<button id="btn_nuevo_tc_ot_sistema" type="button" class="btn btn-secondary btn-sm btn_nuevo_tc_ot_sistema" data-toggle="modal">+ Nuevo</button>  
+						</section>
+						<div class="row p-3">
+							<div class="col-auto m-0">
+								<div class="table-responsive" id="div_tabla_tc_ot_sistema">
+								</div>
+							</div>
+						</div>
+						<div class="row modal fade" id="modal_crud_tc_ot_sistema" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel"></h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<form id="form_tc_ot_sistema">
+						  				<div class="modal-body">
+											<div class="row">
+												<div class="col-lg-6">
+													<div class="form-group">
+												  		<label for="tc_ot_id_sistema" class="col-form-label form-control-sm">ID</label>
+												   		<input type="text" readonly class="form-control form-control-sm" id="tc_ot_id_sistema">
+												 	</div>
+											 	</div>
+											 	<div class="col-lg-6">
+											  		<div class="form-group">
+														<label for="chl_cat1_sistema" class="col-form-label form-control-sm">CATEGORIA 1</label>
+												   		<input type="text" class="form-control form-control-sm text-uppercase" id="chl_cat1_sistema" maxlength="45">
+													</div> 
+											 	</div>    
+											</div>
+							  				<div class="row"> 
+												<div class="col-lg-6">
+											  		<div class="form-group">
+														<label for="chl_cat2_sistema" class="col-form-label form-control-sm">CATEGORIA 2</label>
+														<input type="text" class="form-control form-control-sm text-uppercase" id="chl_cat2_sistema" maxlength="45">
+													</div> 
+								  				</div>
+											</div>
+											<div class="row"> 
+								  				<div class="col-lg-12">
+											  		<div class="form-group">
+														<label for="chl_cat3_sistema" class="col-form-label form-control-sm">CATEGORIA 3</label>
+												  		<textarea class="form-control z-depth-1 text-uppercase" id="chl_cat3_sistema" rows="7" placeholder="escribe algo aqui..." maxlength="250"></textarea>
+													</div>               
+								   				</div>
+							  				</div>
+										</div>
+						  				<div class="modal-footer">
+							  				<button type="button" class="btn btn-light btn-sm" data-dismiss="modal">Cancelar</button>
+							  				<button type="submit" id="btn_guardar_tc_ot_sistema" class="btn btn-dark btn-sm btn_guardar_tc_ot_sistema">Guardar</button>
+						  				</div>
+									</form>    
+								</div>
+							</div>
+						</div>  
+					</div>
+				</div>
 			</div>
 
 		</div>

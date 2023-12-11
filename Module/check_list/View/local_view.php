@@ -295,7 +295,7 @@
 											<div class="row">
 												<div class="col-lg-2">
 			      						    		<div class="form-group form-control-sm">
-			      						    			<label for="fav_chl_descripcion_descripcion" class="col-form-label form-control-sm">DESCRIPCION:</label>
+			      						    			<label for="fav_chl_descripcion_novedad" class="col-form-label form-control-sm">DESCRIPCION:</label>
 			      						    		</div>
 												</div>
 												<div class="col-lg-10">

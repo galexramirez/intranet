@@ -10,7 +10,7 @@ $(document).ready(function(){
   $(document).on("click", ".btn_horas_tecnicos", function(){
     $("#btn_guardar_horas_tecnicos").prop("disabled",false);
     $ot_asociado  = $("#ot_asociado").val();
-    t_html        = f_select_combo("manto_resp_asociado","SI","ra_nombres","","`ra_asociado` = '"+ot_asociado+"'", "ASC");
+    t_html        = f_select_combo("manto_resp_asociado","SI","ra_nombres","","`ra_asociado` = '"+ot_asociado+"'", "`ra_nombres` ASC");
     $("#tecnico_nombres").html(t_html);
     opcion_horas_tecnicos = "CREAR"; 
     f_limpia_horas_tecnicos();

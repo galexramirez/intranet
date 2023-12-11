@@ -68,7 +68,7 @@ $(document).ready(function(){
       fav_chl_componente = '';
     }
 
-    select_chl_fav = f_select_combo("manto_falla_via_componente","NO","fav_componente","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"'","`fav_componente`");
+    select_chl_fav = f_select_combo("manto_falla_via_componente","NO","fav_componente","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"'","`fav_componente` ASC");
     $("#fav_chl_componente").html(select_chl_fav);
 
     contar_posicion_fav = f_contar_dato("manto_falla_via_posicion","fav_posicion","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'");
@@ -81,7 +81,7 @@ $(document).ready(function(){
       fav_chl_posicion = '';
     }
 
-    select_chl_fav = f_select_combo("manto_falla_via_posicion","NO","fav_posicion","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'","`fav_posicion`");
+    select_chl_fav = f_select_combo("manto_falla_via_posicion","NO","fav_posicion","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'","CAST(`chl_posicion` AS UNSIGNED)");
     $("#fav_chl_posicion").html(select_chl_fav);
 
     contar_falla_fav = f_contar_dato("manto_falla_via_falla_accion","fav_falla","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'");
@@ -94,7 +94,7 @@ $(document).ready(function(){
       fav_chl_falla = "";
     }
 
-    select_chl_fav = f_select_combo("manto_falla_via_falla_accion","SI","fav_falla","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'","`fav_falla`");
+    select_chl_fav = f_select_combo("manto_falla_via_falla_accion","SI","fav_falla","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'","`fav_falla` ASC");
     $("#fav_chl_falla").html(select_chl_fav);
 
     contar_accion_fav = f_contar_dato("manto_falla_via_falla_accion","fav_accion","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'");
@@ -107,7 +107,7 @@ $(document).ready(function(){
       fav_chl_accion = "";
     }
 
-    select_chl_fav = f_select_combo("manto_falla_via_falla_accion","NO","fav_accion","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'","`fav_accion`");
+    select_chl_fav = f_select_combo("manto_falla_via_falla_accion","NO","fav_accion","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'","`fav_accion` ASC");
     $("#fav_chl_accion").html(select_chl_fav);
 
     $("#fav_chl_descripcion_codigo").val(fav_chl_descripcion_codigo);
@@ -136,7 +136,7 @@ $(document).ready(function(){
       fav_chl_posicion = '';
     }
 
-    select_chl_fav = f_select_combo("manto_falla_via_posicion","NO","fav_posicion","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'","`fav_posicion`");
+    select_chl_fav = f_select_combo("manto_falla_via_posicion","NO","fav_posicion","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'","CAST(`chl_posicion` AS UNSIGNED)");
     $("#fav_chl_posicion").html(select_chl_fav);
 
     contar_falla_fav = f_contar_dato("manto_falla_via_falla_accion","fav_falla","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'");
@@ -149,7 +149,7 @@ $(document).ready(function(){
       fav_chl_falla = "";
     }
 
-    select_chl_fav = f_select_combo("manto_falla_via_falla_accion","SI","fav_falla","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'","`fav_falla`");
+    select_chl_fav = f_select_combo("manto_falla_via_falla_accion","SI","fav_falla","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'","`fav_falla` ASC");
     $("#fav_chl_falla").html(select_chl_fav);
 
     contar_accion_fav = f_contar_dato("manto_falla_via_falla_accion","fav_accion","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'");
@@ -162,7 +162,7 @@ $(document).ready(function(){
       fav_chl_accion = "";
     }
 
-    select_chl_fav = f_select_combo("manto_falla_via_falla_accion","NO","fav_accion","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'","`fav_accion`");
+    select_chl_fav = f_select_combo("manto_falla_via_falla_accion","NO","fav_accion","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'","`fav_accion` ASC");
     $("#fav_chl_accion").html(select_chl_fav);
 
     $("#fav_chl_posicion").val(fav_chl_posicion);
@@ -187,8 +187,8 @@ $(document).ready(function(){
       fav_chl_falla = "";
     }
 
-    select_chl_fav = f_select_combo("manto_falla_via_falla_accion","NO","fav_accion","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'","`fav_accion`");
-    $("#fav_chl_accion").html(select_chl_fav);
+    select_chl_fav = f_select_combo("manto_falla_via_falla_accion","NO","fav_falla","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"'","`fav_falla` ASC");
+    $("#fav_chl_falla").html(select_chl_fav);
 
     contar_accion_fav = f_contar_dato("manto_falla_via_falla_accion","fav_accion","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'");
 
@@ -200,7 +200,7 @@ $(document).ready(function(){
       fav_chl_accion = "";
     }
 
-    select_chl_fav = f_select_combo("manto_falla_via_falla_accion","NO","fav_accion","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'","`fav_accion`");
+    select_chl_fav = f_select_combo("manto_falla_via_falla_accion","NO","fav_accion","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'","`fav_accion` ASC");
 
     $("#fav_chl_falla").val(fav_chl_falla);
     $("#fav_chl_accion").val(fav_chl_accion);
@@ -213,7 +213,7 @@ $(document).ready(function(){
     fav_chl_falla = $("#fav_chl_falla").val();
     contar_accion_fav = f_contar_dato("manto_falla_via_falla_accion","fav_accion","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'");
 
-    select_chl_fav = f_select_combo("manto_falla_via_falla_accion","NO","fav_accion","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'","`fav_accion`");
+    select_chl_fav = f_select_combo("manto_falla_via_falla_accion","NO","fav_accion","","`fav_bus_tipo`='"+fav_chl_bus_tipo+"' AND `fav_codigo`='"+fav_chl_codigo+"' AND `fav_componente`='"+fav_chl_componente+"' AND `fav_falla`='"+fav_chl_falla+"'","`fav_accion` ASC");
     $("#fav_chl_accion").html(select_chl_fav);
 
     if(contar_accion_fav=="1"){

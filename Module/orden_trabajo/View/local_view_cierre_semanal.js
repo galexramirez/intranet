@@ -9,16 +9,16 @@ miCarpeta = f_DocumentRoot();
 
 ///:: JS DOM CIERRE SEMANAL OT CORRECTIVAS ::::::::::::::::::::::::::::::::::::::::::::::::///
 $(document).ready(function(){
-  select_html = f_select_combo("Calendario", "SI", "Calendario_Anio", "", "`Calendario_Anio`>'2022'", "DESC");
+  select_html = f_select_combo("Calendario", "SI", "Calendario_Anio", "", "`Calendario_Anio`>'2022'", "`Calendario_Anio` DESC");
   $("#select_anios_cierre_semanal").html(select_html);
-  div_show = f_MostrarDiv("form_seleccion_cierre_semanal","btn_cierre_semanal","");
+  div_show = f_MostrarDiv("form_seleccion_cierre_semanal","btn_cierre_semanal","","");
   $("#div_btn_cierre_semanal").html(div_show);
 
   ///:: SELECCION DE AÑOS :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
   $("#select_anios_cierre_semanal").on('change', function () {
     $("#tabla_cierre_semanal").dataTable().fnDestroy();
     $('#tabla_cierre_semanal').hide();
-    div_show = f_MostrarDiv("form_seleccion_cierre_semanal","btn_cierre_semanal","");
+    div_show = f_MostrarDiv("form_seleccion_cierre_semanal","btn_cierre_semanal","","");
     $("#div_btn_cierre_semanal").html(div_show);
   });
 
@@ -30,7 +30,7 @@ $(document).ready(function(){
 
   ///:: BOTON BUSCAR CIERRE SEMANAL OT CORRECTIVAS ::::::::::::::::::::::::::::::::::::::::///
   $(document).on("click", ".btn_buscar_cierre_semanal", function(){
-    div_show = f_MostrarDiv("form_seleccion_cierre_semanal","btn_cierre_semanal","btn_generar_cierre_semanal");
+    div_show = f_MostrarDiv("form_seleccion_cierre_semanal","btn_cierre_semanal","btn_generar_cierre_semanal","");
     $("#div_btn_cierre_semanal").html(div_show);
     div_tabla = f_CreacionTabla("tabla_cierre_semanal","");
     $("#div_tabla_cierre_semanal").html(div_tabla);
@@ -69,7 +69,7 @@ $(document).ready(function(){
   ///:: BOTON GENERAR CIERRE SEMANAL ::::::::::::::::::::::::::::::::::::::::::::::::::::::///
   $(document).on("click", ".btn_generar_cierre_semanal", function(){
     anios_cierre_semanal = $("#select_anios_cierre_semanal").val();
-    select_html = f_select_combo("Calendario","SI","Calendario_Semana","","`Calendario_Anio`='"+anios_cierre_semanal+"'","DESC");
+    select_html = f_select_combo("Calendario","SI","Calendario_Semana","","`Calendario_Anio`='"+anios_cierre_semanal+"'","`Calendario_Semana` DESC");
     $("#form_cierre_semanal").trigger("reset");
     $("#div_resultado_semana_cerrar").empty();
     $(".modal-header").css( "background-color", "#17a2b8");

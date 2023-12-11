@@ -1,15 +1,14 @@
 ///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-///:: LISTADO NOVEDADES v 1.0 FECHA: 2023-07-24 :::::::::::::::::::::::::::::::::::::::::::///
-///:: BUSCAR NOVEDADES DE OPERACIONES :::::::::::::::::::::::::::::::::::::::::::::::::::::///
+///:: LISTADO NOVEDADES MANTENIMIENTO v 2.0 FECHA: 2023-11-28 :::::::::::::::::::::::::::::///
+///:: BUSCAR NOVEDADES DE MANTENIMIENTO :::::::::::::::::::::::::::::::::::::::::::::::::::///
 ///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///:: DECLARACION DE VARIABLES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-var fecha_inicio_novedades, fecha_termino_novedades, fila_novedades;
+var tabla_novedades, fecha_inicio_novedades, fecha_termino_novedades, fila_novedades, novedad_id, tipo_operacion, bus_tipo, tipo_novedad;
 fecha_inicio_novedades   = "";
 fecha_termino_novedades  = "";
-mi_carpeta      = f_DocumentRoot();
 
-///:: JS DOM OT CORRECTIVAS :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+///:: JS DOM NOVEDADES MANTENIMIENTO ::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 $(document).ready(function(){
     if(fecha_inicio_novedades=="" && fecha_termino_novedades==""){
         fecha_inicio_novedades = f_CalculoFecha("hoy","0");
@@ -18,22 +17,45 @@ $(document).ready(function(){
         $('#fecha_termino_novedades').val(fecha_termino_novedades);
     }
 
-    div_show = f_MostrarDiv("form_seleccion_novedades", "btn_seleccion_novedades", "");
+    div_show = f_MostrarDiv("form_seleccion_novedades", "btn_seleccion_novedades", "inicio", "inicio");
     $("#div_btn_seleccion_novedades").html(div_show);
 
-    // Si hay cambios en el Fecha se ocultan botones y datatable
-    $("#fecha_inicio_novedades").on('change', function () {
+    ///:: Si hay cambios en el Fecha se ocultan botones y datatable :::::::::::::::::::::::///
+    $("#fecha_inicio_novedades, #fecha_termino_novedades").on('change', function () {
         $("#div_tabla_novedades").empty();
-    });
-    
-    $("#fecha_termino_novedades").on('change', function () {
-        $("#div_tabla_novedades").empty();
+        div_show = f_MostrarDiv("form_seleccion_novedades", "btn_seleccion_novedades", "inicio", "inicio");
+        $("#div_btn_seleccion_novedades").html(div_show);    
     });
 
-    ///:: BOTONES DE OT CORRECTIVAS :::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+    ///:: Selecciona las filas a editar :::::::::::::::::::::::::::::::::::::::::::::::::::///
+    $(document).on("click", "tr",".tabla_novedad_regular tbody", function(){		
+        let ot_id = "inicio", componente = "inicio";
+        novedad_id="";
+        tipo_operacion="";
+        bus_tipo = "";
+        tipo_novedad = "";
+        if(tabla_novedades.rows('.selected').data().length===1){
+            fila_novedades = $(this).closest("tr");	        
+            novedad_id     = fila_novedades.find('td:eq(0)').text();
+            tipo_novedad   = fila_novedades.find('td:eq(3)').text();
+            tipo_operacion = fila_novedades.find('td:eq(7)').text();
+            componente     = fila_novedades.find('td:eq(9)').text();
+            ot_id          = fila_novedades.find('td:eq(13)').text();
+        }
+        if(tipo_operacion=="TRONCAL"){
+            bus_tipo = "ARTICULADO";
+        }
+        if(tipo_operacion=="ALIMENTADOR"){
+            bus_tipo = "ALIMENTADOR";
+        }
+        div_show = f_MostrarDiv("form_seleccion_novedades", "btn_seleccion_novedades", ot_id, componente);
+        $("#div_btn_seleccion_novedades").html(div_show);
+    });
 
-    ///:: BOTON BUSCAR OT CORRECTIVAS :::::::::::::::::::::::::::::::::::::::::::::::::::::///
-    $("#btn_buscar_novedades").on("click",function(){
+    ///:: BOTONES DE NOVEDADES MANTENIMIENTO :::::::::::::::::::::::::::::::::::::::::::::::///
+
+    ///:: BOTON BUSCAR NOVEDADES MANTENIMIENTO :::::::::::::::::::::::::::::::::::::::::::::///
+    $(document).on("click", ".btn_buscar_novedades", function(){
         fecha_inicio_novedades = $("#fecha_inicio_novedades").val();
         fecha_termino_novedades = $("#fecha_termino_novedades").val();
 
@@ -124,16 +146,14 @@ $(document).ready(function(){
             "order": [[1, 'desc']]
         });     
     });  
-    ///:: FIN BOTON BUSCAR OT CORRECTIVAS :::::::::::::::::::::::::::::::::::::::::::::::::///
+    ///:: FIN BOTON BUSCAR NOVEDADES MANTENIMIENTO ::::::::::::::::::::::::::::::::::::::::///
 
-    ///:: TERMINO DE BOTONES OT CORRECTIVAS :::::::::::::::::::::::::::::::::::::::::::::::///
+    ///:: TERMINO DE BOTONES NOVEDADES MANTENIMIENTO ::::::::::::::::::::::::::::::::::::::///
 });
-///:: TERMINO DE JS DON OT CORRECTIVAS ::::::::::::::::::::::::::::::::::::::::::::::::::::///
+///:: TERMINO DE JS DOM NOVEDADES MANTENIMIENTO :::::::::::::::::::::::::::::::::::::::::::///
 
 
 
-///:: FUNCIONES DE OT CORRECTIVAS :::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+///:: FUNCIONES DE NOVEDADES MANTENIMEINTO ::::::::::::::::::::::::::::::::::::::::::::::::///
 
-
-
-///:: TERMINO FUNCIONES DE OT CORRECTIVAS :::::::::::::::::::::::::::::::::::::::::::::::::///
+///:: TERMINO FUNCIONES DE NOVEDADES MANTENIMEINTO :::::::::::::::::::::::::::::::::::::::///

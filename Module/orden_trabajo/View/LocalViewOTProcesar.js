@@ -161,7 +161,7 @@ $(document).ready(function(){
               }
             });
             semana_estado = f_validar_semana_cerrada(ot_semana_cierre);
-            div_show = f_MostrarDiv("formProcesarOT","btn_guardar_ot",semana_estado);
+            div_show = f_MostrarDiv("formProcesarOT","btn_guardar_ot",semana_estado,"");
             $("#div_btn_guardar_ot").html(div_show);
           }else{
             Swal.fire({
@@ -183,7 +183,7 @@ $(document).ready(function(){
                 f_CargaVariablesHtmlOT();
               }
             });
-            div_show = f_MostrarDiv("formProcesarOT","btn_guardar_ot","");
+            div_show = f_MostrarDiv("formProcesarOT","btn_guardar_ot","","");
             $("#div_btn_guardar_ot").html(div_show);    
           }
         }
@@ -752,13 +752,13 @@ function f_CargaVariablesHtmlOT(){
   }
 
   // Se cargan los div
-  html = f_MostrarDiv("formProcesarOT","div_CodigoOT",ot_id);
+  html = f_MostrarDiv("formProcesarOT","div_CodigoOT",ot_id,"");
   $("#div_CodigoOT").html(html);
-  html = f_MostrarDiv("formProcesarOT","div_ot_estadoactual",ot_estado);
+  html = f_MostrarDiv("formProcesarOT","div_ot_estadoactual",ot_estado,"");
   $("#div_ot_estadoactual").html(html);
-  html = f_MostrarDiv("formProcesarOT","div_ot_ca",ot_ca+" EL "+ot_date_ca);
+  html = f_MostrarDiv("formProcesarOT","div_ot_ca",ot_ca+" EL "+ot_date_ca,"");
   $("#div_ot_ca").html(html);
-  html = f_MostrarDiv("formProcesarOT","div_ot_date_ct",ot_date_ct);
+  html = f_MostrarDiv("formProcesarOT","div_ot_date_ct",ot_date_ct,"");
   $("#div_ot_date_ct").html(html);
   //$("#div_ot_obs_aom").html(ot_obs_aom);
 }
@@ -947,7 +947,7 @@ function f_combos_selects_ot()
   selectHtmlOT = f_TipoTabla(Operacion,Tipo);
   $("#ot_check").html(selectHtmlOT);
 
-  selectHtmlOT = f_select_combo("Calendario", "SI", "Calendario_Semana", "", "", "DESC");
+  selectHtmlOT = f_select_combo("Calendario", "SI", "Calendario_Semana", "", "", "`Calendario_Semana` DESC");
   $("#ot_semana_cierre").html(selectHtmlOT);
 }
 ///:: FIN DE FUNCION QUE CARGA LOS COMBOS DE SELECTS ::::::::::::::::::::::::::::::::::::::///

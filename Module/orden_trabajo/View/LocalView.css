@@ -19,6 +19,16 @@ input{
     font-size: 11px
 }
 
+.filters_tc_ot_usuario th{
+    padding:0px !important;
+    font-size: 11px
+}
+
+.filters_tc_ot_sistema th{
+    padding:0px !important;
+    font-size: 11px
+}
+
 th{
     font-size: 11px;
     font-weight: 500;
@@ -113,6 +123,16 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
     color:white;
 }
 
+#tabla_tc_ot_usuario thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tabla_tc_ot_sistema thead {
+    background: #2A4C38;
+    color:white;
+}
+
 /* tamaño de texto de tablas*/
 
 #tablaOT{
@@ -149,6 +169,14 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
 
 #tabla_novedades th{
     font-size: 12px !important;
+}
+
+#tabla_tc_ot_usuario {
+    font-size: 12px;
+}
+
+#tabla_tc_ot_sistema {
+    font-size: 12px;
 }
 
 /* Cierre 2.0 Tablas */

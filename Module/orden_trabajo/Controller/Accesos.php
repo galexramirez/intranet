@@ -13,7 +13,30 @@ class Accesos
 								<a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false"><span id="idProcesar">Procesar</span></a>
 								<a class="nav-item nav-link" id="nav-cierre_semanal-tab" data-toggle="tab" href="#nav-cierre_semanal" role="tab" aria-controls="nav-cierre_semanal" aria-selected="false"><span id="id_cierre_semanal">Cierre Semanal</span></a>
 								<a class="nav-item nav-link" id="nav-novedades-tab" data-toggle="tab" href="#nav-novedades" role="tab" aria-controls="nav-novedades" aria-selected="false"><span id="nav-id_novedades">Novedades</span></a> ';
+				MModel($this->Modulo, 'CRUD');
+				$InstanciaAjax= new CRUD();
+				$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'nav-ajustes_ot-tab');
+				if ($Respuesta=="SI"){
+					$tabshtml .= '<a class="nav-item nav-link" id="nav-ajustes_ot-tab" data-toggle="tab" href="#nav-ajustes_ot" role="tab" aria-controls="nav-ajustes_ot" aria-selected="false">Ajustes</a>';
+				}
+				
 			break;
+
+			case "nav-tab-ajustes_ot":
+				MModel($this->Modulo, 'CRUD');
+				$InstanciaAjax= new CRUD();
+				$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'nav-ajustes_ot_usuario-tab');
+				if ($Respuesta=="SI"){
+					$tabshtml = '	<a class="nav-item nav-link active" id="nav-ajustes_ot_usuario-tab" data-toggle="tab" href="#nav-ajustes_ot_usuario" role="tab" aria-controls="nav-ajustes_ot_usuario" aria-selected="true">Usuario</a>';
+				}
+				MModel($this->Modulo, 'CRUD');
+				$InstanciaAjax= new CRUD();
+				$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'nav-ajustes_ot_sistema-tab');
+				if ($Respuesta=="SI"){
+					$tabshtml .= '	<a class="nav-item nav-link" id="nav-ajustes_ot_sistema-tab" data-toggle="tab" href="#nav-ajustes_ot_sistema" role="tab" aria-controls="nav-ajustes_ot_sistema" aria-selected="false">Sistema</a>';
+				}
+			break;
+
 		}
 		echo $tabshtml;
 	}
@@ -126,6 +149,38 @@ class Accesos
 								</table>	';
             break;
 
+			case "tabla_tc_ot_usuario":
+                $tablahtml = '	<table id="tabla_tc_ot_usuario" class="table table-striped table-bordered table-condensed w-100">
+									<thead class="text-center">
+										<tr>
+											<th>ID</th>
+											<th>CATEGORIA 1</th>
+											<th>CATEGORIA 2</th>
+											<th>CATEGORIA 3</th>
+											<th>ACCIONES</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>';
+            break;
+
+			case "tabla_tc_ot_sistema":
+                $tablahtml = '	<table id="tabla_tc_ot_sistema" class="table table-striped table-bordered table-condensed w-100">
+									<thead class="text-center">
+										<tr>
+											<th>ID</th>
+											<th>CATEGORIA 1</th>
+											<th>CATEGORIA 2</th>
+											<th>CATEGORIA 3</th>
+											<th>ACCIONES</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>';
+            break;
+
 			case "":
 				$tablahtml = '';
 			break;
@@ -211,6 +266,26 @@ class Accesos
       							]';
             break;
 
+			case "tabla_tc_ot_usuario":
+				$defaultContent1 = "<div class='text-center'><div class='btn-group'><button class='btn btn-primary btn-sm btn_editar_tc_ot_usuario'><i class='bi bi-pencil'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pencil' viewBox='0 0 16 16'><path d='M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z'/></svg></i></button><button class='btn btn-danger btn-sm btn_borrar_tc_ot_usuario'><i class='bi bi-trash'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-trash' viewBox='0 0 16 16'><path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z'/><path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'/></svg></i></button></div></div>";
+				$columnashtml = '[	{"data": "tc_ot_id"},
+									{"data": "tc_categoria1"},
+									{"data": "tc_categoria2"},
+									{"data": "tc_categoria3"},
+									{"defaultContent": " '.$defaultContent1.' "}
+								]';
+			break;
+
+			case "tabla_tc_ot_sistema":
+				$defaultContent1 = "<div class='text-center'><div class='btn-group'><button class='btn btn-primary btn-sm btn_editar_tc_ot_sistema'><i class='bi bi-pencil'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pencil' viewBox='0 0 16 16'><path d='M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z'/></svg></i></button><button class='btn btn-danger btn-sm btn_borrar_tc_ot_sistema'><i class='bi bi-trash'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-trash' viewBox='0 0 16 16'><path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z'/><path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'/></svg></i></button></div></div>";
+				$columnashtml = '[	{"data": "tc_ot_id"},
+									{"data": "tc_categoria1"},
+									{"data": "tc_categoria2"},
+									{"data": "tc_categoria3"},
+									{"defaultContent": " '.$defaultContent1.' "}
+								]';
+			break;
+
 			case "":
 				$columnashtml = '';
 			break;
@@ -279,7 +354,7 @@ class Accesos
 		echo $divformulario;
     }
 
-	public function MostrarDiv($NombreFormulario,$NombreObjeto,$Dato)
+	public function MostrarDiv($NombreFormulario,$NombreObjeto,$Dato1,$Dato2)
 	{
 		$Mostrar_div = "";
 		$color = "";
@@ -289,11 +364,11 @@ class Accesos
 				switch($NombreObjeto)
 				{
 					case "div_CodigoOT":
-						$Mostrar_div = '<h5 class="font-weight-bold">N° '.$Dato.'</h5>';
+						$Mostrar_div = '<h5 class="font-weight-bold">N° '.$Dato1.'</h5>';
 					break;
 
 					case "div_ot_estadoactual":
-						switch($Dato)
+						switch($Dato1)
 						{
 							case "CERRADO":
 								$color = "success";
@@ -315,19 +390,19 @@ class Accesos
 							break;
 
 						}
-						$Mostrar_div = '<label for="" class="form-control-sm pl-0 mb-0 text-'.$color.' font-weight-bold">ESTADO ACTUAL DE LA OT : '.$Dato.'</label>';
+						$Mostrar_div = '<label for="" class="form-control-sm pl-0 mb-0 text-'.$color.' font-weight-bold">ESTADO ACTUAL DE LA OT : '.$Dato1.'</label>';
 					break;
 
 					case "div_ot_ca":
-						$Mostrar_div = '<label for="" class="form-control-sm pl-0 mb-0">CIERRE ADMINISTRATIVO POR '.$Dato.'</label>';
+						$Mostrar_div = '<label for="" class="form-control-sm pl-0 mb-0">CIERRE ADMINISTRATIVO POR '.$Dato1.'</label>';
 					break;
 
 					case "div_ot_date_ct":
-						$Mostrar_div = '<label for="ot_data_ct" class="form-control-sm pl-0 mb-0">EL '.$Dato.'</label>';
+						$Mostrar_div = '<label for="ot_data_ct" class="form-control-sm pl-0 mb-0">EL '.$Dato1.'</label>';
 					break;
 
 					case "btn_guardar_ot":
-						if($Dato=='CERRADO'){
+						if($Dato1=='CERRADO'){
 							$Mostrar_div = ' <button type="button" id="btn_cancelar_ot" class="btn btn-light btn-sm form-control-sm mb-1 btn_cancelar_ot ">Cancelar</button> ';	
 						}else{
 							$Mostrar_div = ' <button type="button" id="btnGuardarOT" class="btn btn-dark btn-sm form-control-sm mb-1 btnGuardarOT ">Guardar</button> ';
@@ -342,7 +417,7 @@ class Accesos
 				{
 					case "btn_cierre_semanal":
 						$Mostrar_div = '<button type="button" id="btn_buscar_cierre_semanal" class="btn btn-secondary btn-sm mr-1 btn_buscar_cierre_semanal">Buscar</button>';
-						switch($Dato)
+						switch($Dato1)
 						{
 							case "btn_generar_cierre_semanal":
 								MModel($this->Modulo, 'CRUD');
@@ -364,7 +439,7 @@ class Accesos
 						$man_modulo_id = '';
 						MModel($this->Modulo, 'CRUD');
 						$InstanciaAjax	= new CRUD();
-						$Respuesta	= $InstanciaAjax->BuscarDataBD("Modulo", "Mod_Nombre", $Dato );
+						$Respuesta	= $InstanciaAjax->BuscarDataBD("Modulo", "Mod_Nombre", $Dato1 );
 						foreach($Respuesta as $row){
 							$man_modulo_id = $row['Modulo_Id'];
 						}
@@ -398,25 +473,35 @@ class Accesos
 				{
 					case "btn_seleccion_novedades":
 						$Mostrar_div  = '<button type="button" id="btn_buscar_novedades" class="btn btn-secondary btn-sm btn_buscar_novedades ml-1">Buscar</button>';
-						$Mostrar_div .= '<button type="button" id="btn_generar_novedad_regular" class="btn btn-secondary btn-sm btn_generar_novedad ml-1">+ Novedad</button>';
-						$Mostrar_div .= '<button type="button" id="btn_codificar" class="btn btn-secondary btn-sm btn_codificar ml-1">Codificar</button>';
-						$Mostrar_div .= '<button type="button" id="btn_generar_ot" class="btn btn-secondary btn-sm btn_generar_ot ml-1">+ OT</button>';
-						$Mostrar_div .= '<button type="button" id="btn_no_genera_ot" class="btn btn-secondary btn-sm btn_no_generr_ot ml-1">- OT</button>';
-						/*switch($Dato)
-						{
-							case "":
-								MModel($this->Modulo, 'CRUD');
-								$InstanciaAjax = new CRUD();
-								$Respuesta = $InstanciaAjax->Permisos($this->Modulo,"");
-								if($Respuesta=="SI"){
-									$Mostrar_div .= '';
-								}
-							break;
-						}*/
+						MModel($this->Modulo, 'CRUD');
+						$InstanciaAjax= new CRUD();
+						$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'btn_generar_novedad_regular');
+						if ($Respuesta=="SI"){
+							$Mostrar_div .= '<button type="button" id="btn_generar_novedad_regular" class="btn btn-secondary btn-sm btn_generar_novedad_regular ml-1">+ Novedad</button>';
+						}
+						MModel($this->Modulo, 'CRUD');
+						$InstanciaAjax= new CRUD();
+						$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'btn_codificar');
+						if ($Respuesta=="SI" && $Dato2==""){
+							$Mostrar_div .= '<button type="button" id="btn_codificar" class="btn btn-secondary btn-sm btn_codificar ml-1">Codificar</button>';
+						}
+						MModel($this->Modulo, 'CRUD');
+						$InstanciaAjax= new CRUD();
+						$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'btn_generar_ot');
+						if ($Respuesta=="SI" && $Dato1=="" && $Dato2!==""){
+							$Mostrar_div .= '<button type="button" id="btn_generar_ot" class="btn btn-secondary btn-sm btn_generar_ot ml-1">+ OT</button>';
+						}
+						MModel($this->Modulo, 'CRUD');
+						$InstanciaAjax= new CRUD();
+						$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'btn_no_genera_ot');
+						if ($Respuesta=="SI" && $Dato1=="" && $Dato2!==""){
+							$Mostrar_div .= '<button type="button" id="btn_no_genera_ot" class="btn btn-secondary btn-sm btn_no_generr_ot ml-1">- OT</button>';
+						}
 					break;
 				}
 			break;
 
+			
 		}
 		echo $Mostrar_div;
     }
