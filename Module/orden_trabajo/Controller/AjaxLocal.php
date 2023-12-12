@@ -431,9 +431,10 @@ switch ($Accion)
    break;
 
    case 'crear_novedad_regular':
-      $nreg_bus = $_POST['nreg_bus'];
+      $nreg_origen = $_POST['nreg_origen'];
       $nreg_descripcion = strtoupper($_POST['nreg_descripcion']);
       $nreg_operacion = strtoupper($_POST['nreg_operacion']);
+      $nreg_bus = $_POST['nreg_bus'];
       $nreg_componente = $_POST['nreg_componente'];
       $nreg_posicion = $_POST['nreg_posicion'];
       $nreg_falla = $_POST['nreg_falla'];
@@ -441,7 +442,7 @@ switch ($Accion)
 
       MModel($Modulo,'CRUD');
       $InstanciaAjax = new CRUD();
-      $Respuesta     = $InstanciaAjax->crear_novedad_regular($nreg_descripcion, $nreg_operacion, $nreg_bus, $nreg_componente, $nreg_posicion, $nreg_falla, $nreg_accion);
+      $Respuesta     = $InstanciaAjax->crear_novedad_regular($nreg_origen, $nreg_descripcion, $nreg_operacion, $nreg_bus, $nreg_componente, $nreg_posicion, $nreg_falla, $nreg_accion);
    break;
 
    case 'codificar_novedad':
@@ -455,6 +456,32 @@ switch ($Accion)
       MModel($Modulo,'CRUD');
       $InstanciaAjax = new CRUD();
       $Respuesta = $InstanciaAjax->codificar_novedad($nope_tipo_novedad, $nope_novedad_id, $nope_componente, $nope_posicion, $nope_falla, $nope_accion);
+   break;
+
+   case 'crear_orden_trabajo':
+      $not_ot_tipo = $_POST['not_ot_tipo'];
+      $ot_asociado = $_POST['ot_asociado'];
+      $not_origen_novedad = $_POST['not_origen_novedad'];
+      $not_tipo_novedad = $_POST['not_tipo_novedad'];
+      $not_novedad_id = $_POST['not_novedad_id'];
+      $not_operacion = $_POST['not_operacion'];
+      $not_bus = $_POST['not_bus'];
+
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta = $InstanciaAjax->crear_orden_trabajo($not_ot_tipo, $ot_asociado, $not_origen_novedad, $not_tipo_novedad, $not_novedad_id, $not_operacion, $not_bus);
+   break;
+
+   case 'no_genera_ot':
+      $not_origen_novedad = $_POST['not_origen_novedad'];
+      $not_tipo_novedad = $_POST['not_tipo_novedad'];
+      $not_novedad_id = $_POST['not_novedad_id'];
+      $not_operacion = $_POST['not_operacion'];
+      $not_bus = $_POST['not_bus'];
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta = $InstanciaAjax->no_genera_ot($not_origen_novedad, $not_tipo_novedad, $not_novedad_id, $not_operacion, $not_bus);
    break;
 
    case 'leer_tc_ot_usuario':

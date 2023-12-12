@@ -142,6 +142,8 @@ class Accesos
 											<th>FALLA</th>
 											<th>ACCION</th>
 											<th>COD.OT</th>
+											<th>ESTADO</th>
+											<th>PROCEDENCIA</th>
 					   					</tr>
 									</thead>
 									<tbody>                           
@@ -262,7 +264,9 @@ class Accesos
 									{"data": "posicion"},
 									{"data": "falla"},
 									{"data": "accion"},
-									{"data": "ot_id"}
+									{"data": "ot_id"},
+									{"data": "ot_estado"},
+									{"data": "procedencia"}
       							]';
             break;
 
@@ -487,15 +491,21 @@ class Accesos
 						}
 						MModel($this->Modulo, 'CRUD');
 						$InstanciaAjax= new CRUD();
-						$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'btn_generar_ot');
+						$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'btn_agregar_ot');
 						if ($Respuesta=="SI" && $Dato1=="" && $Dato2!==""){
-							$Mostrar_div .= '<button type="button" id="btn_generar_ot" class="btn btn-secondary btn-sm btn_generar_ot ml-1">+ OT</button>';
+							$Mostrar_div .= '<button type="button" id="btn_agregar_ot" class="btn btn-secondary btn-sm btn_agregar_ot ml-1">+ OT</button>';
 						}
 						MModel($this->Modulo, 'CRUD');
 						$InstanciaAjax= new CRUD();
 						$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'btn_no_genera_ot');
 						if ($Respuesta=="SI" && $Dato1=="" && $Dato2!==""){
-							$Mostrar_div .= '<button type="button" id="btn_no_genera_ot" class="btn btn-secondary btn-sm btn_no_generr_ot ml-1">- OT</button>';
+							$Mostrar_div .= '<button type="button" id="btn_no_genera_ot" class="btn btn-secondary btn-sm btn_no_genera_ot ml-1">- OT</button>';
+						}
+						MModel($this->Modulo, 'CRUD');
+						$InstanciaAjax= new CRUD();
+						$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'btn_vincular_ot');
+						if ($Respuesta=="SI" && $Dato1=="multiple"){
+							$Mostrar_div .= '<button type="button" id="btn_vincular_ot" class="btn btn-secondary btn-sm btn_vincular_ot ml-1">Vincular</button>';
 						}
 					break;
 				}

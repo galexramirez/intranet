@@ -4,7 +4,7 @@
 ///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///:: DECLARACION DE VARIABLES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-var tabla_novedades, fecha_inicio_novedades, fecha_termino_novedades, fila_novedades, novedad_id, tipo_operacion, bus_tipo, tipo_novedad;
+var tabla_novedades, fecha_inicio_novedades, fecha_termino_novedades, fila_novedades, novedad_id, tipo_operacion, bus_tipo, tipo_novedad, origen_novedad, filas_seleccionadas, nro_bus;
 fecha_inicio_novedades   = "";
 fecha_termino_novedades  = "";
 
@@ -29,18 +29,37 @@ $(document).ready(function(){
 
     ///:: Selecciona las filas a editar :::::::::::::::::::::::::::::::::::::::::::::::::::///
     $(document).on("click", "tr",".tabla_novedad_regular tbody", function(){		
-        let ot_id = "inicio", componente = "inicio";
+        let ot_id = "inicio";
+        let componente = "inicio";
+        
+        fila_novedades = $(this).closest("tr");
+        filas_seleccionadas = [];
         novedad_id="";
         tipo_operacion="";
         bus_tipo = "";
         tipo_novedad = "";
+        origen_novedad = "";
+        nro_bus = "";
+
+        if (fila_novedades.hasClass('selected')) {
+            filas_seleccionadas.push(fila_novedades);
+        } else {
+            let index = filas_seleccionadas.indexOf(fila_novedades);
+            if (index > -1) {
+                filas_seleccionadas.splice(index, 1);
+            }
+        }
         if(tabla_novedades.rows('.selected').data().length===1){
-            fila_novedades = $(this).closest("tr");	        
             novedad_id     = fila_novedades.find('td:eq(0)').text();
-            tipo_novedad   = fila_novedades.find('td:eq(3)').text();
+            origen_novedad = fila_novedades.find('td:eq(3)').text();
+            tipo_novedad   = fila_novedades.find('td:eq(4)').text();
             tipo_operacion = fila_novedades.find('td:eq(7)').text();
+            nro_bus        = fila_novedades.find('td:eq(8)').text();
             componente     = fila_novedades.find('td:eq(9)').text();
             ot_id          = fila_novedades.find('td:eq(13)').text();
+        }
+        if(tabla_novedades.rows('.selected').data().length>1){
+            ot_id = "multiple";
         }
         if(tipo_operacion=="TRONCAL"){
             bus_tipo = "ARTICULADO";
@@ -147,6 +166,40 @@ $(document).ready(function(){
         });     
     });  
     ///:: FIN BOTON BUSCAR NOVEDADES MANTENIMIENTO ::::::::::::::::::::::::::::::::::::::::///
+
+    ///:: BOTON NOVEDAD NO GENERA OT ::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+    $(document).on("click", ".btn_no_genera_ot", function(){
+        Swal.fire({
+            title               : '¿Está seguro?',
+            text                : "NO se genera OT !!!",
+            icon                : 'warning',
+            showCancelButton    : true,
+            confirmButtonColor  : '#3085d6',
+            cancelButtonColor   : '#d33',
+            confirmButtonText   : 'No, generar!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Accion = 'no_genera_ot';
+                $.ajax({
+                    url         : "Ajax.php",
+                    type        : "POST",
+                    datatype    : "json",    
+                    data        : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, not_origen_novedad:origen_novedad, not_tipo_novedad:tipo_novedad, not_novedad_id:novedad_id,not_operacion:tipo_operacion, not_bus:nro_bus },   
+                    success: function() {
+                        tabla_novedades.ajax.reload(null, false);
+                        Swal.fire(
+                            'Novedad!',
+                            'El registro ha sido desestimado.',
+                            'success'
+                        )
+                        div_show = f_MostrarDiv("form_seleccion_novedades", "btn_seleccion_novedades", "inicio", "inicio");
+                        $("#div_btn_seleccion_novedades").html(div_show);    
+                    }
+                });
+            }
+        });
+    });
+    ///:: FIN BOTON NOVEDAD NO GENERA OT ::::::::::::::::::::::::::::::::::::::::::::::::::///
 
     ///:: TERMINO DE BOTONES NOVEDADES MANTENIMIENTO ::::::::::::::::::::::::::::::::::::::///
 });

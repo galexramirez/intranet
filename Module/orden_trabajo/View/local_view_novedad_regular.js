@@ -5,11 +5,12 @@
 
 ///:: DECLARACION DE VARIABLES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 var select_novedad;
-var nreg_descripcion, nreg_operacion, nreg_bus, nreg_componente, nreg_posicion, nreg_falla, nreg_accion;
+var nreg_origen, nreg_descripcion, nreg_operacion, nreg_bus, nreg_componente, nreg_posicion, nreg_falla, nreg_accion;
 
 ///:: JS DOM NOVEDADES MANTENIMIENTO ::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 $(document).ready(function(){
   $("#nreg_operacion").on('change', function () {
+    f_limpia_novedad_regular();
     $("#nreg_posicion").prop("disabled",false);
     $("#nreg_falla").prop("disabled",false);
     $("#nreg_accion").prop("disabled",false);    
@@ -22,6 +23,7 @@ $(document).ready(function(){
     if(nreg_operacion=="ALIMENTADOR"){
       bus_tipo = "ALIMENTADOR"; 
     }
+    nreg_origen = "";
     nreg_bus = "";
     nreg_descripcion = "";
     nreg_componente = "";
@@ -31,7 +33,9 @@ $(document).ready(function(){
 
     select_novedad = f_select_combo("Buses","NO","Bus_NroExterno","","`Bus_Estado`='DISPONIBLE' AND `Bus_Tipo`='UNIDAD' AND `Bus_Operacion`='"+nreg_operacion+"'","`Bus_NroExterno` ASC");
     $("#nreg_bus").html(select_novedad);
-    select_novedad = f_select_combo("manto_check_list_componente","NO","chl_componente","","`chl_bus_tipo`='"+bus_tipo+"'","`chl_componente` ASC");
+    select_novedad = f_select_combo("manto_tc_orden_trabajo","NO","tc_categoria3","","`tc_variable`='SISTEMA' AND `tc_categoria1`='NOVEDAD REGULAR' AND `tc_categoria2`='ORIGEN'","`tc_categoria3` ASC");
+    $("#nreg_origen").html(select_novedad);  
+    select_novedad = f_select_combo("manto_check_list_componente","SI","chl_componente","","`chl_bus_tipo`='"+bus_tipo+"'","`chl_componente` ASC");
     $("#nreg_componente").html(select_novedad);
     select_novedad = f_select_combo("manto_check_list_posicion","NO","chl_posicion","","`chl_bus_tipo`='"+bus_tipo+"' AND `chl_componente`='"+nreg_componente+"'","CAST(`chl_posicion` AS UNSIGNED)");
     $("#nreg_posicion").html(select_novedad);
@@ -165,6 +169,7 @@ $(document).ready(function(){
 
     f_limpia_novedad_regular();
   
+    nreg_origen = "";
     bus_tipo = "";
     nreg_descripcion = "";
     nreg_operacion = "";
@@ -200,6 +205,7 @@ $(document).ready(function(){
     e.preventDefault(); //evita el comportambiento normal del submit, es decir, recarga total de la página
     let validacion  = '';
     
+    nreg_origen = $("#nreg_origen").val();
     nreg_descripcion = $.trim($("#nreg_descripcion").val()); 
     nreg_operacion = $("#nreg_operacion").val(); 
     nreg_bus = $("#nreg_bus").val(); 
@@ -208,7 +214,7 @@ $(document).ready(function(){
     nreg_falla = $("#nreg_falla").val();
     nreg_accion = $("#nreg_accion").val();
 
-    validacion = f_validar_novedad_regular(nreg_descripcion, nreg_operacion, nreg_bus, nreg_componente, nreg_posicion, nreg_falla, nreg_accion);
+    validacion = f_validar_novedad_regular(nreg_origen, nreg_descripcion, nreg_operacion, nreg_bus, nreg_componente, nreg_posicion, nreg_falla, nreg_accion);
     
     if(validacion=="invalido"){
       Swal.fire({
@@ -225,7 +231,7 @@ $(document).ready(function(){
           url         : "Ajax.php",
           type        : "POST",
           datatype    : "json",    
-          data        : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, nreg_descripcion:nreg_descripcion, nreg_operacion:nreg_operacion, nreg_bus:nreg_bus, nreg_componente:nreg_componente, nreg_posicion:nreg_posicion, nreg_falla:nreg_falla, nreg_accion:nreg_accion},    
+          data        : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, nreg_origen:nreg_origen, nreg_descripcion:nreg_descripcion, nreg_operacion:nreg_operacion, nreg_bus:nreg_bus, nreg_componente:nreg_componente, nreg_posicion:nreg_posicion, nreg_falla:nreg_falla, nreg_accion:nreg_accion},    
           success     : function(data) {
               tabla_novedades.ajax.reload(null, false);
           }
@@ -242,18 +248,23 @@ $(document).ready(function(){
 
 ///:: FUNCIONES DE NOVEDADES MANTENIMEINTO ::::::::::::::::::::::::::::::::::::::::::::::::///
 function f_limpia_novedad_regular(){
-  $("#nreg_descripcion").removeClass("color-error");
   $("#nreg_operacion").removeClass("color-error");
+  $("#nreg_origen").removeClass("color-error");
   $("#nreg_bus").removeClass("color-error");
+  $("#nreg_descripcion").removeClass("color-error");
   $("#nreg_componente").removeClass("color-error");
   $("#nreg_posicion").removeClass("color-error");
   $("#nreg_falla").removeClass("color-error");
   $("#nreg_accion").removeClass("color-error");
 }
 
-function f_validar_novedad_regular(p_nreg_descripcion, p_nreg_operacion, p_nreg_bus, p_nreg_componente, p_nreg_posicion, p_nreg_falla, p_nreg_accion){
+function f_validar_novedad_regular(p_nreg_origen, p_nreg_descripcion, p_nreg_operacion, p_nreg_bus, p_nreg_componente, p_nreg_posicion, p_nreg_falla, p_nreg_accion){
   f_limpia_novedad_regular();
   let rpta_validar_novedad_regular = "";
+  if(p_nreg_origen=="" || p_nreg_origen==null){
+    $("#nreg_origen").addClass("color-error");
+    rpta_validar_novedad_regular = "invalido";
+} 
   if(p_nreg_descripcion==""){
       $("#nreg_descripcion").addClass("color-error");
       rpta_validar_novedad_regular = "invalido";
@@ -288,9 +299,11 @@ function f_validar_novedad_regular(p_nreg_descripcion, p_nreg_operacion, p_nreg_
 function f_select_combos_novedad_regular(){
   select_novedad = f_select_combo("manto_tc_orden_trabajo","NO","tc_categoria3","","`tc_variable`='SISTEMA' AND `tc_categoria1`='NOVEDAD REGULAR' AND `tc_categoria2`='OPERACION'","`tc_categoria3` ASC");
   $("#nreg_operacion").html(select_novedad);
+  select_novedad = f_select_combo("manto_tc_orden_trabajo","NO","tc_categoria3","","`tc_variable`='SISTEMA' AND `tc_categoria1`='NOVEDAD REGULAR' AND `tc_categoria2`='ORIGEN'","`tc_categoria3` ASC");
+  $("#nreg_origen").html(select_novedad);
   select_novedad = f_select_combo("Buses","NO","Bus_NroExterno","","`Bus_Estado`='DISPONIBLE' AND `Bus_Tipo`='UNIDAD' AND `Bus_Operacion`='"+nreg_operacion+"'","`Bus_NroExterno` ASC");
   $("#nreg_bus").html(select_novedad);
-  select_novedad = f_select_combo("manto_check_list_componente","NO","chl_componente","","`chl_bus_tipo`='"+bus_tipo+"'","`chl_componente` ASC");
+  select_novedad = f_select_combo("manto_check_list_componente","SI","chl_componente","","`chl_bus_tipo`='"+bus_tipo+"'","`chl_componente` ASC");
   $("#nreg_componente").html(select_novedad);
   select_novedad = f_select_combo("manto_check_list_posicion","NO","chl_posicion","","`chl_bus_tipo`='"+bus_tipo+"' AND `chl_componente`='"+nreg_componente+"'","CAST(`chl_posicion` AS UNSIGNED)");
   $("#nreg_posicion").html(select_novedad);

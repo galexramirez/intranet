@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS `BDLIMABUS`.`manto_novedad_ot` (
   `not_fecha_generacion` DATETIME NULL,
   `not_usuario_genera` VARCHAR(8) NULL,
   `not_estado` VARCHAR(45) NULL,
-  `not_tipo_ot` VARCHAR(45) NULL,
+  `not_ot_tipo` VARCHAR(45) NULL,
   `not_ot_id` INT NULL,
   `not_origen_novedad` VARCHAR(45) NULL,
   `not_tipo_novedad` VARCHAR(45) NULL,

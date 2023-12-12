@@ -49,6 +49,7 @@
                     <script src='Module/orden_trabajo/View/local_view_novedades.js' type='text/javascript'></script>
                     <script src='Module/orden_trabajo/View/local_view_novedad_regular.js' type='text/javascript'></script>
                     <script src='Module/orden_trabajo/View/local_view_codificar_novedad.js' type='text/javascript'></script>
+                    <script src='Module/orden_trabajo/View/local_view_genera_ot.js' type='text/javascript'></script>
                     <script src='Module/orden_trabajo/View/local_view_tc_ot_sistema.js' type='text/javascript'></script>
                     <script src='Module/orden_trabajo/View/local_view_tc_ot_usuario.js' type='text/javascript'></script>
                     <script type='text/javascript' src='Services/Resources/cdn.datatables.net/fixedheader/3.1.9/js/dataTables.fixedHeader.min.js'></script>

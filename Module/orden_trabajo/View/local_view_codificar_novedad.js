@@ -12,6 +12,7 @@ $(document).ready(function(){
 
   ///:: CONSULTA DE COMPONENTE DE NOVEDAD ::::::::::::::::::::::::::::::::::::::::::::::::///
   $("#nope_componente").on('change', function () {
+    f_limpia_codificar_novedad();
     $("#nope_posicion").prop("disabled",false);
     $("#nope_falla").prop("disabled",false);
     $("#nope_accion").prop("disabled",false);
@@ -218,7 +219,7 @@ function f_validar_codificar_novedad(p_nope_componente, p_nope_posicion, p_nope_
 function f_select_combos_codificar_novedad(){
   select_codificar = f_select_combo("manto_tc_orden_trabajo","NO","tc_categoria3","","`tc_variable`='SISTEMA' AND `tc_categoria1`='NOVEDAD REGULAR' AND `tc_categoria2`='OPERACION'","`tc_categoria3` ASC");
   $("#bus_tipo").html(select_codificar);
-  select_codificar = f_select_combo("manto_check_list_componente","NO","chl_componente","","`chl_bus_tipo`='"+bus_tipo+"'","`chl_componente` ASC");
+  select_codificar = f_select_combo("manto_check_list_componente","SI","chl_componente","","`chl_bus_tipo`='"+bus_tipo+"'","`chl_componente` ASC");
   $("#nope_componente").html(select_codificar);
   select_codificar = f_select_combo("manto_check_list_posicion","NO","chl_posicion","","`chl_bus_tipo`='"+bus_tipo+"' AND `chl_componente`='"+nope_componente+"'","CAST(`chl_posicion` AS UNSIGNED)");
   $("#nope_posicion").html(select_codificar);

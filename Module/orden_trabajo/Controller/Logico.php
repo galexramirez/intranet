@@ -1135,4 +1135,8 @@ class Logico
         echo $rpta_cierre_semanal;
     }
 
+    public function crear_orden_trabajo($not_ot_tipo, $ot_asociado, $not_origen_novedad, $not_tipo_novedad, $not_novedad_id, $not_operacion, $not_bus)
+    {
+        
+    }
 }

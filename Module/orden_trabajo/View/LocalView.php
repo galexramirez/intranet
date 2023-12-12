@@ -904,12 +904,28 @@
 													  	<select class="form-control form-control-sm" id="nreg_operacion"></select>	
 			      						    		</div>
 												</div>
+											</div>
+			      						</div>
+									</div>
+									<div class="row d-flex justify-content-araound">
+										<div class="col-lg-12">
+											<div class="row">
 												<div class="col-lg-2">
+			      						    		<div class="form-group form-control-sm">
+			      						    			<label for="nreg_origen" class="col-form-label form-control-sm">ORIGEN:</label>
+			      						    		</div>
+												</div>
+												<div class="col-lg-6">
+			      						    		<div class="form-group form-control-sm">
+													  	<select class="form-control form-control-sm" id="nreg_origen"></select>	
+			      						    		</div>
+												</div>
+												<div class="col-lg-1">
 			      						    		<div class="form-group form-control-sm">
 			      						    			<label for="fav_chl_codigo" class="col-form-label form-control-sm">BUS:</label>
 			      						    		</div>
 												</div>
-												<div class="col-lg-4">
+												<div class="col-lg-3">
 			      						    		<div class="form-group form-control-sm">
 														<select class="form-control form-control-sm" id="nreg_bus"></select>
 			      						    		</div>
@@ -1095,6 +1111,46 @@
 
 						</div>
 				    </div>
+				</div>  			
+
+				<!--Modal para CRUD GENERAR ORDE DE TRABAJO--------------------------------->
+				<div class="row modal fade" id="modal_crud_genera_ot" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			    	<div class="modal-dialog" role="document">
+			        	<div class="modal-content">
+						    <div class="modal-header">
+				                <h5 class="modal-title" id="exampleModalLabel"></h5>
+				                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+				                </button>
+			    	        </div>
+						  	<form id="form_genera_ot">
+				      		    <div class="modal-body">
+				      		        <div class="row">
+										<div class="col-lg-12">
+						                  	<div class="form-group">
+						                   		<label for="got_ot_tipo" class="col-form-label form-control-sm">TIPO ORDEN DE TRABAJO</label>
+						                   		<select class="form-control form-control-sm" id="got_ot_tipo">
+												</select>
+				  		                	</div>
+			      		            	</div>
+			      		    	    </div>
+			      		        	<div class="row"> 
+										<div class="col-lg-12">
+					  		                <div class="form-group">
+							                	<label for="got_asociado" class="col-form-label form-control-sm">ASOCIADO</label>
+												<select class="form-control form-control-sm" id="got_asociado">
+
+												</select>
+				  			                </div> 
+			      		        		</div>
+			      		    	    </div>
+								</div>
+			      		    	<div class="modal-footer">
+			      		        	<button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+			      		        	<button type="submit" id="btn_genera_ot" class="btn btn-dark">Generar</button>
+			      		    	</div>
+			      			</form>    
+			        	</div>
+			    	</div>
 				</div>  			
 
 			</div>
