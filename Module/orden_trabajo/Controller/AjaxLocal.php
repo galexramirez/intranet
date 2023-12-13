@@ -466,10 +466,11 @@ switch ($Accion)
       $not_novedad_id = $_POST['not_novedad_id'];
       $not_operacion = $_POST['not_operacion'];
       $not_bus = $_POST['not_bus'];
+      $ot_descrip = $_POST['ot_descrip'];
 
       MController($Modulo,'Logico');
       $InstanciaAjax = new Logico();
-      $Respuesta = $InstanciaAjax->crear_orden_trabajo($not_ot_tipo, $ot_asociado, $not_origen_novedad, $not_tipo_novedad, $not_novedad_id, $not_operacion, $not_bus);
+      $Respuesta = $InstanciaAjax->crear_orden_trabajo($not_ot_tipo, $ot_asociado, $not_origen_novedad, $not_tipo_novedad, $not_novedad_id, $not_operacion, $not_bus, $ot_descrip);
    break;
 
    case 'no_genera_ot':
@@ -482,6 +483,24 @@ switch ($Accion)
       MModel($Modulo,'CRUD');
       $InstanciaAjax = new CRUD();
       $Respuesta = $InstanciaAjax->no_genera_ot($not_origen_novedad, $not_tipo_novedad, $not_novedad_id, $not_operacion, $not_bus);
+   break;
+
+   case 'validar_novedades_vincular_ot':
+      $a_data = json_decode($_POST['a_data'],true);
+
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta = $InstanciaAjax->validar_novedades_vincular_ot($a_data);
+   break;
+
+   case 'vincular_orden_trabajo':
+      $ot_tipo = $_POST['ot_tipo'];
+      $ot_id = $_POST['ot_id'];
+      $a_data = json_decode($_POST['a_data'],true);
+
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta = $InstanciaAjax->vincular_orden_trabajo($ot_tipo, $ot_id, $a_data);
    break;
 
    case 'leer_tc_ot_usuario':

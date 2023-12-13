@@ -864,19 +864,16 @@ class Logico
 
     public function DescargarInfoBus($ib_FechaInicio,$ib_FechaTermino,$ib_Bus,$ib_Tipo,$ib_Sistema,$ib_Contenga, $ib_origen)
     {
-        /*$micarpeta = $_SERVER['DOCUMENT_ROOT']."/Services/Json";
+       /*  $micarpeta = $_SERVER['DOCUMENT_ROOT']."/reportes";
         $date = date('d-m-Y-'.substr((string)microtime(), 1, 8));
         $date = str_replace(".", "", $date);
         $filename = "OTs".$ib_Tipo."_".$date;
-        $file_csv = $filename.".csv";
-        //$file_out = $micarpeta."/".$file_txt;
-        $file_out = "/tmp/".$file_csv;
-        $file_put = $micarpeta."/".$file_csv;*/
-        
+        $file_csv = $filename.".csv"; */
+
         MModel($this->Modulo,'CRUD');
         $InstanciaAjax= new CRUD();
         $Respuesta=$InstanciaAjax->DescargarInfoBus($ib_FechaInicio,$ib_FechaTermino,$ib_Bus,$ib_Tipo,$ib_Sistema,$ib_Contenga, $ib_origen);
-        //$Respuesta=$InstanciaAjax->DescargarInfoBus($ib_FechaInicio,$ib_FechaTermino,$ib_Bus,$ib_Tipo,$ib_Sistema,$ib_Contenga, $ib_origen, $file_out);
+        //$Respuesta=$InstanciaAjax->DescargarInfoBus($ib_FechaInicio,$ib_FechaTermino,$ib_Bus,$ib_Tipo,$ib_Sistema,$ib_Contenga, $ib_origen, $file_csv);
 
         $micarpeta  = $_SERVER['DOCUMENT_ROOT']."/Services/Json";
         $date       = date('d-m-Y-'.substr((string)microtime(), 1, 8));

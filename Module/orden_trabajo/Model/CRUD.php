@@ -758,6 +758,54 @@ class CRUD
 	    $this->conexion=null;	
 	}  	
 
+	function crear_orden_trabajo($not_ot_tipo, $ot_asociado, $not_bus, $ot_descrip, $not_novedad_id)
+	{
+		$ot_date_crea = date("Y-m-d H:i:s");
+		$ot_cgm_crea = $_SESSION['USUARIO_ID'];
+		$ot_usuario_genera = $_SESSION['Usua_NombreCorto'];;
+		$ot_estado = 'ABIERTO';
+		$ot_obs_aom = '<strong>'.$ot_estado.' '.$ot_date_crea.' '.$ot_usuario_genera.' GENERADA POR NOVEDAD '.$not_novedad_id.'</strong>';
+
+		$consulta = "INSERT INTO `manto_orden_trabajo` (`ot_tipo`, `ot_date_crea`, `ot_cgm_crea`, `ot_estado`, `ot_descrip`, `ot_asociado`, `ot_bus`, `ot_obs_aom`) VALUES ('$not_ot_tipo','$ot_date_crea', '$ot_cgm_crea', '$ot_estado', '$ot_descrip', '$ot_asociado', '$not_bus', '$ot_obs_aom') ";
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();
+		
+		$ot_id = $this->conexion->lastInsertId();
+		return $ot_id;
+
+	    $this->conexion=null;	
+	}
+
+	function vincular_orden_trabajo($ot_id, $ot_descrip, $ot_estado, $ot_obs_aom, $novedad_id)
+	{
+		$ot_date_crea = date("Y-m-d H:i:s");
+		$ot_usuario_genera = $_SESSION['Usua_NombreCorto'];
+		$ot_obs_aom_edt = '<strong>'.$ot_estado.' '.$ot_date_crea.' '.$ot_usuario_genera.' VINCULAR NOVEDAD '.$novedad_id.'</strong><br>'.$ot_obs_aom;
+
+		$consulta = " UPDATE `manto_orden_trabajo` SET `ot_descrip`='$ot_descrip', `ot_obs_aom`='$ot_obs_aom_edt' WHERE `ot_id`='$ot_id' ";
+		echo $consulta;
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();
+		
+	    $this->conexion=null;	
+	}
+
+	function vincular_novedad_ot($not_origen_novedad, $not_tipo_novedad, $not_novedad_id, $not_operacion, $not_bus, $not_ot_tipo, $not_ot_id)
+	{
+		$not_fecha_generacion = date("Y-m-d H:i:s");
+		$not_usuario_genera = $_SESSION['USUARIO_ID'];
+		$not_estado = 'GENERA OT';
+		$not_novedad_id = substr($not_novedad_id,3,15);
+		$not_procedencia = 'VINCULACION';
+		
+		$consulta = " INSERT INTO `manto_novedad_ot` (`not_fecha_generacion`, `not_usuario_genera`, `not_estado`, `not_ot_tipo`, `not_ot_id`, `not_origen_novedad`, `not_tipo_novedad`, `not_novedad_id`, `not_operacion`, `not_bus`, `not_procedencia`) VALUES	('$not_fecha_generacion', '$not_usuario_genera', '$not_estado', '$not_ot_tipo', '$not_ot_id', '$not_origen_novedad', '$not_tipo_novedad', '$not_novedad_id', '$not_operacion', '$not_bus', '$not_procedencia') ";
+
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();   
+
+	    $this->conexion=null;	
+	}  	
+
 	function genera_novedad_ot($not_origen_novedad, $not_tipo_novedad, $not_novedad_id, $not_operacion, $not_bus, $not_ot_tipo, $not_ot_id)
 	{
 		$not_fecha_generacion = date("Y-m-d H:i:s");

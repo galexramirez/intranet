@@ -1113,7 +1113,7 @@
 				    </div>
 				</div>  			
 
-				<!--Modal para CRUD GENERAR ORDE DE TRABAJO--------------------------------->
+				<!--Modal para CRUD GENERAR ORDEN DE TRABAJO--------------------------------->
 				<div class="row modal fade" id="modal_crud_genera_ot" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			    	<div class="modal-dialog" role="document">
 			        	<div class="modal-content">
@@ -1145,8 +1145,48 @@
 			      		    	    </div>
 								</div>
 			      		    	<div class="modal-footer">
-			      		        	<button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
-			      		        	<button type="submit" id="btn_genera_ot" class="btn btn-dark">Generar</button>
+			      		        	<button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Cancelar</button>
+			      		        	<button type="submit" id="btn_genera_ot" class="btn btn-sm btn-dark">Generar</button>
+			      		    	</div>
+			      			</form>    
+			        	</div>
+			    	</div>
+				</div>  			
+
+				<!--Modal para CRUD VINCULAR ORDEN DE TRABAJO-------------------------------->
+				<div class="row modal fade" id="modal_crud_vincular_ot" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			    	<div class="modal-dialog" role="document">
+			        	<div class="modal-content">
+						    <div class="modal-header">
+				                <h5 class="modal-title" id="exampleModalLabel"></h5>
+				                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+				                </button>
+			    	        </div>
+						  	<form id="form_vincular_ot">
+				      		    <div class="modal-body">
+				      		        <div class="row">
+										<div class="col-lg-12">
+						                  	<div class="form-group">
+						                   		<label for="vot_ot_tipo" class="col-form-label form-control-sm">TIPO ORDEN DE TRABAJO</label>
+						                   		<select class="form-control form-control-sm" id="vot_ot_tipo">
+												</select>
+				  		                	</div>
+			      		            	</div>
+			      		    	    </div>
+			      		        	<div class="row"> 
+										<div class="col-lg-12">
+					  		                <div class="form-group">
+							                	<label for="vot_ot_id" class="col-form-label form-control-sm">ORDEN DE TRABAJO</label>
+												<select class="form-control form-control-sm" id="vot_ot_id">
+
+												</select>
+				  			                </div> 
+			      		        		</div>
+			      		    	    </div>
+								</div>
+			      		    	<div class="modal-footer">
+			      		        	<button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Cancelar</button>
+			      		        	<button type="submit" id="btn_vincular_novedad_ot" class="btn btn-sm btn-dark">Vincular</button>
 			      		    	</div>
 			      			</form>    
 			        	</div>

@@ -61,7 +61,7 @@ $(document).ready(function(){
                 url         : "Ajax.php",
                 type        : "POST",
                 datatype    : "json",    
-                data        : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, not_ot_tipo:got_ot_tipo, ot_asociado:got_asociado, not_origen_novedad:origen_novedad, not_tipo_novedad:tipo_novedad, not_novedad_id:novedad_id,not_operacion:tipo_operacion, not_bus:nro_bus},    
+                data        : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, not_ot_tipo:got_ot_tipo, ot_asociado:got_asociado, not_origen_novedad:origen_novedad, not_tipo_novedad:tipo_novedad, not_novedad_id:novedad_id,not_operacion:tipo_operacion, not_bus:nro_bus, ot_descrip:accion_ot},    
                 success     : function(data) {
                     tabla_novedades.ajax.reload(null, false);
                     div_show = f_MostrarDiv("form_seleccion_novedades", "btn_seleccion_novedades", "inicio", "inicio");
@@ -72,7 +72,7 @@ $(document).ready(function(){
             $("#btn_genera_ot").prop("disabled",false);
         }
   });
-  ///:: FIN CREAR NOVEDAD REGULAR :::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+  ///:: FIN CREAR NOVEDAD REGULAR :::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 
     ///:: TERMINO BOTONES DE NOVEDADES REGULAR ::::::::::::::::::::::::::::::::::::::::::::///

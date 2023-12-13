@@ -1,6 +1,6 @@
 CREATE TABLE `BDLIMABUS`.`manto_orden_trabajo` (
   `ot_id` int NOT NULL AUTO_INCREMENT,
-  `cod_ot` int NOT NULL,
+  `cod_ot` int NOT NULL DEFAULT 0,
   `ot_tipo` varchar(45) NOT NULL,
   `ot_origen` varchar(100) NOT NULL,
   `ot_bus` varchar(11) NOT NULL,

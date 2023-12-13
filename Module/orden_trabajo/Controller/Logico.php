@@ -1135,8 +1135,85 @@ class Logico
         echo $rpta_cierre_semanal;
     }
 
-    public function crear_orden_trabajo($not_ot_tipo, $ot_asociado, $not_origen_novedad, $not_tipo_novedad, $not_novedad_id, $not_operacion, $not_bus)
+    public function crear_orden_trabajo($not_ot_tipo, $ot_asociado, $not_origen_novedad, $not_tipo_novedad, $not_novedad_id, $not_operacion, $not_bus, $ot_descrip)
     {
+        MModel($this->Modulo,'CRUD');
+        $InstanciaAjax  = new CRUD();
+        $Respuesta = $InstanciaAjax->crear_orden_trabajo($not_ot_tipo, $ot_asociado, $not_bus, $ot_descrip, $not_novedad_id);
+
+        $not_ot_id = $Respuesta;
+
+        MModel($this->Modulo,'CRUD');
+        $InstanciaAjax  = new CRUD();
+        $Respuesta = $InstanciaAjax->genera_novedad_ot($not_origen_novedad, $not_tipo_novedad, $not_novedad_id, $not_operacion, $not_bus, $not_ot_tipo, $not_ot_id);
+
+    }
+
+    public function validar_novedades_vincular_ot($a_data)
+    {
+        $rpta_validar = "";
+        $rpta_vacios = "";
+        $rpta_ot = "";
+        $valores_bus = array_column($a_data, 'bus');
+        $valores_unicos = array_unique($valores_bus);
+        if(count($valores_unicos)>1){
+            $rpta_validar = "Revisar buses diferentes. ";
+        }
+        foreach ($a_data as $row){
+            if( empty($row['componente']) || empty($row['posicion']) || empty($row['falla']) || empty($row['accion']) ){
+               $rpta_vacios = 'vacios'; 
+            }
+            if( $row['ot_id']!==null){
+                $rpta_ot = 'existe'; 
+            }
+        }
+        if($rpta_vacios==="vacios"){
+            $rpta_validar .= "Revisar campos vacios. ";
+        }
+        if($rpta_ot==="existe"){
+            $rpta_validar .= "Revisar novedades ya vinculadas. ";
+        }
+        echo $rpta_validar;
+    }
+
+    public function vincular_orden_trabajo($ot_tipo, $ot_id, $a_data)
+    {
+        $novedad_id = "";
+        $ot_descrip_edt = "";
+        $ot_obs_aom = "";
+        $ot_estado = "";
+
+        foreach ($a_data as $row){
+            if($novedad_id===""){
+                $novedad_id = $row['id'];
+            }else{
+                $novedad_id .= " , ".$row['id'];
+            }
+            if($ot_descrip_edt===""){
+                $ot_descrip_edt = $row['ot_accion'];
+            }else{
+                $ot_descrip_edt .= " ".$row['ot_accion'];
+            }
+            MModel($this->Modulo,'CRUD');
+            $InstanciaAjax = new CRUD();
+            $Respuesta = $InstanciaAjax->vincular_novedad_ot($row['origen'], $row['tipo_novedad'], $row['id'], $row['operacion'], $row['bus'], $ot_tipo, $ot_id);
+        }
+
+        MModel($this->Modulo,'CRUD');
+        $InstanciaAjax = new CRUD();
+        $Respuesta = $InstanciaAjax->BuscarDataBD("manto_orden_trabajo","ot_id",$ot_id);
+
+        foreach ($Respuesta as $row){
+            $ot_obs_aom = $row['ot_obs_aom'];
+            $ot_estado = $row['ot_estado'];
+            $ot_descrip = $row['ot_descrip'];
+        }
+
+        $ot_descrip = $ot_descrip." ".$ot_descrip_edt;
         
+        MModel($this->Modulo,'CRUD');
+        $InstanciaAjax = new CRUD();
+        $Respuesta = $InstanciaAjax->vincular_orden_trabajo($ot_id, $ot_descrip, $ot_estado, $ot_obs_aom, $novedad_id);
+
     }
 }

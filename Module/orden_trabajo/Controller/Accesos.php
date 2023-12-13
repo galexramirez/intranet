@@ -492,19 +492,19 @@ class Accesos
 						MModel($this->Modulo, 'CRUD');
 						$InstanciaAjax= new CRUD();
 						$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'btn_agregar_ot');
-						if ($Respuesta=="SI" && $Dato1=="" && $Dato2!==""){
+						if ($Respuesta=="SI" && $Dato1=="PENDIENTE" && $Dato2!==""){
 							$Mostrar_div .= '<button type="button" id="btn_agregar_ot" class="btn btn-secondary btn-sm btn_agregar_ot ml-1">+ OT</button>';
 						}
 						MModel($this->Modulo, 'CRUD');
 						$InstanciaAjax= new CRUD();
 						$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'btn_no_genera_ot');
-						if ($Respuesta=="SI" && $Dato1=="" && $Dato2!==""){
+						if ($Respuesta=="SI" && $Dato1=="PENDIENTE" && $Dato2!==""){
 							$Mostrar_div .= '<button type="button" id="btn_no_genera_ot" class="btn btn-secondary btn-sm btn_no_genera_ot ml-1">- OT</button>';
 						}
 						MModel($this->Modulo, 'CRUD');
 						$InstanciaAjax= new CRUD();
 						$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'btn_vincular_ot');
-						if ($Respuesta=="SI" && $Dato1=="multiple"){
+						if ($Respuesta=="SI" && $Dato1!=="inicio"){
 							$Mostrar_div .= '<button type="button" id="btn_vincular_ot" class="btn btn-secondary btn-sm btn_vincular_ot ml-1">Vincular</button>';
 						}
 					break;

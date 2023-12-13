@@ -4,7 +4,7 @@
 ///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///:: DECLARACION DE VARIABLES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-var tabla_novedades, fecha_inicio_novedades, fecha_termino_novedades, fila_novedades, novedad_id, tipo_operacion, bus_tipo, tipo_novedad, origen_novedad, filas_seleccionadas, nro_bus;
+var tabla_novedades, fecha_inicio_novedades, fecha_termino_novedades, fila_novedades, novedad_id, tipo_operacion, bus_tipo, tipo_novedad, origen_novedad, filas_seleccionadas, nro_bus, accion_ot;
 fecha_inicio_novedades   = "";
 fecha_termino_novedades  = "";
 
@@ -29,7 +29,7 @@ $(document).ready(function(){
 
     ///:: Selecciona las filas a editar :::::::::::::::::::::::::::::::::::::::::::::::::::///
     $(document).on("click", "tr",".tabla_novedad_regular tbody", function(){		
-        let ot_id = "inicio";
+        let ot_estado = "inicio_seleccion";
         let componente = "inicio";
         
         fila_novedades = $(this).closest("tr");
@@ -40,26 +40,21 @@ $(document).ready(function(){
         tipo_novedad = "";
         origen_novedad = "";
         nro_bus = "";
+        accion_ot = "";
 
-        if (fila_novedades.hasClass('selected')) {
-            filas_seleccionadas.push(fila_novedades);
-        } else {
-            let index = filas_seleccionadas.indexOf(fila_novedades);
-            if (index > -1) {
-                filas_seleccionadas.splice(index, 1);
-            }
-        }
         if(tabla_novedades.rows('.selected').data().length===1){
             novedad_id     = fila_novedades.find('td:eq(0)').text();
             origen_novedad = fila_novedades.find('td:eq(3)').text();
             tipo_novedad   = fila_novedades.find('td:eq(4)').text();
+            accion_ot      = fila_novedades.find('td:eq(6)').text();
             tipo_operacion = fila_novedades.find('td:eq(7)').text();
             nro_bus        = fila_novedades.find('td:eq(8)').text();
             componente     = fila_novedades.find('td:eq(9)').text();
-            ot_id          = fila_novedades.find('td:eq(13)').text();
+            ot_estado      = fila_novedades.find('td:eq(14)').text();
         }
-        if(tabla_novedades.rows('.selected').data().length>1){
-            ot_id = "multiple";
+        filas_seleccionadas = tabla_novedades.rows('.selected').data().toArray();
+        if(tabla_novedades.rows('.selected').data().length===0){
+            ot_estado = "inicio";
         }
         if(tipo_operacion=="TRONCAL"){
             bus_tipo = "ARTICULADO";
@@ -67,7 +62,8 @@ $(document).ready(function(){
         if(tipo_operacion=="ALIMENTADOR"){
             bus_tipo = "ALIMENTADOR";
         }
-        div_show = f_MostrarDiv("form_seleccion_novedades", "btn_seleccion_novedades", ot_id, componente);
+        console.log(ot_estado);
+        div_show = f_MostrarDiv("form_seleccion_novedades", "btn_seleccion_novedades", ot_estado, componente);
         $("#div_btn_seleccion_novedades").html(div_show);
     });
 
