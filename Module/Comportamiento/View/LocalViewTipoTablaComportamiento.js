@@ -107,7 +107,7 @@ $(document).ready(function(){
     ///:: FIN BOTON EDITAR AJUSTES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
     ///:: CREA Y EDITA AJUSTES DE COMPORTAMIENTO ::::::::::::::::::::::::::::::::::::::::::///
-    $('#formTipoTablaComportamiento').submit(function(e){                         
+    $('#formTipoTablaComportamiento').submit(function(e){
         e.preventDefault();
         let validacionTablaComportamiento = "";
         TtablaComportamiento_Id = $.trim($('#TtablaComportamiento_Id').val());    
@@ -121,17 +121,18 @@ $(document).ready(function(){
         if(opcion_ajustes == "CREAR") {
             Accion='CrearTipoTablaComportamiento';
         }
-        if(opcion_ajustes == 2) {
+        if(opcion_ajustes == "EDITAR") {
             Accion='EditarTipoTablaComportamiento';
         }
-        
+
         if(validacionTablaComportamiento!="invalido") {
             $("#btnGuardarTipoTablaComportamiento").prop("disabled",true);
             $.ajax({
-                url: "Ajax.php",
-                type: "POST",
-                datatype:"json",    
-                data:  { MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,TtablaComportamiento_Id:TtablaComportamiento_Id,TtablaComportamiento_Tipo:TtablaComportamiento_Tipo,TtablaComportamiento_Operacion:TtablaComportamiento_Operacion,TtablaComportamiento_Detalle:TtablaComportamiento_Detalle },    
+                url     : "Ajax.php",
+                type    : "POST",
+                datatype: "json",
+                async   : false,    
+                data    : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, TtablaComportamiento_Id:TtablaComportamiento_Id, TtablaComportamiento_Tipo:TtablaComportamiento_Tipo, TtablaComportamiento_Operacion:TtablaComportamiento_Operacion, TtablaComportamiento_Detalle:TtablaComportamiento_Detalle },    
                 success: function(data) {
                     tablaTipoTablaComportamiento.ajax.reload(null, false);
                 }

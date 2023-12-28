@@ -233,13 +233,14 @@ $(document).ready(function(){
               success: function(data){
                 //window.location.href = miCarpeta + "Module/InfoBus/Controller/Excel_Descarga.php?Archivo=" + data + "&Tipo=" + ib_Tipo;
                 window.location.href = miCarpeta + "Module/InfoBus/Controller/csv_Descarga.php?Archivo=" + data + "&Tipo=" + ib_Tipo;
+              }
+          });
                 /*data = "alex.csv";
                 let link = document.createElement('a');
                 link.href = miCarpeta + 'reportes/' + data;
                 link.download = data;
                 link.click();*/
-              }
-          });
+
         }
       }
     });

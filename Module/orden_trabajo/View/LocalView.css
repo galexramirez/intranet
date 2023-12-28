@@ -29,6 +29,11 @@ input{
     font-size: 11px
 }
 
+.filters_origen th{
+    padding:0px !important;
+    font-size: 11px
+}
+
 th{
     font-size: 11px;
     font-weight: 500;
@@ -133,6 +138,11 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
     color:white;
 }
 
+#tabla_origen thead {
+    background: #2A4C38;
+    color:white;
+}
+
 /* tamaño de texto de tablas*/
 
 #tablaOT{
@@ -176,6 +186,10 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
 }
 
 #tabla_tc_ot_sistema {
+    font-size: 12px;
+}
+
+#tabla_origen {
     font-size: 12px;
 }
 

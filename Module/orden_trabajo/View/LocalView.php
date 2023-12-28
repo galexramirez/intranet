@@ -1024,7 +1024,7 @@
 				    </div>
 				</div>  			
 
-				<!--Modal para CRUD CODIFICAR NOVEDAD OPERACION------------------------------>
+				<!--Modal para CRUD ARBORIZAR NOVEDAD OPERACION------------------------------>
 				<div class="row modal fade" id="modal_crud_codificar_novedad" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				    <div class="modal-dialog modal-lg" role="document">
 				        <div class="modal-content">
@@ -1038,6 +1038,22 @@
 
 						  	<form id="form_codificar_novedad" enctype="multipart/form-data" action="" method="post">    
 				      		    <div class="modal-body">
+								  	<div class="row d-flex justify-content-araound">
+										<div class="col-lg-12">
+											<div class="row">
+												<div class="col-lg-2">
+			      						    		<div class="form-group form-control-sm">
+			      						    			<label for="nope_descripcion" class="col-form-label form-control-sm">DESCRIPCION:</label>
+			      						    		</div>
+												</div>
+												<div class="col-lg-10">
+													<div class="form-group shadow-textarea">
+						      				            <textarea readonly class="form-control z-depth-1 text-uppercase" id="nope_descripcion" rows="2" maxlength="250"></textarea>
+						      				        </div>
+												</div>
+											</div>
+			      						</div>
+									</div>
 									<div class="row d-flex justify-content-araound">
 										<div class="col-lg-12">
 											<div class="row">
@@ -1105,7 +1121,7 @@
 				      		    </div>
 				      		    <div class="modal-footer">
 				      		        <button type="button" class="btn btn-light btn-sm" data-dismiss="modal">Cancelar</button>
-				      		        <button type="submit" id="btn_codificar_novedad" class="btn btn-dark btn-sm btn_codificar_novedad">Codificar</button>
+				      		        <button type="submit" id="btn_codificar_novedad" class="btn btn-dark btn-sm btn_codificar_novedad">Arborizar</button>
 				      		    </div>
 				      		</form>    
 
@@ -1334,6 +1350,67 @@
 							</div>
 						</div>  
 					</div>
+					<!------------------------------------------------------------------------------->
+					<!-- TAB AJUSTE ORIGEN ---------------------------------------------------------->
+					<!------------------------------------------------------------------------------->
+					<div class="tab-pane fade" id="nav-ajustes_ot_origen" role="tabpanel" aria-labelledby="nav-ajustes_ot_origen-tab">
+						<section class="container-fluid py-3">
+							<button id="btn_nuevo_origen" type="button" class="btn btn-secondary btn-sm btn_nuevo_origen" data-toggle="modal">+ Nuevo</button>  
+						</section>
+						<div class="row p-3">
+							<div class="col-auto m-0">
+								<div class="table-responsive" id="div_tabla_origen">
+								</div>
+							</div>
+						</div>
+						<!--Modal para CRUD-->
+						<div class="row modal fade" id="modal_crud_origen" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel"></h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+
+					  				<form id="form_origen">
+						  				<div class="modal-body">
+											<div class="row">
+												<div class="col-lg-6">
+													<div class="form-group">
+												  		<label for="ot_origen_id" class="col-form-label form-control-sm">ID</label>
+												   		<input type="text" readonly class="form-control form-control-sm" id="ot_origen_id">
+												 	</div>
+											 	</div>
+											 	<div class="col-lg-6">
+											  		<div class="form-group">
+														<label for="or_tipo_ot" class="col-form-label form-control-sm">TIPO O.T.</label>
+												   		<select class="form-control form-control-sm" id="or_tipo_ot">
+
+														</select>
+													</div> 
+											 	</div>    
+											</div>
+											<div class="row">
+												<div class="col-lg-12">
+													<label for="or_nombre" class="col-form-label form-control-sm">ORIGEN</label>
+												   	<input type="text" class="form-control form-control-sm" id="or_nombre" maxlength="500">
+												</div>
+											</div>
+										</div>
+						  				<div class="modal-footer">
+							  				<button type="button" class="btn btn-light btn-sm" data-dismiss="modal">Cancelar</button>
+							  				<button type="submit" id="btn_guardar_origen" class="btn btn-dark btn-sm">Guardar</button>
+						  				</div>
+					  				</form>    
+								</div>
+							</div>
+						</div>  			
+
+					</div>
+
 				</div>
 			</div>
 

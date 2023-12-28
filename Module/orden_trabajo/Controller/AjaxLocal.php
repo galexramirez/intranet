@@ -575,5 +575,39 @@ switch ($Accion)
       $Respuesta     = $InstanciaAjax->borrar_tc_ot_sistema($tc_ot_id);
    break;
 
+   case 'leer_origen':
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta = $InstanciaAjax->leer_origen();
+   break;
+
+   case 'crear_origen':
+      $ot_origen_id = $_POST['ot_origen_id'];
+      $or_nombre = $_POST['or_nombre'];
+      $or_tipo_ot = $_POST['or_tipo_ot'];
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta = $InstanciaAjax->crear_origen($ot_origen_id, $or_nombre, $or_tipo_ot);
+   break;
+
+   case 'editar_origen':
+      $ot_origen_id = $_POST['ot_origen_id'];
+      $or_nombre = $_POST['or_nombre'];
+      $or_tipo_ot = $_POST['or_tipo_ot'];
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta = $InstanciaAjax->editar_origen($ot_origen_id, $or_nombre, $or_tipo_ot);
+   break;
+
+   case 'borrar_origen':
+      $ot_origen_id = $_POST['ot_origen_id'];
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta = $InstanciaAjax->borrar_origen($ot_origen_id);
+   break;
+
    default: header('Location: /inicio');
 }

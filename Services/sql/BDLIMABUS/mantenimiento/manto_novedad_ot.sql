@@ -10,6 +10,5 @@ CREATE TABLE IF NOT EXISTS `BDLIMABUS`.`manto_novedad_ot` (
   `not_novedad_id` VARCHAR(45) NULL,
   `not_operacion` VARCHAR(45) NULL,
   `not_bus` VARCHAR(45) NULL,
-  `not_procedencia` VARCHAR(45) NULL,
   PRIMARY KEY (`novedad_ot_id`))
 ENGINE = InnoDB;

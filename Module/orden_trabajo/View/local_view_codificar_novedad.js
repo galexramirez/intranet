@@ -127,20 +127,31 @@ $(document).ready(function(){
     f_limpia_codificar_novedad();
     f_select_combos_codificar_novedad();
     $("#form_codificar_novedad").trigger("reset");
+    let nope_novedad_id = novedad_id.substring(3, 18);
+    let nope_descripcion = f_buscar_dato("OPE_Novedad","Nove_Descripcion","`Novedad_Id`='"+nope_novedad_id+"'");
     
     nope_componente=""; 
     nope_posicion=""; 
     nope_falla=""; 
     nope_accion="";
+
+    $("#nope_posicion").prop("disabled",false);
+    $("#nope_falla").prop("disabled",false);
+    $("#nope_accion").prop("disabled",false);
+
     $("#nope_componente").val(nope_componente); 
     $("#nope_posicion").val(nope_posicion);
     $("#nope_falla").val(nope_falla);
     $("#nope_accion").val(nope_accion);
+    $("#nope_descripcion").val(nope_descripcion);
 
     $(".modal-header").css( "background-color", "#17a2b8");
     $(".modal-header").css( "color", "white" );
-    $(".modal-title").text("Codificar Novedad");
+    $(".modal-title").text("Arborizar Novedad");
     $('#modal_crud_codificar_novedad').modal('show');
+    $('#modal_crud_codificar_novedad').modal('show');
+    $("#modal_crud_codificar_novedad").draggable({});
+
   });
   ///:: FIN BOTON NUEVO :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 

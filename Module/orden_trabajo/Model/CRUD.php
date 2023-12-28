@@ -536,8 +536,7 @@ class CRUD
 							`colaborador`.`Colab_nombre_corto` AS `nombres_usuario_genera`,
 							'NOVEDAD OPERACIONES' AS `origen`,
 							`OPE_Novedad`.`Nove_TipoNovedad` AS `tipo_novedad`,
-							`OPE_Novedad`.`Nove_Descripcion` AS `descripcion`,
-							CONCAT(`manto_novedad_operacion`.`nope_componente`,'-',`manto_novedad_operacion`.`nope_posicion`,'-',`manto_novedad_operacion`.`nope_falla`,'-',`manto_novedad_operacion`.`nope_accion`) AS `ot_accion`,
+							CONCAT(`manto_novedad_operacion`.`nope_accion`,'-',`manto_novedad_operacion`.`nope_componente`,'-',`manto_novedad_operacion`.`nope_posicion`,'-',`manto_novedad_operacion`.`nope_falla`) AS `ot_accion`,
 							`OPE_Novedad`.`Nove_Operacion` AS `operacion`,
 							`OPE_Novedad`.`Nove_Bus` AS `bus`,
 							`manto_novedad_operacion`.`nope_componente` AS `componente`,
@@ -545,8 +544,7 @@ class CRUD
 							`manto_novedad_operacion`.`nope_falla` AS `falla`,
 							`manto_novedad_operacion`.`nope_accion` AS `accion`,
 							CONCAT(SUBSTRING(`manto_novedad_ot`.`not_ot_tipo`,1,1),'-',`manto_novedad_ot`.`not_ot_id`) AS `ot_id`,
-							IF(`manto_novedad_ot`.`not_estado` IS NULL,'PENDIENTE',`manto_novedad_ot`.`not_estado`) AS `ot_estado`,
-							`manto_novedad_ot`.`not_procedencia` AS `procedencia`
+							IF(`manto_novedad_ot`.`not_estado` IS NULL,'PENDIENTE',`manto_novedad_ot`.`not_estado`) AS `ot_estado`
 						FROM 
 							`OPE_Novedad`
 						LEFT JOIN
@@ -574,8 +572,7 @@ class CRUD
 							`colaborador`.`Colab_nombre_corto` AS `nombres_usuario_genera`,
 							'INFORME PRELIMINAR' AS `origen`,
 							`OPE_AccidentesInformePreliminar`.`Acci_TipoAccidente` AS `tipo_novedad`,
-							`OPE_AccidentesInformePreliminar`.`Acci_Descripcion` AS `descripcion`,
-							CONCAT(`manto_novedad_operacion`.`nope_componente`,'-',`manto_novedad_operacion`.`nope_posicion`,'-',`manto_novedad_operacion`.`nope_falla`,'-',`manto_novedad_operacion`.`nope_accion`) AS `ot_accion`,
+							CONCAT(`manto_novedad_operacion`.`nope_accion`,'-',`manto_novedad_operacion`.`nope_componente`,'-',`manto_novedad_operacion`.`nope_posicion`,'-',`manto_novedad_operacion`.`nope_falla`) AS `ot_accion`,
 							`OPE_AccidentesInformePreliminar`.`Acci_Operacion` AS `operacion`,
 							`OPE_AccidentesInformePreliminar`.`Acci_Bus` AS `bus`,
 							`manto_novedad_operacion`.`nope_componente` AS `componente`,
@@ -583,8 +580,7 @@ class CRUD
 							`manto_novedad_operacion`.`nope_falla` AS `falla`,
 							`manto_novedad_operacion`.`nope_accion` AS `accion`,
 							CONCAT(SUBSTRING(`manto_novedad_ot`.`not_ot_tipo`,1,1),'-',`manto_novedad_ot`.`not_ot_id`) AS `ot_id`,
-							IF(`manto_novedad_ot`.`not_estado` IS NULL,'PENDIENTE',`manto_novedad_ot`.`not_estado`) AS `ot_estado`,
-							`manto_novedad_ot`.`not_procedencia` AS `procedencia`
+							IF(`manto_novedad_ot`.`not_estado` IS NULL,'PENDIENTE',`manto_novedad_ot`.`not_estado`) AS `ot_estado`
 						FROM 
 							`OPE_AccidentesInformePreliminar`
 						LEFT JOIN
@@ -616,8 +612,7 @@ class CRUD
 						    `colaborador`.`Colab_nombre_corto` AS `nombres_usuario_genera`,
 						    'INSPECCION MANTENIMIENTO' AS `origen`,
 						    'INSPECCION FLOTA' AS `tipo_novedad`,
-						    CONCAT(`manto_inspeccion_movimiento`.`insp_codigo`,'-',`manto_inspeccion_movimiento`.`insp_descripcion`) AS `descripcion`,
-						    CONCAT(`manto_inspeccion_movimiento`.`insp_componente`,'-',`manto_inspeccion_movimiento`.`insp_posicion`,'-',`manto_inspeccion_movimiento`.`insp_falla`,'-',`manto_inspeccion_movimiento`.`insp_accion`) AS `ot_accion`,
+						    CONCAT(`manto_inspeccion_movimiento`.`insp_accion`,'-',`manto_inspeccion_movimiento`.`insp_componente`,'-',`manto_inspeccion_movimiento`.`insp_posicion`,'-',`manto_inspeccion_movimiento`.`insp_falla`) AS `ot_accion`,
 							`Buses`.`Bus_Operacion` AS `operacion`,
 						    `manto_inspeccion_movimiento`.`insp_bus` AS `bus`,
 						    `manto_inspeccion_movimiento`.`insp_componente` AS `componente`,
@@ -625,8 +620,7 @@ class CRUD
 						    `manto_inspeccion_movimiento`.`insp_falla` AS `falla`,
 						    `manto_inspeccion_movimiento`.`insp_accion` AS `accion`,
 							CONCAT(SUBSTRING(`manto_novedad_ot`.`not_ot_tipo`,1,1),'-',`manto_novedad_ot`.`not_ot_id`) AS `ot_id`,
-							IF(`manto_novedad_ot`.`not_estado` IS NULL,'PENDIENTE',`manto_novedad_ot`.`not_estado`) AS `ot_estado`,
-							`manto_novedad_ot`.`not_procedencia` AS `procedencia`
+							IF(`manto_novedad_ot`.`not_estado` IS NULL,'PENDIENTE',`manto_novedad_ot`.`not_estado`) AS `ot_estado`
 						FROM 
 							`manto_inspeccion_movimiento`
 						LEFT JOIN 
@@ -653,8 +647,7 @@ class CRUD
 							`colaborador`.`Colab_nombre_corto` AS `nombres_usuario_genera`,
 							'INSPECCION OPERACIONES' AS `origen`,
 							'CHECK LIST' AS `tipo_novedad`,
-							CONCAT(`manto_check_list_observaciones`.`chl_codigo`,'-',`manto_check_list_observaciones`.`chl_descripcion`) AS `descripcion`,
-							CONCAT(`manto_check_list_observaciones`.`chl_componente`,'-',`manto_check_list_observaciones`.`chl_posicion`,'-',`manto_check_list_observaciones`.`chl_falla`,'-',`manto_check_list_observaciones`.`chl_accion` ) AS `ot_accion`,
+							CONCAT(`manto_check_list_observaciones`.`chl_accion`,'-',`manto_check_list_observaciones`.`chl_componente`,'-',`manto_check_list_observaciones`.`chl_posicion`,'-',`manto_check_list_observaciones`.`chl_falla`) AS `ot_accion`,
     						`Buses`.`Bus_Operacion` AS `operacion`,
     						`manto_check_list_registro`.`chl_bus` AS `bus`,
 							`manto_check_list_observaciones`.`chl_componente` AS `componente`,
@@ -662,8 +655,7 @@ class CRUD
     						`manto_check_list_observaciones`.`chl_falla` AS `falla`,
     						`manto_check_list_observaciones`.`chl_accion` AS `accion`,
 							CONCAT(SUBSTRING(`manto_novedad_ot`.`not_ot_tipo`,1,1),'-',`manto_novedad_ot`.`not_ot_id`) AS `ot_id`,
-							IF(`manto_novedad_ot`.`not_estado` IS NULL,'PENDIENTE',`manto_novedad_ot`.`not_estado`) AS `ot_estado`,
-							`manto_novedad_ot`.`not_procedencia` AS `procedencia`
+							IF(`manto_novedad_ot`.`not_estado` IS NULL,'PENDIENTE',`manto_novedad_ot`.`not_estado`) AS `ot_estado`
 						FROM 
 							`manto_check_list_registro`
 						RIGHT JOIN
@@ -694,8 +686,7 @@ class CRUD
     						`colaborador`.`Colab_nombre_corto` AS `nombres_usuario_genera`,
     						`manto_novedad_regular`.`nreg_origen` AS `origen`,
     						`manto_novedad_regular`.`nreg_tipo` AS `tipo_novedad`,
-    						`manto_novedad_regular`.`nreg_descripcion` AS `descripcion`, 
-							CONCAT(`manto_novedad_regular`.`nreg_componente`,'-',`manto_novedad_regular`.`nreg_posicion`,'-',`manto_novedad_regular`.`nreg_falla`,'-',`manto_novedad_regular`.`nreg_accion`) AS `ot_accion`,
+							CONCAT(`manto_novedad_regular`.`nreg_accion`,'-',`manto_novedad_regular`.`nreg_componente`,'-',`manto_novedad_regular`.`nreg_posicion`,'-',`manto_novedad_regular`.`nreg_falla`) AS `ot_accion`,
     						`manto_novedad_regular`.`nreg_operacion` AS `operacion`,
     						`manto_novedad_regular`.`nreg_bus` AS `bus`,
     						`manto_novedad_regular`.`nreg_componente` AS `componente`,
@@ -703,8 +694,7 @@ class CRUD
     						`manto_novedad_regular`.`nreg_falla` AS `falla`,
     						`manto_novedad_regular`.`nreg_accion` AS `accion`,
 							CONCAT(SUBSTRING(`manto_novedad_ot`.`not_ot_tipo`,1,1),'-',`manto_novedad_ot`.`not_ot_id`) AS `ot_id`,
-							IF(`manto_novedad_ot`.`not_estado` IS NULL,'PENDIENTE',`manto_novedad_ot`.`not_estado`) AS `ot_estado`,
-							`manto_novedad_ot`.`not_procedencia` AS `procedencia`
+							IF(`manto_novedad_ot`.`not_estado` IS NULL,'PENDIENTE',`manto_novedad_ot`.`not_estado`) AS `ot_estado`
 						FROM 
 							`manto_novedad_regular`
 						LEFT JOIN 
@@ -783,7 +773,6 @@ class CRUD
 		$ot_obs_aom_edt = '<strong>'.$ot_estado.' '.$ot_date_crea.' '.$ot_usuario_genera.' VINCULAR NOVEDAD '.$novedad_id.'</strong><br>'.$ot_obs_aom;
 
 		$consulta = " UPDATE `manto_orden_trabajo` SET `ot_descrip`='$ot_descrip', `ot_obs_aom`='$ot_obs_aom_edt' WHERE `ot_id`='$ot_id' ";
-		echo $consulta;
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();
 		
@@ -794,11 +783,10 @@ class CRUD
 	{
 		$not_fecha_generacion = date("Y-m-d H:i:s");
 		$not_usuario_genera = $_SESSION['USUARIO_ID'];
-		$not_estado = 'GENERA OT';
+		$not_estado = 'VINCULADO';
 		$not_novedad_id = substr($not_novedad_id,3,15);
-		$not_procedencia = 'VINCULACION';
 		
-		$consulta = " INSERT INTO `manto_novedad_ot` (`not_fecha_generacion`, `not_usuario_genera`, `not_estado`, `not_ot_tipo`, `not_ot_id`, `not_origen_novedad`, `not_tipo_novedad`, `not_novedad_id`, `not_operacion`, `not_bus`, `not_procedencia`) VALUES	('$not_fecha_generacion', '$not_usuario_genera', '$not_estado', '$not_ot_tipo', '$not_ot_id', '$not_origen_novedad', '$not_tipo_novedad', '$not_novedad_id', '$not_operacion', '$not_bus', '$not_procedencia') ";
+		$consulta = " INSERT INTO `manto_novedad_ot` (`not_fecha_generacion`, `not_usuario_genera`, `not_estado`, `not_ot_tipo`, `not_ot_id`, `not_origen_novedad`, `not_tipo_novedad`, `not_novedad_id`, `not_operacion`, `not_bus`) VALUES	('$not_fecha_generacion', '$not_usuario_genera', '$not_estado', '$not_ot_tipo', '$not_ot_id', '$not_origen_novedad', '$not_tipo_novedad', '$not_novedad_id', '$not_operacion', '$not_bus') ";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();   
@@ -810,11 +798,10 @@ class CRUD
 	{
 		$not_fecha_generacion = date("Y-m-d H:i:s");
 		$not_usuario_genera = $_SESSION['USUARIO_ID'];
-		$not_estado = 'GENERA OT';
+		$not_estado = 'GENERARADO';
 		$not_novedad_id = substr($not_novedad_id,3,15);
-		$not_procedencia = 'CREACION';
 		
-		$consulta = " INSERT INTO `manto_novedad_ot` (`not_fecha_generacion`, `not_usuario_genera`, `not_estado`, `not_ot_tipo`, `not_ot_id`, `not_origen_novedad`, `not_tipo_novedad`, `not_novedad_id`, `not_operacion`, `not_bus`, `not_procedencia`) VALUES	('$not_fecha_generacion', '$not_usuario_genera', '$not_estado', '$not_ot_tipo', '$not_ot_id', '$not_origen_novedad', '$not_tipo_novedad', '$not_novedad_id', '$not_operacion', '$not_bus', '$not_procedencia') ";
+		$consulta = " INSERT INTO `manto_novedad_ot` (`not_fecha_generacion`, `not_usuario_genera`, `not_estado`, `not_ot_tipo`, `not_ot_id`, `not_origen_novedad`, `not_tipo_novedad`, `not_novedad_id`, `not_operacion`, `not_bus`) VALUES	('$not_fecha_generacion', '$not_usuario_genera', '$not_estado', '$not_ot_tipo', '$not_ot_id', '$not_origen_novedad', '$not_tipo_novedad', '$not_novedad_id', '$not_operacion', '$not_bus') ";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();   
@@ -826,13 +813,12 @@ class CRUD
 	{
 		$not_fecha_generacion = date("Y-m-d H:i:s");
 		$not_usuario_genera = $_SESSION['USUARIO_ID'];
-		$not_estado = 'NO GENERA OT';
+		$not_estado = 'NO GENERADO';
 		$not_ot_tipo = 'NO_OT';
 		$not_ot_id = '0';
 		$not_novedad_id = substr($not_novedad_id,3,15);
-		$not_procedencia = 'CREACION';
 		
-		$consulta = " INSERT INTO `manto_novedad_ot` (`not_fecha_generacion`, `not_usuario_genera`, `not_estado`, `not_ot_tipo`, `not_ot_id`, `not_origen_novedad`, `not_tipo_novedad`, `not_novedad_id`, `not_operacion`, `not_bus`, `not_procedencia`) VALUES	('$not_fecha_generacion', '$not_usuario_genera', '$not_estado', '$not_ot_tipo', '$not_ot_id', '$not_origen_novedad', '$not_tipo_novedad', '$not_novedad_id', '$not_operacion', '$not_bus', '$not_procedencia') ";
+		$consulta = " INSERT INTO `manto_novedad_ot` (`not_fecha_generacion`, `not_usuario_genera`, `not_estado`, `not_ot_tipo`, `not_ot_id`, `not_origen_novedad`, `not_tipo_novedad`, `not_novedad_id`, `not_operacion`, `not_bus`) VALUES	('$not_fecha_generacion', '$not_usuario_genera', '$not_estado', '$not_ot_tipo', '$not_ot_id', '$not_origen_novedad', '$not_tipo_novedad', '$not_novedad_id', '$not_operacion', '$not_bus') ";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();   
@@ -942,5 +928,56 @@ class CRUD
 		$resultado->execute();   
 		$this->conexion=null;	
 	}
-   
+
+	function leer_origen()
+	{
+        $consulta="SELECT * FROM `manto_ot_origen`";
+
+        $resultado = $this->conexion->prepare($consulta);
+        $resultado->execute();        
+        $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+
+        print json_encode($data, JSON_UNESCAPED_UNICODE);
+        $this->conexion=null;
+   	}   
+		 
+	function crear_origen($ot_origen_id,$or_nombre, $or_tipo_ot)
+	{
+		$consulta = "INSERT INTO `manto_ot_origen`(`or_nombre`, `or_tipo_ot`) VALUES ('$or_nombre', '$or_tipo_ot')";
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();   
+
+		$consulta = "SELECT * FROM `manto_ot_origen`";
+        $resultado = $this->conexion->prepare($consulta);
+        $resultado->execute();        
+        $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+
+        print json_encode($data, JSON_UNESCAPED_UNICODE);
+        $this->conexion=null;	
+	}  	
+	
+	function editar_origen($ot_origen_id, $or_nombre, $or_tipo_ot)
+	{
+		$consulta = "UPDATE `manto_ot_origen` SET `or_nombre`='$or_nombre', `or_tipo_ot`='$or_tipo_ot' WHERE `ot_origen_id`='$ot_origen_id'";		
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();   
+
+		$consulta= "SELECT * FROM `manto_ot_origen` WHERE `ot_origen_id` ='$ot_origen_id'";
+        $resultado = $this->conexion->prepare($consulta);
+        $resultado->execute();        
+        $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+
+        print json_encode($data, JSON_UNESCAPED_UNICODE);
+        $this->conexion=null;	
+	}  		
+	
+	function borrar_origen($ot_origen_id)
+	{
+		$consulta = "DELETE FROM `manto_ot_origen` WHERE `ot_origen_id`='$ot_origen_id'";		
+  		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();
+		
+        $this->conexion=null;	
+	}  		
+
 }

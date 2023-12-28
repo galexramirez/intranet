@@ -46,11 +46,11 @@ $(document).ready(function(){
             novedad_id     = fila_novedades.find('td:eq(0)').text();
             origen_novedad = fila_novedades.find('td:eq(3)').text();
             tipo_novedad   = fila_novedades.find('td:eq(4)').text();
-            accion_ot      = fila_novedades.find('td:eq(6)').text();
-            tipo_operacion = fila_novedades.find('td:eq(7)').text();
-            nro_bus        = fila_novedades.find('td:eq(8)').text();
-            componente     = fila_novedades.find('td:eq(9)').text();
-            ot_estado      = fila_novedades.find('td:eq(14)').text();
+            tipo_operacion = fila_novedades.find('td:eq(5)').text();
+            nro_bus        = fila_novedades.find('td:eq(6)').text();
+            componente     = fila_novedades.find('td:eq(7)').text();
+            accion_ot      = fila_novedades.find('td:eq(11)').text();
+            ot_estado      = fila_novedades.find('td:eq(13)').text();
         }
         filas_seleccionadas = tabla_novedades.rows('.selected').data().toArray();
         if(tabla_novedades.rows('.selected').data().length===0){
