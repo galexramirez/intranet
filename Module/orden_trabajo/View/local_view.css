@@ -9,7 +9,7 @@ input{
     font-size: 11px
 }
 
-.filtersOT th{
+.filters_ot th{
     padding:0px !important;
     font-size: 11px
 }
@@ -98,7 +98,7 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
 
 /* 2.0 Tablas */
 
-#tablaOT thead {
+#tabla_ot thead {
     background: #2A4C38;
     color:white;
 }
@@ -145,7 +145,7 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
 
 /* tamaño de texto de tablas*/
 
-#tablaOT{
+#tabla_ot{
     font-size: 12px;
 }
 

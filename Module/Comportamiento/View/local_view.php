@@ -352,7 +352,7 @@
 									 	</div>
 										 <div class="col-lg-6">
 									  		<div class="form-group">
-												<label for="TtablaComportamiento_Operacion" class="col-form-label form-control-sm">FICHA</label>
+												<label for="TtablaComportamiento_Operacion" class="col-form-label form-control-sm">CATEGORIA 1</label>
 												<input type="text" class="form-control form-control-sm text-uppercase" id="TtablaComportamiento_Operacion" maxlength="45">
 											</div> 
 						  				</div>
@@ -360,7 +360,7 @@
 					  				<div class="row"> 
 									  	<div class="col-lg-6">
 									  		<div class="form-group">
-												<label for="TtablaComportamiento_Tipo" class="col-form-label form-control-sm">CATEGORIA 1</label>
+												<label for="TtablaComportamiento_Tipo" class="col-form-label form-control-sm">CATEGORIA 2</label>
 										   		<input type="text" class="form-control form-control-sm text-uppercase" id="TtablaComportamiento_Tipo" maxlength="45">
 											</div> 
 									 	</div>    
@@ -368,7 +368,7 @@
 									<div class="row"> 
 						  				<div class="col-lg-12">
 									  		<div class="form-group">
-												<label for="TtablaComportamiento_Detalle" class="col-form-label form-control-sm">CATEGORIA 2</label>
+												<label for="TtablaComportamiento_Detalle" class="col-form-label form-control-sm">CATEGORIA 3</label>
 										  		<textarea class="form-control z-depth-1 form-control-sm text-uppercase" id="TtablaComportamiento_Detalle" rows="7" placeholder="escribe algo aqui..." maxlength="250"></textarea>
 											</div>               
 						   				</div>

@@ -11,7 +11,7 @@ let tabla_origen, opcion_origen, fila_origen, select_origen;
 $(document).ready(function(){
     div_tabla = f_CreacionTabla("tabla_origen","");
     $("#div_tabla_origen").html(div_tabla);
-    columnastabla = f_ColumnasTabla("tabla_origen","");
+    columnas_tabla = f_ColumnasTabla("tabla_origen","");
 
     $('#tabla_origen thead tr')
         .clone(true)
@@ -43,7 +43,7 @@ $(document).ready(function(){
                 });
             });
         },
-        language    : idiomaEspanol,
+        language    : idioma_espanol,
         responsive  : "true",
         dom         : 'Blfrtip', // Con Botones Excel,Pdf,Print
         buttons     : [
@@ -60,7 +60,7 @@ $(document).ready(function(){
             "data"      : {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion}, //enviamos opcion 4 para que haga un SELECT
             "dataSrc"   :""
         },
-        "columns"       : columnastabla,
+        "columns"       : columnas_tabla,
         "columnDefs"      : [
             {
               "targets"     : [3],

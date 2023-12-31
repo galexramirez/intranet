@@ -9,8 +9,9 @@ $(document).ready(function(){
   ///:: EVENTO DEL BOTON NUEVA HORA LABORADA TECNICOS ::::::::::::::::::::::::::::::::::::///
   $(document).on("click", ".btn_horas_tecnicos", function(){
     $("#btn_guardar_horas_tecnicos").prop("disabled",false);
-    $ot_asociado  = $("#ot_asociado").val();
-    t_html        = f_select_combo("manto_resp_asociado","SI","ra_nombres","","`ra_asociado` = '"+ot_asociado+"'", "`ra_nombres` ASC");
+    ot_nombre_proveedor = $("#ot_nombre_proveedor").val();
+    let ruc_proveedor = f_buscar_dato("manto_proveedores","prov_ruc","`prov_razonsocial` = '"+ot_nombre_proveedor+"'");
+    t_html = f_select_combo("manto_resp_asociado","SI","ra_nombres","","`ra_ruc_asociado` = '"+ruc_proveedor+"'", "`ra_nombres` ASC");
     $("#tecnico_nombres").html(t_html);
     opcion_horas_tecnicos = "CREAR"; 
     f_limpia_horas_tecnicos();
@@ -117,7 +118,7 @@ function f_tabla_horas_tecnicos(p_cod_ot){
     array_horas_tecnicos = [];
     div_tabla = f_CreacionTabla("tabla_horas_tecnicos","");
     $("#div_tabla_horas_tecnicos").html(div_tabla);
-    columnastabla = f_ColumnasTabla("tabla_horas_tecnicos","");
+    columnas_tabla = f_ColumnasTabla("tabla_horas_tecnicos","");
   
     $("#tabla_horas_tecnicos").dataTable().fnDestroy();
     $('#tabla_horas_tecnicos').show();
@@ -135,14 +136,14 @@ function f_tabla_horas_tecnicos(p_cod_ot){
     });
       
     tabla_horas_tecnicos = $('#tabla_horas_tecnicos').DataTable({
-      language      : idiomaEspanol,
+      language      : idioma_espanol,
       searching     : false,
       info          : false,
       lengthChange  : true,
       pageLength    : 10,
       responsive    : "true",
       data          : array_horas_tecnicos,
-      columns       : columnastabla
+      columns       : columnas_tabla
     });     
   }
   ///:: FIN GENERACION DE TABLA DE HORAS LABORADAS TECNICOS :::::::::::::::::::::::::::::::///
@@ -152,7 +153,7 @@ function f_tabla_horas_tecnicos(p_cod_ot){
     let array_ver_horas_tecnicos = [];
     div_tabla = f_CreacionTabla("tabla_ver_horas_tecnicos","");
     $("#div_tabla_ver_horas_tecnicos").html(div_tabla);
-    columnastabla = f_ColumnasTabla("tabla_ver_horas_tecnicos","");
+    columnas_tabla = f_ColumnasTabla("tabla_ver_horas_tecnicos","");
   
     $("#tabla_ver_horas_tecnicos").dataTable().fnDestroy();
     $('#tabla_ver_horas_tecnicos').show();
@@ -170,14 +171,14 @@ function f_tabla_horas_tecnicos(p_cod_ot){
     });
       
     tabla_ver_horas_tecnicos = $('#tabla_ver_horas_tecnicos').DataTable({
-      language      : idiomaEspanol,
+      language      : idioma_espanol,
       searching     : false,
       info          : false,
       lengthChange  : false,
       pageLength    : 5,
       responsive    : "true",
       data          : array_ver_horas_tecnicos,
-      columns       : columnastabla
+      columns       : columnas_tabla
     });     
   }
   ///:: FIN GENERACION DE TABLA DE HORAS LABORADAS TECNICOS :::::::::::::::::::::::::::::::///

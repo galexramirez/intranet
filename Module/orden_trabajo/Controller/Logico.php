@@ -5,7 +5,7 @@ class Logico
     
 	function Contenido($NombreDeModuloVista)    
 	{		
-		MView($this->Modulo,'LocalView',compact('NombreDeModuloVista') );
+		MView($this->Modulo,'local_view',compact('NombreDeModuloVista') );
 	}
 
     public function DocumentRoot()
@@ -151,39 +151,36 @@ class Logico
 		echo $rpta_contar_dato;
 	}
 
-    public function CrearOT($ot_id, $ot_origen, $ot_bus, $ot_kilometraje, $ot_date_crea, $ot_date_ct, $ot_asociado, $ot_hmotor, $ot_cgm_crea, $ot_cgm_ct, $ot_estado, $ot_resp_asoc, $ot_descrip, $ot_tecnico, $ot_check, $ot_obs_cgm, $ot_sistema, $ot_inicio, $ot_fin, $ot_codfalla, $ot_at, $ot_obs_asoc, $ot_montado, $ot_dmontado, $ot_busmont, $ot_busdmont, $ot_motivo, $ot_obs_aom, $ot_ca, $ot_date_ca, $ot_componente_raiz, $ot_obs_aom2, $ot_accidentes_id, $ot_semana_cierre, $ot_cod_vinculada, $array_data)
+    public function crear_ot($ot_id, $ot_origen, $ot_bus, $ot_kilometraje, $ot_fecha_registro, $ot_nombre_proveedor, $ot_cgm, $ot_estado, $ot_actividad, $ot_ejecucion, $ot_obs_cgm, $ot_sistema, $ot_obs_proveedor, $ot_semana_cierre, $ot_tipo, $array_data)
     {
+        $ot_ruc_proveedor = "";
+        $ot_cgm_id = "";
+
         if($ot_kilometraje==""){
             $ot_kilometraje="0";
         }
         
-        $TablaBD = "glo_roles";
-        $CampoBD = "roles_nombrecorto";
-
-        if($ot_cgm_crea!=""){
+        if($ot_cgm!==""){
             MModel($this->Modulo,'CRUD');
-            $InstanciaAjax= new CRUD();
-            $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$ot_cgm_crea);
+            $InstanciaAjax = new CRUD();
+            $Respuesta = $InstanciaAjax->BuscarDataBD("colaborador", "Colab_nombre_corto", $ot_cgm);
             foreach ($Respuesta as $row) {
-                $ot_cgm_crea = $row['roles_dni'];
+                $ot_cgm_id = $row['Colaborador_id'];
             }
         }        
 
-        if($ot_cgm_ct!=""){
+        if($ot_nombre_proveedor!==""){
             MModel($this->Modulo,'CRUD');
-            $InstanciaAjax= new CRUD();
-            $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$ot_cgm_ct);
+            $InstanciaAjax = new CRUD();
+            $Respuesta = $InstanciaAjax->BuscarDataBD("manto_proveedores", "prov_razonsocial", $ot_nombre_proveedor);
             foreach ($Respuesta as $row) {
-                $ot_cgm_ct = $row['roles_dni'];
-            }
-            if($ot_date_ct==""){
-                $ot_date_ct = date("Y:m:d H:i:s");
+                $ot_ruc_proveedor = $row['prov_ruc'];
             }
         }
 
         MModel($this->Modulo, 'CRUD');
-        $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->CrearOT($ot_id, $ot_origen, $ot_bus, $ot_kilometraje, $ot_date_crea, $ot_date_ct, $ot_asociado, $ot_hmotor, $ot_cgm_crea, $ot_cgm_ct, $ot_estado, $ot_resp_asoc, $ot_descrip, $ot_tecnico, $ot_check, $ot_obs_cgm, $ot_sistema, $ot_inicio, $ot_fin, $ot_codfalla, $ot_at, $ot_obs_asoc, $ot_montado, $ot_dmontado, $ot_busmont, $ot_busdmont, $ot_motivo, $ot_obs_aom, $ot_ca, $ot_date_ca, $ot_componente_raiz, $ot_obs_aom2, $ot_accidentes_id, $ot_semana_cierre, $ot_cod_vinculada);
+        $InstanciaAjax = new CRUD();
+        $Respuesta = $InstanciaAjax->crear_ot($ot_id, $ot_origen, $ot_bus, $ot_kilometraje, $ot_fecha_registro, $ot_ruc_proveedor, $ot_nombre_proveedor, $ot_cgm_id, $ot_estado, $ot_actividad, $ot_ejecucion, $ot_obs_cgm, $ot_sistema, $ot_obs_proveedor, $ot_semana_cierre, $ot_tipo);
 
         $ht_ot_id = $ot_id;
         foreach($array_data as $row){
@@ -197,7 +194,7 @@ class Logico
         }
     }
 
-    public function CargarVales($ot_id)
+    public function cargar_vales($ot_id)
     {
         $valeshtml = "";
         $TablaBD = "manto_vales";
@@ -229,65 +226,6 @@ class Logico
                             </div>';
         }
         echo $valeshtml;
-    }
-
-    public function SelectUsuario($Usua_Perfil)
-    {
-        //Ejecuta Modelo
-        MModel($this->Modulo, 'CRUD');
-        $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->SelectUsuario($Usua_Perfil);
-
-        $html = '<option value="">Seleccione una opcion</option>';
-
-        foreach ($Respuesta as $row) {
-            $html .= '<option value="'.$row['Usuario'].'">'.$row['Usuario'].'</option>';
-        }
-        echo $html;
-    }
-
-    public function SelectTecnico($ot_asociado)
-    {
-        //Ejecuta Modelo
-        MModel($this->Modulo, 'CRUD');
-        $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->SelectTecnico($ot_asociado);
-
-        $html = '<option value="">Seleccione una opcion</option>';
-
-        foreach ($Respuesta as $row) {
-            $html .= '<option value="'.$row['Usuario'].'">'.$row['Usuario'].'</option>';
-        }
-        echo $html;
-    }
-
-    public function BuscarTecnico($ot_asociado)
-    {
-        //Ejecuta Modelo
-        MModel($this->Modulo, 'CRUD');
-        $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->BuscarTecnico($ot_asociado);
-
-        $ot_tecnico = "";
-
-        foreach ($Respuesta as $row) {
-            $ot_tecnico = $row['ot_tecnico'];
-        }
-        echo $ot_tecnico;
-    }
-
-    public function SelectTipos($ttablaotcorrectivas_operacion, $ttablaotcorrectivas_tipo)
-    {
-        MModel($this->Modulo, 'CRUD');
-        $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->SelectTipos($ttablaotcorrectivas_operacion, $ttablaotcorrectivas_tipo);
-
-        $html = '<option value="">Seleccione una opcion</option>';
-
-        foreach ($Respuesta as $row) {
-            $html .= '<option value="'.$row['Detalle'].'">'.$row['Detalle'].'</option>';
-        }
-        echo $html;
     }
 
     public function CalculoKilometraje($ot_bus,$ot_inicio)
@@ -371,36 +309,44 @@ class Logico
         echo $validakm;
     }
 
-    public function EditarOT($ot_id, $ot_origen, $ot_bus, $ot_kilometraje, $ot_date_crea, $ot_date_ct, $ot_asociado, $ot_hmotor, $ot_cgm_crea, $ot_cgm_ct, $ot_estado, $ot_resp_asoc, $ot_descrip, $ot_tecnico, $ot_check, $ot_obs_cgm, $ot_sistema, $ot_inicio, $ot_fin, $ot_codfalla, $ot_at, $ot_obs_asoc, $ot_montado, $ot_dmontado, $ot_busmont, $ot_busdmont, $ot_motivo, $ot_obs_aom, $ot_ca, $ot_date_ca, $ot_componente_raiz, $ot_obs_aom2, $ot_accidentes_id, $ot_semana_cierre, $ot_cod_vinculada, $array_data)
+    public function editar_ot($ot_id, $ot_origen, $ot_bus, $ot_kilometraje, $ot_fecha_registro, $ot_nombre_proveedor, $ot_cgm, $ot_estado, $ot_actividad, $ot_ejecucion, $ot_obs_cgm, $ot_sistema, $ot_obs_proveedor, $ot_semana_cierre, $ot_tipo, $array_data)
     {
-        $TablaBD = "glo_roles";
-        $CampoBD = "roles_nombrecorto";
+        $ot_ruc_proveedor = "";
+        $ot_cgm_id = "";
+        $ot_log_anterior = "";
 
-        if($ot_cgm_crea!=""){
+        if($ot_kilometraje==""){
+            $ot_kilometraje="0";
+        }
+        
+        if($ot_cgm!==""){
             MModel($this->Modulo,'CRUD');
-            $InstanciaAjax= new CRUD();
-            $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$ot_cgm_crea);
+            $InstanciaAjax = new CRUD();
+            $Respuesta = $InstanciaAjax->BuscarDataBD("colaborador", "Colab_nombre_corto", $ot_cgm);
             foreach ($Respuesta as $row) {
-                $ot_cgm_crea = $row['roles_dni'];
+                $ot_cgm_id = $row['Colaborador_id'];
             }
         }        
 
-        if($ot_cgm_ct!=""){
+        if($ot_nombre_proveedor!==""){
             MModel($this->Modulo,'CRUD');
-            $InstanciaAjax= new CRUD();
-            $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$ot_cgm_ct);
+            $InstanciaAjax = new CRUD();
+            $Respuesta = $InstanciaAjax->BuscarDataBD("manto_proveedores", "prov_razonsocial", $ot_nombre_proveedor);
             foreach ($Respuesta as $row) {
-                $ot_cgm_ct = $row['roles_dni'];
+                $ot_ruc_proveedor = $row['prov_ruc'];
             }
-            if($ot_date_ct==""){
-                $ot_date_ct = date("Y:m:d H:i:s");
-            }
-        }        
+        }
 
         MModel($this->Modulo,'CRUD');
-        $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->EditarOT($ot_id, $ot_origen, $ot_bus, $ot_kilometraje, $ot_date_crea, $ot_date_ct, $ot_asociado, $ot_hmotor, $ot_cgm_crea, $ot_cgm_ct, $ot_estado, $ot_resp_asoc, $ot_descrip, $ot_tecnico, $ot_check, $ot_obs_cgm, $ot_sistema, $ot_inicio, $ot_fin, $ot_codfalla, $ot_at, $ot_obs_asoc, $ot_montado, $ot_dmontado, $ot_busmont, $ot_busdmont, $ot_motivo, $ot_obs_aom, $ot_ca, $ot_date_ca, $ot_componente_raiz, $ot_obs_aom2, $ot_accidentes_id, $ot_semana_cierre, $ot_cod_vinculada);
+        $InstanciaAjax = new CRUD();
+        $Respuesta = $InstanciaAjax->BuscarDataBD("manto_ots", "ot_id", $ot_id);
+        foreach ($Respuesta as $row) {
+            $ot_log_anterior = $row['ot_log'];
+        }
 
+        MModel($this->Modulo,'CRUD');
+        $InstanciaAjax = new CRUD();
+        $Respuesta = $InstanciaAjax->editar_ot($ot_id, $ot_origen, $ot_bus, $ot_kilometraje, $ot_fecha_registro, $ot_ruc_proveedor, $ot_nombre_proveedor, $ot_cgm_id, $ot_estado, $ot_actividad, $ot_ejecucion, $ot_obs_cgm, $ot_sistema, $ot_obs_proveedor, $ot_semana_cierre, $ot_tipo, $ot_log_anterior);
 
         $ht_ot_id = $ot_id;
         MModel($this->Modulo, 'CRUD');
@@ -416,49 +362,6 @@ class Logico
             $InstanciaAjax  = new CRUD();
             $Respuesta      = $InstanciaAjax->crear_horas_tecnicos($ht_ot_id, $ht_tecnico_nombres, $ht_hora_inicio, $ht_hora_fin);    
         }
-    }
-
-    public function BusesOT()
-    {
-        MModel($this->Modulo, 'CRUD');
-        $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->BusesOT();
-
-        $html = '<option value="">Bus</option>';
-        foreach ($Respuesta as $row) {
-            $html .= '<option value="'.$row['Buses'].'">'.$row['Buses'].'</option>';
-        }
-        echo $html;
-    }
-
-    public function AsociadoOT()
-    {
-        MModel($this->Modulo, 'CRUD');
-        $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->AsociadoOT();
-
-        $html = '<option value="">Seleccione una opcion</option>';
-        foreach ($Respuesta as $row) {
-            $html .= '<option value="'.$row['Asociado'].'">'.$row['Asociado'].'</option>';
-        }
-        echo $html;
-    }
-
-    public function Origenes($ot_origen)
-    {
-        MModel($this->Modulo, 'CRUD');
-        $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->Origenes();
-
-        $html = '<option value="">Seleccione una opcion</option>';
-        if($ot_origen!=""){
-            $html = '<option value="'.$ot_origen.'">'.$ot_origen.'</option>';
-        }
-       
-        foreach ($Respuesta as $row) {
-            $html .= '<option value="'.$row['Origenes'].'">'.$row['Origenes'].'</option>';
-        }
-        echo $html;
     }
 
     public function ver_ot($ot_id)
@@ -1034,11 +937,11 @@ class Logico
         echo $html;
     }
 
-    public function descargar_ot($FechaInicioOT,$FechaTerminoOT)
+    public function descargar_ot($fecha_inicio_ot, $fecha_termino_ot)
     {
         MModel($this->Modulo,'CRUD');
         $InstanciaAjax  = new CRUD();
-        $Respuesta      = $InstanciaAjax->descargar_ot($FechaInicioOT,$FechaTerminoOT);
+        $Respuesta      = $InstanciaAjax->descargar_ot($fecha_inicio_ot,$fecha_termino_ot);
 
         $mi_carpeta = $_SERVER['DOCUMENT_ROOT']."/Services/Json";
         $date       = date('d-m-Y-'.substr((string)microtime(), 1, 8));
@@ -1135,17 +1038,36 @@ class Logico
         echo $rpta_cierre_semanal;
     }
 
-    public function crear_orden_trabajo($not_ot_tipo, $ot_asociado, $not_origen_novedad, $not_tipo_novedad, $not_novedad_id, $not_operacion, $not_bus, $ot_descrip)
+    public function crear_orden_trabajo($ot_origen, $ot_nombre_proveedor, $not_origen_novedad, $not_tipo_novedad, $not_novedad_id, $not_operacion, $not_bus, $ot_descrip)
     {
+        $ot_tipo = "";
+        $ot_ruc_proveedor = "";
+
         MModel($this->Modulo,'CRUD');
         $InstanciaAjax  = new CRUD();
-        $Respuesta = $InstanciaAjax->crear_orden_trabajo($not_ot_tipo, $ot_asociado, $not_bus, $ot_descrip, $not_novedad_id);
+		$Respuesta = $InstanciaAjax->buscar_dato("manto_ot_origen", "or_tipo_ot", "`or_nombre`='$ot_origen'");
+
+        foreach ($Respuesta as $row) {
+			$ot_tipo = $row['or_tipo_ot'];
+		}
+
+        MModel($this->Modulo,'CRUD');
+        $InstanciaAjax  = new CRUD();
+		$Respuesta = $InstanciaAjax->buscar_dato("manto_proveedores", "prov_ruc", "`prov_razonsocial`='$ot_nombre_proveedor'");
+
+        foreach ($Respuesta as $row) {
+			$ot_ruc_proveedor = $row['prov_ruc'];
+		}
+
+        MModel($this->Modulo,'CRUD');
+        $InstanciaAjax  = new CRUD();
+        $Respuesta = $InstanciaAjax->crear_orden_trabajo($ot_origen, $ot_ruc_proveedor, $ot_nombre_proveedor, $ot_tipo, $not_bus, $ot_descrip, $not_novedad_id);
 
         $not_ot_id = $Respuesta;
 
         MModel($this->Modulo,'CRUD');
         $InstanciaAjax  = new CRUD();
-        $Respuesta = $InstanciaAjax->genera_novedad_ot($not_origen_novedad, $not_tipo_novedad, $not_novedad_id, $not_operacion, $not_bus, $not_ot_tipo, $not_ot_id);
+        $Respuesta = $InstanciaAjax->genera_novedad_ot($not_origen_novedad, $not_tipo_novedad, $not_novedad_id, $not_operacion, $not_bus, $ot_tipo, $not_ot_id);
 
     }
 

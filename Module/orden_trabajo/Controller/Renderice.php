@@ -20,7 +20,7 @@
 
 
  // 3.0 RECURSOS PARA EL MODULO     
-    $InsertHead="   <link rel='stylesheet' href='Module/orden_trabajo/View/LocalView.css' type='text/css' media='all'>
+    $InsertHead="   <link rel='stylesheet' href='Module/orden_trabajo/View/local_view.css' type='text/css' media='all'>
                     <link rel='stylesheet' type='text/css' href='Services/Resources/DataTables-10.25/datatables/datatables.min.css'> 
                     <link rel='stylesheet' type='text/css' href='Services/Resources/DataTables-10.25/datatables/DataTables-1.10.25/css/dataTables.bootstrap4.min.css'>
                     <link rel='stylesheet' type='text/css' href='Services/Resources/DataTables-10.25/datatables/Buttons-1.7.1/css/buttons.bootstrap4.min.css'>
@@ -41,9 +41,9 @@
                     <script type='text/javascript' src='Services/Resources/DataTables-10.25/datatables/Buttons-1.7.1/js/buttons.bootstrap4.min.js'></script>
                     <script type='text/javascript' src='Services/Resources/DataTables-10.25/datatables/Buttons-1.7.1/js/buttons.html5.min.js'></script>
                     <script type='text/javascript' src='Services/Resources/DataTables-10.25/datatables/Buttons-1.7.1/js/buttons.print.min.js'></script>
-                    <script src='Module/orden_trabajo/View/LocalViewInicio.js' type='text/javascript'></script>
-                    <script src='Module/orden_trabajo/View/LocalViewOTCorrectivas.js' type='text/javascript'></script>
-                    <script src='Module/orden_trabajo/View/LocalViewOTProcesar.js' type='text/javascript'></script>
+                    <script src='Module/orden_trabajo/View/local_view_inicio.js' type='text/javascript'></script>
+                    <script src='Module/orden_trabajo/View/local_view_listado.js' type='text/javascript'></script>
+                    <script src='Module/orden_trabajo/View/local_view_procesar.js' type='text/javascript'></script>
                     <script src='Module/orden_trabajo/View/local_view_horas_tecnicos.js' type='text/javascript'></script>
                     <script src='Module/orden_trabajo/View/local_view_cierre_semanal.js' type='text/javascript'></script>
                     <script src='Module/orden_trabajo/View/local_view_novedades.js' type='text/javascript'></script>

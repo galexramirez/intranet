@@ -34,7 +34,7 @@ $(document).ready(function(){
             });
         },
         
-        language    : idiomaEspanol,
+        language    : idioma_espanol,
         responsive  : "true",
         dom         : 'Blfrtip',
         buttons : [

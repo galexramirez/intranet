@@ -76,7 +76,7 @@ $(document).ready(function(){
 
         div_tabla = f_CreacionTabla("tabla_novedades","");
         $("#div_tabla_novedades").html(div_tabla);
-        columnastabla = f_ColumnasTabla("tabla_novedades","");
+        columnas_tabla = f_ColumnasTabla("tabla_novedades","");
     
         $("#tabla_novedades").dataTable().fnDestroy();
         $('#tabla_novedades').show();
@@ -133,7 +133,7 @@ $(document).ready(function(){
             },
             pageLength  : 50,
             
-            language    : idiomaEspanol, 
+            language    : idioma_espanol, 
             responsive  : "true",
             dom         : 'Blfrtip', 
             buttons:[
@@ -151,7 +151,7 @@ $(document).ready(function(){
                 "data": {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,fecha_inicio:fecha_inicio_novedades,fecha_termino:fecha_termino_novedades},
                 "dataSrc":""
             },
-            "columns": columnastabla,
+            "columns": columnas_tabla,
             "columnDefs": [
                 {
                     //"targets"   : [8],

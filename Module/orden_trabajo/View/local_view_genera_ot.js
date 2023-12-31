@@ -4,7 +4,7 @@
 ///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///:: DECLARACION DE VARIABLES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-let select_got, got_ot_tipo, got_asociado;
+let select_got, got_ot_origen, got_proveedor;
 
 ///:: JS DOM GENERA ORDEN DE TRABAJO ::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 $(document).ready(function(){
@@ -17,17 +17,17 @@ $(document).ready(function(){
 
         f_limpia_genera_ot();
   
-        got_ot_tipo = "";
-        got_asociado = "";
+        got_ot_origen = "";
+        got_proveedor = "";
 
-        select_got = f_select_combo("manto_tc_orden_trabajo","NO","tc_categoria3","","`tc_variable`='SISTEMA' AND `tc_categoria1`='ORDEN TRABAJO' AND `tc_categoria2`='TIPO'","`tc_categoria3` ASC");
-        $("#got_ot_tipo").html(select_got);
+        select_got = f_select_combo("manto_ot_origen","NO","or_nombre","","`or_nombre`!='' AND `or_tipo_ot`!=''","`or_nombre` ASC");
+        $("#got_ot_origen").html(select_got);
         
-        select_got = f_select_combo("manto_resp_asociado","SI","ra_asociado","","`ra_asociado`!=''","`ra_asociado` ASC");
-        $("#got_asociado").html(select_got);
+        select_got = f_select_combo("manto_proveedores","NO","prov_razonsocial","","`prov_estado`='ACTIVO'","`prov_razonsocial` ASC");
+        $("#got_proveedor").html(select_got);
 
-        $("#got_ot_tipo").val(got_ot_tipo); 
-        $("#gor_asociado").val(got_asociado); 
+        $("#got_ot_origen").val(got_ot_origen); 
+        $("#gor_asociado").val(got_proveedor); 
 
         $(".modal-header").css( "background-color", "#17a2b8");
         $(".modal-header").css( "color", "white" );
@@ -41,10 +41,10 @@ $(document).ready(function(){
         e.preventDefault();
         let validacion_got = '';
     
-        got_ot_tipo = $("#got_ot_tipo").val();
-        got_asociado = $("#got_asociado").val(); 
+        got_ot_origen = $("#got_ot_origen").val();
+        got_proveedor = $("#got_proveedor").val(); 
 
-        validacion_got = f_validar_genera_ot(got_ot_tipo, got_asociado);
+        validacion_got = f_validar_genera_ot(got_ot_origen, got_proveedor);
     
         if(validacion_got=="invalido"){
             Swal.fire({
@@ -61,7 +61,7 @@ $(document).ready(function(){
                 url         : "Ajax.php",
                 type        : "POST",
                 datatype    : "json",    
-                data        : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, not_ot_tipo:got_ot_tipo, ot_asociado:got_asociado, not_origen_novedad:origen_novedad, not_tipo_novedad:tipo_novedad, not_novedad_id:novedad_id,not_operacion:tipo_operacion, not_bus:nro_bus, ot_descrip:accion_ot},    
+                data        : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, ot_origen:got_ot_origen, ot_nombre_proveedor:got_proveedor, not_origen_novedad:origen_novedad, not_tipo_novedad:tipo_novedad, not_novedad_id:novedad_id,not_operacion:tipo_operacion, not_bus:nro_bus, ot_descrip:accion_ot},    
                 success     : function(data) {
                     tabla_novedades.ajax.reload(null, false);
                     div_show = f_MostrarDiv("form_seleccion_novedades", "btn_seleccion_novedades", "inicio", "inicio");
@@ -81,20 +81,20 @@ $(document).ready(function(){
 
 ///:: FUNCIONES DE GENERA ORDEN DE TRABAJO ::::::::::::::::::::::::::::::::::::::::::::::::///
 function f_limpia_genera_ot(){
-    $("#got_ot_tipo").removeClass("color-error");
-    $("#got_asociado").removeClass("color-error");
+    $("#got_ot_origen").removeClass("color-error");
+    $("#got_proveedor").removeClass("color-error");
 }
   
-function f_validar_genera_ot(p_got_ot_tipo, p_got_asociado){
+function f_validar_genera_ot(p_got_ot_origen, p_got_proveedor){
     f_limpia_genera_ot();
     let rpta_validar_genera_ot = "";
     
-    if(p_got_ot_tipo==""){
-        $("#got_ot_tipo").addClass("color-error");
+    if(p_got_ot_origen==""){
+        $("#got_ot_origen").addClass("color-error");
         rpta_validar_genera_ot = "invalido";
     } 
-    if(p_got_asociado==""){
-        $("#got_asociado").addClass("color-error");
+    if(p_got_proveedor==""){
+        $("#got_proveedor").addClass("color-error");
         rpta_validar_genera_ot = "invalido";
     } 
     return rpta_validar_genera_ot;

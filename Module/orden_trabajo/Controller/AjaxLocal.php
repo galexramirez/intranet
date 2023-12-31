@@ -155,64 +155,44 @@ switch ($Accion)
    break;
 
    case 'descargar_ot':
-      $FechaInicioOT    = $_POST['FechaInicioOT'];
-      $FechaTerminoOT   = $_POST['FechaTerminoOT'];
+      $fecha_inicio_ot    = $_POST['fecha_inicio_ot'];
+      $fecha_termino_ot   = $_POST['fecha_termino_ot'];
 
       MController($Modulo,'Logico');
       $InstanciaAjax = new Logico();
-      $Respuesta     = $InstanciaAjax->descargar_ot($FechaInicioOT,$FechaTerminoOT);
+      $Respuesta     = $InstanciaAjax->descargar_ot($fecha_inicio_ot,$fecha_termino_ot);
    break;
 
-   case 'LeerOT':
-      $FechaInicioOT    = $_POST['FechaInicioOT'];
-      $FechaTerminoOT   = $_POST['FechaTerminoOT'];
+   case 'leer_ot':
+      $fecha_inicio_ot    = $_POST['fecha_inicio_ot'];
+      $fecha_termino_ot   = $_POST['fecha_termino_ot'];
 
       MModel($Modulo,'CRUD');
       $InstanciaAjax = new CRUD();
-      $Respuesta     = $InstanciaAjax->LeerOT($FechaInicioOT,$FechaTerminoOT);
+      $Respuesta     = $InstanciaAjax->leer_ot($fecha_inicio_ot,$fecha_termino_ot);
    break;
 
-   case 'CrearOT':
-      $ot_id              = $_POST['ot_id'];
+   case 'crear_ot':
+      $ot_id               = $_POST['ot_id'];
       $ot_origen           = $_POST['ot_origen'];
       $ot_bus              = $_POST['ot_bus'];
       $ot_kilometraje      = $_POST['ot_kilometraje'];
-      $ot_date_crea        = $_POST['ot_date_crea'];
-      $ot_date_ct          = $_POST['ot_date_ct'];
-      $ot_asociado         = $_POST['ot_asociado'];
-      $ot_hmotor           = $_POST['ot_hmotor'];
-      $ot_cgm_crea         = $_POST['ot_cgm_crea'];
-      $ot_cgm_ct           = $_POST['ot_cgm_ct'];
+      $ot_fecha_registro   = $_POST['ot_fecha_registro'];
+      $ot_nombre_proveedor = $_POST['ot_nombre_proveedor'];
+      $ot_cgm              = $_POST['ot_cgm'];
       $ot_estado           = $_POST['ot_estado'];
-      $ot_resp_asoc        = $_POST['ot_resp_asoc'];
-      $ot_descrip          = strtoupper($_POST['ot_descrip']);
-      $ot_tecnico          = $_POST['ot_tecnico'];
-      $ot_check            = $_POST['ot_check'];
+      $ot_actividad        = strtoupper($_POST['ot_actividad']);
+      $ot_ejecucion        = strtoupper($_POST['ot_ejecucion']);
       $ot_obs_cgm          = strtoupper($_POST['ot_obs_cgm']);
       $ot_sistema          = $_POST['ot_sistema'];
-      $ot_inicio           = $_POST['ot_inicio'];
-      $ot_fin              = $_POST['ot_fin'];
-      $ot_codfalla         = $_POST['ot_codfalla'];
-      $ot_at               = strtoupper($_POST['ot_at']);
-      $ot_obs_asoc         = $_POST['ot_obs_asoc'];
-      $ot_montado          = $_POST['ot_montado'];
-      $ot_dmontado         = $_POST['ot_dmontado'];
-      $ot_busmont          = $_POST['ot_busmont'];
-      $ot_busdmont         = $_POST['ot_busdmont'];
-      $ot_motivo           = $_POST['ot_motivo'];
-      $ot_obs_aom          = strtoupper($_POST['ot_obs_aom']);
-      $ot_ca               = $_POST['ot_ca'];
-      $ot_date_ca          = $_POST['ot_date_ca'];
-      $ot_componente_raiz  = $_POST['ot_componente_raiz'];
-      $ot_obs_aom2         = strtoupper($_POST['ot_obs_aom2']);
-      $ot_accidentes_id    = $_POST['ot_accidentes_id'];
+      $ot_obs_proveedor    = strtoupper($_POST['ot_obs_proveedor']);
       $ot_semana_cierre    = $_POST['ot_semana_cierre'];
-      $ot_cod_vinculada    = $_POST['ot_cod_vinculada'];
+      $ot_tipo             = $_POST['ot_tipo'];
       $array_data          = json_decode($_POST['array_data'],true);
 
       MController($Modulo,'Logico');
-      $InstanciaAjax= new Logico();
-      $Respuesta=$InstanciaAjax->CrearOT($ot_id, $ot_origen, $ot_bus, $ot_kilometraje, $ot_date_crea, $ot_date_ct, $ot_asociado, $ot_hmotor, $ot_cgm_crea, $ot_cgm_ct, $ot_estado, $ot_resp_asoc, $ot_descrip, $ot_tecnico, $ot_check, $ot_obs_cgm, $ot_sistema, $ot_inicio, $ot_fin, $ot_codfalla, $ot_at, $ot_obs_asoc, $ot_montado, $ot_dmontado, $ot_busmont, $ot_busdmont, $ot_motivo, $ot_obs_aom, $ot_ca, $ot_date_ca, $ot_componente_raiz, $ot_obs_aom2, $ot_accidentes_id, $ot_semana_cierre, $ot_cod_vinculada, $array_data);
+      $InstanciaAjax = new Logico();
+      $Respuesta = $InstanciaAjax->crear_ot($ot_id, $ot_origen, $ot_bus, $ot_kilometraje, $ot_fecha_registro, $ot_nombre_proveedor, $ot_cgm, $ot_estado, $ot_actividad, $ot_ejecucion, $ot_obs_cgm, $ot_sistema, $ot_obs_proveedor, $ot_semana_cierre, $ot_tipo, $array_data);
    break;
 
    case 'BorrarOT':
@@ -223,53 +203,20 @@ switch ($Accion)
       $Respuesta     = $InstanciaAjax->BorrarOT($ot_id);
    break;
 
-   case 'CargarOT':
+   case 'cargar_ot':
       $ot_id = $_POST['ot_id'];
 
       MModel($Modulo,'CRUD');
       $InstanciaAjax = new CRUD();
-      $Respuesta     = $InstanciaAjax->CargarOT($ot_id);
+      $Respuesta     = $InstanciaAjax->cargar_ot($ot_id);
    break;
 
-   case 'CargarVales':
+   case 'cargar_vales':
       $ot_id = $_POST['ot_id'];
 
       MController($Modulo,'Logico');
       $InstanciaAjax = new Logico();
-      $Respuesta     = $InstanciaAjax->CargarVales($ot_id);
-   break;
-
-   case 'SelectUsuario':
-      $Usua_Perfil = $_POST['Usua_Perfil'];
- 
-      MController($Modulo,'Logico');
-      $InstanciaAjax = new Logico();
-      $Respuesta     = $InstanciaAjax->SelectUsuario($Usua_Perfil);
-   break;
-
-   case 'SelectTecnico':
-      $ot_asociado = $_POST['ot_asociado'];
-
-      MController($Modulo,'Logico');
-      $InstanciaAjax = new Logico();
-      $Respuesta     = $InstanciaAjax->SelectTecnico($ot_asociado);
-   break;
-
-   case 'BuscarTecnico':
-      $ot_asociado = $_POST['ot_asociado'];
-
-      MController($Modulo,'Logico');
-      $InstanciaAjax= new Logico();
-      $Respuesta=$InstanciaAjax->BuscarTecnico($ot_asociado);
-   break;
-
-   case 'SelectTipos':
-      $ttablaotcorrectivas_operacion= $_POST['ttablaotcorrectivas_operacion'];
-      $ttablaotcorrectivas_tipo = $_POST['ttablaotcorrectivas_tipo'];
-
-      MController($Modulo,'Logico');
-      $InstanciaAjax= new Logico();
-      $Respuesta=$InstanciaAjax->SelectTipos($ttablaotcorrectivas_operacion,$ttablaotcorrectivas_tipo);
+      $Respuesta     = $InstanciaAjax->cargar_vales($ot_id);
    break;
 
    case 'CalculoKilometraje':
@@ -291,68 +238,27 @@ switch ($Accion)
       $Respuesta=$InstanciaAjax->ValidarKm($ot_bus,$ot_inicio,$ot_kilometraje);
    break;
 
-   case 'EditarOT':
-      $ot_id              = $_POST['ot_id'];
+   case 'editar_ot':
+      $ot_id               = $_POST['ot_id'];
       $ot_origen           = $_POST['ot_origen'];
       $ot_bus              = $_POST['ot_bus'];
       $ot_kilometraje      = $_POST['ot_kilometraje'];
-      $ot_date_crea        = $_POST['ot_date_crea'];
-      $ot_date_ct          = $_POST['ot_date_ct'];
-      $ot_asociado         = $_POST['ot_asociado'];
-      $ot_hmotor           = $_POST['ot_hmotor'];
-      $ot_cgm_crea         = $_POST['ot_cgm_crea'];
-      $ot_cgm_ct           = $_POST['ot_cgm_ct'];
+      $ot_fecha_registro   = $_POST['ot_fecha_registro'];
+      $ot_nombre_proveedor = $_POST['ot_nombre_proveedor'];
+      $ot_cgm              = $_POST['ot_cgm'];
       $ot_estado           = $_POST['ot_estado'];
-      $ot_resp_asoc        = $_POST['ot_resp_asoc'];
-      $ot_descrip          = strtoupper($_POST['ot_descrip']);
-      $ot_tecnico          = $_POST['ot_tecnico'];
-      $ot_check            = $_POST['ot_check'];
+      $ot_actividad        = strtoupper($_POST['ot_actividad']);
+      $ot_ejecucion        = strtoupper($_POST['ot_ejecucion']);
       $ot_obs_cgm          = strtoupper($_POST['ot_obs_cgm']);
       $ot_sistema          = $_POST['ot_sistema'];
-      $ot_inicio           = $_POST['ot_inicio'];
-      $ot_fin              = $_POST['ot_fin'];
-      $ot_codfalla         = $_POST['ot_codfalla'];
-      $ot_at               = strtoupper($_POST['ot_at']);
-      $ot_obs_asoc         = $_POST['ot_obs_asoc'];
-      $ot_montado          = $_POST['ot_montado'];
-      $ot_dmontado         = $_POST['ot_dmontado'];
-      $ot_busmont          = $_POST['ot_busmont'];
-      $ot_busdmont         = $_POST['ot_busdmont'];
-      $ot_motivo           = $_POST['ot_motivo'];
-      $ot_obs_aom          = strtoupper($_POST['ot_obs_aom']);
-      $ot_ca               = $_POST['ot_ca'];
-      $ot_date_ca          = $_POST['ot_date_ca'];
-      $ot_componente_raiz  = $_POST['ot_componente_raiz'];
-      $ot_obs_aom2         = strtoupper($_POST['ot_obs_aom2']);
-      $ot_accidentes_id    = $_POST['ot_accidentes_id'];
+      $ot_obs_proveedor    = strtoupper($_POST['ot_obs_proveedor']);
       $ot_semana_cierre    = $_POST['ot_semana_cierre'];
-      $ot_cod_vinculada    = $_POST['ot_cod_vinculada'];
+      $ot_tipo             = $_POST['ot_tipo'];
       $array_data          = json_decode($_POST['array_data'],true);
       
       MController($Modulo,'Logico');
-      $InstanciaAjax= new Logico();
-      $Respuesta=$InstanciaAjax->EditarOT($ot_id, $ot_origen, $ot_bus, $ot_kilometraje, $ot_date_crea, $ot_date_ct, $ot_asociado, $ot_hmotor, $ot_cgm_crea, $ot_cgm_ct, $ot_estado, $ot_resp_asoc, $ot_descrip, $ot_tecnico, $ot_check, $ot_obs_cgm, $ot_sistema, $ot_inicio, $ot_fin, $ot_codfalla, $ot_at, $ot_obs_asoc, $ot_montado, $ot_dmontado, $ot_busmont, $ot_busdmont, $ot_motivo, $ot_obs_aom, $ot_ca, $ot_date_ca, $ot_componente_raiz, $ot_obs_aom2, $ot_accidentes_id, $ot_semana_cierre, $ot_cod_vinculada, $array_data);
-   break;
-
-   case 'BusesOT':
-      
-      MController($Modulo,'Logico');
-      $InstanciaAjax= new Logico();
-      $Respuesta=$InstanciaAjax->BusesOT();
-   break;
-
-   case 'AsociadoOT':
-      
-      MController($Modulo,'Logico');
-      $InstanciaAjax= new Logico();
-      $Respuesta=$InstanciaAjax->AsociadoOT();
-   break;
-
-   case 'Origenes':
-      $ot_origen = $_POST['ot_origen'];
-      MController($Modulo,'Logico');
-      $InstanciaAjax= new Logico();
-      $Respuesta=$InstanciaAjax->Origenes($ot_origen);
+      $InstanciaAjax = new Logico();
+      $Respuesta = $InstanciaAjax->editar_ot($ot_id, $ot_origen, $ot_bus, $ot_kilometraje, $ot_fecha_registro, $ot_nombre_proveedor, $ot_cgm, $ot_estado, $ot_actividad, $ot_ejecucion, $ot_obs_cgm, $ot_sistema, $ot_obs_proveedor, $ot_semana_cierre, $ot_tipo, $array_data);
    break;
 
    case 'ver_ot':
@@ -459,8 +365,8 @@ switch ($Accion)
    break;
 
    case 'crear_orden_trabajo':
-      $not_ot_tipo = $_POST['not_ot_tipo'];
-      $ot_asociado = $_POST['ot_asociado'];
+      $ot_origen = $_POST['ot_origen'];
+      $ot_nombre_proveedor = $_POST['ot_nombre_proveedor'];
       $not_origen_novedad = $_POST['not_origen_novedad'];
       $not_tipo_novedad = $_POST['not_tipo_novedad'];
       $not_novedad_id = $_POST['not_novedad_id'];
@@ -470,7 +376,7 @@ switch ($Accion)
 
       MController($Modulo,'Logico');
       $InstanciaAjax = new Logico();
-      $Respuesta = $InstanciaAjax->crear_orden_trabajo($not_ot_tipo, $ot_asociado, $not_origen_novedad, $not_tipo_novedad, $not_novedad_id, $not_operacion, $not_bus, $ot_descrip);
+      $Respuesta = $InstanciaAjax->crear_orden_trabajo($ot_origen, $ot_nombre_proveedor, $not_origen_novedad, $not_tipo_novedad, $not_novedad_id, $not_operacion, $not_bus, $ot_descrip);
    break;
 
    case 'no_genera_ot':

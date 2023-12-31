@@ -1,58 +1,53 @@
 ///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-///:: OT CORRECTIVAS v 2.0 FECHA: 2023-06-21 ::::::::::::::::::::::::::::::::::::::::::::::///
-///:: CREAR, EDITAR, ELIMINAR TABLA DE OT CORRECTIVAS :::::::::::::::::::::::::::::::::::::///
+///:: ORDEN DE TRABAJO v 3.0 FECHA: 2023-12-28 ::::::::::::::::::::::::::::::::::::::::::::///
+///:: CREAR, EDITAR, ELIMINAR TABLA DE ORDEN DE TRABAJO :::::::::::::::::::::::::::::::::::///
 ///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///:: DECLARACION DE VARIABLES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-var tablaOT, selectAniosOT, FechaInicioOT, FechaTerminoOT, fila_ot, ot_observadas;
-FechaInicioOT   = "";
-FechaTerminoOT  = "";
+var tabla_ot, fecha_inicio_ot, fecha_termino_ot, fila_ot, ot_observadas;
+fecha_inicio_ot   = "";
+fecha_termino_ot  = "";
 mi_carpeta      = f_DocumentRoot();
-const fecha_hoy = new Date();
 
-///:: JS DOM OT CORRECTIVAS :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+///:: JS DOM ORDEN DE TRABAJO :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 $(document).ready(function(){
     ot_observadas = f_ot_observadas();
     $("#ot_alerta").html(ot_observadas);
 
-    if(FechaInicioOT=="" && FechaTerminoOT==""){
-        FechaInicioOT = f_CalculoFecha("hoy","-1 Months");
-        FechaTerminoOT = f_CalculoFecha("hoy","0");
-        $('#FechaInicioOT').val(FechaInicioOT);
-        $('#FechaTerminoOT').val(FechaTerminoOT);
+    if(fecha_inicio_ot=="" && fecha_termino_ot==""){
+        fecha_inicio_ot = f_CalculoFecha("hoy","-1 Months");
+        fecha_termino_ot = f_CalculoFecha("hoy","0");
+        $('#fecha_inicio_ot').val(fecha_inicio_ot);
+        $('#fecha_termino_ot').val(fecha_termino_ot);
     }
 
     // Si hay cambios en el Fecha se ocultan botones y datatable
-    $("#FechaInicioOT").on('change', function () {
-        $("#div_tablaOT").empty();
-    });
-    
-    $("#FechaTerminoOT").on('change', function () {
-        $("#div_tablaOT").empty();
+    $("#fecha_inicio_ot, #fecha_termino_ot").on('change', function () {
+        $("#div_tabla_ot").empty();
     });
 
-    ///:: BOTONES DE OT CORRECTIVAS :::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+    ///:: BOTONES DE ORDEN DE TRABAJO :::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
-    ///:: BOTON BUSCAR OT CORRECTIVAS :::::::::::::::::::::::::::::::::::::::::::::::::::::///
-    $("#btnBuscarOT").on("click",function(){
-        FechaInicioOT = $("#FechaInicioOT").val();
-        FechaTerminoOT = $("#FechaTerminoOT").val();
+    ///:: BOTON BUSCAR ORDEN DE TRABAJO :::::::::::::::::::::::::::::::::::::::::::::::::::///
+    $("#btn_buscar_ot").on("click",function(){
+        fecha_inicio_ot = $("#fecha_inicio_ot").val();
+        fecha_termino_ot = $("#fecha_termino_ot").val();
 
-        div_tabla = f_CreacionTabla("tablaOT","");
-        $("#div_tablaOT").html(div_tabla);
-        columnastabla = f_ColumnasTabla("tablaOT","");
+        div_tabla = f_CreacionTabla("tabla_ot","");
+        $("#div_tabla_ot").html(div_tabla);
+        columnas_tabla = f_ColumnasTabla("tabla_ot","");
     
-        $("#tablaOT").dataTable().fnDestroy();
-        $('#tablaOT').show();
+        $("#tabla_ot").dataTable().fnDestroy();
+        $('#tabla_ot').show();
 
         // Setup - add a text input to each footer cell
-        $('#tablaOT thead tr')
+        $('#tabla_ot thead tr')
             .clone(true)
-            .addClass('filtersOT')
-            .appendTo('#tablaOT thead');
+            .addClass('filters_ot')
+            .appendTo('#tabla_ot thead');
 
-        Accion='LeerOT';
-        tablaOT = $('#tablaOT').DataTable({
+        Accion='leer_ot';
+        tabla_ot = $('#tabla_ot').DataTable({
             //Color a las filas
             "rowCallback":function(row,data,index){
                 f_ColorFilasOTCorrectivas(row,data);
@@ -65,11 +60,11 @@ $(document).ready(function(){
                 // For each column
                 api.columns().eq(0).each(function (colIdx) {
                     // Set the header cell to contain the input element
-                    var cell = $('.filtersOT th').eq($(api.column(colIdx).header()).index());
+                    var cell = $('.filters_ot th').eq($(api.column(colIdx).header()).index());
                     var title = $(cell).text();
                     $(cell).html('<input type="text" placeholder="' + title + '" />');
                     // On every keypress in this input
-                    $('input',$('.filtersOT th').eq($(api.column(colIdx).header()).index()) ).off('keyup change').on('keyup change', function (e) {
+                    $('input',$('.filters_ot th').eq($(api.column(colIdx).header()).index()) ).off('keyup change').on('keyup change', function (e) {
                         e.stopPropagation();
                         // Get the search value
                         $(this).attr('title', $(this).val());
@@ -85,7 +80,6 @@ $(document).ready(function(){
                     });
                 });
             },
-            // Para mostrar la barra scroll horizontal y vertical
             deferRender:    true,
             scrollY:        800,
             scrollCollapse: true,
@@ -98,11 +92,8 @@ $(document).ready(function(){
             fixedHeader:{
                 header : false
             },
-            //Para mostrar 50 registros popr página 
             pageLength  : 50,
-            //Para cambiar el lenguaje a español
-            language: idiomaEspanol, 
-            //Para usar los botones
+            language: idioma_espanol, 
             responsive  : "true",
             dom         : 'Blfrtip', // Con Botones Excel,Pdf,Print
             buttons:[
@@ -111,23 +102,23 @@ $(document).ready(function(){
                     text        : '<i class="fas fa-file-excel"></i> ',
                     titleAttr   : 'Exportar a Excel',
                     className   : 'btn btn-success',
-                    title       : 'OT CORRECTIVAS',
+                    title       : 'ORDEN DE TRABAJO',
                 },
             ],
             "ajax":{            
-                "url": "Ajax.php", 
-                "method": 'POST', //usamos el metodo POST
-                "data": {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,FechaInicioOT:FechaInicioOT,FechaTerminoOT:FechaTerminoOT}, //enviamos opcion 4 para que haga un SELECT
-                "dataSrc":""
+                "url"       : "Ajax.php", 
+                "method"    : 'POST', //usamos el metodo POST
+                "data"      : {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,fecha_inicio_ot:fecha_inicio_ot,fecha_termino_ot:fecha_termino_ot}, //enviamos opcion 4 para que haga un SELECT
+                "dataSrc"   : ""
             },
-            "columns": columnastabla,
-            "columnDefs": [
+            "columns"       : columnas_tabla,
+            "columnDefs"    : [
                 {
-                    "targets"   : [ 0, 15, 16],
+                    "targets"   : [ 0, 11],
                     "orderable" : false
                 },
                 {
-                    "targets"  : [15],
+                    "targets"  : [10],
                     "render"   : function(data, type, row, meta) {
                         if(data!=""){
                             return '<div class="text-center"><div class="btn-group"><button title="Ver Vales" class="btn btn-sm btn-outline-secondary btn_ver_vales">'+data+'</button></div></div>';
@@ -140,17 +131,16 @@ $(document).ready(function(){
             "order": [[1, 'desc']]
         });     
     });  
-    ///:: FIN BOTON BUSCAR OT CORRECTIVAS :::::::::::::::::::::::::::::::::::::::::::::::::///
+    ///:: FIN BOTON BUSCAR ORDEN DE TRABAJO :::::::::::::::::::::::::::::::::::::::::::::::///
 
     ///:: EVENTO DEL BOTON EDITAR :::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-    $(document).on("click", ".btnEditarOT", function(){		
+    $(document).on("click", ".btn_editar_ot", function(){		
         fila_ot = $(this).closest('tr'); 
         ot_id = fila_ot.find('td:eq(1)').text();
         ot_id = ot_id.substring(2);
         $("#ot_id").val(ot_id);
         $('#nav-profile-tab').tab('show')
-        document.getElementById("btnCargarOT").click();
-        $("#ot_tecnico").focus().select();
+        document.getElementById("btn_cargar_ot").click();
     });
     ///:: FIN EVENTO DEL BOTON EDITAR :::::::::::::::::::::::::::::::::::::::::::::::::::::///
     
@@ -222,15 +212,15 @@ $(document).ready(function(){
 
     ///::::::::::::::: BOTON DESCARGAR OT :::::::::::::::::::::::///
     $(document).on("click", ".btn_descargar_ot", function(){		
-        FechaInicioOT   = $("#FechaInicioOT").val();
-        FechaTerminoOT  = $("#FechaTerminoOT").val();
+        fecha_inicio_ot   = $("#fecha_inicio_ot").val();
+        fecha_termino_ot  = $("#fecha_termino_ot").val();
         Accion          = 'descargar_ot';
         $.ajax({
             url         : "Ajax.php",
             type        : "POST",
             datatype    : "json",
             async       : false,
-            data        : {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,FechaInicioOT:FechaInicioOT,FechaTerminoOT:FechaTerminoOT},
+            data        : {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,fecha_inicio_ot:fecha_inicio_ot,fecha_termino_ot:fecha_termino_ot},
             beforeSend  : function(){
                 Swal.fire({
                   icon              : 'success',
@@ -240,18 +230,18 @@ $(document).ready(function(){
                 })
             },
             success     : function(data){
-                window.location.href = mi_carpeta + "Module/OTCorrectivas/Controller/csv_descarga.php?Archivo=" + data;
+                window.location.href = mi_carpeta + "Module/orden_trabajo/Controller/csv_descarga.php?Archivo=" + data;
             }
         });
     });
 
-    ///:: TERMINO DE BOTONES OT CORRECTIVAS :::::::::::::::::::::::::::::::::::::::::::::::///
+    ///:: TERMINO DE BOTONES ORDEN DE TRABAJO :::::::::::::::::::::::::::::::::::::::::::::::///
 });
-///:: TERMINO DE JS DON OT CORRECTIVAS ::::::::::::::::::::::::::::::::::::::::::::::::::::///
+///:: TERMINO DE JS DON ORDEN DE TRABAJO ::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 
 
-///:: FUNCIONES DE OT CORRECTIVAS :::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+///:: FUNCIONES DE ORDEN DE TRABAJO :::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 function f_ColorFilasOTCorrectivas(row,data){
     let color;
@@ -301,8 +291,7 @@ function f_ot_observadas(){
 function f_editar_ot(p_ot_id){
     $("#ot_id").val(p_ot_id);
     $('#nav-profile-tab').tab('show')
-    document.getElementById("btnCargarOT").click();
-    $("#ot_tecnico").focus().select();
+    document.getElementById("btn_cargar_ot").click();
 }
 
-///:: TERMINO FUNCIONES DE OT CORRECTIVAS :::::::::::::::::::::::::::::::::::::::::::::::::///
+///:: TERMINO FUNCIONES DE ORDEN DE TRABAJO :::::::::::::::::::::::::::::::::::::::::::::::::///

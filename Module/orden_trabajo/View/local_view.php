@@ -47,7 +47,7 @@
 	<div class="my-contenidoModulo container-fluid pl-0 pr-0 ml-0 mr-0">
 
 		<nav>
-			<div class="nav nav-tabs" id="nav-tab-OTCorrectivas" role="tablist">
+			<div class="nav nav-tabs" id="nav-tab-ot" role="tablist">
 				<!-- PHP Accesos Creacion Tabs -->
 			</div>
 		</nav>
@@ -59,23 +59,23 @@
 			<!------------------------------------------------------------------------------->
 			<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 
-				<form id="formSeleccionOT" class="row col-sm-12 container-fluid" enctype="multipart/form-data" action="" method="post">	    
+				<form id="form_seleccion_ot" class="row col-sm-12 container-fluid" enctype="multipart/form-data" action="" method="post">	    
 					<div class="row align-items-end pb-4 col-sm-12">
 						<div class="col-lg-1">
 			      			<div class="form-group">
-								<label for="" class="col-form-label form-control-sm">F.INICIO</label>
-								<input type="date" class="form-control form-control-sm" id="FechaInicioOT" placeholder="dd/mm/aaaa" >
+								<label for="fecha_inicio_ot" class="col-form-label form-control-sm">F.INICIO</label>
+								<input type="date" class="form-control form-control-sm" id="fecha_inicio_ot" placeholder="dd/mm/aaaa" >
 			      			</div>
 			    		</div>
 						<div class="col-lg-1">
 			    		  	<div class="form-group">
-								<label for="" class="col-form-label form-control-sm">F.TERMINO</label>
-								<input type="date" class="form-control form-control-sm" id="FechaTerminoOT" placeholder="dd/mm/aaaa" >
+								<label for="fecha_termino_ot" class="col-form-label form-control-sm">F.TERMINO</label>
+								<input type="date" class="form-control form-control-sm" id="fecha_termino_ot" placeholder="dd/mm/aaaa" >
 			    		  	</div>
 			    		</div>
 						<div class="col-lg-2">             	
 							<div class="form-group">
-								<button type="button" id="btnBuscarOT"class="btn btn-secondary btn-sm"> Buscar </button>
+								<button type="button" id="btn_buscar_ot"class="btn btn-secondary btn-sm btn_buscar_ot">Buscar</button>
 								<button type="button" id="btn_descargar_ot" class="btn btn-secondary btn-sm btn_descargar_ot">Descargar</button>
 							</div>
 				    	</div>
@@ -84,7 +84,7 @@
 
 				<div class="row p-3">
 					<div class="col-auto m-0">
-						<div class="table-responsive" id="div_tablaOT">
+						<div class="table-responsive" id="div_tabla_ot">
 							<!-- PHP Accesos CreacionTabla -->
 						</div>
     				</div>
@@ -125,22 +125,22 @@
 			<!------------------------------------------------------------------------------->
 			<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
 
-				<form id="formSeleccionProcesarOT" class="row col-sm-12 container-fluid" onsubmit="return false;">	    
+				<form id="form_seleccion_procesar_ot" class="row col-sm-12 container-fluid" onsubmit="return false;">	    
 					<div class="row align-items-end pb-0 col-sm-12 mb-1">
-						<div class="col-lg-2">
+						<div class="col col-lg-2 col-md-4 col-sm-3">
 							<div class="form-group mb-0">
 								<div class="input-group mt-3">
 							  		<div class="input-group-prepend">
-       									<span class="input-group-text form-control-sm" id="basic-addon1">OT N° P-</span>
+       									<span class="input-group-text form-control-sm" id="basic-addon1">OT N°</span>
         								<input type="text" class="form-control form-control-sm" id="ot_id" placeholder="Código OT" aria-label="ot_id" aria-describedby="basic-addon1">
 							  		</div>
       							</div>
 							</div>
 			        	</div>
 
-						<div class="col-lg-2">
+						<div class="col col-lg-2 col-md-4 col-sm-3">
 							<div class="form-group mb-0">
-								<button type="button" id="btnCargarOT" class="btn btn-secondary btn-sm" >Cargar</button>
+								<button type="button" id="btn_cargar_ot" class="btn btn-secondary btn-sm btn_cargar_ot" >Cargar</button>
 								<button type="button" title='Ver OT' id='btn_procesar_ver_ot' class='btn btn-secondary btn-sm btn_procesar_ver_ot'><i class='bi bi-search'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-search' viewBox='0 0 16 16'><path d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/></svg></i></button>
 							</div>
 			       		</div>
@@ -149,48 +149,41 @@
 				</form>
 
 				<div class="container-fluid ml-0 mr-0 mb-0">
-					<form id="formProcesarOT" enctype="multipart/form-data" action="" method="post" onsubmit="return false;">
+					<form id="form_procesar_ot" enctype="multipart/form-data" action="" method="post" onsubmit="return false;">
 			      		<div class="form-group">
-							<div class="row d-flex justify-content-araound">
-								<div class="col-lg-6 mx-1">
+							<div class="row d-flex col-sm-12 justify-content-araound">
+								<div class="col-lg-6 col-md-12 col-sm-12">
 									<div class="row border border-muted border-radius rounded mb-2">
 										<div class="col-lg-12">
 											<div class="row">
-												<div class="col-lg-1 border border-muted border-radius rounded d-flex align-items-center">
+												<div class="col-lg-1 col-sm-1 border border-muted border-radius rounded d-flex align-items-center">
 													<div class="form-group form-control-sm mb-1">
-														<h5 class="font-weight-bold">LBI</h5>
+														<img src="Module/orden_trabajo/View/Img/favicon.ico" alt="">
 													</div>
 												</div>
-												<div class="col-lg-3 border border-muted border-radius rounded">
+												<div class="col-lg-3 col-sm-3 border border-muted border-radius rounded">
 													<div class="row align-items-end">
 														<div class="col-lg-12">
-															<div class="form-group form-control-sm mb-1 text-center">
-																<label for="" class="form-control-sm pl-0 mb-0">Orden de Trabajo</label>
-																<label for="" class="form-control-sm pl-0 mb-0">MT-F-04</label>
-															</div>
+															<p class="text-sm m-0">
+																<strong>Código: </strong>MT-F0-004
+															</p>
+															<p class="text-sm m-0">
+																<strong>Emisión: </strong>29-11-2023
+															</p>
+															<p class="text-sm m-0">
+																<strong>Versión: </strong>02
+															</p>
 														</div>
 													</div>
 												</div>
-												<div class="col-lg-6 border border-muted border-radius rounded">
-													<div class="row align-items-end">
-														<div class="col-lg-12">
-															<div class="form-group form-control-sm mb-1 text-center">
-																<label for="ot_origen" class="form-control-sm pl-0 mb-0">ORIGEN</label>
-															</div>
-														</div>
-													</div>
-													<div class="row align-items-end">
-														<div class="col-lg-12">
-															<div class="form-group form-control-sm mb-1">
-																<select class="col-form-label form-control form-control-sm mb-1" id="ot_origen" name="ot_origen" >
-																</select>
-															</div>
-														</div>
+												<div class="col-lg-5 border border-muted border-radius rounded d-flex align-items-center">
+													<div class="form-group form-control-sm mb-1 text-center">
+														<h3 class="font-weight-bold">ORDEN DE TRABAJO</h3>
 													</div>
 												</div>	
-												<div class="col-lg-2 border border-muted border-radius rounded d-flex align-items-center">
-													<div class="form-group form-control-sm mb-1 text-center" id="div_CodigoOT">
-														<!-- PHP MostrarDiv Codigo OT -->
+												<div class="col-lg-3 border border-muted border-radius rounded d-flex align-items-center">
+													<div class="form-group form-control-sm mb-1 text-center" id="div_codigo_ot">
+
 													</div>
 												</div>		
 											</div>
@@ -214,49 +207,43 @@
 												</div>
 												<div class="col-lg-10">
 													<div class="row align-items-end border border-muted border-radius rounded">
-														<div class="col-lg-2">
-															<div class="form-group form-control-sm mb-1">	
-																<label for="ot_cgm_crea" class="form-control-sm pl-0 mb-0">GENERO</label>
+														<div class="col-lg-1">
+															<div class="form-group form-control-sm mb-1 text-center">
+																<label for="ot_origen" class="form-control-sm pl-0 mb-0">ORIGEN</label>
 															</div>
 														</div>
-														<div class="col-lg-5">
+														<div class="col-lg-8">
 															<div class="form-group form-control-sm mb-1">
-																<select class="col-form-label form-control form-control-sm mb-1" id="ot_cgm_crea" name="ot_cgm_crea" >
+																<select class="col-form-label form-control form-control-sm mb-1" id="ot_origen" name="ot_origen" >
 																</select>
 															</div>
 														</div>
-														<div class="col-lg-1">
-															<div class="form-group form-control-sm mb-1">	
-																<label for="ot_data_crea" class="form-control-sm pl-0 mb-0">EL</label>
-															</div>
-														</div>
-														<div class="col-lg-4">
-															<div class="form-group form-control-sm mb-1">
-																<input type="datetime-local" class="form-control form-control-sm mb-1" id="ot_date_crea">
+														<div class="col-lg-3">
+															<div class="form-group form-control-sm mb-1 text-center">
+															<input type="text" readonly class="form-control form-control-sm mb-1" id="ot_tipo" placeholder="TIPO DE OT">
 															</div>
 														</div>
 													</div>
 													<div class="row align-items-end border border-muted border-radius rounded">
-														<div class="col-lg-2">
+														<div class="col-lg-1">
 															<div class="form-group form-control-sm mb-1">	
-																<label for="ot_asociado" class="form-control-sm pl-0 mb-0">ASOCIADO</label>
+																<label for="ot_cgm" class="form-control-sm pl-0 mb-0">CGM</label>
 															</div>
 														</div>
-														<div class="col-lg-5">
+														<div class="col-lg-6">
 															<div class="form-group form-control-sm mb-1">
-																<select class="col-form-label form-control form-control-sm mb-1" id="ot_asociado" name="ot_asociado" >
+																<select class="col-form-label form-control form-control-sm mb-1" id="ot_cgm" name="ot_cgm" >
 																</select>
 															</div>
 														</div>
 														<div class="col-lg-1">
 															<div class="form-group form-control-sm mb-1">	
-																<label for="ot_resp_asoc" class="form-control-sm pl-0 mb-0">RESP</label>
+																<label for="ot_fecha_registro" class="form-control-sm pl-0 mb-0">FECHA</label>
 															</div>
 														</div>
 														<div class="col-lg-4">
 															<div class="form-group form-control-sm mb-1">
-																<select class="col-form-label form-control form-control-sm mb-1" id="ot_resp_asoc" name="ot_resp_asoc" >
-																</select>
+																<input type="datetime-local" class="form-control form-control-sm mb-1" id="ot_fecha_registro">
 															</div>
 														</div>
 													</div>
@@ -267,9 +254,47 @@
 									<div class="row border border-muted border-radius rounded mb-2">
 										<div class="col-lg-12">	
 											<div class="row align-items-end border border-muted border-radius rounded">
+												<div class="form-group col-lg-12 mb-1">
+    												<label for="ot_actividad" class="form-control-sm pl-0 mb-0">ACTIVIDAD (Máximo 500 carácteres)</label>
+    												<textarea class="form-control form-control-sm mb-1 text-uppercase" id="ot_actividad" rows="2" placeholder="escribe algo aqui..." maxlength="500"></textarea>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-lg-7 border border-muted border-radius rounded">
+													<div class="row align-items-end">
+														<div class="col-lg-1">
+															<div class="form-group form-control-sm mb-1">	
+																<label for="ot_nombre_proveedor" class="form-control-sm pl-0 mb-0">PROV.</label>
+															</div>
+														</div>
+														<div class="col-lg-11">
+															<div class="form-group form-control-sm mb-1">
+																<select class="col-form-label form-control form-control-sm mb-1" id="ot_nombre_proveedor" name="ot_nombre_proveedor" >
+																</select>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="col-lg-5 border border-muted border-radius rounded">
+													<div class="row align-items-end">
+														<div class="col-lg-2">
+															<div class="form-group form-control-sm mb-1">
+																<label for="ot_sistema" class="form-control-sm pl-0 mb-0">SISTEMA</label>
+															</div>
+														</div>
+														<div class="col-lg-10">
+															<div class="form-group form-control-sm mb-1">
+																<select class="col-form-label form-control form-control-sm mb-1" id="ot_sistema" name="ot_sistema" >
+																</select>	
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="row align-items-end border border-muted border-radius rounded">
 												<div class="col-lg-2">
 													<div class="form-group form-control-sm mb-1">
-														<label for="ot_kilometraje" class="form-control-sm pl-0 mb-0">KILOMETRAJE:</label>
+														<label for="ot_kilometraje" class="form-control-sm pl-0 mb-0">KILOMETRAJE</label>
 													</div>
 												</div>
 												<div class="col-lg-2">
@@ -278,186 +303,37 @@
 													</div>
 												</div>
 												<div class="col-lg-8">
-													<div class="form-group form-control-sm mb-1" id="div_KmComparacion">
+													<div class="form-group form-control-sm mb-1" id="div_km_comparacion">
 							    						<!-- JS f_CalculoKilometraje -->
 													</div>
 												</div>
 											</div>
-											<div class="row">
-												<div class="col-lg-6 border border-muted border-radius rounded">
-													<div class="row align-items-end">
-														<div class="col-lg-6">
-															<div class="form-group form-control-sm mb-1">
-																<label for="ot_hmotor" class="form-control-sm pl-0 mb-0">HORA MOTOR:</label>
-															</div>
-														</div>
-														<div class="col-lg-6">
-															<div class="form-group form-control-sm mb-1">
-																<input type="number" class="form-control form-control-sm mb-1" id="ot_hmotor">
-															</div>
-														</div>
-													</div>
-												</div>
-												<div class="col-lg-6 border border-muted border-radius rounded">
-													<div class="row align-items-end">
-														<div class="col-lg-4">
-															<div class="form-group form-control-sm mb-1">
-																<label for="ot_check" class="form-control-sm pl-0 mb-0">CHECK:</label>
-															</div>
-														</div>
-														<div class="col-lg-8">
-															<div class="form-group form-control-sm mb-1">
-																<select class="col-form-label form-control form-control-sm mb-1" id="ot_check" name="ot_check" >
-																</select>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-lg-6 border border-muted border-radius rounded">
-													<div class="row align-items-end">
-														<div class="col-lg-6">
-															<div class="form-group form-control-sm mb-1">
-																<label for="ot_cod_vinculada" class="form-control-sm pl-0 mb-0">NRO. OT VINCULADA</label>
-															</div>
-														</div>
-														<div class="col-lg-6">
-															<div class="form-group form-control-sm mb-1">
-																<input type="number" class="form-control form-control-sm mb-1" id="ot_cod_vinculada">
-															</div>
-														</div>
-													</div>
-												</div>
-												<div class="col-lg-6 border border-muted border-radius rounded">
-													<div class="row align-items-end">
-														<div class="col-lg-4">
-															<div class="form-group form-control-sm mb-1">
-																<label for="ot_accidentes_id" class="form-control-sm pl-0 mb-0">N° IP:</label>
-															</div>
-														</div>
-														<div class="col-lg-8">
-															<div class="form-group form-control-sm mb-1">
-																<input type="text" class="col-form-label form-control form-control-sm mb-1" id="ot_accidentes_id" name="ot_accidentes_id" placeholder="Informe Preliminar" disabled>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
 											<div class="row align-items-end border border-muted border-radius rounded">
 												<div class="form-group col-lg-12 mb-1">
-    												<label for="ot_descrip" class="form-control-sm pl-0 mb-0">DESCRIPCION DE LA ACTIVIDAD (Verbo + Detalle - Máximo 10000 carácteres)</label>
-    												<textarea class="form-control form-control-sm mb-1 text-uppercase" id="ot_descrip" rows="3" placeholder="escribe algo aqui..." maxlength="10000"></textarea>
-												</div>
-											</div>
-											<div class="row align-items-end border border-muted border-radius rounded">
-												<div class="form-group col-lg-12 mb-1">
-    												<label for="ot_obs_cgm" class="form-control-sm pl-0 mb-0">OBSERVACIONES DE CGM (Máximo 1000 carácteres)</label>
-    												<textarea class="form-control form-control-sm mb-1 text-uppercase" id="ot_obs_cgm" rows="3" placeholder="escribe algo aqui..." maxlength="1000"></textarea>
-												</div>
-											</div>
-											<div class="row align-items-end border border-muted border-radius rounded">
-												<div class="col-lg-3">
-													<div class="form-group form-control-sm mb-1">	
-														<label for="ot_cgm_ct" class="form-control-sm pl-0 mb-0">CIERRE TECNICO POR</label>
-													</div>
-												</div>
-												<div class="col-lg-4">
-													<div class="form-group form-control-sm mb-1">
-														<select class="col-form-label form-control form-control-sm mb-1" id="ot_cgm_ct" name="ot_cgm_ct" >
-														</select>
-													</div>
-												</div>
-												<div class="col-lg-4">
-													<div class="form-group form-control-sm mb-1" id="div_ot_date_ct">	
-														<!-- PHP MostrarDiv Cierre Tecnico -->
-													</div>
+    												<label for="ot_ejecucion" class="form-control-sm pl-0 mb-0">EJECUCION DE ACTIVIDAD - DESCRIBA DETALLADAMENTE (Máximo 5000 carácteres)</label>
+    												<textarea class="form-control form-control-sm mb-1 text-uppercase" id="ot_ejecucion" rows="5" placeholder="escribe algo aqui..." maxlength="5000"></textarea>
 												</div>
 											</div>
 										</div>
 									</div>
 									<div class="row border border-muted border-radius rounded">
 										<div class="col-lg-12">	
-											<div class="row">
-												<div class="col-lg-6 border border-muted border-radius rounded d-flex align-items-center">
-													<div class="form-group form-control-sm mb-1 text-center">
-														<h5 class="font-weight-bold">CIERRE (ACCION TOMADA)</h5>
-													</div>
-												</div>
-												<div class="col-lg-6">
-													<div class="row border border-muted border-radius rounded">
-														<div class="col-lg-4">
-															<div class="form-group form-control-sm mb-1">	
-																<label for="ot_inicio" class="form-control-sm pl-0 mb-0">INICIO:</label>
-															</div>
-														</div>
-														<div class="col-lg-8">
-															<div class="form-group form-control-sm mb-1">
-																<input type="datetime-local" class="form-control form-control-sm mb-1" id="ot_inicio">
-															</div>
-														</div>
-													</div>
-													<div class="row border border-muted border-radius rounded">
-														<div class="col-lg-4">
-															<div class="form-group form-control-sm mb-1">	
-																<label for="ot_fin" class="form-control-sm pl-0 mb-0">FINALIZO:</label>
-															</div>
-														</div>
-														<div class="col-lg-8">
-															<div class="form-group form-control-sm mb-1">
-																<input type="datetime-local" class="form-control form-control-sm mb-1" id="ot_fin">
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-lg-6 border border-muted border-radius rounded">
-													<div class="row align-items-end">
-														<div class="col-lg-3">
-															<div class="form-group form-control-sm mb-1">
-																<label for="ot_sistema" class="form-control-sm pl-0 mb-0">SISTEMA:</label>
-															</div>
-														</div>
-														<div class="col-lg-9">
-															<div class="form-group form-control-sm mb-1">
-																<select class="col-form-label form-control form-control-sm mb-1" id="ot_sistema" name="ot_sistema" >
-																</select>	
-															</div>
-														</div>
-													</div>
-												</div>
-												<div class="col-lg-6 border border-muted border-radius rounded">
-													<div class="row align-items-end">
-														<div class="col-lg-6">
-															<div class="form-group form-control-sm mb-1">
-																<label for="ot_codfalla" class="form-control-sm pl-0 mb-0">CODIGO FALLA:</label>
-															</div>
-														</div>
-														<div class="col-lg-6">
-															<div class="form-group form-control-sm mb-1">
-																<input type="text" class="form-control form-control-sm mb-1" id="ot_codfalla">	
-															</div>
-														</div>
-													</div>
+											<div class="row align-items-end border border-muted border-radius rounded">
+												<div class="form-group col-lg-12 mb-1">
+    												<label for="ot_obs_proveedor" class="form-control-sm pl-0 mb-0">OBSERVACION PROVEEDOR (Máximo 2500 carácteres)</label>
+    												<textarea class="form-control form-control-sm mb-1 text-uppercase" id="ot_obs_proveedor" rows="3" placeholder="escribe algo aqui..." maxlength="2500"></textarea>
 												</div>
 											</div>
 											<div class="row align-items-end border border-muted border-radius rounded">
 												<div class="form-group col-lg-12 mb-1">
-    												<label for="ot_at" class="form-control-sm pl-0 mb-0">DESCRIPCION DE ACCION TOMADA (Máximo 5000 carácteres)</label>
-    												<textarea class="form-control form-control-sm mb-1 text-uppercase" id="ot_at" rows="3" placeholder="escribe algo aqui..." maxlength="5000"></textarea>
-												</div>
-											</div>
-											<div class="row align-items-end border border-muted border-radius rounded">
-												<div class="form-group col-lg-12 mb-1">
-    												<label for="ot_obs_asoc" class="form-control-sm pl-0 mb-0">OBSERVACIONES DE ASOCIADO (Máximo 5000 carcteres):</label>
-    												<textarea class="form-control form-control-sm mb-1 text-uppercase" id="ot_obs_asoc" rows="3" placeholder="escribe algo aqui..." maxlength="5000"></textarea>
+    												<label for="ot_obs_cgm" class="form-control-sm pl-0 mb-0">OBSERVACION CGM (Máximo 2500 carácteres):</label>
+    												<textarea class="form-control form-control-sm mb-1 text-uppercase" id="ot_obs_cgm" rows="3" placeholder="escribe algo aqui..." maxlength="2500"></textarea>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-								<div class="col-lg-5 mx-1">
+								<div class="col-lg-6 col-md-12 col-sm-12">
 									<div class="row border border-muted border-radius rounded mb-2">
 										<div class="col-lg-12">
 											<div class="row">
@@ -484,108 +360,13 @@
 									</div>
 									<div class="row border border-muted border-radius rounded mb-2">
 										<div class="col-lg-12">
-											<div class="row align-items-end border border-muted border-radius rounded">
-												<div class="col-lg-6">
-													<div class="form-group form-control-sm mb-1">
-														<label for="ot_montado" class="form-control-sm pl-0 mb-0">N° Serie o codigo de Componente Montado :</label>
-													</div>
-												</div>
-												<div class="col-lg-6">
-													<div class="form-group form-control-sm mb-1">
-														<input type="text" class="form-control form-control-sm mb-1" id="ot_montado">	
-													</div>
-												</div>
-											</div>
-											<div class="row align-items-end border border-muted border-radius rounded">
-												<div class="col-lg-6">
-													<div class="form-group form-control-sm mb-1">
-														<label for="ot_dmontado" class="form-control-sm pl-0 mb-0">N° Serie o codigo de Componente Desmontado :</label>
-													</div>
-												</div>
-												<div class="col-lg-6">
-													<div class="form-group form-control-sm mb-1">
-														<input type="text" class="form-control form-control-sm mb-1" id="ot_dmontado">	
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-lg-6 border border-muted border-radius rounded">
-													<div class="row align-items-end">
-														<div class="col-lg-7">
-															<div class="form-group form-control-sm mb-1">
-																<label for="ot_busdmont" class="form-control-sm pl-0 mb-0">Se desmonto del bus:</label>
-															</div>
-														</div>
-														<div class="col-lg-5">
-															<div class="form-group form-control-sm mb-1">
-																<select class="col-form-label form-control form-control-sm mb-1" id="ot_busdmont" name="ot_busdmont" >
-																</select>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div class="col-lg-6 border border-muted border-radius rounded">
-													<div class="row align-items-end">
-														<div class="col-lg-5">
-															<div class="form-group form-control-sm mb-1">
-																<label for="ot_busmont" class="form-control-sm pl-0 mb-0">Para el bus:</label>
-															</div>
-														</div>
-														<div class="col-lg-5">
-															<div class="form-group form-control-sm mb-1">
-																<select class="col-form-label form-control form-control-sm mb-1" id="ot_busmont" name="ot_busmont" >
-																</select>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="row align-items-end border border-muted border-radius rounded">
-												<div class="col-lg-3">
-													<div class="form-group form-control-sm mb-1">
-														<label for="ot_motivo" class="form-control-sm pl-0 mb-0">Motivo Montaje :</label>
-													</div>
-												</div>
-												<div class="col-lg-9">
-													<div class="form-group form-control-sm mb-1">
-														<input type="text" class="form-control form-control-sm mb-1 text-uppercase" id="ot_motivo">	
-													</div>
-												</div>
-											</div>
-											<div class="row align-items-end border border-muted border-radius rounded">
-												<div class="col-lg-3">
-													<div class="form-group form-control-sm mb-1">
-														<label for="ot_componenete_raiz" class="form-control-sm pl-0 mb-0 ">Componente Raiz :</label>
-													</div>
-												</div>
-												<div class="col-lg-9">
-													<div class="form-group form-control-sm mb-1">
-														<input type="text" class="form-control form-control-sm mb-1 text-uppercase" id="ot_componente_raiz">	
-													</div>
-												</div>
-											</div>
-											<div class="row align-items-end border border-muted border-radius rounded">
-												<div class="col-lg-3">
-													<div class="form-group form-control-sm mb-1">
-														<label for="ot_tecnico" class="form-control-sm pl-0 mb-0">TECNICO ASOCIADO :</label>
-													</div>
-												</div>
-												<div class="col-lg-6">
-													<div class="form-group form-control-sm mb-1">
-														<select class="col-form-label form-control form-control-sm mb-1" id="ot_tecnico" name="ot_tecnico" >
-														</select>
-													</div>
-												</div>
+											<div class="row justify-content-end">
 												<div class="col-lg-3">
 													<div class="form-group form-control-sm mb-1">
 														<button type="button" id="btn_horas_tecnicos" class="btn btn-secondary btn-sm form-control-sm mb-1 btn_horas_tecnicos">+ Horas por Técnico</button>
 													</div>
 												</div>												
 											</div>
-										</div>
-									</div>
-									<div class="row border border-muted border-radius rounded mb-5">
-										<div class="col-lg-12">
 											<div class="container-fluid caja">
 												<div class="row w-100 p-0 m-0">
 											       	<div class="col-lg-12">
@@ -599,24 +380,12 @@
 									</div>
 									<div class="row border border-muted border-radius rounded mb-2">
 										<div class="col-lg-12">
-											<div class="row align-items-end border border-muted border-radius rounded">
-												<div class="col-lg-12">
-													<div class="form-group form-control-sm mb-1" id="div_ot_ca">
-														<!-- PHP MostrarDiv Cierre Administrativo -->
-													</div> 
-												</div>
-											</div>
-											<div class="row align-items-end border border-muted border-radius rounded">
-												<div class="col-lg-6 border border-muted border-radius rounded">
-													<div class="form-group form-control-sm mb-1" id="div_ot_estadoactual">
-														<!-- PHP MostrarDiv Estado Actual OT -->
-													</div>
-												</div>
+											<div class="row align-items-end">
 												<div class="col-lg-6 border border-muted border-radius rounded">
 													<div class="row align-items-end">
 														<div class="col-lg-5">
 															<div class="form-group form-control-sm mb-1">
-																<label for="ot_semana_cierre" class="form-control-sm pl-0 mb-0">SEMANA CIERRE:</label>
+																<label for="ot_semana_cierre" class="form-control-sm pl-0 mb-0">SEMANA CIERRE</label>
 															</div>
 														</div>
 														<div class="col-lg-7">
@@ -627,39 +396,35 @@
 														</div>
 													</div>
 												</div>
-											</div>
-											<div class="row align-items-end border border-muted border-radius rounded">
-												<div class="form-group col-lg-12 mb-1">
-    												<label for="ot_obs_aom" class="form-control-sm pl-0 mb-0">OBSERVACIONES DE CIERRE ADMINISTRATIVO</label>
-													<button type="button" id="btnLogOT" class="btn btn-info btn-sm">Log..</button>
-    												<textarea class="form-control form-control-sm mb-1 text-uppercase" id="ot_obs_aom2" rows="3" placeholder="escribe algo aqui..."></textarea>
-												</div>
-											</div>
-											<div class="row align-items-end border border-muted border-radius rounded">
-												<div class="col-lg-4">
-													<div class="form-group form-control-sm mb-1">
-														<label for="ot_estado" class="form-control-sm pl-0 mb-0">GUARDAR OT COMO :</label>
-													</div>
-												</div>
-												<div class="col-lg-4">
-													<div class="form-group form-control-sm mb-1">
-														<select class="col-form-label form-control form-control-sm mb-1" id="ot_estado" name="ot_estado" >
-														</select>
-													</div>
-												</div>
-												<div class="col-lg-4">
-													<div class="form-group form-control-sm mb-1" id="div_btn_guardar_ot">
-														<!-- MostrarDiv -->
+												<div class="col-lg-6 border border-muted border-radius rounded">
+													<div class="row align-items-end">
+														<div class="col-lg-6">
+															<div class="form-group form-control-sm mb-1">
+																<label for="ot_estado" class="form-control-sm pl-0 mb-0">GUARDAR OT COMO</label>
+															</div>
+														</div>
+														<div class="col-lg-6">
+															<div class="form-group form-control-sm mb-1">
+																<select class="col-form-label form-control form-control-sm mb-1" id="ot_estado" name="ot_estado" >
+																</select>
+															</div>
+														</div>
 													</div>
 												</div>
 											</div>
-
 										</div>
 									</div>
+									<div class="row justify-content-end ">
+										<div class="col-lg-4">
+											<div class="form-group form-control-sm mb-1" id="div_btn_guardar_ot">
+														<!-- MostrarDiv -->
+											</div>
+										</div>
+									</div>
+
 								</div>
 							</div>
 						</div>
-					
 					</form>
 				</div>
 
@@ -742,7 +507,7 @@
 				</div>  			
 
 				<!-- Modal para CRUD LOG OTCorretivas-->
-				<div class="row modal fade" id="modalCRUDLogOT" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="row modal fade" id="modal_crud_log_ot" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 					<div class="modal-dialog modal-lg" role="document">
 			        	<div class="modal-content">
 					    	<div class="modal-header">
@@ -750,11 +515,11 @@
 			                	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
 			                	</button>
 			            	</div>
-					  		<form id="formModalLogOT" enctype="multipart/form-data" action="" method="post">    
+					  		<form id="form_modal_log_ot" enctype="multipart/form-data" action="" method="post">    
 			      		    	<div class="modal-body">
 									<div class="row align-items-end">
 										<div class="col-lg-12">
-											<div class="form-control-sm mb-1 overflow-auto h-100 border border-muted border-radius rounded" id="div_logOT">
+											<div class="form-control-sm mb-1 overflow-auto h-100 border border-muted border-radius rounded" id="div_log_ot">
 												<!-- JS Cierre Administrativo -->
 											</div>
 			      		            	</div>
@@ -767,7 +532,7 @@
 			        	</div>
 			    	</div>
 				</div>
-				<!-- Termino de CRUD LOG PEDIDOS --> 
+				<!-- Termino de CRUD LOG ORDE DE TRABAJO --> 
 
 			</div>
 
@@ -1143,8 +908,8 @@
 				      		        <div class="row">
 										<div class="col-lg-12">
 						                  	<div class="form-group">
-						                   		<label for="got_ot_tipo" class="col-form-label form-control-sm">TIPO ORDEN DE TRABAJO</label>
-						                   		<select class="form-control form-control-sm" id="got_ot_tipo">
+						                   		<label for="got_ot_origen" class="col-form-label form-control-sm">ORIGEN</label>
+						                   		<select class="form-control form-control-sm" id="got_ot_origen">
 												</select>
 				  		                	</div>
 			      		            	</div>
@@ -1152,8 +917,8 @@
 			      		        	<div class="row"> 
 										<div class="col-lg-12">
 					  		                <div class="form-group">
-							                	<label for="got_asociado" class="col-form-label form-control-sm">ASOCIADO</label>
-												<select class="form-control form-control-sm" id="got_asociado">
+							                	<label for="got_proveedor" class="col-form-label form-control-sm">PROVEEDOR</label>
+												<select class="form-control form-control-sm" id="got_proveedor">
 
 												</select>
 				  			                </div> 

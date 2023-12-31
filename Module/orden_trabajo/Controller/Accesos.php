@@ -8,7 +8,7 @@ class Accesos
 		$tabshtml = '';
 		switch($NombreTabs)
 		{
-			case "nav-tab-OTCorrectivas":
+			case "nav-tab-ot":
 				$tabshtml = '	<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Listado</a>
 								<a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false"><span id="idProcesar">Procesar</span></a>
 								<a class="nav-item nav-link" id="nav-cierre_semanal-tab" data-toggle="tab" href="#nav-cierre_semanal" role="tab" aria-controls="nav-cierre_semanal" aria-selected="false"><span id="id_cierre_semanal">Cierre Semanal</span></a>
@@ -47,26 +47,21 @@ class Accesos
 		$tablahtml = "";
         switch ($NombreTabla) 
 		{
-            case "tablaOT":
-                $tablahtml = '	<table id="tablaOT" class="table table-striped table-bordered table-condensed w-80">
+            case "tabla_ot":
+                $tablahtml = '	<table id="tabla_ot" class="table table-striped table-bordered table-condensed w-100">
 									<thead class="text-center">
 										<tr>
-											<th>VER OT</th>
-											<th>CODIGO OT</th>
+											<th>VER</th>
+											<th>OT_ID</th>
 											<th>ESTADO</th>
 											<th>FECHA_APERTURA.</th>
-											<th>USUARIO_GENERA</th>
+											<th>CGM_GENERA</th>
 											<th>BUS</th>
 											<th>ORIGEN</th>
-											<th>ASOCIADO</th>
-											<th>TECNICO</th>
+											<th>PROVEEDOR</th>
 											<th>DESCRIPCION_ACTIVIDAD</th>
-											<th>CIERRE_TECNICO</th>
-											<th>CGM_CIERRE_TECNICO</th>
-											<th>CIERRE_ADM.</th>
-											<th>RESP._CIERRE_ADM.</th>
 											<th>KILOMETRAJE</th>
-											<th>VER VALES</th>
+											<th>VALES</th>
 											<th>ACCIONES</th>
 										</tr>
 									</thead>
@@ -210,23 +205,18 @@ class Accesos
 		$columnashtml = "";
         switch ($NombreTabla) 
 		{
-            case "tablaOT":
+            case "tabla_ot":
 				$defaultContent0 = "<div class='text-center'><div class='btn-group'><button title='Ver OT' class='btn btn-sm btn_ver_ot'><i class='bi bi-search'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-search' viewBox='0 0 16 16'><path d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/></svg></i></button></div></div>";
-				$defaultContent1 = "<div class='text-center'><div class='btn-group'><button class='btn btn-primary btn-sm btnEditarOT'><i class='bi bi-pencil'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pencil' viewBox='0 0 16 16'><path d='M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z'/></svg></i></button></div></div>";
+				$defaultContent1 = "<div class='text-center'><div class='btn-group'><button class='btn btn-primary btn-sm btn_editar_ot'><i class='bi bi-pencil'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pencil' viewBox='0 0 16 16'><path d='M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z'/></svg></i></button></div></div>";
 				$columnashtml = '[	{"defaultContent": " '.$defaultContent0.' "},
 									{"data": "ot_id"},
 									{"data": "ot_estado"},
-									{"data": "ot_date_crea"},
-									{"data": "ot_cgm_crea"},
+									{"data": "ot_fecha"},
+									{"data": "ot_cgm_genera"},
 									{"data": "ot_bus"},
 									{"data": "ot_origen"},
-									{"data": "ot_asociado"},
-									{"data": "ot_tecnico"},
-									{"data": "ot_descrip"},
-									{"data": "ot_fin"},
-									{"data": "ot_cgm_ct"},
-									{"data": "ot_date_ca"},
-									{"data": "ot_ca"},
+									{"data": "ot_proveedor"},
+									{"data": "ot_actividad"},
 									{"data": "ot_kilometraje"},
 									{"data": "ot_vales"},
 									{"defaultContent": " '.$defaultContent1.' "}
@@ -352,7 +342,7 @@ class Accesos
 					case "div_alertsDropdown_ot":
 						MModel($this->Modulo, 'CRUD');
 						$InstanciaAjax	= new CRUD();
-						$Respuesta		= $InstanciaAjax->buscar_estado("manto_orden_trabajo", "ot_estado", "OBSERVADO", "ot_date_crea", "2022-12-31");
+						$Respuesta		= $InstanciaAjax->buscar_estado("manto_ots", "ot_estado", "OBSERVADO");
 
 						$divformulario = '	<h6 class="dropdown-header">
 												Alertas OTs Observadas
@@ -367,7 +357,7 @@ class Accesos
 													</div>	
 													<div>
 														<div class="font-weight-bold">'.substr($row['ot_tipo'],0,1).'-'.$row['ot_id'].'</div>
-														<span class="small text-gray-500">'.$row['ot_date_crea'].' - '.$row['ot_bus'].' - '.$row['ot_asociado'].'</span>
+														<span class="small text-gray-500">'.$row['ot_fecha_registro'].' - '.$row['ot_bus'].' - '.$row['ot_proveedor'].'</span>
 													</div>
 												</a>';		
 						}
@@ -385,11 +375,11 @@ class Accesos
 		$color = "";
 		switch($NombreFormulario)
 		{
-			case "formProcesarOT":
+			case "form_procesar_ot":
 				switch($NombreObjeto)
 				{
-					case "div_CodigoOT":
-						$Mostrar_div = '<h5 class="font-weight-bold">N° '.$Dato1.'</h5>';
+					case "div_codigo_ot":
+						$Mostrar_div = '<h4 class="font-weight-bold">N° '.$Dato1.'</h4>';
 					break;
 
 					case "div_ot_estadoactual":
@@ -427,10 +417,11 @@ class Accesos
 					break;
 
 					case "btn_guardar_ot":
-						if($Dato1=='CERRADO'){
-							$Mostrar_div = ' <button type="button" id="btn_cancelar_ot" class="btn btn-light btn-sm form-control-sm mb-1 btn_cancelar_ot ">Cancelar</button> ';	
-						}else{
-							$Mostrar_div = ' <button type="button" id="btnGuardarOT" class="btn btn-dark btn-sm form-control-sm mb-1 btnGuardarOT ">Guardar</button> ';
+						$Mostrar_div  = ' <button type="button" id="btn_log_ot" class="btn btn-info btn-sm btn_log_ot">Log</button> ';
+						$Mostrar_div .= ' <button type="button" id="btn_procesar_imprimir_ot" title="Imprimir" class="btn btn-secondary btn-sm btn_procesar_imprimir_ot"><i class="bi bi-printer-fill"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer-fill" viewBox="0 0 16 16"><path d="M5 1a2 2 0 0 0-2 2v1h10V3a2 2 0 0 0-2-2zm6 8H5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1"/><path d="M0 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1v-2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2H2a2 2 0 0 1-2-2zm2.5 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/></svg></i></button> ';
+						$Mostrar_div .= ' <button type="button" id="btn_cancelar_ot" class="btn btn-light btn-sm form-control-sm mb-1 btn_cancelar_ot">Cancelar</button> ';
+						if($Dato1!=='CERRADO'){
+							$Mostrar_div .= ' <button type="button" id="btn_guardar_ot" class="btn btn-dark btn-sm form-control-sm mb-1 btn_guardar_ot">Guardar</button> ';
 						}
 					break;
 
@@ -527,6 +518,9 @@ class Accesos
 						$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'btn_vincular_ot');
 						if ($Respuesta=="SI" && $Dato1!=="inicio"){
 							$Mostrar_div .= '<button type="button" id="btn_vincular_ot" class="btn btn-secondary btn-sm btn_vincular_ot ml-1">Vincular</button>';
+						}
+						if($Dato1=="GENERADO"){
+							$Mostrar_div .= '<button type="button" id="btn_novedad_imprimir_ot" title="Imprimir" class="btn btn-secondary btn-sm btn_novedad_imprimir_ot ml-1"><i class="bi bi-printer-fill"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer-fill" viewBox="0 0 16 16"><path d="M5 1a2 2 0 0 0-2 2v1h10V3a2 2 0 0 0-2-2zm6 8H5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1"/><path d="M0 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1v-2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2H2a2 2 0 0 1-2-2zm2.5 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/></svg></i></button>';
 						}
 					break;
 				}

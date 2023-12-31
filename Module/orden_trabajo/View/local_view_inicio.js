@@ -1,14 +1,14 @@
 ///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-///:: OT CORRECTIVAS v 3.0 FECHA: 14-06-2023 ::::::::::::::::::::::::::::::::::::::::::::::///
-///:: CREAR, EDITAR, ELIMINAR TABLA DE OT CORRECTIVAS :::::::::::::::::::::::::::::::::::::///
+///:: ORDEN DE TRABAJO v 4.0 FECHA: 28-12-2023 ::::::::::::::::::::::::::::::::::::::::::::///
+///:: CREAR, EDITAR, ELIMINAR TABLA DE ORDEN DE TRABAJO :::::::::::::::::::::::::::::::::::///
 ///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///:: Declaracion de Variables ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-var MoS, NombreMoS, Accion, idiomaEspanol, div_tabs, div_tablas, div_boton, div_show, columnastabla, mi_carpeta;
+var MoS, NombreMoS, Accion, idioma_espanol, div_tabs, div_tablas, div_boton, div_show, columnas_tabla, mi_carpeta;
 MoS       = 'Module';
 NombreMoS = 'orden_trabajo';
 mi_carpeta      = f_DocumentRoot();
-idiomaEspanol = {
+idioma_espanol = {
     "lengthMenu"  : "&nbsp&nbsp&nbsp&nbspMostrar _MENU_ registros",
     "zeroRecords" : "No se encuentran resultados",
     "info"        : "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
@@ -24,13 +24,13 @@ idiomaEspanol = {
     "sProcessing" : "Procesando...",
 };
 
-///:: JS DOM OT CORRECTIVAS :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+///:: JS DOM ORDEN DE TRABAJO :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 $(document).ready(function(){
   div_show = f_MostrarDiv("contenido", "div_alertsDropdown_ayuda", NombreMoS, "");
   $("#div_alertsDropdown_ayuda").html(div_show);
 
-  div_tabs = f_CreacionTabs("nav-tab-OTCorrectivas","");
-  $("#nav-tab-OTCorrectivas").html(div_tabs);
+  div_tabs = f_CreacionTabs("nav-tab-ot","");
+  $("#nav-tab-ot").html(div_tabs);
 
   div_tabs = f_CreacionTabs("nav-tab-ajustes_ot","");
   $("#nav-tab-ajustes_ot").html(div_tabs);
@@ -39,7 +39,7 @@ $(document).ready(function(){
 });
 
 
-///:: FUNCIONES DE OT CORRECTIVAS ::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+///:: FUNCIONES DE ORDEN DE TRABAJO ::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 function f_TipoTabla(p_Operacion,p_Tipo){
   let rptaSelect="";
   Accion='SelectTipos';
@@ -344,4 +344,4 @@ function f_MostrarDiv(pNombreFormulario,pNombreObjeto,pDato1, pDato2){
 }
 ///:: FIN DE FUNCIONES ACCESOS ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
-///:: TERMINO DE FUNCIONES DE OT CORRECTIVAS ::::::::::::::::::::::::::::::::::::::::::::::///
+///:: TERMINO DE FUNCIONES DE ORDEN DE TRABAJO ::::::::::::::::::::::::::::::::::::::::::::///

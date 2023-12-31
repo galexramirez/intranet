@@ -34,7 +34,7 @@ $(document).ready(function(){
     $("#div_btn_cierre_semanal").html(div_show);
     div_tabla = f_CreacionTabla("tabla_cierre_semanal","");
     $("#div_tabla_cierre_semanal").html(div_tabla);
-    columnastabla = f_ColumnasTabla("tabla_cierre_semanal","");
+    columnas_tabla = f_ColumnasTabla("tabla_cierre_semanal","");
 
     anios_cierre_semanal = $("#select_anios_cierre_semanal").val();
     $("#tabla_cierre_semanal").dataTable().fnDestroy();
@@ -42,7 +42,7 @@ $(document).ready(function(){
 
     Accion='leer_cierre_semanal';
     tabla_cierre_semanal = $('#tabla_cierre_semanal').DataTable({
-      language: idiomaEspanol,
+      language: idioma_espanol,
       order: [[ 0, "desc" ]],
       responsive: "true",
       dom: 'Blfrtip', // Con Botones Excel,Pdf,Print
@@ -61,7 +61,7 @@ $(document).ready(function(){
         "data"    : {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,anios_cierre_semanal:anios_cierre_semanal}, //enviamos opcion 4 para que haga un SELECT
         "dataSrc" : ""
       },
-      "columns": columnastabla
+      "columns": columnas_tabla
     }); 
   });
   ///:: FIN BOTON BUSCAR CIERRE SEMANAL OT CORRECTIVAS ::::::::::::::::::::::::::::::::::::///
