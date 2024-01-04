@@ -864,27 +864,23 @@ class Logico
 
     public function DescargarInfoBus($ib_FechaInicio,$ib_FechaTermino,$ib_Bus,$ib_Tipo,$ib_Sistema,$ib_Contenga, $ib_origen)
     {
-       /*  $micarpeta = $_SERVER['DOCUMENT_ROOT']."/reportes";
+        $mi_carpeta = $_SERVER['DOCUMENT_ROOT'];
         $date = date('d-m-Y-'.substr((string)microtime(), 1, 8));
         $date = str_replace(".", "", $date);
         $filename = "OTs".$ib_Tipo."_".$date;
-        $file_csv = $filename.".csv"; */
+        $file_csv = $filename.".csv";
 
         MModel($this->Modulo,'CRUD');
-        $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->DescargarInfoBus($ib_FechaInicio,$ib_FechaTermino,$ib_Bus,$ib_Tipo,$ib_Sistema,$ib_Contenga, $ib_origen);
-        //$Respuesta=$InstanciaAjax->DescargarInfoBus($ib_FechaInicio,$ib_FechaTermino,$ib_Bus,$ib_Tipo,$ib_Sistema,$ib_Contenga, $ib_origen, $file_csv);
-
-        $micarpeta  = $_SERVER['DOCUMENT_ROOT']."/Services/Json";
-        $date       = date('d-m-Y-'.substr((string)microtime(), 1, 8));
-        $date       = str_replace(".", "", $date);
-        $filename   = "OTs".$ib_Tipo."_".$date;
-        $file_json  = $filename.".json";
-        $data       = json_encode($Respuesta, JSON_UNESCAPED_UNICODE);
-        file_put_contents($micarpeta."/".$file_json, $data);
-        echo $filename;
+        $InstanciaAjax = new CRUD();
+        $Respuesta = $InstanciaAjax->DescargarInfoBus($ib_FechaInicio,$ib_FechaTermino,$ib_Bus,$ib_Tipo,$ib_Sistema,$ib_Contenga, $ib_origen);
         
-        //echo $file_csv;
+        sleep(60);
+
+        $file_sistema_csv = $mi_carpeta."/reportes/sistema.csv";
+        $file_out_csv = $mi_carpeta."/Services/Json/".$file_csv;
+        copy($file_sistema_csv, $file_out_csv);
+
+        echo $file_csv;
     }
 
     function DocumentRoot()
@@ -944,6 +940,19 @@ class Logico
             $html  = number_format($row['km'],0,".",",").' AL '.date_format($fecha,"d/m/Y");
         }
         echo $html;
+    }
+
+    function borrar_archivo($archivo){
+        $rpta_borrar = "ELIMINADO";
+        $mi_carpeta  = $_SERVER['DOCUMENT_ROOT']."/Services/Json";
+        
+        unlink($mi_carpeta.'/'.$archivo);
+        
+        if(file_exists($mi_carpeta.'/'.$archivo)){
+            $rpta_borrar = "NO ELIMINADO";
+        }
+        
+        echo $rpta_borrar;
     }
 
 }

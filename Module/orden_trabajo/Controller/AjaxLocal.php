@@ -269,6 +269,14 @@ switch ($Accion)
       $Respuesta     = $InstanciaAjax->ver_ot($ot_id);
    break;
 
+   case 'imprimir_ot':
+      $ot_id= $_POST['ot_id'];
+
+      MController($Modulo,'imprimir');
+      $InstanciaAjax = new imprimir();
+      $Respuesta = $InstanciaAjax->imprimir_ot($ot_id);
+   break;
+
    case 'ver_vale':
       $ot_id = $_POST['ot_id'];
 

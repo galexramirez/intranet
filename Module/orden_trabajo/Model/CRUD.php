@@ -178,7 +178,9 @@ class CRUD
 
 		$resultado = $this->conexion->prepare($consulta);
         $resultado->execute();        
-        $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+
+		$ot_id = $this->conexion->lastInsertId();
+		return $ot_id;
 
 		$this->conexion=null;
 	}

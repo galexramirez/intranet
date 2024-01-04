@@ -4,7 +4,7 @@
 ///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///:: DECLARACION DE VARIABLES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-var tabla_novedades, fecha_inicio_novedades, fecha_termino_novedades, fila_novedades, novedad_id, tipo_operacion, bus_tipo, tipo_novedad, origen_novedad, filas_seleccionadas, nro_bus, accion_ot;
+var tabla_novedades, fecha_inicio_novedades, fecha_termino_novedades, fila_novedades, novedad_id, tipo_operacion, bus_tipo, tipo_novedad, origen_novedad, filas_seleccionadas, nro_bus, accion_ot, not_ot_id;
 fecha_inicio_novedades   = "";
 fecha_termino_novedades  = "";
 
@@ -40,6 +40,7 @@ $(document).ready(function(){
         tipo_novedad = "";
         origen_novedad = "";
         nro_bus = "";
+        not_ot_id = "";
         accion_ot = "";
 
         if(tabla_novedades.rows('.selected').data().length===1){
@@ -50,6 +51,7 @@ $(document).ready(function(){
             nro_bus        = fila_novedades.find('td:eq(6)').text();
             componente     = fila_novedades.find('td:eq(7)').text();
             accion_ot      = fila_novedades.find('td:eq(11)').text();
+            not_ot_id      = fila_novedades.find('td:eq(12)').text();
             ot_estado      = fila_novedades.find('td:eq(13)').text();
         }
         filas_seleccionadas = tabla_novedades.rows('.selected').data().toArray();
@@ -62,7 +64,7 @@ $(document).ready(function(){
         if(tipo_operacion=="ALIMENTADOR"){
             bus_tipo = "ALIMENTADOR";
         }
-        console.log(ot_estado);
+
         div_show = f_MostrarDiv("form_seleccion_novedades", "btn_seleccion_novedades", ot_estado, componente);
         $("#div_btn_seleccion_novedades").html(div_show);
     });
@@ -196,6 +198,24 @@ $(document).ready(function(){
         });
     });
     ///:: FIN BOTON NOVEDAD NO GENERA OT ::::::::::::::::::::::::::::::::::::::::::::::::::///
+
+    ///:: EVENTO DEL BOTON IMPRIMIR NOVEDAD ORDEN DE TRABAJO ::::::::::::::::::::::::::::::///
+    $(document).on("click", ".btn_novedad_imprimir_ot", function(){
+        let nro_ot = not_ot_id.substring(2);
+        nro_ot = parseInt(nro_ot);
+        if(not_ot_id!==""){
+            f_imprimir_ot(nro_ot);
+        }else{
+            Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: "No existe N° OT : "+not_ot_id+" !!!",
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
+    });
+    ///:: FIN DE EVENTO DEL BOTON IMPRIMIR NOVEDAD ORDEN DE TRABAJO :::::::::::::::::::::::///
 
     ///:: TERMINO DE BOTONES NOVEDADES MANTENIMIENTO ::::::::::::::::::::::::::::::::::::::///
 });

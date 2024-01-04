@@ -40,6 +40,7 @@ $(document).ready(function(){
     $('#form_genera_ot').submit(function(e){                         
         e.preventDefault();
         let validacion_got = '';
+        let nueva_ot = '';
     
         got_ot_origen = $("#got_ot_origen").val();
         got_proveedor = $("#got_proveedor").val(); 
@@ -63,6 +64,28 @@ $(document).ready(function(){
                 datatype    : "json",    
                 data        : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, ot_origen:got_ot_origen, ot_nombre_proveedor:got_proveedor, not_origen_novedad:origen_novedad, not_tipo_novedad:tipo_novedad, not_novedad_id:novedad_id,not_operacion:tipo_operacion, not_bus:nro_bus, ot_descrip:accion_ot},    
                 success     : function(data) {
+                    nueva_ot = data;
+                    if(nueva_ot!==""){
+                        Swal.fire({
+                            title: "¿ Desea imprimir OT ?",
+                            showDenyButton: true,
+                            confirmButtonText: "Imprimir",
+                            denyButtonText: `No imprimir`,
+                          }).then((result) => {
+                            /* Read more about isConfirmed, isDenied below */
+                            if (result.isConfirmed) {
+                                f_imprimir_ot(nueva_ot);
+                            } else if (result.isDenied) {
+                                Swal.fire({
+                                    position: "top-end",
+                                    icon: "info",
+                                    title: "Impresión Cancelada!",
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                  });
+                            }
+                          });
+                    }
                     tabla_novedades.ajax.reload(null, false);
                     div_show = f_MostrarDiv("form_seleccion_novedades", "btn_seleccion_novedades", "inicio", "inicio");
                     $("#div_btn_seleccion_novedades").html(div_show);

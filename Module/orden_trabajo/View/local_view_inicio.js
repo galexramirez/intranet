@@ -148,7 +148,7 @@ function f_BuscarDataBD(pTablaBD,pCampoBD,pDataBuscar){
   $.ajax({
     url       : "Ajax.php",
     type      : "POST",
-    datatype  :"json",
+    datatype  : "json",
     async     : false,
     data      : {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,TablaBD:pTablaBD,CampoBD:pCampoBD,DataBuscar:pDataBuscar},    
     success   : function(data){
@@ -245,6 +245,30 @@ function f_contar_dato(p_nombre_tabla, p_campo_buscar, p_condicion_where){
   });
   return rpta_contar;
 }
+
+///:: FUNCION QUE GENERA LA IMPRESION DE LA OT ::::::::::::::::::::::::::::::::::::::::::::///
+function f_imprimir_ot(p_ot_id){
+  Accion = 'imprimir_ot';
+  $.ajax({
+    url     : "Ajax.php",
+    type    : "POST",
+    datatype: "json",
+    async   : false,    
+    data    : {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, ot_id:p_ot_id},
+    success: function(data){
+      if(data === "imprimiendo"){
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Imprimiendo...",
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
+    }
+  });
+}
+///:: FIN DE FUNCION QUE GENERA LA IMPRESION DE LA OT :::::::::::::::::::::::::::::::::::::///
 
 ///:: FUNCIONES ACCESOS :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 function f_CreacionTabs(pNombreTabs,pTipoTabs){

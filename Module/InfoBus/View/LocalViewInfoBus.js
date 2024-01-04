@@ -184,7 +184,7 @@ $(document).ready(function(){
     ///::::::::::::::: JS CARGA DE DATA TABLE :::::::::::::://
     $("#btnDescargarInfoBus").on("click",function()
     {
-      let validacion="", t_DiferenciaFecha="";
+      let validacion = "";
       ib_FechaInicio  = $("#ib_FechaInicio").val();
       ib_FechaTermino = $("#ib_FechaTermino").val();
       ib_Bus      = $("#ib_Bus").val();
@@ -194,9 +194,6 @@ $(document).ready(function(){
       ib_origen   = $("#ib_origen").val();
       
       validacion = validar(ib_FechaInicio,ib_FechaTermino, ib_Bus);
-      if(ib_Bus=="TODOS"){
-        t_DiferenciaFecha = f_DiferenciaFecha(ib_FechaInicio,ib_FechaTermino,'366');
-      }
 
       if(validacion=="invalido"){
         Swal.fire({
@@ -205,43 +202,35 @@ $(document).ready(function(){
           text: '*Es posible que la Información no sea la correcta!!!'
         })
       }else{
-        if(t_DiferenciaFecha=="NO"){
-          $("#ib_FechaInicio").addClass("color-error");
-          $("#ib_FechaTermino").addClass("color-error");
-          Swal.fire({
-            icon: 'error',
-            title: 'Consulta Mayores a 1 año',
-            html: "Debe seleccionar un bus !!!",
-          })
-        }else{
           // Descarga archivo csv o Excel
           Accion='DescargarInfoBus';
           $.ajax({
-              url: "Ajax.php",
-              type: "POST",
-              datatype:"json",
-              async: false,
-              data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,ib_FechaInicio:ib_FechaInicio,ib_FechaTermino:ib_FechaTermino,ib_Bus:ib_Bus,ib_Tipo:ib_Tipo,ib_Sistema:ib_Sistema,ib_Contenga:ib_Contenga, ib_origen:ib_origen},
+              url     : "Ajax.php",
+              type    : "POST",
+              datatype: "json",
+              data    : {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,ib_FechaInicio:ib_FechaInicio,ib_FechaTermino:ib_FechaTermino,ib_Bus:ib_Bus,ib_Tipo:ib_Tipo,ib_Sistema:ib_Sistema,ib_Contenga:ib_Contenga, ib_origen:ib_origen},
               beforeSend: function(){
                 Swal.fire({
-                  icon: 'success',
-                  title: 'Procesando Información',
-                  showConfirmButton: false,
-                  timer: 5000
+                  icon              : 'success',
+                  title             : 'Procesando Información...',
+                  showConfirmButton : false,
+                  timer             : 90000
                 })
               },
               success: function(data){
-                //window.location.href = miCarpeta + "Module/InfoBus/Controller/Excel_Descarga.php?Archivo=" + data + "&Tipo=" + ib_Tipo;
-                window.location.href = miCarpeta + "Module/InfoBus/Controller/csv_Descarga.php?Archivo=" + data + "&Tipo=" + ib_Tipo;
+                Swal.fire({
+                  icon              : 'success',
+                  title             : 'Descargando Información...',
+                  showConfirmButton : false,
+                  timer             : 10000
+                })
+                let link = document.createElement('a');
+                link.href = miCarpeta + 'Services/Json/' +data;
+                link.download = data;
+                link.click();
+                f_borrar_archivo(data);
               }
           });
-                /*data = "alex.csv";
-                let link = document.createElement('a');
-                link.href = miCarpeta + 'reportes/' + data;
-                link.download = data;
-                link.click();*/
-
-        }
       }
     });
   
@@ -254,7 +243,7 @@ $(document).on("click", ".btnVerOTs", function(){
   fila_InfoBus = $(this).closest('tr'); 
   nro_ot = fila_InfoBus.find('td:eq(1)').text();
 
-  if(nro_ot.substr(0,1)=="C"){
+  if(nro_ot.substring(0,1)=="C"){
     tipo_ot = "CORRECTIVAS";
   }else{
     tipo_ot = "PREVENTIVAS";
@@ -320,7 +309,6 @@ $(document).on("click", ".btn_ver_bus", function(){
   data_BD = f_BuscarDataBD("Buses","Bus_NroExterno",bus_nro_externo);
   $.each(data_BD, function(idx, obj){
     Bus_NroExterno = obj.Bus_NroExterno;    
-    //Bus_NroVid     = obj.Bus_NroVid;
     Bus_NroPlaca   = obj.Bus_NroPlaca;  
     Bus_Operacion  = obj.Bus_Operacion;   
     Bus_Detalle    = obj.Bus_Detalle;    
@@ -369,7 +357,6 @@ $(document).on("click", ".btn_ver_bus", function(){
 ///::::::: FUNCION PARA VALIDAR LOS DATOS INGRESADOS AL FORMULARIO :::::::::::::::::::///
 function validar(pib_FechaInicio,pib_FechaTermino,pib_Bus){
   LimpiaMs();
-  let NoLetrasMayuscEspacio=/[^A-Z ]/;
   let rptaInfoBus="";    
 
   if(pib_FechaInicio > pib_FechaTermino){
@@ -421,4 +408,20 @@ function f_ColorFilasInfoBus(row,data){
     "color":color,
     "font-weight":"bold",
   });
+}
+
+function f_borrar_archivo(p_archivo){
+  let rpta_borrar = "";
+  Accion = 'borrar_archivo';
+  $.ajax({
+      url       : "Ajax.php",
+      type      : "POST",
+      datatype  : "json",    
+      async     : false,   
+      data      : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, archivo:p_archivo },   
+      success: function(data) {
+        rpta_borrar = data;
+      }
+  });
+  return rpta_borrar;
 }

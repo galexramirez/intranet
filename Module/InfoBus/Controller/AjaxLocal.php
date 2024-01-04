@@ -187,7 +187,14 @@ switch ($Accion)
       $Respuesta=$InstanciaAjax->info_bus_km($bus_nro_externo);
    break;
 
+   case 'borrar_archivo':
+      $archivo = $_POST['archivo'];
+
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta     = $InstanciaAjax->borrar_archivo($archivo);
+   break;
+
    default: header('Location: /inicio');
 }
 
-?>

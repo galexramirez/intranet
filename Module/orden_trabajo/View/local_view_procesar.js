@@ -197,6 +197,30 @@ $(document).ready(function(){
             async   : false,
             data    : {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, ot_id:ot_id, ot_origen:ot_origen, ot_bus:ot_bus, ot_kilometraje:ot_kilometraje, ot_fecha_registro:ot_fecha_registro, ot_nombre_proveedor:ot_nombre_proveedor, ot_cgm:ot_cgm, ot_estado:ot_estado, ot_actividad:ot_actividad, ot_ejecucion:ot_ejecucion, ot_obs_cgm:ot_obs_cgm, ot_sistema:ot_sistema, ot_obs_proveedor:ot_obs_proveedor, ot_semana_cierre:ot_semana_cierre, ot_tipo:ot_tipo, array_data:array_data},
             success: function(data){
+              if(opcion_ot==="CREAR"){
+                ot_id = data;
+                if(ot_id!==""){
+                  Swal.fire({
+                    title: "¿ Desea imprimir OT ?",
+                    showDenyButton: true,
+                    confirmButtonText: "Imprimir",
+                    denyButtonText: `No imprimir`,
+                  }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        f_imprimir_ot(ot_id);
+                    } else if (result.isDenied) {
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "info",
+                            title: "Impresión Cancelada!",
+                            showConfirmButton: false,
+                            timer: 1500
+                          });
+                    }
+                  });
+                }
+              }
 
             }
           });
@@ -247,32 +271,51 @@ $(document).ready(function(){
   ///:: FIN DE EVENTO DEL BOTON VER LOG ORDEN DE TRABAJO ::::::::::::::::::::::::::::::::::///
   
   ///:: EVENTO DEL BOTON VER PROCESAR ORDEN DE TRABAJO ::::::::::::::::::::::::::::::::::::///
-  $("#btn_procesar_ver_ot").click(function(){
+  $(document).on("click", ".btn_procesar_ver_ot", function(){
     $("#form_modal_ver_ot").trigger("reset");
     ot_id = $("#ot_id").val();
-      Accion = 'ver_ot';
-      $.ajax({
-        url     : "Ajax.php",
-        type    : "POST",
-        datatype: "json",
-        async   : false,    
-        data    : {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, ot_id:ot_id},    
-        success: function(data){
-          $("#div_ver_ot").html(data);
-        }
-      });
-      f_tabla_ver_horas_tecnicos(ot_id);
-      $(".modal-header").css( "background-color", "#17a2b8");
-      $(".modal-header").css( "color", "white" );
-      $(".modal-title").text("INFORMACION OTs");
-      $('#modal_crud_ver_ot').modal('show');
-      $('#modal-resizable_ver_ot').resizable();
-      $(".modal-dialog").draggable({
-        cursor: "move",
-        handle: ".dragable_touch",
-      });        
+    Accion = 'ver_ot';
+    $.ajax({
+      url     : "Ajax.php",
+      type    : "POST",
+      datatype: "json",
+      async   : false,    
+      data    : {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, ot_id:ot_id},    
+      success: function(data){
+        $("#div_ver_ot").html(data);
+      }
+    });
+    f_tabla_ver_horas_tecnicos(ot_id);
+    $(".modal-header").css( "background-color", "#17a2b8");
+    $(".modal-header").css( "color", "white" );
+    $(".modal-title").text("INFORMACION OTs");
+    $('#modal_crud_ver_ot').modal('show');
+    $('#modal-resizable_ver_ot').resizable();
+    $(".modal-dialog").draggable({
+      cursor: "move",
+      handle: ".dragable_touch",
+    });        
   });
   ///:: FIN DE EVENTO DEL BOTON VER PROCESAR ORDEN DE TRABAJO :::::::::::::::::::::::::::::///
+
+  ///:: EVENTO DEL BOTON IMPRIMIR PROCESAR ORDEN DE TRABAJO :::::::::::::::::::::::::::::::///
+  $(document).on("click", ".btn_procesar_imprimir_ot", function(){
+    ot_id = $("#ot_id").val();
+    if(ot_id!==""){
+      f_imprimir_ot(ot_id);
+    }else{
+      Swal.fire({
+        position: 'center',
+        icon: 'warning',
+        title: "No existe N° OT : "+ot_id+" !!!",
+        showConfirmButton: false,
+        timer: 1500
+      })
+    }
+  });
+  ///:: FIN DE EVENTO DEL BOTON IMPRIMIR PROCESAR ORDEN DE TRABAJO ::::::::::::::::::::::::///
+
+  ///:: TERMINO BOTONES DE ORDEN DE TRABAJO :::::::::::::::::::::::::::::::::::::::::::::::///
 
 });
 ///:: TERMINO JS DOM ORDEN DE TRABAJO :::::::::::::::::::::::::::::::::::::::::::::::::::::///

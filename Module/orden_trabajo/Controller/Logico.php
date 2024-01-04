@@ -182,7 +182,7 @@ class Logico
         $InstanciaAjax = new CRUD();
         $Respuesta = $InstanciaAjax->crear_ot($ot_id, $ot_origen, $ot_bus, $ot_kilometraje, $ot_fecha_registro, $ot_ruc_proveedor, $ot_nombre_proveedor, $ot_cgm_id, $ot_estado, $ot_actividad, $ot_ejecucion, $ot_obs_cgm, $ot_sistema, $ot_obs_proveedor, $ot_semana_cierre, $ot_tipo);
 
-        $ht_ot_id = $ot_id;
+        $ht_ot_id = $Respuesta;
         foreach($array_data as $row){
             $ht_tecnico_nombres = $row['tecnico_nombres'];
             $ht_hora_inicio     = $row['hora_inicio'];
@@ -192,6 +192,7 @@ class Logico
             $InstanciaAjax  = new CRUD();
             $Respuesta      = $InstanciaAjax->crear_horas_tecnicos($ht_ot_id, $ht_tecnico_nombres, $ht_hora_inicio, $ht_hora_fin);    
         }
+        echo $ht_ot_id;
     }
 
     public function cargar_vales($ot_id)
@@ -1068,6 +1069,8 @@ class Logico
         MModel($this->Modulo,'CRUD');
         $InstanciaAjax  = new CRUD();
         $Respuesta = $InstanciaAjax->genera_novedad_ot($not_origen_novedad, $not_tipo_novedad, $not_novedad_id, $not_operacion, $not_bus, $ot_tipo, $not_ot_id);
+
+        echo $not_ot_id;
 
     }
 
