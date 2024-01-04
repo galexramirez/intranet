@@ -43,6 +43,7 @@ class Accesos
                                             <th>ESTADO COTIZ.</th>
                                             <th>RESPONSABILIDAD</th>
                                             <th>FIRMA CONVENIO</th>
+                                            <th>NRO.SINIESTRO</th>
                                         </tr>
                                     </thead>
                                     <tbody>                           
@@ -91,7 +92,8 @@ class Accesos
                                     {"data": "monto_cotizado"},
                                     {"data": "estado_final"},
                                     {"data": "responsabilidad"},
-                                    {"data": "firma_convenio"}
+                                    {"data": "firma_convenio"},
+                                    {"data": "nro_siniestro"}
                                 ]';
             break;
 

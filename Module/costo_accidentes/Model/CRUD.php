@@ -92,7 +92,8 @@ class CRUD
 						FORMAT(`ope_accidentes_costo`.`acos_monto_cotizado`,2) AS `monto_cotizado`,
 						IF(ISNULL(`ope_accidentes_costo`.`acos_estado`)='1','PENDIENTE',`ope_accidentes_costo`.`acos_estado`) AS `estado_final`,
 						IF(ISNULL(`OPE_AccidentesInvestigacion`.`Acci_ResponsabilidadAccidente`),'EN INVESTIGACION',`OPE_AccidentesInvestigacion`.`Acci_ResponsabilidadAccidente`) AS `responsabilidad`,
-						IF(`OPE_AccidentesInvestigacion`.`Acci_ResponsabilidadAccidente`='DIRECTA',IF(ISNULL(`ope_accidentes_costo`.`acos_firma_convenio`)='1','PENDIENTE',`ope_accidentes_costo`.`acos_firma_convenio`),IF(`OPE_AccidentesInvestigacion`.`Acci_ResponsabilidadAccidente`='NO','NO APLICA','')) AS `firma_convenio`
+						IF(`OPE_AccidentesInvestigacion`.`Acci_ResponsabilidadAccidente`='DIRECTA',IF(ISNULL(`ope_accidentes_costo`.`acos_firma_convenio`)='1','PENDIENTE',`ope_accidentes_costo`.`acos_firma_convenio`),IF(`OPE_AccidentesInvestigacion`.`Acci_ResponsabilidadAccidente`='NO','NO APLICA','')) AS `firma_convenio`,
+						`OPE_AccidentesInvestigacion`.`acci_nro_siniestro` AS `nro_siniestro`
 					FROM
 						`OPE_Accidentes`
 					LEFT JOIN
