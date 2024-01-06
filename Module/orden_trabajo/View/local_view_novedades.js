@@ -204,7 +204,7 @@ $(document).ready(function(){
         let nro_ot = not_ot_id.substring(2);
         nro_ot = parseInt(nro_ot);
         if(not_ot_id!==""){
-            f_imprimir_ot(nro_ot);
+            f_imprimir_ot(nro_ot,"div_imprimir_novedad_ot");
         }else{
             Swal.fire({
                 position: 'center',

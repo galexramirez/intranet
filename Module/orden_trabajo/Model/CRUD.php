@@ -150,9 +150,9 @@ class CRUD
 						FROM 
 							`manto_ots` 
 						LEFT JOIN 
-							(SELECT `manto_vales`.`va_ot`, COUNT(*) AS `nvale` FROM `manto_vales` GROUP BY `manto_vales`.`va_ot`) AS `tvale` 
+							(SELECT `manto_vale`.`va_ot_id`, COUNT(*) AS `nvale` FROM `manto_vale` GROUP BY `manto_vale`.`va_ot_id`) AS `tvale` 
 						ON 
-							`tvale`.`va_ot`=`manto_ots`.`ot_id`
+							`tvale`.`va_ot_id`=`manto_ots`.`ot_id`
 						LEFT JOIN
 							`colaborador`
 						ON 

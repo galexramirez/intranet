@@ -69,6 +69,19 @@ switch ($Accion)
       $Respuesta     = $InstanciaAjax->buscar_dato($nombre_tabla, $campo_buscar, $condicion_where);
    break;
 
+   case 'select_combo':
+      $nombre_tabla     = $_POST['nombre_tabla'];
+      $es_campo_unico   = $_POST['es_campo_unico'];
+      $campo_select     = $_POST['campo_select'];
+      $campo_inicial    = $_POST['campo_inicial'];
+      $condicion_where  = $_POST['condicion_where'];
+      $order_by         = $_POST['order_by'];
+
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta     = $InstanciaAjax->select_combo($nombre_tabla, $es_campo_unico, $campo_select, $campo_inicial, $condicion_where, $order_by);
+   break;
+
    case 'LeerVales':
       $FechaInicioVales = $_POST['FechaInicioVales'];
       $FechaTerminoVales = $_POST['FechaTerminoVales'];

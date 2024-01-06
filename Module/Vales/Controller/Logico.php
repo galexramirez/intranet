@@ -367,4 +367,24 @@ class Logico
 		echo $rpta_buscar_dato;
 	}
 
+    public function select_combo($nombre_tabla, $es_campo_unico, $campo_select, $campo_inicial, $condicion_where, $order_by)
+	{
+		MModel($this->Modulo, 'CRUD');
+		$InstanciaAjax= new CRUD();
+		$Respuesta=$InstanciaAjax->select_combo($nombre_tabla, $es_campo_unico, $campo_select, $condicion_where, $order_by);
+
+		$html = '<option value="">Seleccione una opcion</option>';
+		
+		if($campo_inicial!=""){
+			$html .= '<option value="'.$campo_inicial.'">'.$campo_inicial.'</option>';
+		}
+
+		foreach ($Respuesta as $row) {
+			if($row['detalle']!=$campo_inicial){
+				$html .= '<option value="'.$row['detalle'].'">'.$row['detalle'].'</option>';
+			}
+		}
+		echo $html;
+	}
+
 }

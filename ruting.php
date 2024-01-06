@@ -116,8 +116,8 @@
         case '/informe_preliminar':
             MController('informe_preliminar','Renderice');   break;
         
-        case '/vales_v3':
-            MController('vales_v3','Renderice');    break;     
+        case '/vale':
+            MController('vale','Renderice');    break;     
 
         case '/dashboard_mantenimiento':
             MController('dashboard_mantenimiento','Renderice');    break;     

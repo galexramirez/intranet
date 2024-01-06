@@ -428,6 +428,9 @@
 					</form>
 				</div>
 
+				<div id="div_imprimir_procesar_ot" style="display:none" >
+				</div>
+
 				<!-- Modal para CRUD HORAS TECNICOS-->
 				<div class="row modal fade" id="modal_crud_horas_tecnicos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			    	<div class="modal-dialog" role="document">
@@ -642,6 +645,9 @@
 		       		</div>  
 		   		</div>   
 	  		
+				<div id="div_imprimir_novedad_ot" style="display:none" >
+				</div>
+
 				<!--Modal para CRUD NOVEDAD REGULAR------------------------------------------>
  				<div class="row modal fade" id="modal_crud_novedad_regular" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				    <div class="modal-dialog modal-lg" role="document">

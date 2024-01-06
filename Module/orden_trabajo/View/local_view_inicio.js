@@ -247,27 +247,18 @@ function f_contar_dato(p_nombre_tabla, p_campo_buscar, p_condicion_where){
 }
 
 ///:: FUNCION QUE GENERA LA IMPRESION DE LA OT ::::::::::::::::::::::::::::::::::::::::::::///
-function f_imprimir_ot(p_ot_id){
-  Accion = 'imprimir_ot';
-  $.ajax({
-    url     : "Ajax.php",
-    type    : "POST",
-    datatype: "json",
-    async   : false,    
-    data    : {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, ot_id:p_ot_id},
-    success: function(data){
-      if(data === "imprimiendo"){
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Imprimiendo...",
-          showConfirmButton: false,
-          timer: 1500
-        });
-      }
-    }
-  });
+function f_imprimir_ot(p_ot_id, p_div){
+  div_show = f_MostrarDiv("form_imprimir_ot", p_div, p_ot_id, "");
+  $("#"+p_div).html(div_show);
+  let printContent = document.getElementById(p_div);
+  let WinPrint = window.open('', '', 'width=900,height=650');
+  WinPrint.document.write(printContent.innerHTML);
+  WinPrint.document.close();
+  WinPrint.focus();
+  WinPrint.print();
+  WinPrint.close();
 }
+
 ///:: FIN DE FUNCION QUE GENERA LA IMPRESION DE LA OT :::::::::::::::::::::::::::::::::::::///
 
 ///:: FUNCIONES ACCESOS :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///

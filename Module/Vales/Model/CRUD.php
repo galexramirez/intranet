@@ -17,6 +17,30 @@ class CRUD
 		$this->conexion=$Instancia->Conectar(); 	
 	}
 
+	function select_combo($nombre_tabla, $es_campo_unico, $campo_select, $condicion_where, $order_by)
+	{
+		$distinct 	= "";
+		$c_where 	= "";
+		$c_order_by = "";
+		if($es_campo_unico == "SI"){
+			$distinct = "DISTINCT";
+		}
+		if($condicion_where!==""){
+			$c_where = "WHERE ".$condicion_where;
+		}
+		if($order_by!==""){
+			$c_order_by = "ORDER BY ".$order_by;
+		}
+		$consulta = "SELECT ".$distinct." `$nombre_tabla`.`$campo_select` AS `detalle` FROM `$nombre_tabla` ".$c_where." ".$c_order_by;
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();
+		
+		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+		return $data;   
+		$this->conexion=null;
+	}
+
+
 	function LeerVales($FechaInicioVales,$FechaTerminoVales)
 	{
 		$consulta = "SELECT `cod_vale`, IF(`va_ot`='0','',`va_ot`) AS `va_ot`, `manto_ot`.`ot_bus` AS `va_bus`, `manto_ot`.`ot_origen` AS `va_origen`, `va_asociado`, `va_responsable`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`va_genera` LIMIT 1) AS `va_genera`, DATE_FORMAT(`va_date_genera`,'%d-%m-%Y %H:%i') AS `va_date_genera`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`va_cierra` LIMIT 1) AS `va_cierra`, DATE_FORMAT(`va_date_cierra`,'%d-%m-%Y %H:%i') AS `va_date_cierra`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`va_cierre_adm` LIMIT 1) AS `va_cierre_adm`, DATE_FORMAT(`va_date_cierre_adm`,'%d-%m-%Y %H:%i') AS `va_date_cierre_adm`, `va_estado` FROM `manto_vales` LEFT JOIN `manto_ot` ON `cod_ot`=`va_ot` WHERE DATE_FORMAT(`va_date_genera`,'%Y-%m-%d')>='$FechaInicioVales' AND DATE_FORMAT(`va_date_genera`,'%Y-%m-%d')<='$FechaTerminoVales'";

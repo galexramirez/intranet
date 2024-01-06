@@ -302,7 +302,7 @@ $(document).ready(function(){
   $(document).on("click", ".btn_procesar_imprimir_ot", function(){
     ot_id = $("#ot_id").val();
     if(ot_id!==""){
-      f_imprimir_ot(ot_id);
+      f_imprimir_ot(ot_id, "div_imprimir_procesar_ot");
     }else{
       Swal.fire({
         position: 'center',

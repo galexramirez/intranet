@@ -184,7 +184,7 @@ $(document).ready(function(){
     ///::::::::::::::: JS CARGA DE DATA TABLE :::::::::::::://
     $("#btnDescargarInfoBus").on("click",function()
     {
-      let validacion = "";
+      let validacion = "", t_DiferenciaFecha="";
       ib_FechaInicio  = $("#ib_FechaInicio").val();
       ib_FechaTermino = $("#ib_FechaTermino").val();
       ib_Bus      = $("#ib_Bus").val();
@@ -194,14 +194,26 @@ $(document).ready(function(){
       ib_origen   = $("#ib_origen").val();
       
       validacion = validar(ib_FechaInicio,ib_FechaTermino, ib_Bus);
+      if(ib_Bus=="TODOS"){
+        t_DiferenciaFecha = f_DiferenciaFecha(ib_FechaInicio,ib_FechaTermino,'366');
+      }
 
       if(validacion=="invalido"){
         Swal.fire({
           icon: 'error',
           title: 'Informacion...',
           text: '*Es posible que la Información no sea la correcta!!!'
-        })
+        })  
       }else{
+        if(t_DiferenciaFecha=="NO"){
+          $("#ib_FechaInicio").addClass("color-error");
+          $("#ib_FechaTermino").addClass("color-error");
+          Swal.fire({
+            icon: 'error',
+            title: 'Consulta Mayores a 1 año',
+            html: "Debe seleccionar un bus !!!",
+          })
+        }else{
           // Descarga archivo csv o Excel
           Accion='DescargarInfoBus';
           $.ajax({
@@ -214,11 +226,12 @@ $(document).ready(function(){
                   icon              : 'success',
                   title             : 'Procesando Información...',
                   showConfirmButton : false,
-                  timer             : 90000
+                  timer             : 5000  // 90000
                 })
               },
               success: function(data){
-                Swal.fire({
+                window.location.href = miCarpeta + "Module/InfoBus/Controller/csv_Descarga.php?Archivo=" + data + "&Tipo=" + ib_Tipo;
+                /*Swal.fire({
                   icon              : 'success',
                   title             : 'Descargando Información...',
                   showConfirmButton : false,
@@ -228,9 +241,10 @@ $(document).ready(function(){
                 link.href = miCarpeta + 'Services/Json/' +data;
                 link.download = data;
                 link.click();
-                f_borrar_archivo(data);
+                f_borrar_archivo(data);*/
               }
           });
+        }
       }
     });
   

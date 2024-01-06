@@ -46,7 +46,7 @@ $(document).ready(function(){
         data = $.parseJSON(data);
         $.each(data, function(idx, obj){ 
           rv_desc   = obj.rv_desc;
-          rv_unidad = obj.rv_unidad;
+          rv_unidad = '';
         });
       }
     });
@@ -54,7 +54,7 @@ $(document).ready(function(){
     $("#rv_desc").val(rv_desc);
     $("#rv_unidad").val(rv_unidad);
     $("#buscar_repuesto").val("");
-    $("#rv_id").focus().select();
+    $("#rv_unidad").focus().select();
   });
 
   ///:: INICIO BOTONES DE VALES REPUESTOS :::::::::::::::::::::::::::::::::::::::::::::::::///
@@ -63,6 +63,12 @@ $(document).ready(function(){
   $(document).on("click", ".btn_repuestos_vale", function(){
     $("#form_modal_detalle_repuestos").trigger("reset");
     f_LimpiaDetalleRepuestos();
+
+    Operacion='VALES';
+    Tipo='UNIDAD';
+    selectHtmlVales="";
+    selectHtmlVales = f_TipoTabla(Operacion,Tipo);
+    $("#rv_unidad").html(selectHtmlVales);
 
     rv_id       = f_max_id(tablaDetalleRepuestos.rows().data().toArray());
     rv_repuesto = "";
@@ -97,7 +103,7 @@ $(document).ready(function(){
     rv_desc     = $("#rv_desc").val();
     rv_cantidad = $("#rv_cantidad").val();
     rv_unidad   = $("#rv_unidad").val();
-    t_ValidaDetalleRepuestos = f_ValidarDetalleRepuestos(rv_id, rv_repuesto, rv_nroserie, rv_desc, rv_cantidad)
+    t_ValidaDetalleRepuestos = f_ValidarDetalleRepuestos(rv_id, rv_repuesto, rv_nroserie, rv_desc, rv_cantidad, rv_unidad)
     if (t_ValidaDetalleRepuestos=="invalido"){
       Swal.fire({
         position          : 'center',
@@ -184,7 +190,8 @@ $(document).ready(function(){
 ///:: FUNCIONES DE VALES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///:: VALIDA LOS CAMPOS DE REPUESTOS ::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-function f_ValidarDetalleRepuestos(prv_id, prv_repuesto, prv_nroserie, prv_desc, prv_cantidad){
+function f_ValidarDetalleRepuestos(prv_id, prv_repuesto, prv_nroserie, prv_desc, prv_cantidad, prv_unidad){
+  f_LimpiaDetalleRepuestos();
   NoLetrasMayuscEspacio=/[^A-Z \Ñ]/;
   let rpta_DetalleRepuestos="";
   
@@ -204,7 +211,10 @@ function f_ValidarDetalleRepuestos(prv_id, prv_repuesto, prv_nroserie, prv_desc,
     $("#rv_cantidad").addClass("color-error");
     rpta_DetalleRepuestos="invalido";
   }
-
+  if(prv_unidad==""){
+    $("#rv_unidad").addClass("color-error");
+    rpta_DetalleRepuestos="invalido";
+  }
   return rpta_DetalleRepuestos;
 }
 ///:: FIN VALIDA LOS CAMPOS DE REPUESTOS ::::::::::::::::::::::::::::::::::::::::::::::::::///
@@ -215,6 +225,7 @@ function f_LimpiaDetalleRepuestos(){
   $("#rv_repuesto").removeClass("color-error");
   $("#rv_desc").removeClass("color-error");
   $("#rv_cantidad").removeClass("color-error");
+  $("#rv_unidad").removeClass("color-error");
 }
 ///:: FIN ELIMINA EL COLOR DE ERROR EN LOS CAMPOS :::::::::::::::::::::::::::::::::::::::::///
 

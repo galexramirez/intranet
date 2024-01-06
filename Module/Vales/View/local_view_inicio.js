@@ -135,6 +135,24 @@ function f_buscar_dato(p_nombre_tabla, p_campo_buscar, p_condicion_where){
   return rpta_buscar;
 }
 
+///:: FUNCION QUE GENERA EL LISTADO DEL COMBO SELECT ::::::::::::::::::::::::::::::::::::::///
+function f_select_combo(p_nombre_tabla, p_es_campo_unico, p_campo_select, p_campo_inicial, p_condicion_where, p_order_by){
+  let rpta_select_combo = "";
+  Accion    ='select_combo';
+  $.ajax({
+    url       : "Ajax.php",
+    type      : "POST",
+    datatype  : "json",
+    async     : false,
+    data      : {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, nombre_tabla:p_nombre_tabla, es_campo_unico:p_es_campo_unico, campo_select:p_campo_select, campo_inicial:p_campo_inicial, condicion_where:p_condicion_where, order_by:p_order_by},
+    success   : function(data){
+      rpta_select_combo = data;
+    }
+  });
+  return rpta_select_combo;
+}
+///:: FIN DE FUNCION QUE GENERA EL LISTADO DEL COMBO SELECT :::::::::::::::::::::::::::::::///
+
 function f_ayuda_modulo(man_titulo){
   let man_modulo_id = f_buscar_dato("Modulo", "Modulo_Id", "`Mod_Nombre` = '"+NombreMoS+"'");
   let manual_id = f_buscar_dato("glo_manual", "manual_id", "`man_modulo_id` = '"+man_modulo_id+"' AND `man_titulo` = '"+man_titulo+"'");

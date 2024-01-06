@@ -526,7 +526,119 @@ class Accesos
 				}
 			break;
 
-			
+			case "form_imprimir_ot":
+				MModel($this->Modulo, 'CRUD');
+				$InstanciaAjax = new CRUD();
+				$Respuesta      = $InstanciaAjax->BuscarDataBD("manto_ots","ot_id",$Dato1);
+
+				foreach ($Respuesta as $row) {
+					$ot_id = $row['ot_id'];
+					$ot_bus = $row['ot_bus'];
+					$ot_nombre_proveedor = $row['ot_nombre_proveedor'];
+					$ot_fecha_registro = $row['ot_fecha_registro'];
+					$ot_cgm_id = $row['ot_cgm_id'];	
+					$ot_actividad = $row['ot_actividad'];
+					
+					if($row['ot_ejecucion']=="" || $row['ot_ejecucion']==null){
+						$ot_ejecucion = "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>";
+					}else{
+						$ot_ejecucion = $row['ot_ejecucion'];
+					}
+					if($row['ot_kilometraje']=="0"){
+						$ot_kilometraje = "";
+					}else{
+						$ot_kilometraje = $row['ot_kilometraje'];
+					}
+					$ot_sistema = $row['ot_sistema'];
+				}
+
+				MModel($this->Modulo, 'CRUD');
+				$InstanciaAjax = new CRUD();
+				$$Respuesta = $InstanciaAjax->buscar_dato("colaborador","Colab_nombre_corto","`Colaborador_id`='".$ot_cgm_id."'");	
+
+				foreach ($$Respuesta as $row) {
+					$ot_cgm = $row['Colab_nombre_corto'];
+				}
+
+				switch($NombreObjeto)
+				{
+					case "div_imprimir_procesar_ot":
+						$Mostrar_div = '<div class="container">	
+											<div class="m-0 p-0">
+												<h3>O.T. N° '.$ot_id.'</h3>
+											</div>
+									        <div class="m-0 p-0">
+												<h3>BUS '.$ot_bus.'</h3>
+											</div>
+        									<div class="m-0 p-0" style="font-size: 13px">
+												<p><strong>PROVEEDOR :</strong>'.$ot_nombre_proveedor.'</p>
+											</div>
+											<div class="m-0 p-0" style="font-size: 13px">
+        										<p><strong>FECHA :</strong>'.$ot_fecha_registro.'</p>
+											</div>
+											<div class="m-0 p-0" style="font-size: 13px">
+        										<p><strong>CGM :</strong>'.$ot_cgm.'</p>
+											</div>
+											<div class="m-0 p-0" style="font-size: 13px">
+												<p><strong>ACTIVIDAD: </strong>'.$ot_actividad.'</p>
+											</div>
+											<div class="m-0 p-0" style="font-size: 13px">
+	        									<p><strong>KM: </strong>'.$ot_kilometraje.'</p>
+											</div>
+											<div class="m-0 p-0" style="font-size: 13px">
+												<p><strong>SISTEMA: </strong>'.$ot_sistema.'</p>
+											</div>
+											<div class="m-0 p-0" style="font-size: 13px">
+												<p><strong>EJEC.ACTIVIDAD (DESCRIBA)</strong>'.$ot_ejecucion.'</p>
+											</div>
+											<div class="m-0 p-0" style="font-size: 13px">
+        										<p><strong>COD.PAT.MONTADO: </strong></p>
+											</div>
+											<div class="m-0 p-0" style="font-size: 13px">
+												<p><strong>COd.PAT.DESMONTADO: </strong></p>
+											</div>
+										</div>';
+					break;
+
+					case "div_imprimir_novedad_ot":
+						$Mostrar_div = '<div class="container">	
+											<div class="m-0 p-0">
+												<h3>O.T. N° '.$ot_id.'</h3>
+											</div>
+									        <div class="m-0 p-0">
+												<h3>BUS '.$ot_bus.'</h3>
+											</div>
+        									<div class="m-0 p-0" style="font-size: 13px">
+												<p><strong>PROVEEDOR :</strong>'.$ot_nombre_proveedor.'</p>
+											</div>
+											<div class="m-0 p-0" style="font-size: 13px">
+        										<p><strong>FECHA :</strong>'.$ot_fecha_registro.'</p>
+											</div>
+											<div class="m-0 p-0" style="font-size: 13px">
+        										<p><strong>CGM :</strong>'.$ot_cgm.'</p>
+											</div>
+											<div class="m-0 p-0" style="font-size: 13px">
+												<p><strong>ACTIVIDAD: </strong>'.$ot_actividad.'</p>
+											</div>
+											<div class="m-0 p-0" style="font-size: 13px">
+	        									<p><strong>KM: </strong>'.$ot_kilometraje.'</p>
+											</div>
+											<div class="m-0 p-0" style="font-size: 13px">
+												<p><strong>SISTEMA: </strong>'.$ot_sistema.'</p>
+											</div>
+											<div class="m-0 p-0" style="font-size: 13px">
+												<p><strong>EJEC.ACTIVIDAD (DESCRIBA)</strong>'.$ot_ejecucion.'</p>
+											</div>
+											<div class="m-0 p-0" style="font-size: 13px">
+        										<p><strong>COD.PAT.MONTADO: </strong></p>
+											</div>
+											<div class="m-0 p-0" style="font-size: 13px">
+												<p><strong>COd.PAT.DESMONTADO: </strong></p>
+											</div>
+										</div>';
+					break;
+				}
+			break;
 		}
 		echo $Mostrar_div;
     }

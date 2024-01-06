@@ -545,7 +545,7 @@
 									<div class="row align-items-end d-flex">
 										<div class="btn-toolbar ml-auto p-2" role="toolbar" aria-label="Toolbbutton groups">
 											<div class="btn-group" role="group" aria-label="Four group" id="div_btn_guardar_vale">
-												<button tabindex="8" type="button" id="btn_cancelar_vale" class="btn btn-light btn-sm btn_cancelar_vale mr-1">Cancelar</button>
+												<button type="button" id="btn_cancelar_vale" class="btn btn-light btn-sm btn_cancelar_vale mr-1">Cancelar</button>
                            			        	<button type="button" id="btn_guardar_vale" class="btn btn-secondary btn-sm btn_guardar_vale mr-1">Guardar</button>
 											</div>
 										</div>
@@ -600,7 +600,9 @@
 										<div class="col-lg-6">
 											<div class="form-group">
 								    			<label for="rv_unidad" class="col-form-label form-control-sm">UNIDAD</label>
-												<input type="text" readonly class="form-control form-control-sm" id="rv_unidad">
+												<select tabindex="13" class="form-control form-control-sm" id="rv_unidad">
+													
+												</select>
 				  				    		</div> 
 			      		            	</div>
 									</div>
@@ -608,26 +610,26 @@
 										<div class="col-lg-3">
 											<div class="form-group">
 								    			<label for="rv_id" class="col-form-label form-control-sm">ITEM</label>
-												<input type="number" tabindex="13" class="form-control form-control-sm" id="rv_id">
+												<input type="number" tabindex="14" class="form-control form-control-sm" id="rv_id">
 				  				    		</div> 
 			      		            	</div>
 										<div class="col-lg-6">
 											<div class="form-group">
 								    			<label for="rv_nroserie" class="col-form-label form-control-sm">NRO. SERIE</label>
-												<input type="text" tabindex="14" class="form-control form-control-sm" id="rv_nroserie">
+												<input type="text" tabindex="15" class="form-control form-control-sm" id="rv_nroserie">
 				  				    		</div> 
 			      		            	</div>
 										<div class="col-lg-3">
 											<div class="form-group">
 								    			<label for="rv_cantidad" class="col-form-label form-control-sm">CANTIDAD</label>
-												<input type="text" tabindex="15" class="form-control form-control-sm" id="rv_cantidad">
+												<input type="text" tabindex="16" class="form-control form-control-sm" id="rv_cantidad">
 				  				    		</div> 
 			      		            	</div>
 									</div>
 								</div>
 			      		    	<div class="modal-footer">
-								  	<button type="button" tabindex="16" id="btn_cancelar_detalle_repuesto" class="btn btn-light btn-sm btn_cancelar_detalle_repuesto" data-dismiss="modal">Cancelar</button>
-			      					<button type="submit" tabindex="17" id="btn_guardar_detalle_repuestos" class="btn btn-dark btn-sm btn_guardar_detalle_repuestos">Agregar</button>
+								  	<button type="button" tabindex="17" id="btn_cancelar_detalle_repuesto" class="btn btn-light btn-sm btn_cancelar_detalle_repuesto" data-dismiss="modal">Cancelar</button>
+			      					<button type="submit" tabindex="18" id="btn_guardar_detalle_repuestos" class="btn btn-dark btn-sm btn_guardar_detalle_repuestos">Agregar</button>
 								</div>
 							</form>
 			        	</div>

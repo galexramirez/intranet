@@ -28,7 +28,7 @@ class imprimir
         }
 
         /* Conectamos con la impresora */
-        $nombre_impresora = "Epson TM-T20";
+        $nombre_impresora = "EPSON TM-U220 Receipt";
         $connector = new WindowsPrintConnector($nombre_impresora);
         $printer = new Printer($connector);
         $printer->setJustification(Printer::JUSTIFY_CENTER);
@@ -87,7 +87,7 @@ class imprimir
         Para imprimir realmente, tenemos que "cerrar"
         la conexión con la impresora. Recuerda incluir esto al final de todos los archivos
          */
-        //echo $nombre_impresora."<br>";
-        //$printer->close();
+        echo $nombre_impresora."<br>";
+        $printer->close();
     }
 }
