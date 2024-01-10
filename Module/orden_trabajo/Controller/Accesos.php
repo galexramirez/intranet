@@ -36,6 +36,7 @@ class Accesos
 					$tabshtml .= '	<a class="nav-item nav-link" id="nav-ajustes_ot_sistema-tab" data-toggle="tab" href="#nav-ajustes_ot_sistema" role="tab" aria-controls="nav-ajustes_ot_sistema" aria-selected="false">Sistema</a>';
 				}
 				$tabshtml .= '	<a class="nav-item nav-link" id="nav-ajustes_ot_origen-tab" data-toggle="tab" href="#nav-ajustes_ot_origen" role="tab" aria-controls="nav-ajustes_ot_origen" aria-selected="false">Origen</a>';
+				$tabshtml .= '	<a class="nav-item nav-link" id="nav-ajustes_tecnico-tab" data-toggle="tab" href="#nav-ajustes_tecnico" role="tab" aria-controls="nav-ajustes_tecnico" aria-selected="false">Técnico</a>';
 			break;
 
 		}
@@ -192,6 +193,24 @@ class Accesos
 								</table>';
             break;
 
+			case "tabla_tecnico":
+                $tablahtml = '	<table id="tabla_tecnico" class="table table-striped table-bordered table-condensed w-100">
+									<thead class="text-center">
+										<tr>
+											<th>ID</th>
+											<th>DNI</th>
+											<th>NOMBRE_CORTO</th>
+											<th>APELLIDOS_Y_NOMBRES</th>
+											<th>RUC</th>
+											<th>ASOCIADO</th>
+											<th>ACCIONES</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>';
+            break;
+
 			case "":
 				$tablahtml = '';
 			break;
@@ -297,6 +316,18 @@ class Accesos
 				$columnashtml = '[	{"data": "ot_origen_id"},
 									{"data": "or_nombre"},
 									{"data": "or_tipo_ot"},
+									{"defaultContent": " '.$defaultContent1.' "}
+								]';
+			break;
+
+			case "tabla_tecnico":
+				$defaultContent1 = "<div class='text-center'><div class='btn-group'><button title='Editar' class='btn btn-primary btn-sm btn_editar_tecnico'><i class='bi bi-pencil'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pencil' viewBox='0 0 16 16'><path d='M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z'/></svg></i></button><button title='Borrar' class='btn btn-danger btn-sm btn_borrar_tecnico'><i class='bi bi-trash'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-trash' viewBox='0 0 16 16'><path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z'/><path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'/></svg></i></button></div></div>";
+				$columnashtml = '[	{"data": "tecnico_asociado_id"},
+									{"data": "ta_dni"},
+									{"data": "ta_nombre_corto"},
+									{"data": "ta_apellidos_nombres"},
+									{"data": "ta_ruc"},
+									{"data": "ta_razon_social"},
 									{"defaultContent": " '.$defaultContent1.' "}
 								]';
 			break;

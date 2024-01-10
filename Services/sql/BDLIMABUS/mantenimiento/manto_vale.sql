@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS `BDLIMABUS`.`manto_vale` (
   `va_cierra` VARCHAR(8) NULL,
   `va_cierre_adm` VARCHAR(8) NULL,
   `va_date_cierra` DATETIME NULL,
+  `va_date_cierre_adm` DATETIME NULL,
   `va_date_genera` DATETIME NOT NULL,
   `va_estado` VARCHAR(50) NOT NULL,
   `va_garantia` VARCHAR(45) NULL,

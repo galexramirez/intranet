@@ -11,6 +11,27 @@ class Accesos
 			case "nav-tab-vale":
 				$tabshtml = '	<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Listado</a>
 								<a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false"><span id="idProcesar">Procesar</span></a>';
+				MModel($this->Modulo, 'CRUD');
+				$InstanciaAjax= new CRUD();
+				$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'nav-ajustes_vale-tab');
+				if ($Respuesta=="SI"){
+					$tabshtml .= '<a class="nav-item nav-link" id="nav-ajustes_vale-tab" data-toggle="tab" href="#nav-ajustes_vale" role="tab" aria-controls="nav-ajustes_vale" aria-selected="false">Ajustes</a>';
+				}
+			break;
+
+			case "nav-tab-ajustes_vale":
+				MModel($this->Modulo, 'CRUD');
+				$InstanciaAjax= new CRUD();
+				$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'nav-ajustes_vale_usuario-tab');
+				if ($Respuesta=="SI"){
+					$tabshtml = '	<a class="nav-item nav-link active" id="nav-ajustes_vale_usuario-tab" data-toggle="tab" href="#nav-ajustes_vale_usuario" role="tab" aria-controls="nav-ajustes_vale_usuario" aria-selected="true">Usuario</a>';
+				}
+				MModel($this->Modulo, 'CRUD');
+				$InstanciaAjax= new CRUD();
+				$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'nav-ajustes_vale_sistema-tab');
+				if ($Respuesta=="SI"){
+					$tabshtml .= '	<a class="nav-item nav-link" id="nav-ajustes_vale_sistema-tab" data-toggle="tab" href="#nav-ajustes_vale_sistema" role="tab" aria-controls="nav-ajustes_vale_sistema" aria-selected="false">Sistema</a>';
+				}
 			break;
 		}
 		echo $tabshtml;
@@ -51,9 +72,12 @@ class Accesos
                                         <tr>
 											<th>ITEM</th>
 											<th>CODIGO</th>
+											<th>COD.PATRIM.</th>
 											<th>NRO.SERIE</th>
                                             <th>DESCRIPCION_REPUESTOS</th>
-											<th>CANTIDAD</th>
+											<th>CANT.REQ.</th>
+											<th>CANT.DESP.</th>
+											<th>CANT.UTIL.</th>
 											<th>UNIDAD</th>';
 				if($TipoTabla=="SI"){
 					$tablahtml .= '			<th>ACCIONES</th>';
@@ -99,6 +123,38 @@ class Accesos
                                 </table>';
             break;
 
+			case "tabla_tc_vale_usuario":
+                $tablahtml = '	<table id="tabla_tc_vale_usuario" class="table table-striped table-bordered table-condensed w-100">
+									<thead class="text-center">
+										<tr>
+											<th>ID</th>
+											<th>CATEGORIA 1</th>
+											<th>CATEGORIA 2</th>
+											<th>CATEGORIA 3</th>
+											<th>ACCIONES</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>';
+            break;
+
+			case "tabla_tc_vale_sistema":
+                $tablahtml = '	<table id="tabla_tc_vale_sistema" class="table table-striped table-bordered table-condensed w-100">
+									<thead class="text-center">
+										<tr>
+											<th>ID</th>
+											<th>CATEGORIA 1</th>
+											<th>CATEGORIA 2</th>
+											<th>CATEGORIA 3</th>
+											<th>ACCIONES</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>';
+            break;
+
 			case "":
 				$tablahtml = '';
 			break;
@@ -134,12 +190,15 @@ class Accesos
             case "tabla_repuestos":
 				$columnashtml = ' [ {"data": "vr_id"},
 									{"data": "vr_repuesto"},
+									{"data": "vr_cod_patrimonial_despacho"},
 									{"data": "vr_nroserie"},
                                     {"data": "vr_descripcion"},
-									{"data": "vr_cantidad"},
+									{"data": "vr_cantidad_requerida"},
+									{"data": "vr_cantidad_despachada"},
+									{"data": "vr_cantidad_utilizada"},
 									{"data": "vr_unidad"}';
 				if($TipoTabla=="SI"){
-					$defaultContent = "<div class='text-center'><div class='btn-group'><button tittle='Borrar' class='btn btn-danger btn-sm btnBorrarDetalleRepuestos'><i class='bi bi-trash'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-trash' viewBox='0 0 16 16'><path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z'/><path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'/></svg></i></button></div></div>";
+					$defaultContent = "<div class='text-center'><div class='btn-group'><button title='Editar' class='btn btn-primary btn-sm btn_editar_repuesto'><i class='bi bi-pencil'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pencil' viewBox='0 0 16 16'><path d='M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z'/></svg></i></button><button tittle='Borrar' class='btn btn-danger btn-sm btn_borrar_repuesto'><i class='bi bi-trash'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-trash' viewBox='0 0 16 16'><path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z'/><path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'/></svg></i></button></div></div>";
 					$columnashtml .= ',{"defaultContent": " '.$defaultContent.' "}';	
 				}
 				$columnashtml .= ']';
@@ -164,6 +223,26 @@ class Accesos
 									{"data": "vr_unidad"}
 								]';
             break;
+
+			case "tabla_tc_vale_usuario":
+				$defaultContent1 = "<div class='text-center'><div class='btn-group'><button class='btn btn-primary btn-sm btn_editar_tc_vale_usuario'><i class='bi bi-pencil'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pencil' viewBox='0 0 16 16'><path d='M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z'/></svg></i></button><button class='btn btn-danger btn-sm btn_borrar_tc_vale_usuario'><i class='bi bi-trash'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-trash' viewBox='0 0 16 16'><path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z'/><path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'/></svg></i></button></div></div>";
+				$columnashtml = '[	{"data": "tc_vale_id"},
+									{"data": "tc_categoria1"},
+									{"data": "tc_categoria2"},
+									{"data": "tc_categoria3"},
+									{"defaultContent": " '.$defaultContent1.' "}
+								]';
+			break;
+
+			case "tabla_tc_vale_sistema":
+				$defaultContent1 = "<div class='text-center'><div class='btn-group'><button class='btn btn-primary btn-sm btn_editar_tc_vale_sistema'><i class='bi bi-pencil'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pencil' viewBox='0 0 16 16'><path d='M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z'/></svg></i></button><button class='btn btn-danger btn-sm btn_borrar_tc_vale_sistema'><i class='bi bi-trash'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-trash' viewBox='0 0 16 16'><path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z'/><path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'/></svg></i></button></div></div>";
+				$columnashtml = '[	{"data": "tc_vale_id"},
+									{"data": "tc_categoria1"},
+									{"data": "tc_categoria2"},
+									{"data": "tc_categoria3"},
+									{"defaultContent": " '.$defaultContent1.' "}
+								]';
+			break;
 
 			case "":
 				$columnashtml = '';
@@ -229,7 +308,7 @@ class Accesos
 		echo $divformulario;
     }
 
-	public function MostrarDiv($NombreFormulario,$NombreObjeto,$Dato)
+	public function MostrarDiv($NombreFormulario, $NombreObjeto, $Dato1, $Dato2)
 	{
 		$Mostrar_div = "";
 		switch($NombreFormulario)
@@ -240,7 +319,7 @@ class Accesos
 					case "btn_seleccion_procesar_vale":
 						$Mostrar_div = '<button type="button" id="btn_cargar_vale" class="btn btn-secondary btn-sm btn_cargar_vale ml-1" >Cargar</button>';
 						$Mostrar_div .='<button type="button" title="Ver Vales" id="btn_procesar_ver_vale" class="btn btn-secondary btn-sm btn_procesar_ver_vale ml-1"><i class="bi bi-search"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg></i></button>';
-						switch($Dato)
+						switch($Dato1)
 						{
 							case "vacio":
 								$Mostrar_div = "";
@@ -252,8 +331,20 @@ class Accesos
 						}
 					break;
 
-					case "":
-						switch($Dato)
+				}
+			break;
+
+			case "form_procesar_vale":
+				switch($NombreObjeto)
+				{
+					case "btn_guardar_vale":
+						$Mostrar_div  = ' <button type="button" id="btn_log_vale" class="btn btn-info btn-sm btn_log_vale mr-1">Log</button> ';
+						$Mostrar_div .= ' <button type="button" id="btn_procesar_imprimir_vale" title="Imprimir" class="btn btn-secondary btn-sm btn_procesar_imprimir_vale mr-1"><i class="bi bi-printer-fill"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer-fill" viewBox="0 0 16 16"><path d="M5 1a2 2 0 0 0-2 2v1h10V3a2 2 0 0 0-2-2zm6 8H5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1"/><path d="M0 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1v-2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2H2a2 2 0 0 1-2-2zm2.5 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/></svg></i></button> ';
+						$Mostrar_div .= ' <button type="button" id="btn_almacen_ok" title="Almacen OK" class="btn btn-secondary btn-sm btn_almacen_ok mr-1"><i class="bi bi-bag-check-fill"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-check-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0m-.646 5.354a.5.5 0 0 0-.708-.708L7.5 10.793 6.354 9.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"/></svg></i></button> ';
+						$Mostrar_div .= ' <button type="button" id="btn_coordinador_ok" title="Coordinador OK" class="btn btn-secondary btn-sm btn_coordinador_ok mr-1"><i class="bi bi-person-check-fill"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-check-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0"/><path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/></svg></i></button> ';
+						$Mostrar_div .= ' <button tabindex="12" type="button" id="btn_cancelar_vale" class="btn btn-light btn-sm btn_cancelar_vale mr-1">Cancelar</button> ';
+						$Mostrar_div .= ' <button type="button" id="btn_guardar_vale" class="btn btn-secondary btn-sm btn_guardar_vale mr-1">Guardar</button>';
+						switch($Dato1)
 						{
 							case "":
 							break;
@@ -262,7 +353,7 @@ class Accesos
 							break;
 
 						}
-						$Mostrar_div = '';
+						
 					break;
 
 				}
@@ -275,7 +366,7 @@ class Accesos
 						$man_modulo_id = '';
 						MModel($this->Modulo, 'CRUD');
 						$InstanciaAjax	= new CRUD();
-						$Respuesta	= $InstanciaAjax->BuscarDataBD("Modulo", "Mod_Nombre", $Dato );
+						$Respuesta	= $InstanciaAjax->BuscarDataBD("Modulo", "Mod_Nombre", $Dato1 );
 						foreach($Respuesta as $row){
 							$man_modulo_id = $row['Modulo_Id'];
 						}

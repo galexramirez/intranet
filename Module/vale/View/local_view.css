@@ -14,6 +14,16 @@ input{
     font-size: 11px
 }
 
+.filters_tc_vale_usuario th{
+    padding:0px !important;
+    font-size: 11px
+}
+
+.filters_tc_vale_sistema th{
+    padding:0px !important;
+    font-size: 11px
+}
+
 th{
     font-size: 9px;
     font-weight: 500;
@@ -98,6 +108,16 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
     color:white;
 }
 
+#tabla_tc_vale_usuario thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tabla_tc_vale_sistema thead {
+    background: #2A4C38;
+    color:white;
+}
+
 /* tamaño de texto de tablas*/
 
 #tabla_vale{
@@ -113,6 +133,14 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
 }
 
 #tabla_ver_procesar_repuestos{
+    font-size: 12px;
+}
+
+#tabla_tc_vale_usuario {
+    font-size: 12px;
+}
+
+#tabla_tc_vale_sistema {
     font-size: 12px;
 }
 

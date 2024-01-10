@@ -31,7 +31,7 @@ $(document).ready(function(){
     $.each(a_data, function(idx, obj){
       va_ruc    = obj.prov_ruc;
     });
-    t_html      = f_select_combo("manto_resp_asociado","NO","ra_nombres","","`ra_ruc_asociado` = '"+va_ruc+"'");
+    t_html      = f_select_combo("manto_tecnico_asociado","NO","ta_nombre_corto","","`ta_ruc` = '"+va_ruc+"'");
     $("#va_responsable").html(t_html);
   });
 
@@ -88,12 +88,13 @@ $(document).ready(function(){
       $("#va_ot_id").focus().select();
       f_carga_variables_html_vale();
       f_combos_procesar_vales();
-      opcion_vale  = "CREAR";
-      div_show      = f_MostrarDiv("form_seleccionar_procesar_vale","btn_seleccion_procesar_vale", "vacio","");
+      opcion_vale = "CREAR";
+      div_show = f_MostrarDiv("form_seleccionar_procesar_vale","btn_seleccion_procesar_vale", "vacio","");
       $("#div_btn_seleccion_procesar_vale").html(div_show);
       btn_borrar_repuesto = "SI";
       f_tabla_repuestos(vale_id,btn_borrar_repuesto);
-
+      div_show = f_MostrarDiv("form_procesar_vale","btn_guardar_vale", "", "");
+      $("#div_btn_guardar_vale").html(div_show);
     }else{
       vale_existe = f_buscar_dato("manto_vale", "vale_id", "`vale_id`='"+vale_id+"'");
       Accion = 'cargar_vale';
@@ -132,7 +133,9 @@ $(document).ready(function(){
             $("#div_btn_seleccion_procesar_vale").html(div_show);
             btn_borrar_repuesto = "SI";
             f_tabla_repuestos(vale_id,btn_borrar_repuesto);
-  
+            div_show = f_MostrarDiv("form_procesar_vale","btn_guardar_vale", "","");
+            $("#div_btn_guardar_vale").html(div_show);
+        
           }else{
             Swal.fire({
               position: 'center',
@@ -529,23 +532,17 @@ function f_limpia_vale(){
 ///:: FUNCIONES COMBOS DE PROCESAR VALES :::::::::::::::::::::::::::::::::::::::::::::::::///
 function f_combos_procesar_vales(){
   ///:: CARGAMOS ASOCIADOS :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-  t_html = "";
   t_html = f_select_combo("manto_proveedores","NO","prov_razonsocial",va_asociado,"");
   $("#va_asociado").html(t_html);
 
   ///:: CARGAMOS CGM ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-  Usua_Perfil = 'CGM';
-  t_html      = "";
-  t_html      = f_select_roles(Usua_Perfil,"Colab_nombre_corto");
+  t_html = f_select_roles("CGM","Colab_nombre_corto");
   $("#va_genera").html(t_html);
-  
-  Operacion = 'VALES';
-  Tipo      = 'GARANTIA';
-  t_html    = "";
-  t_html    = f_select_combo("manto_tipotablavales","NO","ttablavales_detalle",va_garantia,"`manto_tipotablavales`.`ttablavales_operacion` = '"+Operacion +"' AND `manto_tipotablavales`.`ttablavales_tipo`= '"+Tipo+"'" );
+
+  t_html = f_select_combo("manto_tc_vale","NO","tc_categoria3",va_garantia,"`manto_tc_vale`.`tc_variable` = 'USUARIO' AND `manto_tc_vale`.`tc_categoria1`= 'VALE' AND `manto_tc_vale`.`tc_categoria2`= 'GARANTIA'" );
   $("#va_garantia").html(t_html);
-  Tipo      = 'ESTADO';
-  t_html    = f_select_combo("manto_tipotablavales","NO","ttablavales_detalle",va_estado,"`manto_tipotablavales`.`ttablavales_operacion` = '"+Operacion +"' AND `manto_tipotablavales`.`ttablavales_tipo`= '"+Tipo+"'" );
+
+  t_html = f_select_combo("manto_tc_vale","NO","tc_categoria3",va_estado,"`manto_tc_vale`.`tc_variable` = 'SISTEMA' AND `manto_tc_vale`.`tc_categoria1`= 'VALE' AND `manto_tc_vale`.`tc_categoria2`= 'ESTADO' ");
   $("#va_estado").html(t_html);
 
 }

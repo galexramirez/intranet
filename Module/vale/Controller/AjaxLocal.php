@@ -54,11 +54,12 @@ switch ($Accion)
    case 'MostrarDiv':
       $NombreFormulario = $_POST['NombreFormulario'];
       $NombreObjeto     = $_POST['NombreObjeto'];
-      $Dato             = $_POST['Dato'];
+      $Dato1            = $_POST['Dato1'];
+      $Dato2            = $_POST['Dato2'];
 
       MController($Modulo,'Accesos');
       $InstanciaAjax = new Accesos();
-      $Respuesta     = $InstanciaAjax->MostrarDiv($NombreFormulario,$NombreObjeto,$Dato);
+      $Respuesta     = $InstanciaAjax->MostrarDiv($NombreFormulario, $NombreObjeto, $Dato1, $Dato2);
    break;
 
    case 'select_roles':
@@ -102,6 +103,30 @@ switch ($Accion)
       $Respuesta     = $InstanciaAjax->buscar_dato($nombre_tabla, $campo_buscar, $condicion_where);
    break;
 
+   case 'CalculoFecha':
+      $inicio= $_POST['inicio'];
+      $calculo = $_POST['calculo'];
+
+      MController($Modulo,'Logico');
+      $InstanciaAjax= new Logico();
+      $Respuesta=$InstanciaAjax->CalculoFecha($inicio,$calculo);
+   break;
+
+   case 'DiferenciaFecha':
+      $inicio= $_POST['inicio'];
+      $final = $_POST['final'];
+
+      MController($Modulo,'Logico');
+      $InstanciaAjax= new Logico();
+      $Respuesta=$InstanciaAjax->DiferenciaFecha($inicio,$final);
+   break;
+
+   case 'DocumentRoot':
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta     = $InstanciaAjax->DocumentRoot();
+   break;
+
    case 'leer_vale':
       $fecha_inicio_listado = $_POST['fecha_inicio_listado'];
       $fecha_termino_listado = $_POST['fecha_termino_listado'];
@@ -109,14 +134,6 @@ switch ($Accion)
       MModel($Modulo,'CRUD');
       $InstanciaAjax= new CRUD();
       $Respuesta=$InstanciaAjax->leer_vale($fecha_inicio_listado, $fecha_termino_listado);
-   break;
-
-   case 'cargar_repuestos':
-      $vale_id = $_POST['vale_id'];
-
-      MModel($Modulo,'CRUD');
-      $InstanciaAjax= new CRUD();
-      $Respuesta=$InstanciaAjax->cargar_repuestos($vale_id);
    break;
 
    case 'generar_vale':
@@ -167,22 +184,12 @@ switch ($Accion)
       $Respuesta=$InstanciaAjax->cargar_vale($vale_id);
    break;
 
-   case 'CalculoFecha':
-      $inicio= $_POST['inicio'];
-      $calculo = $_POST['calculo'];
+   case 'cargar_repuestos':
+      $vale_id = $_POST['vale_id'];
 
-      MController($Modulo,'Logico');
-      $InstanciaAjax= new Logico();
-      $Respuesta=$InstanciaAjax->CalculoFecha($inicio,$calculo);
-   break;
-
-   case 'DiferenciaFecha':
-      $inicio= $_POST['inicio'];
-      $final = $_POST['final'];
-
-      MController($Modulo,'Logico');
-      $InstanciaAjax= new Logico();
-      $Respuesta=$InstanciaAjax->DiferenciaFecha($inicio,$final);
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax= new CRUD();
+      $Respuesta=$InstanciaAjax->cargar_repuestos($vale_id);
    break;
 
    case 'AutoCompletar':
@@ -198,14 +205,14 @@ switch ($Accion)
    break;
 
    case 'BuscarCodigoRepuesto':
-      $rv_repuesto      = $_POST['rv_repuesto'];
+      $vr_repuesto      = $_POST['vr_repuesto'];
       $va_asociado      = $_POST['va_asociado'];
       $va_date_genera   = $_POST['va_date_genera'];
       $va_tipo          = $_POST['va_tipo'];
 
       MController($Modulo,'Logico');
       $InstanciaAjax = new Logico();
-      $Respuesta = $InstanciaAjax->BuscarCodigoRepuesto($rv_repuesto, $va_asociado, $va_date_genera, $va_tipo);
+      $Respuesta = $InstanciaAjax->BuscarCodigoRepuesto($vr_repuesto, $va_asociado, $va_date_genera, $va_tipo);
    break;
 
    case 'descargar_vale':
@@ -217,23 +224,82 @@ switch ($Accion)
       $Respuesta     = $InstanciaAjax->descargar_vale($fecha_inicio_listado,$fecha_termino_listado);
    break;
 
-   case 'DocumentRoot':
-      MController($Modulo,'Logico');
-      $InstanciaAjax = new Logico();
-      $Respuesta     = $InstanciaAjax->DocumentRoot();
-   break;
-
    case 'vales_observados':
       MController($Modulo,'Logico');
       $InstanciaAjax = new Logico();
       $Respuesta     = $InstanciaAjax->vales_observados();
    break;
 
-   case 'imprimir_documento':
-      MController($Modulo,'Logico');
-      $InstanciaAjax = new Logico();
-      $Respuesta     = $InstanciaAjax->imprimir_documento();
+   case 'leer_tc_vale_usuario':
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta     = $InstanciaAjax->leer_tc_vale_usuario();
    break;
 
+   case 'crear_tc_vale_usuario':
+      $tc_vale_id = $_POST['tc_vale_id'];
+      $tc_categoria1 = strtoupper($_POST['tc_categoria1']);
+      $tc_categoria2 = strtoupper($_POST['tc_categoria2']);
+      $tc_categoria3 = strtoupper($_POST['tc_categoria3']);
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta     = $InstanciaAjax->crear_tc_vale_usuario($tc_vale_id, $tc_categoria1, $tc_categoria2, $tc_categoria3);
+   break;
+
+   case 'editar_tc_vale_usuario':
+      $tc_vale_id = $_POST['tc_vale_id'];
+      $tc_categoria1 = strtoupper($_POST['tc_categoria1']);
+      $tc_categoria2 = strtoupper($_POST['tc_categoria2']);
+      $tc_categoria3 = strtoupper($_POST['tc_categoria3']);
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta     = $InstanciaAjax->editar_tc_vale_usuario($tc_vale_id, $tc_categoria1, $tc_categoria2, $tc_categoria3);
+   break;
+
+   case 'borrar_tc_vale_usuario':
+      $tc_vale_id=$_POST['tc_vale_id'];
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta     = $InstanciaAjax->borrar_tc_vale_usuario($tc_vale_id);
+   break;
+
+   case 'leer_tc_vale_sistema':
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta     = $InstanciaAjax->leer_tc_vale_sistema();
+   break;
+
+   case 'crear_tc_vale_sistema':
+      $tc_vale_id = $_POST['tc_vale_id'];
+      $tc_categoria1 = strtoupper($_POST['tc_categoria1']);
+      $tc_categoria2 = strtoupper($_POST['tc_categoria2']);
+      $tc_categoria3 = strtoupper($_POST['tc_categoria3']);
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta     = $InstanciaAjax->crear_tc_vale_sistema($tc_vale_id, $tc_categoria1, $tc_categoria2, $tc_categoria3);
+   break;
+
+   case 'editar_tc_vale_sistema':
+      $tc_vale_id = $_POST['tc_vale_id'];
+      $tc_categoria1 = strtoupper($_POST['tc_categoria1']);
+      $tc_categoria2 = strtoupper($_POST['tc_categoria2']);
+      $tc_categoria3 = strtoupper($_POST['tc_categoria3']);
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta     = $InstanciaAjax->editar_tc_vale_sistema($tc_vale_id, $tc_categoria1, $tc_categoria2, $tc_categoria3);
+   break;
+
+   case 'borrar_tc_vale_sistema':
+      $tc_vale_id=$_POST['tc_vale_id'];
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta     = $InstanciaAjax->borrar_tc_vale_sistema($tc_vale_id);
+   break;
    default: header('Location: /inicio');
 }

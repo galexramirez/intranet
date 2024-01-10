@@ -523,5 +523,45 @@ switch ($Accion)
       $Respuesta = $InstanciaAjax->borrar_origen($ot_origen_id);
    break;
 
+   case 'leer_tecnico':
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta = $InstanciaAjax->leer_tecnico();
+   break;
+
+   case 'crear_tecnico':
+      $tecnico_asociado_id = $_POST['tecnico_asociado_id'];
+      $ta_dni = $_POST['ta_dni'];
+      $ta_nombre_corto = strtoupper($_POST['ta_nombre_corto']);
+      $ta_apellidos_nombres = strtoupper($_POST['ta_apellidos_nombres']);
+      $ta_ruc = $_POST['ta_ruc'];
+      $ta_razon_social = $_POST['ta_razon_social'];
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta = $InstanciaAjax->crear_tecnico($tecnico_asociado_id, $ta_dni, $ta_nombre_corto, $ta_apellidos_nombres, $ta_ruc, $ta_razon_social);
+   break;
+
+   case 'editar_tecnico':
+      $tecnico_asociado_id = $_POST['tecnico_asociado_id'];
+      $ta_dni = $_POST['ta_dni'];
+      $ta_nombre_corto = strtoupper($_POST['ta_nombre_corto']);
+      $ta_apellidos_nombres = strtoupper($_POST['ta_apellidos_nombres']);
+      $ta_ruc = $_POST['ta_ruc'];
+      $ta_razon_social = $_POST['ta_razon_social'];
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta = $InstanciaAjax->editar_tecnico($tecnico_asociado_id, $ta_dni, $ta_nombre_corto, $ta_apellidos_nombres, $ta_ruc, $ta_razon_social);
+   break;
+
+   case 'borrar_tecnico':
+      $tecnico_asociado_id = $_POST['tecnico_asociado_id'];
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta = $InstanciaAjax->borrar_tecnico($tecnico_asociado_id);
+   break;
+
    default: header('Location: /inicio');
 }

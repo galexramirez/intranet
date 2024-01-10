@@ -693,7 +693,7 @@
 												</div>
 												<div class="col-lg-1">
 			      						    		<div class="form-group form-control-sm">
-			      						    			<label for="fav_chl_codigo" class="col-form-label form-control-sm">BUS:</label>
+			      						    			<label for="nreg_bus" class="col-form-label form-control-sm">BUS:</label>
 			      						    		</div>
 												</div>
 												<div class="col-lg-3">
@@ -1090,24 +1090,24 @@
 											 	</div>
 											 	<div class="col-lg-6">
 											  		<div class="form-group">
-														<label for="chl_cat1_sistema" class="col-form-label form-control-sm">CATEGORIA 1</label>
-												   		<input type="text" class="form-control form-control-sm text-uppercase" id="chl_cat1_sistema" maxlength="45">
+														<label for="ot_cat1_sistema" class="col-form-label form-control-sm">CATEGORIA 1</label>
+												   		<input type="text" class="form-control form-control-sm text-uppercase" id="ot_cat1_sistema" maxlength="45">
 													</div> 
 											 	</div>    
 											</div>
 							  				<div class="row"> 
 												<div class="col-lg-6">
 											  		<div class="form-group">
-														<label for="chl_cat2_sistema" class="col-form-label form-control-sm">CATEGORIA 2</label>
-														<input type="text" class="form-control form-control-sm text-uppercase" id="chl_cat2_sistema" maxlength="45">
+														<label for="ot_cat2_sistema" class="col-form-label form-control-sm">CATEGORIA 2</label>
+														<input type="text" class="form-control form-control-sm text-uppercase" id="ot_cat2_sistema" maxlength="45">
 													</div> 
 								  				</div>
 											</div>
 											<div class="row"> 
 								  				<div class="col-lg-12">
 											  		<div class="form-group">
-														<label for="chl_cat3_sistema" class="col-form-label form-control-sm">CATEGORIA 3</label>
-												  		<textarea class="form-control z-depth-1 text-uppercase" id="chl_cat3_sistema" rows="7" placeholder="escribe algo aqui..." maxlength="250"></textarea>
+														<label for="ot_cat3_sistema" class="col-form-label form-control-sm">CATEGORIA 3</label>
+												  		<textarea class="form-control z-depth-1 text-uppercase" id="ot_cat3_sistema" rows="7" placeholder="escribe algo aqui..." maxlength="250"></textarea>
 													</div>               
 								   				</div>
 							  				</div>
@@ -1174,6 +1174,90 @@
 						  				<div class="modal-footer">
 							  				<button type="button" class="btn btn-light btn-sm" data-dismiss="modal">Cancelar</button>
 							  				<button type="submit" id="btn_guardar_origen" class="btn btn-dark btn-sm">Guardar</button>
+						  				</div>
+					  				</form>    
+								</div>
+							</div>
+						</div>  			
+
+					</div>
+					<!------------------------------------------------------------------------------->
+					<!-- TAB AJUSTE ORIGEN ---------------------------------------------------------->
+					<!------------------------------------------------------------------------------->
+					<div class="tab-pane fade" id="nav-ajustes_tecnico" role="tabpanel" aria-labelledby="nav-ajustes_tecnico-tab">
+						<section class="container-fluid py-3">
+							<button id="btn_nuevo_tecnico" type="button" class="btn btn-secondary btn-sm btn_nuevo_tecnico" data-toggle="modal">+ Nuevo</button>  
+						</section>
+						<div class="row p-3">
+							<div class="col-auto m-0">
+								<div class="table-responsive" id="div_tabla_tecnico">
+								</div>
+							</div>
+						</div>
+						<!--Modal para CRUD-->
+						<div class="row modal fade" id="modal_crud_tecnico" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel"></h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+
+					  				<form id="form_tecnico">
+						  				<div class="modal-body">
+											<div class="row">
+												<div class="col-lg-6">
+													<div class="form-group">
+												  		<label for="tecnico_asociado_id" class="col-form-label form-control-sm">ID</label>
+												   		<input type="text" readonly class="form-control form-control-sm" id="tecnico_asociado_id">
+												 	</div>
+											 	</div>
+											 	<div class="col-lg-6">
+											  		<div class="form-group">
+														<label for="ta_dni" class="col-form-label form-control-sm">Nro. DNI</label>
+												   		<input type="text" class="form-control form-control-sm" id="ta_dni" maxlength="8">
+													</div> 
+											 	</div>    
+											</div>
+											<div class="row">
+												<div class="col-lg-12">
+													<div class="form-group">
+														<label for="ta_apellidos_nombres" class="col-form-label form-control-sm">APELLIDOS Y NOMBRES</label>
+												   		<input type="text" class="form-control form-control-sm text-uppercase" id="ta_apellidos_nombres" maxlength="60">
+													</div>		
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-lg-6">
+													<div class="form-group">
+														<label for="ta_nombre_corto" class="col-form-label form-control-sm">1°NOMBRE 1°APELLIDO</label>
+												   		<input type="text" class="form-control form-control-sm text-uppercase" id="ta_nombre_corto" maxlength="60">
+													</div>
+												</div>
+												<div class="col-lg-6">
+													<div class="form-group">
+														<label for="ta_ruc" class="col-form-label form-control-sm">NRO. RUC</label>
+												   		<input type="text" readonly class="form-control form-control-sm" id="ta_ruc" maxlength="11">
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-lg-12">
+													<div class="form-group">
+														<label for="ta_razon_social" class="col-form-label form-control-sm">ASOCIADO</label>
+												   		<select class="form-control form-control-sm" id="ta_razon_social">
+
+														</select>
+													</div>
+												</div>
+											</div>
+										</div>
+						  				<div class="modal-footer">
+							  				<button type="button" class="btn btn-light btn-sm" data-dismiss="modal">Cancelar</button>
+							  				<button type="submit" id="btn_guardar_tecnico_asociado" class="btn btn-dark btn-sm">Guardar</button>
 						  				</div>
 					  				</form>    
 								</div>

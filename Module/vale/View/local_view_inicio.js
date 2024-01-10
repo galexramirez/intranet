@@ -31,6 +31,9 @@ $(document).ready(function(){
   div_tabs = f_CreacionTabs("nav-tab-vale","");
   $("#nav-tab-vale").html(div_tabs);
 
+  div_tabs = f_CreacionTabs("nav-tab-ajustes_vale","");
+  $("#nav-tab-ajustes_vale").html(div_tabs);
+
   $( "#tabs" ).tabs();
 });
 
@@ -271,15 +274,15 @@ function f_DivFormulario(pNombreFormulario,pNombreObjeto){
   return rptaDivFormulario;
 }
 
-function f_MostrarDiv(pNombreFormulario,pNombreObjeto,pDato){
+function f_MostrarDiv(pNombreFormulario, pNombreObjeto, pDato1, pDato2){
   let rptaMostrarDiv="";
-  Accion='MostrarDiv';
+  Accion = 'MostrarDiv';
   $.ajax({
-    url: "Ajax.php",
-    type: "POST",
-    datatype:"json",
-    async: false,
-    data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,NombreFormulario:pNombreFormulario,NombreObjeto:pNombreObjeto,Dato:pDato},    
+    url       : "Ajax.php",
+    type      : "POST",
+    datatype  : "json",
+    async     : false,
+    data      : {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, NombreFormulario:pNombreFormulario, NombreObjeto:pNombreObjeto, Dato1:pDato1, Dato2:pDato2},    
     success: function(data){
       rptaMostrarDiv = data;
     }

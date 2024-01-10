@@ -1,5 +1,5 @@
 ///:: DECLARACION DE VARIABLES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-var tc_ot_id_usuario, chl_cat1_usuario, chl_cat2_usuario, chl_cat3_usuario;
+var tc_ot_id_usuario, ot_cat1_usuario, ot_cat2_usuario, ot_cat3_usuario;
 var tabla_tc_ot_usuario, opcion_tc_ot_usuario, fila_tc_ot_usuario;
 
 ///:: DOM JS TIPO TABLA INSPECCION ::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
@@ -73,14 +73,14 @@ $(document).ready(function(){
         $("#tc_ot_id_usuario").prop('disabled', true);
         fila_tc_ot_usuario = $(this).closest("tr");	        
         tc_ot_id_usuario = fila_tc_ot_usuario.find('td:eq(0)').text();
-        chl_cat1_usuario = fila_tc_ot_usuario.find('td:eq(1)').text();
-        chl_cat2_usuario = fila_tc_ot_usuario.find('td:eq(2)').text();
-        chl_cat3_usuario = fila_tc_ot_usuario.find('td:eq(3)').text();
+        ot_cat1_usuario = fila_tc_ot_usuario.find('td:eq(1)').text();
+        ot_cat2_usuario = fila_tc_ot_usuario.find('td:eq(2)').text();
+        ot_cat3_usuario = fila_tc_ot_usuario.find('td:eq(3)').text();
 
         $("#tc_ot_id_usuario").val(tc_ot_id_usuario);
-        $("#chl_cat2_usuario").val(chl_cat2_usuario);
-        $("#chl_cat1_usuario").val(chl_cat1_usuario);
-        $("#chl_cat3_usuario").val(chl_cat3_usuario);
+        $("#ot_cat2_usuario").val(ot_cat2_usuario);
+        $("#ot_cat1_usuario").val(ot_cat1_usuario);
+        $("#ot_cat3_usuario").val(ot_cat3_usuario);
    
         $(".modal-header").css("background-color", "#007bff");
         $(".modal-header").css("color", "white" );
@@ -96,11 +96,11 @@ $(document).ready(function(){
         e.preventDefault();
 
         tc_ot_id_usuario = $.trim($('#tc_ot_id_usuario').val());    
-        chl_cat1_usuario = $.trim($('#chl_cat1_usuario').val());    
-        chl_cat2_usuario = $.trim($('#chl_cat2_usuario').val());
-        chl_cat3_usuario = $.trim($('#chl_cat3_usuario').val());
+        ot_cat1_usuario = $.trim($('#ot_cat1_usuario').val());    
+        ot_cat2_usuario = $.trim($('#ot_cat2_usuario').val());
+        ot_cat3_usuario = $.trim($('#ot_cat3_usuario').val());
     
-        validar_tc_ot_usuario = f_validar_tc_ot_usuario(tc_ot_id_usuario, chl_cat1_usuario, chl_cat2_usuario, chl_cat3_usuario);
+        validar_tc_ot_usuario = f_validar_tc_ot_usuario(tc_ot_id_usuario, ot_cat1_usuario, ot_cat2_usuario, ot_cat3_usuario);
 
         if(validar_tc_ot_usuario=="invalido") {
 
@@ -115,7 +115,7 @@ $(document).ready(function(){
                 url         : "Ajax.php",
                 type        : "POST",
                 datatype    : "json",    
-                data        : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, tc_ot_id:tc_ot_id_usuario, tc_categoria1:chl_cat1_usuario, tc_categoria2:chl_cat2_usuario,tc_categoria3:chl_cat3_usuario },    
+                data        : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, tc_ot_id:tc_ot_id_usuario, tc_categoria1:ot_cat1_usuario, tc_categoria2:ot_cat2_usuario,tc_categoria3:ot_cat3_usuario },    
                 success: function(data) {
                     tabla_tc_ot_usuario.ajax.reload(null, false);
                 }
@@ -165,20 +165,20 @@ $(document).ready(function(){
 });
 
 ///:: FUNCION PARA VALIDAR LOS DATOS INGRESADOS AL FORMULARIO :::::::::::::::::::::::::::::///
-function f_validar_tc_ot_usuario(p_tc_ot_id_usuario, p_chl_cat1_usuario, p_chl_cat2_usuario, p_chl_cat3_usuario){
+function f_validar_tc_ot_usuario(p_tc_ot_id_usuario, p_ot_cat1_usuario, p_ot_cat2_usuario, p_ot_cat3_usuario){
     f_limpia_tc_ot_usuario();
     let rpta_validar_tc_ot_usuario="";    
 
-    if(p_chl_cat1_usuario==""){
-        $("#chl_cat1_usuario").addClass("color-error" );
+    if(p_ot_cat1_usuario==""){
+        $("#ot_cat1_usuario").addClass("color-error" );
         rpta_validar_tc_ot_usuario = "invalido";    
     }
-    if(p_chl_cat2_usuario==""){
-        $("#chl_cat2_usuario").addClass("color-error" );
+    if(p_ot_cat2_usuario==""){
+        $("#ot_cat2_usuario").addClass("color-error" );
         rpta_validar_tc_ot_usuario = "invalido";    
     }
-    if(p_chl_cat3_usuario==""){
-        $("#chl_cat3_usuario").addClass("color-error" );
+    if(p_ot_cat3_usuario==""){
+        $("#ot_cat3_usuario").addClass("color-error" );
         rpta_validar_tc_ot_usuario = "invalido";    
     }
 
@@ -188,7 +188,7 @@ function f_validar_tc_ot_usuario(p_tc_ot_id_usuario, p_chl_cat1_usuario, p_chl_c
 ///:: INVISIBILIZA LOS MENSAJE DE ALERTA DEL FORMULARIO :::::::::::::::::::::::::::::::::::///
 function f_limpia_tc_ot_usuario(){
     $("#tc_ot_id_usuario").removeClass("color-error" );
-    $("#chl_cat1_usuario").removeClass("color-error" );
-    $("#chl_cat2_usuario").removeClass("color-error" );
-    $("#chl_cat3_usuario").removeClass("color-error" );
+    $("#ot_cat1_usuario").removeClass("color-error" );
+    $("#ot_cat2_usuario").removeClass("color-error" );
+    $("#ot_cat3_usuario").removeClass("color-error" );
 }

@@ -341,243 +341,237 @@
 				<div class="container-fluid ml-0 mr-0 mb-0">
 					<form id="form_procesar_vale" enctype="multipart/form-data" action="" method="post" onsubmit="return false;">    
 			      		<div class="form-group">
-						<div class="col-lg-6 mx-1 border border-muted border-radius rounded">
-							<div class="row d-flex justify-content-araound">
-								<div class="col-lg-4">
-									<div class="row">
-										<div class="col-lg-5">
-											<div class="form-group form-control-sm mb-1">
-												<label for="tvale_id" class="col-form-label form-control-sm mb-1">N° VALE :</label>
+							<div class="col-lg-7 mx-1 border border-muted border-radius rounded">
+								<div class="row d-flex justify-content-araound">
+									<div class="col-lg-4">
+										<div class="row">
+											<div class="col-lg-5">
+												<div class="form-group form-control-sm mb-1">
+													<label for="tvale_id" class="col-form-label form-control-sm mb-1">N° VALE :</label>
+												</div>
+											</div>
+											<div class="col-lg-7">
+												<div class="form-group form-control-sm mb-1">
+													<input type="text" readonly class="form-control form-control-sm mb-1" id="tvale_id">
+												</div>
 											</div>
 										</div>
-										<div class="col-lg-7">
-											<div class="form-group form-control-sm mb-1">
-												<input type="text" readonly class="form-control form-control-sm mb-1" id="tvale_id">
+									</div>
+									<div class="col-lg-4">
+										<div class="row">
+											<div class="col-lg-5">
+												<div class="form-group form-control-sm mb-1">
+													<label for="va_ot_id" class="col-form-label form-control-sm mb-1">N° OT :</label>
+												</div>
+											</div>
+											<div class="col-lg-7">
+												<div class="form-group form-control-sm mb-1">
+													<input tabindex="1" type="text" class="form-control form-control-sm mb-1" id="va_ot_id">
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-4">
+										<div class="row">
+											<div class="col-lg-5">
+												<div class="form-group form-control-sm mb-1">
+													<label for="va_bus" class="col-form-label form-control-sm mb-1">BUS :</label>
+												</div>
+											</div>
+											<div class="col-lg-7">
+												<div class="form-group form-control-sm mb-1">
+													<input type="text" readonly class="form-control form-control-sm mb-1" id="va_bus">
+												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-								<div class="col-lg-4">
-									<div class="row">
-										<div class="col-lg-5">
-											<div class="form-group form-control-sm mb-1">
-												<label for="va_ot_id" class="col-form-label form-control-sm mb-1">N° OT :</label>
+								<div class="row d-flex justify-content-araound">
+									<div class="col-lg-12">
+										<div class="row">
+											<div class="col-lg-2">
+												<div class="form-group form-control-sm mb-1">
+													<label for="va_descrip" class="col-form-label form-control-sm mb-1">ACTIVIDAD :</label>
+												</div>
 											</div>
-										</div>
-										<div class="col-lg-7">
-											<div class="form-group form-control-sm mb-1">
-												<input tabindex="1" type="text" class="form-control form-control-sm mb-1" id="va_ot_id">
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-4">
-									<div class="row">
-										<div class="col-lg-5">
-											<div class="form-group form-control-sm mb-1">
-												<label for="va_bus" class="col-form-label form-control-sm mb-1">BUS :</label>
-											</div>
-										</div>
-										<div class="col-lg-7">
-											<div class="form-group form-control-sm mb-1">
-												<input type="text" readonly class="form-control form-control-sm mb-1" id="va_bus">
+											<div class="col-lg-10">
+												<div class="form-group form-control-sm mb-1">
+													<input type="text" readonly class="form-control form-control-sm mb-1" id="va_descrip">
+												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-							<div class="row d-flex justify-content-araound">
-								<div class="col-lg-12">
-									<div class="row">
-										<div class="col-lg-2">
-											<div class="form-group form-control-sm mb-1">
-												<label for="va_descrip" class="col-form-label form-control-sm mb-1">ACTIVIDAD :</label>
+								<div class="row d-flex justify-content-araound">
+									<div class="col-lg-6">
+										<div class="row">
+											<div class="col-lg-5">
+												<div class="form-group form-control-sm mb-1">
+													<label for="" class="col-form-label form-control-sm mb-1">ASOCIADO :</label>
+												</div>
+											</div>
+											<div class="col-lg-7">
+												<div class="form-group form-control-sm mb-1">
+													<select tabindex="2" class="form-control form-control-sm mb-1" id="va_asociado">
+													</select>
+												</div>
 											</div>
 										</div>
-										<div class="col-lg-10">
-											<div class="form-group form-control-sm mb-1">
-												<input type="text" readonly class="form-control form-control-sm mb-1" id="va_descrip">
+										<div class="row">
+											<div class="col-lg-5">
+												<div class="form-group form-control-sm mb-1">
+													<label for="" class="col-form-label form-control-sm mb-1">RESP.ASOCIADO :</label>
+												</div>
+											</div>
+											<div class="col-lg-7">
+												<div class="form-group form-control-sm mb-1">
+													<select tabindex="3" class="form-control form-control-sm mb-1" id="va_responsable">
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-lg-5">
+												<div class="form-group form-control-sm mb-1">
+													<label for="" class="col-form-label form-control-sm mb-1">REG.REPUESTO :</label>
+												</div>
+											</div>
+											<div class="col-lg-7">
+												<div class="form-group form-control-sm mb-1">
+													<select tabindex="4" class="form-control form-control-sm mb-1" id="va_garantia">
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-lg-5">
+												<div class="form-group form-control-sm mb-1">
+													<label for="" class="col-form-label form-control-sm mb-1">ESTADO :</label>
+												</div>
+											</div>
+											<div class="col-lg-7">
+												<div class="form-group form-control-sm mb-1">
+													<input type="text" readonly class="form-control form-control-sm mb-1" id="tva_estado">
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="row">
+											<div class="col-lg-5">
+												<div class="form-group form-control-sm mb-1">
+													<label for="" class="col-form-label form-control-sm mb-1">CGM RESP. :</label>
+												</div>
+											</div>
+											<div class="col-lg-7">
+												<div class="form-group form-control-sm mb-1">
+													<select tabindex="5" class="form-control form-control-sm mb-1" id="va_genera">
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-lg-5">
+												<div class="form-group form-control-sm mb-1">
+													<label for="" class="col-form-label form-control-sm mb-1">FECHA GENERA :</label>
+												</div>
+											</div>
+											<div class="col-lg-7">
+												<div class="form-group form-control-sm mb-1">
+													<input tabindex="6" type="datetime-local" class="form-control form-control-sm mb-1" id="va_date_genera">
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-lg-5">
+												<div class="form-group form-control-sm mb-1">
+													<label for="" class="col-form-label form-control-sm mb-1">CIERRE ADM. :</label>
+												</div>
+											</div>
+											<div class="col-lg-7">
+												<div class="form-group form-control-sm mb-1">
+													<input type="text" readonly class="form-control form-control-sm mb-1" id="va_cierre_adm">
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-lg-5">
+												<div class="form-group form-control-sm mb-1">
+													<label for="" class="col-form-label form-control-sm mb-1">FEC. CIERRE ADM.:</label>
+												</div>
+											</div>
+											<div class="col-lg-7">
+												<div class="form-group form-control-sm mb-1">
+													<input type="datetime-local" readonly class="form-control form-control-sm mb-1" id="va_date_cierre_adm">
+												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-							<div class="row d-flex justify-content-araound">
-								<div class="col-lg-6">
-									<div class="row">
-										<div class="col-lg-5">
-											<div class="form-group form-control-sm mb-1">
-												<label for="" class="col-form-label form-control-sm mb-1">ASOCIADO :</label>
+								<div class="row d-flex justify-content-araound">
+									<div class="col-lg-6">
+										<div class="row">
+											<div class="col-lg-5">
+												<div class="form-group form-control-sm mb-1">
+													<label for="va_tipo" class="col-form-label form-control-sm mb-1">TIPO :</label>
+												</div>
+											</div>
+											<div class="col-lg-7">
+												<div class="form-group form-control-sm mb-1">
+													<input type="text" readonly class="form-control form-control-sm mb-1" id="va_tipo" placeholder="MATERIAL">
+												</div>
 											</div>
 										</div>
-										<div class="col-lg-7">
-											<div class="form-group form-control-sm mb-1">
-												<select tabindex="2" class="form-control form-control-sm mb-1" id="va_asociado">
+									</div>
+									<div class="col-lg-6">
+										<div class="row align-items-end d-flex">
+											<div class="btn-toolbar ml-auto p-2" role="toolbar" aria-label="Toolbbutton groups">
+												<div class="btn-group" role="group" aria-label="Four group" id="div_btn_repuesto_vale">
+													<button tabindex="10" type="button" id="btn_repuestos_vale" class="btn btn-secondary btn-sm btn_repuestos_vale mr-1">+ Repuestos</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+										<div class="container-fluid caja">
+											<div class="row w-100 p-0 m-0">
+										       	<div class="col-lg-12">
+										       		<div class="table-responsive" id="div_tabla_repuestos">        
+										           		<!-- PHP Accesos CreacionTabla -->
+										            </div>
+										        </div>
+										    </div>  
+										</div>
+								</div>
+								<div class="row d-flex justify-content-araound">
+									<div class="col-lg-12">
+										<div class="row">
+											<div class="form-group col-lg-5 mb-1 border border-muted border-radius rounded">
+    											<label for="va_obs_cgm" class="form-control-sm pl-0 mb-0">OBSERVACIONES DE CGM</label>
+    											<textarea class="form-control form-control-sm mb-1 text-uppercase" id="va_obs_cgm" rows="3" placeholder="escribe algo aqui..."></textarea>
+											</div>
+											<div class="form-group col-lg-5 mb-1 border border-muted border-radius rounded">
+    											<label for="va_obs_aom" class="form-control-sm pl-0 mb-0">OBSERVACIONES DE AOM</label>
+    											<textarea class="form-control form-control-sm mb-1 text-uppercase" id="va_obs_aom" rows="3" placeholder="escribe algo aqui..."></textarea>
+											</div>
+											<div class="form-group col-lg-2 mb-1 border border-muted border-radius rounded">
+    											<label for="va_estado" class="form-control-sm pl-0 mb-0">GUARDAR COMO</label>
+												<select class="col-form-label form-control form-control-sm mb-1" id="va_estado" name="va_estado" >
 												</select>
 											</div>
 										</div>
-									</div>
-									<div class="row">
-										<div class="col-lg-5">
-											<div class="form-group form-control-sm mb-1">
-												<label for="" class="col-form-label form-control-sm mb-1">RESP.ASOCIADO :</label>
-											</div>
-										</div>
-										<div class="col-lg-7">
-											<div class="form-group form-control-sm mb-1">
-												<select tabindex="3" class="form-control form-control-sm mb-1" id="va_responsable">
-												</select>
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-lg-5">
-											<div class="form-group form-control-sm mb-1">
-												<label for="" class="col-form-label form-control-sm mb-1">REG.REPUESTO :</label>
-											</div>
-										</div>
-										<div class="col-lg-7">
-											<div class="form-group form-control-sm mb-1">
-												<select tabindex="4" class="form-control form-control-sm mb-1" id="va_garantia">
-												</select>
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-lg-5">
-											<div class="form-group form-control-sm mb-1">
-												<label for="" class="col-form-label form-control-sm mb-1">ESTADO :</label>
-											</div>
-										</div>
-										<div class="col-lg-7">
-											<div class="form-group form-control-sm mb-1">
-												<input type="text" readonly class="form-control form-control-sm mb-1" id="tva_estado">
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-6">
-									<div class="row">
-										<div class="col-lg-5">
-											<div class="form-group form-control-sm mb-1">
-												<label for="" class="col-form-label form-control-sm mb-1">CGM RESP. :</label>
-											</div>
-										</div>
-										<div class="col-lg-7">
-											<div class="form-group form-control-sm mb-1">
-												<select tabindex="5" class="form-control form-control-sm mb-1" id="va_genera">
-												</select>
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-lg-5">
-											<div class="form-group form-control-sm mb-1">
-												<label for="" class="col-form-label form-control-sm mb-1">FECHA GENERA :</label>
-											</div>
-										</div>
-										<div class="col-lg-7">
-											<div class="form-group form-control-sm mb-1">
-												<input tabindex="6" type="datetime-local" class="form-control form-control-sm mb-1" id="va_date_genera">
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-lg-5">
-											<div class="form-group form-control-sm mb-1">
-												<label for="" class="col-form-label form-control-sm mb-1">CIERRE ADM. :</label>
-											</div>
-										</div>
-										<div class="col-lg-7">
-											<div class="form-group form-control-sm mb-1">
-												<input type="text" readonly class="form-control form-control-sm mb-1" id="va_cierre_adm">
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-lg-5">
-											<div class="form-group form-control-sm mb-1">
-												<label for="" class="col-form-label form-control-sm mb-1">FEC. CIERRE ADM.:</label>
-											</div>
-										</div>
-										<div class="col-lg-7">
-											<div class="form-group form-control-sm mb-1">
-												<input type="datetime-local" readonly class="form-control form-control-sm mb-1" id="va_date_cierre_adm">
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="row d-flex justify-content-araound">
-								<div class="col-lg-6">
-									<div class="row">
-										<div class="col-lg-5">
-											<div class="form-group form-control-sm mb-1">
-												<label for="va_tipo" class="col-form-label form-control-sm mb-1">TIPO :</label>
-											</div>
-										</div>
-										<div class="col-lg-7">
-											<div class="form-group form-control-sm mb-1">
-												<input type="text" readonly class="form-control form-control-sm mb-1" id="va_tipo" placeholder="MATERIAL">
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-6">
-									<div class="row align-items-end d-flex">
-										<div class="btn-toolbar ml-auto p-2" role="toolbar" aria-label="Toolbbutton groups">
-											<div class="btn-group" role="group" aria-label="Four group" id="div_btn_repuesto_vale">
-												<button tabindex="10" type="button" id="btn_repuestos_vale" class="btn btn-secondary btn-sm btn_repuestos_vale mr-1">+ Repuestos</button>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-lg-12">
-									<div class="container-fluid caja">
-										<div class="row w-100 p-0 m-0">
-									       	<div class="col-lg-12">
-									       		<div class="table-responsive" id="div_tabla_repuestos">        
-									           		<!-- PHP Accesos CreacionTabla -->
-									            </div>
-									        </div>
-									    </div>  
-									</div>
-								</div>
-							</div>
-							<div class="row d-flex justify-content-araound">
-								<div class="col-lg-12">
-									<div class="row">
-										<div class="form-group col-lg-5 mb-1 border border-muted border-radius rounded">
-    										<label for="va_obs_cgm" class="form-control-sm pl-0 mb-0">OBSERVACIONES DE CGM :</label>
-    										<textarea class="form-control form-control-sm mb-1 text-uppercase" id="va_obs_cgm" rows="3" placeholder="escribe algo aqui..."></textarea>
-										</div>
-										<div class="form-group col-lg-5 mb-1 border border-muted border-radius rounded">
-    										<label for="va_obs_aom" class="form-control-sm pl-0 mb-0">OBSERVACIONES DE AOM :</label>
-    										<textarea class="form-control form-control-sm mb-1 text-uppercase" id="va_obs_aom" rows="3" placeholder="escribe algo aqui..."></textarea>
-										</div>
-										<div class="form-group col-lg-2 mb-1 border border-muted border-radius rounded">
-    										<label for="va_estado" class="form-control-sm pl-0 mb-0">GUARDAR COMO :</label>
-											<select class="col-form-label form-control form-control-sm mb-1" id="va_estado" name="va_estado" >
-											</select>
-										</div>
-									</div>
-									<div class="row align-items-end d-flex">
-										<div class="btn-toolbar ml-auto p-2" role="toolbar" aria-label="Toolbbutton groups">
-											<div class="btn-group" role="group" aria-label="Four group" id="div_btn_guardar_vale">
-												<button type="button" id="btn_log_vale" class="btn btn-info btn-sm btn_log_vale mr-1">Log</button>
-												<button tabindex="12" type="button" id="btn_cancelar_vale" class="btn btn-light btn-sm btn_cancelar_vale mr-1">Cancelar</button>
-												<button type="button" id="btn_alamcen_ok" class="btn btn-secondary btn-sm btn_almacen_ok mr-1">Almacen Ok</button>
-												<button type="button" id="btn_coordinador_ok" class="btn btn-secondary btn-sm btn_coordinador_ok mr-1">Coodinador Ok</button>
-												<button type="button" id="btn_guardar_vale" class="btn btn-secondary btn-sm btn_guardar_vale mr-1">Guardar</button>
-											</div>
-										</div>
-									</div>
+										<div class="row align-items-end d-flex">
+											<div class="btn-toolbar ml-auto p-2" role="toolbar" aria-label="Toolbbutton groups">
+												<div class="btn-group" role="group" aria-label="Four group" id="div_btn_guardar_vale">
 
+												</div>
+											</div>
+										</div>
+
+									</div>
 								</div>
-							</div>
-						</div>	
+							</div>	
 						</div>
 					</form>
 				</div>
@@ -620,12 +614,12 @@
 											<div class="row">
 												<div class="col-lg-2">
 													<div class="form-group form-control-sm mb-1">
-								        				<label for="rv_repuesto" class="col-form-label form-control-sm">CODIGO:</label>
+								        				<label for="vr_repuesto" class="col-form-label form-control-sm">CODIGO:</label>
 													</div>
 												</div>
 												<div class="col-lg-4">
 													<div class="form-group form-control-sm mb-1">
-														<input type="text" class="form-control text-uppercase form-control-sm" id="rv_repuesto" disabled>
+														<input type="text" class="form-control text-uppercase form-control-sm" id="vr_repuesto" disabled>
 													</div>
 												</div>
 											</div> 
@@ -634,12 +628,12 @@
 											<div class="row">
 												<div class="col-lg-2">
 													<div class="form-group form-control-sm mb-1">
-														<label for="rv_descripcion" class="col-form-label form-control-sm">DESCRIPCION:</label>
+														<label for="vr_descripcion" class="col-form-label form-control-sm">DESCRIPCION:</label>
 													</div>	
 												</div>
 												<div class="col-lg-10">
 													<div class="form-group  form-control-sm mb-1">
-								        				<input type="text" class="form-control text-uppercase form-control-sm" id="rv_descripcion" disabled>
+								        				<input type="text" class="form-control text-uppercase form-control-sm" id="vr_descripcion" disabled>
 													</div>
 												</div>
 											</div>
@@ -770,12 +764,12 @@
 												<div class="row">
 													<div class="col-lg-4">
 														<div class="form-group form-control-sm mb-1">
-															<label for="rv_unidad" class="col-form-label form-control-sm mb-1">UNID.MEDIDA:</label>
+															<label for="vr_unidad" class="col-form-label form-control-sm mb-1">UNID.MEDIDA:</label>
 														</div>
 													</div>
 													<div class="col-lg-8">
 														<div class="form-group form-control-sm mb-1">
-															<input type="text" readonly class="form-control form-control-sm mb-1" id="rv_unidad">
+															<input type="text" readonly class="form-control form-control-sm mb-1" id="vr_unidad">
 														</div>
 													</div>
 												</div>
@@ -829,14 +823,14 @@
 									<div class="row align-items-end">
 										<div class="col-lg-2">
 											<div class="form-group">
-								    			<label for="rv_id" class="col-form-label form-control-sm">ITEM</label>
-												<input type="number" tabindex="14" class="form-control form-control-sm" id="rv_id">
+								    			<label for="vr_id" class="col-form-label form-control-sm">ITEM</label>
+												<input type="number" tabindex="14" class="form-control form-control-sm" id="vr_id">
 				  				    		</div> 
 			      		            	</div>
 										  <div class="col-lg-3">
 											<div class="form-group">
-								    			<label for="rv_cantidad_requerida" class="col-form-label form-control-sm">CANT.REQUERIDA</label>
-												<input type="number" tabindex="15" class="form-control form-control-sm" id="rv_cantidad">
+								    			<label for="vr_cantidad_requerida" class="col-form-label form-control-sm">CANT.REQUERIDA</label>
+												<input type="number" tabindex="15" class="form-control form-control-sm" id="vr_cantidad_requerida">
 				  				    		</div> 
 			      		            	</div>
 									</div>
@@ -846,20 +840,20 @@
 										</div>
 										<div class="col-lg-3">
 											<div class="form-group">
-								    			<label for="rv_cantidad" class="col-form-label form-control-sm">CANT.DESPACHO</label>
-												<input type="number" tabindex="16" class="form-control form-control-sm" id="rv_cantidad">
+								    			<label for="vr_cantidad_despachada" class="col-form-label form-control-sm">CANT.DESPACHO</label>
+												<input type="number" tabindex="16" class="form-control form-control-sm" id="vr_cantidad_despachada">
 				  				    		</div> 
 			      		            	</div>
 										  <div class="col-lg-3">
 											<div class="form-group">
-												<label for="rv_cod_patrimonial_despacho" class="col-form-label form-control-sm">COD.PAT.DESPACHO</label>
-												<input type="text" tabindex="17" class="form-control form-control-sm" id="rv_cod_patrimonial_despacho" disabled>
+												<label for="vr_cod_patrimonial_despacho" class="col-form-label form-control-sm">COD.PAT.DESPACHO</label>
+												<input type="text" tabindex="17" class="form-control form-control-sm" id="vr_cod_patrimonial_despacho" disabled>
 											</div>
 										</div>
 										<div class="col-lg-3">
 											<div class="form-group">
-								    			<label for="rv_nroserie" class="col-form-label form-control-sm">NRO. SERIE</label>
-												<input type="text" tabindex="18" class="form-control form-control-sm" id="rv_nroserie">
+								    			<label for="vr_nroserie" class="col-form-label form-control-sm">NRO. SERIE</label>
+												<input type="text" tabindex="18" class="form-control form-control-sm" id="vr_nroserie">
 				  				    		</div> 
 			      		            	</div>
 									</div>
@@ -869,14 +863,14 @@
 										</div>
 										<div class="col-lg-3">
 											<div class="form-group">
-								    			<label for="rv_cantidad_real" class="col-form-label form-control-sm">CANT.UTILIZADA</label>
-												<input type="number" tabindex="19" class="form-control form-control-sm" id="rv_cantidad_real">
+								    			<label for="vr_cantidad_utilizada" class="col-form-label form-control-sm">CANT.UTILIZADA</label>
+												<input type="number" tabindex="19" class="form-control form-control-sm" id="vr_cantidad_utilizada">
 				  				    		</div> 
 			      		            	</div>
 										<div class="col-lg-3">
 											<div class="form-group">
-												<label for="rv_cod_patrimonial_recepcion" class="col-form-label form-control-sm">COD.PAT.RECEPCION</label>
-												<input type="text" tabindex="20" class="form-control form-control-sm" id="rv_cod_patrimonial_recepcion" disabled>
+												<label for="vr_cod_patrimonial_recepcion" class="col-form-label form-control-sm">COD.PAT.RECEPCION</label>
+												<input type="text" tabindex="20" class="form-control form-control-sm" id="vr_cod_patrimonial_recepcion" disabled>
 											</div>
 										</div>
 									</div>
@@ -1134,6 +1128,148 @@
 				</div>
 				<!-- FIN CRUD LOG VALES --> 
 
+			</div>
+
+			<!------------------------------------------------------------------------------->
+			<!-- TAB AJUSTE DE VALE --------------------------------------------------------->
+			<!------------------------------------------------------------------------------->
+			<div class="tab-pane fade" id="nav-ajustes_vale" role="tabpanel" aria-labelledby="nav-ajustes_vale">
+				<h5 class="pt-3 pl-3">Variables</h5>
+				<nav>
+	 				<div class="nav nav-tabs" id="nav-tab-ajustes_vale" role="tablist">
+					</div>
+				</nav>
+				<div class="tab-content" id="nav-tabContent-ajustes_vale">
+					<!------------------------------------------------------------------------------->
+					<!-- TAB AJUSTE VARIABLE DE USUARIO DE CHECK LIST DE FLOTA ---------------------->
+					<!------------------------------------------------------------------------------->
+					<div class="tab-pane fade show active" id="nav-ajustes_vale_usuario" role="tabpanel" aria-labelledby="nav-ajustes_vale_usuario-tab">
+						<section class="container-fluid py-3">
+							<button id="btn_nuevo_tc_vale_usuario" type="button" class="btn btn-secondary btn-sm btn_nuevo_tc_vale_usuario" data-toggle="modal">+ Nuevo</button>  
+						</section>
+						<div class="row p-3">
+							<div class="col-auto m-0">
+								<div class="table-responsive" id="div_tabla_tc_vale_usuario">
+								</div>
+							</div>
+						</div>
+						<!--Modal para CRUD-->
+						<div class="row modal fade" id="modal_crud_tc_vale_usuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel"></h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<form id="form_tc_vale_usuario">
+						  				<div class="modal-body">
+											<div class="row">
+												<div class="col-lg-6">
+													<div class="form-group">
+												  		<label for="tc_vale_id_usuario" class="col-form-label form-control-sm">ID</label>
+												   		<input type="text" readonly class="form-control form-control-sm" id="tc_vale_id_usuario">
+												 	</div>
+											 	</div>
+											 	<div class="col-lg-6">
+											  		<div class="form-group">
+														<label for="vale_cat1_usuario" class="col-form-label form-control-sm">CATEGORIA 1</label>
+												   		<input type="text" class="form-control form-control-sm text-uppercase" id="vale_cat1_usuario" maxlength="45">
+													</div> 
+											 	</div>    
+											</div>
+							  				<div class="row"> 
+												<div class="col-lg-6">
+											  		<div class="form-group">
+														<label for="vale_cat2_usuario" class="col-form-label form-control-sm">CATEGORIA 2</label>
+														<input type="text" class="form-control form-control-sm text-uppercase" id="vale_cat2_usuario" maxlength="45">
+													</div> 
+								  				</div>
+											</div>
+											<div class="row"> 
+								  				<div class="col-lg-12">
+											  		<div class="form-group">
+														<label for="vale_cat3_usuario" class="col-form-label form-control-sm">CATEGORIA 3</label>
+												  		<textarea class="form-control z-depth-1 text-uppercase" id="vale_cat3_usuario" rows="7" placeholder="escribe algo aqui..." maxlength="250"></textarea>
+													</div>               
+								   				</div>
+							  				</div>
+										</div>
+						  				<div class="modal-footer">
+							  				<button type="button" class="btn btn-light btn-sm" data-dismiss="modal">Cancelar</button>
+							  				<button type="submit" id="btn_guardar_tc_vale_usuario" class="btn btn-dark btn-sm btn_guardar_tc_vale_usuario">Guardar</button>
+						  				</div>
+									</form>    
+								</div>
+							</div>
+						</div>  
+					</div>
+					<!------------------------------------------------------------------------------->
+					<!-- TAB AJUSTE VARIABLE DE SISTEMA DE VALE ------------------------------------->
+					<!------------------------------------------------------------------------------->
+					<div class="tab-pane fade" id="nav-ajustes_vale_sistema" role="tabpanel" aria-labelledby="nav-ajustes_vale_sistema-tab">
+						<section class="container-fluid py-3">
+							<button id="btn_nuevo_tc_vale_sistema" type="button" class="btn btn-secondary btn-sm btn_nuevo_tc_vale_sistema" data-toggle="modal">+ Nuevo</button>  
+						</section>
+						<div class="row p-3">
+							<div class="col-auto m-0">
+								<div class="table-responsive" id="div_tabla_tc_vale_sistema">
+								</div>
+							</div>
+						</div>
+						<div class="row modal fade" id="modal_crud_tc_vale_sistema" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel"></h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<form id="form_tc_vale_sistema">
+						  				<div class="modal-body">
+											<div class="row">
+												<div class="col-lg-6">
+													<div class="form-group">
+												  		<label for="tc_vale_id_sistema" class="col-form-label form-control-sm">ID</label>
+												   		<input type="text" readonly class="form-control form-control-sm" id="tc_vale_id_sistema">
+												 	</div>
+											 	</div>
+											 	<div class="col-lg-6">
+											  		<div class="form-group">
+														<label for="vale_cat1_sistema" class="col-form-label form-control-sm">CATEGORIA 1</label>
+												   		<input type="text" class="form-control form-control-sm text-uppercase" id="vale_cat1_sistema" maxlength="45">
+													</div> 
+											 	</div>    
+											</div>
+							  				<div class="row"> 
+												<div class="col-lg-6">
+											  		<div class="form-group">
+														<label for="vale_cat2_sistema" class="col-form-label form-control-sm">CATEGORIA 2</label>
+														<input type="text" class="form-control form-control-sm text-uppercase" id="vale_cat2_sistema" maxlength="45">
+													</div> 
+								  				</div>
+											</div>
+											<div class="row"> 
+								  				<div class="col-lg-12">
+											  		<div class="form-group">
+														<label for="vale_cat3_sistema" class="col-form-label form-control-sm">CATEGORIA 3</label>
+												  		<textarea class="form-control z-depth-1 text-uppercase" id="vale_cat3_sistema" rows="7" placeholder="escribe algo aqui..." maxlength="250"></textarea>
+													</div>               
+								   				</div>
+							  				</div>
+										</div>
+						  				<div class="modal-footer">
+							  				<button type="button" class="btn btn-light btn-sm" data-dismiss="modal">Cancelar</button>
+							  				<button type="submit" id="btn_guardar_tc_vale_sistema" class="btn btn-dark btn-sm btn_guardar_tc_vale_sistema">Guardar</button>
+						  				</div>
+									</form>    
+								</div>
+							</div>
+						</div>  
+					</div>
+				</div>
 			</div>
 
 		</div>

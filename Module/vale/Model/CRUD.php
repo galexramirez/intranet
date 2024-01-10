@@ -119,31 +119,6 @@ class CRUD
 		$this->conexion=null;
    	}   
 
-	function cargar_repuestos($vale_id)
-	{
-		$consulta = "SELECT 
-						`vr_id`, 
-						`vr_vale_id`, 
-						`vr_repuesto`, 
-						`vr_nroserie`, 
-						`vr_cantidad`, 
-						`vr_precio`, 
-						'' AS `vr_descripcion`, 
-						`vr_unidad_medida` AS `vr_unidad`, 
-						`vr_tipo` 
-					FROM 
-						`manto_vale_repuestos` 
-					WHERE 
-						`vr_vale_id`='$vale_id'";
-
-		$resultado = $this->conexion->prepare($consulta);
-        $resultado->execute();
-		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
-		print json_encode($data, JSON_UNESCAPED_UNICODE);//envio el array final el formato json a AJAX
-
-		$this->conexion=null;
-	}
-	
 	function generar_vale($vale_id, $va_ot_id, $va_genera, $va_date_genera, $va_asociado, $va_responsable, $va_garantia, $va_obs_cgm, $va_obs_aom, $va_estado, $nombre_cierre_adm, $va_tipo, $va_ruc)
 	{
         $va_cierre_adm 		= $_SESSION['USUARIO_ID'];
@@ -157,24 +132,6 @@ class CRUD
 		$resultado = $this->conexion->prepare($consulta);
         $resultado->execute();        
         
-		$this->conexion=null;
-	}
-
-	function crear_detalle_repuestos($vr_vale, $vr_id, $vr_repuesto, $vr_nroserie, $vr_cantidad, $vr_precio, $vr_unidad_medida, $vr_material_id, $vr_precio_proveedor_id, $vr_moneda, $vr_precio_soles, $vr_fecha_vigencia, $vr_tipo, $vr_descripcion)
-	{
-		$consulta = "INSERT INTO `manto_vale_repuestos`(`vr_vale`, `vr_id`, `vr_repuesto`, `vr_nroserie`, `vr_cantidad`, `vr_precio`, `vr_unidad_medida`, `vr_material_id`, `vr_precio_proveedor_id`, `vr_moneda`, `vr_precio_soles`, `vr_fecha_vigencia`, `vr_tipo`, `vr_descripcion`) VALUES ('$vr_vale', '$vr_id', '$vr_repuesto', '$vr_nroserie', '$vr_cantidad', '$vr_precio', '$vr_unidad_medida', '$vr_material_id', '$vr_precio_proveedor_id', '$vr_moneda', '$vr_precio_soles', '$vr_fecha_vigencia', '$vr_tipo', '$vr_descripcion')";
-
-		$resultado = $this->conexion->prepare($consulta);
-        $resultado->execute();        
-		$this->conexion=null;
-	}
-
-	function eliminar_detalle_repuestos($cod_rv)
-	{
-		$consulta="DELETE FROM `manto_vale_repuestos` WHERE `vr_vale`='$cod_rv'";
-
-		$resultado = $this->conexion->prepare($consulta);
-        $resultado->execute();        
 		$this->conexion=null;
 	}
 
@@ -202,9 +159,54 @@ class CRUD
 		$this->conexion=null;
 	}
 
+	function cargar_repuestos($vale_id)
+	{
+		$consulta = "SELECT 
+						`vr_vale_id`,
+						`vr_id`, 
+						`vr_repuesto`,
+						`vr_cod_patrimonial_despacho`,
+						`vr_nroserie`, 
+						`vr_descripcion`,
+						`vr_cantidad_requerida`, 
+						`vr_cantidad_despachada`, 
+						`vr_cantidad_utilizada`, 
+						`vr_unidad_medida` AS `vr_unidad` 
+					FROM 
+						`manto_vale_repuestos` 
+					WHERE 
+						`vr_vale_id`='$vale_id'";
+
+		$resultado = $this->conexion->prepare($consulta);
+        $resultado->execute();
+		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+		print json_encode($data, JSON_UNESCAPED_UNICODE);//envio el array final el formato json a AJAX
+
+		$this->conexion=null;
+	}
+
+	function crear_detalle_repuestos($vr_vale, $vr_id, $vr_repuesto, $vr_nroserie, $vr_cantidad_requerida, $vr_precio, $vr_unidad_medida, $vr_material_id, $vr_precio_proveedor_id, $vr_moneda, $vr_precio_soles, $vr_fecha_vigencia, $vr_tipo, $vr_descripcion)
+	{
+		$consulta = "INSERT INTO `manto_vale_repuestos`(`vr_vale`, `vr_id`, `vr_repuesto`, `vr_nroserie`, `vr_cantidad_requerida`, `vr_precio`, `vr_unidad_medida`, `vr_material_id`, `vr_precio_proveedor_id`, `vr_moneda`, `vr_precio_soles`, `vr_fecha_vigencia`, `vr_tipo`, `vr_descripcion`) VALUES ('$vr_vale', '$vr_id', '$vr_repuesto', '$vr_nroserie', '$vr_cantidad_requerida', '$vr_precio', '$vr_unidad_medida', '$vr_material_id', '$vr_precio_proveedor_id', '$vr_moneda', '$vr_precio_soles', '$vr_fecha_vigencia', '$vr_tipo', '$vr_descripcion')";
+
+		$resultado = $this->conexion->prepare($consulta);
+        $resultado->execute();        
+		$this->conexion=null;
+	}
+
+	function eliminar_detalle_repuestos($cod_rv)
+	{
+		$consulta="DELETE FROM `manto_vale_repuestos` WHERE `vr_vale`='$cod_rv'";
+
+		$resultado = $this->conexion->prepare($consulta);
+        $resultado->execute();        
+		$this->conexion=null;
+	}
+
 	function AutoCompletar($NombreTabla, $NombreCampo, $va_ruc, $va_date_genera, $va_tipo)
 	{
 		$consulta = "SELECT DISTINCT `$NombreTabla`.`$NombreCampo`, `$NombreTabla`.`precioprov_descripcion` FROM `$NombreTabla` WHERE `precioprov_ruc`='$va_ruc' AND `precioprov_fechavigencia`<='$va_date_genera' AND `precioprov_tipo`='$va_tipo'";
+
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();
 		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
@@ -212,105 +214,6 @@ class CRUD
 		return $data;
 		$this->conexion=null;
 	}
-
-	function descargar_vale($fecha_inicio_listado,$fecha_termino_listado)
-	{
-		$consulta = "(SELECT 
-						`manto_vale`.`vale_id`, 
-						`manto_vale`.`va_estado`, 
-						`manto_vale`.`va_ot_id`, 
-						`manto_vale`.`va_asociado`, 
-						`manto_vale`.`va_responsable`, 
-						(SELECT `colaborador`.`Colab_nombre_corto` FROM `colaborador` WHERE `colaborador`.`Colaborador_id`=`manto_vale`.`va_genera`) AS `va_genera`,
-						DATE_FORMAT(`manto_vale`.`va_date_genera`,'%Y-%m-%d') AS `va_date_genera`, 
-						`manto_vale`.`va_obs_cgm`, 
-						`manto_vale`.`va_garantia`,
-						`manto_orden_trabajo`.`ot_bus`, 
-						`manto_orden_trabajo`.`ot_origen`, 
-						`manto_orden_trabajo`.`ot_descrip`, 
-						(SELECT `colaborador`.`Colab_nombre_corto` FROM `colaborador` WHERE `colaborador`.`Colaborador_id`=`manto_vale`.`va_cierre_adm`) AS `va_cierre_adm`,
-						DATE_FORMAT(`manto_vale`.`va_date_cierre_adm`,'%Y-%m-%d') AS `va_date_cierre_adm`, 
-						TIME_FORMAT(`manto_vale`.`va_date_cierre_adm`,'%H:%i') AS `va_time_cierre_adm`, 
-						`manto_vale`.`va_obs_aom`, 
-						`manto_vale_repuestos`.`vr_repuesto`, 
-						`manto_vale_repuestos`.`vr_nroserie`, 
-						`manto_vale_repuestos`.`vr_cantidad`,
-						`manto_vale_repuestos`.`vr_moneda`,
-						ROUND(`manto_vale_repuestos`.`vr_precio_soles`,2) AS `vr_precio_soles`,
-						`manto_vale_repuestos`.`vr_fecha_vigencia`,
-						IF(ISNULL(`vr_descripcion`)='1',(SELECT `rep_desc` FROM `manto_repuestos` WHERE `manto_repuestos`.`cod_rep`=`manto_vale_repuestos`.`vr_repuesto`),`vr_descripcion`) AS `rep_desc`, 
-						IF(ISNULL(`manto_vale_repuestos`.`vr_unidad_medida`)='1',(SELECT `rep_unida` FROM `manto_repuestos` WHERE `manto_vale_repuestos`.`vr_repuesto`=`manto_repuestos`.`cod_rep`),(SELECT `manto_unidad_medida`.`um_descripcion` FROM `manto_unidad_medida` WHERE `manto_unidad_medida`.`unidad_medida`=`manto_vale_repuestos`.`vr_unidad_medida`)) AS `rep_unidad`,
-						`manto_vale_repuestos`.`vr_tipo`,
-						ROUND((`manto_vale_repuestos`.`vr_cantidad`*`manto_vale_repuestos`.`vr_precio_soles`),2) AS `vr_subtotal`
-					FROM 
-						`manto_vale_repuestos`,
-						`manto_vale`
-					LEFT JOIN
-						`manto_orden_trabajo`
-					ON
-						`manto_vale`.`va_ot_id`=`manto_orden_trabajo`.`ot_id`
-					WHERE 
-						DATE_FORMAT(`manto_vale`.`va_date_genera`,'%Y-%m-%d')>='$fecha_inicio_listado' AND
-						DATE_FORMAT(`manto_vale`.`va_date_genera`,'%Y-%m-%d')<='$fecha_termino_listado' AND
-						`manto_vale`.`vale_id` = `manto_vale_repuestos`.`vr_vale`
-					ORDER BY
-						`manto_vale`.`va_date_genera` DESC
-					)
-					UNION
-					(SELECT
-						`manto_vale`.`vale_id`, 
-						`manto_vale`.`va_estado`, 
-						`manto_vale`.`va_ot_id`, 
-						`manto_vale`.`va_asociado`, 
-						`manto_vale`.`va_responsable`, 
-						(SELECT `colaborador`.`Colab_nombre_corto` FROM `colaborador` WHERE `colaborador`.`Colaborador_id`=`manto_vale`.`va_genera`) AS `va_genera`,
-						DATE_FORMAT(`manto_vale`.`va_date_genera`,'%Y-%m-%d') AS `va_date_genera`, 
-						`manto_vale`.`va_obs_cgm`, 
-						`manto_vale`.`va_garantia`,
-						`manto_orden_trabajo`.`ot_bus`, 
-						`manto_orden_trabajo`.`ot_origen`, 
-						`manto_orden_trabajo`.`ot_descrip`, 
-						(SELECT `colaborador`.`Colab_nombre_corto` FROM `colaborador` WHERE `colaborador`.`Colaborador_id`=`manto_vale`.`va_cierre_adm`) AS `va_cierre_adm`, 
-						DATE_FORMAT(`manto_vale`.`va_date_cierre_adm`,'%Y-%m-%d') AS `va_date_cierre_adm`, 
-						TIME_FORMAT(`manto_vale`.`va_date_cierre_adm`,'%H:%i') AS `va_time_cierre_adm`, 
-						`manto_vale`.`va_obs_aom`, 
-						'' AS `vr_repuesto`, 
-						'' AS `vr_nroserie`,
-						'' AS `vr_cantidad`,
-						'' AS `vr_moneda`,
-						'' AS `vr_precio_soles`,
-						'' AS `vr_fecha_vigencia`,
-						'' AS `rep_desc`, 
-						'' AS `rep_unidad`,
-						'' AS `vr_tipo`,
-						'' AS `vr_subtotal`
-					FROM
-						`manto_vale`
-					LEFT JOIN
-						`manto_orden_trabajo`
-					ON
-						`manto_vale`.`va_ot_id`=`manto_orden_trabajo`.`ot_id`
-					WHERE
-						NOT EXISTS (
-							SELECT 
-								`manto_vale_repuestos`.`vr_vale`
-							FROM
-								`manto_vale_repuestos`
-							WHERE
-								`manto_vale`.`vale_id`=`manto_vale_repuestos`.`vr_vale`) AND
-								DATE_FORMAT(`manto_vale`.`va_date_genera`,'%Y-%m-%d')>='$fecha_inicio_listado' AND
-								DATE_FORMAT(`manto_vale`.`va_date_genera`,'%Y-%m-%d')<='$fecha_termino_listado'
-					ORDER BY
-						`manto_vale`.`va_date_genera` DESC
-					)";
-
-		$resultado 	= $this->conexion->prepare($consulta);
-		$resultado->execute();        
-		$data		= $resultado->fetchAll(PDO::FETCH_ASSOC);
-   
-		return $data;
-		$this->conexion=null;
-	}   
 
 	function BuscarCodigoRepuesto($vr_repuesto, $va_ruc, $va_date_genera, $va_tipo){
 		$consulta = "SELECT 
@@ -358,6 +261,105 @@ class CRUD
 		$this->conexion=null;
 	}
 
+	function descargar_vale($fecha_inicio_listado,$fecha_termino_listado)
+	{
+		$consulta = "(SELECT 
+						`manto_vale`.`vale_id`, 
+						`manto_vale`.`va_estado`, 
+						`manto_vale`.`va_ot_id`, 
+						`manto_vale`.`va_asociado`, 
+						`manto_vale`.`va_responsable`, 
+						(SELECT `colaborador`.`Colab_nombre_corto` FROM `colaborador` WHERE `colaborador`.`Colaborador_id`=`manto_vale`.`va_genera`) AS `va_genera`,
+						DATE_FORMAT(`manto_vale`.`va_date_genera`,'%Y-%m-%d') AS `va_date_genera`, 
+						`manto_vale`.`va_obs_cgm`, 
+						`manto_vale`.`va_garantia`,
+						`manto_orden_trabajo`.`ot_bus`, 
+						`manto_orden_trabajo`.`ot_origen`, 
+						`manto_orden_trabajo`.`ot_descrip`, 
+						(SELECT `colaborador`.`Colab_nombre_corto` FROM `colaborador` WHERE `colaborador`.`Colaborador_id`=`manto_vale`.`va_cierre_adm`) AS `va_cierre_adm`,
+						DATE_FORMAT(`manto_vale`.`va_date_cierre_adm`,'%Y-%m-%d') AS `va_date_cierre_adm`, 
+						TIME_FORMAT(`manto_vale`.`va_date_cierre_adm`,'%H:%i') AS `va_time_cierre_adm`, 
+						`manto_vale`.`va_obs_aom`, 
+						`manto_vale_repuestos`.`vr_repuesto`, 
+						`manto_vale_repuestos`.`vr_nroserie`, 
+						`manto_vale_repuestos`.`vr_cantidad_requerida`,
+						`manto_vale_repuestos`.`vr_moneda`,
+						ROUND(`manto_vale_repuestos`.`vr_precio_soles`,2) AS `vr_precio_soles`,
+						`manto_vale_repuestos`.`vr_fecha_vigencia`,
+						IF(ISNULL(`vr_descripcion`)='1',(SELECT `rep_desc` FROM `manto_repuestos` WHERE `manto_repuestos`.`cod_rep`=`manto_vale_repuestos`.`vr_repuesto`),`vr_descripcion`) AS `rep_desc`, 
+						IF(ISNULL(`manto_vale_repuestos`.`vr_unidad_medida`)='1',(SELECT `rep_unida` FROM `manto_repuestos` WHERE `manto_vale_repuestos`.`vr_repuesto`=`manto_repuestos`.`cod_rep`),(SELECT `manto_unidad_medida`.`um_descripcion` FROM `manto_unidad_medida` WHERE `manto_unidad_medida`.`unidad_medida`=`manto_vale_repuestos`.`vr_unidad_medida`)) AS `rep_unidad`,
+						`manto_vale_repuestos`.`vr_tipo`,
+						ROUND((`manto_vale_repuestos`.`vr_cantidad_requerida`*`manto_vale_repuestos`.`vr_precio_soles`),2) AS `vr_subtotal`
+					FROM 
+						`manto_vale_repuestos`,
+						`manto_vale`
+					LEFT JOIN
+						`manto_orden_trabajo`
+					ON
+						`manto_vale`.`va_ot_id`=`manto_orden_trabajo`.`ot_id`
+					WHERE 
+						DATE_FORMAT(`manto_vale`.`va_date_genera`,'%Y-%m-%d')>='$fecha_inicio_listado' AND
+						DATE_FORMAT(`manto_vale`.`va_date_genera`,'%Y-%m-%d')<='$fecha_termino_listado' AND
+						`manto_vale`.`vale_id` = `manto_vale_repuestos`.`vr_vale`
+					ORDER BY
+						`manto_vale`.`va_date_genera` DESC
+					)
+					UNION
+					(SELECT
+						`manto_vale`.`vale_id`, 
+						`manto_vale`.`va_estado`, 
+						`manto_vale`.`va_ot_id`, 
+						`manto_vale`.`va_asociado`, 
+						`manto_vale`.`va_responsable`, 
+						(SELECT `colaborador`.`Colab_nombre_corto` FROM `colaborador` WHERE `colaborador`.`Colaborador_id`=`manto_vale`.`va_genera`) AS `va_genera`,
+						DATE_FORMAT(`manto_vale`.`va_date_genera`,'%Y-%m-%d') AS `va_date_genera`, 
+						`manto_vale`.`va_obs_cgm`, 
+						`manto_vale`.`va_garantia`,
+						`manto_orden_trabajo`.`ot_bus`, 
+						`manto_orden_trabajo`.`ot_origen`, 
+						`manto_orden_trabajo`.`ot_descrip`, 
+						(SELECT `colaborador`.`Colab_nombre_corto` FROM `colaborador` WHERE `colaborador`.`Colaborador_id`=`manto_vale`.`va_cierre_adm`) AS `va_cierre_adm`, 
+						DATE_FORMAT(`manto_vale`.`va_date_cierre_adm`,'%Y-%m-%d') AS `va_date_cierre_adm`, 
+						TIME_FORMAT(`manto_vale`.`va_date_cierre_adm`,'%H:%i') AS `va_time_cierre_adm`, 
+						`manto_vale`.`va_obs_aom`, 
+						'' AS `vr_repuesto`, 
+						'' AS `vr_nroserie`,
+						'' AS `vr_cantidad_requerida`,
+						'' AS `vr_moneda`,
+						'' AS `vr_precio_soles`,
+						'' AS `vr_fecha_vigencia`,
+						'' AS `rep_desc`, 
+						'' AS `rep_unidad`,
+						'' AS `vr_tipo`,
+						'' AS `vr_subtotal`
+					FROM
+						`manto_vale`
+					LEFT JOIN
+						`manto_orden_trabajo`
+					ON
+						`manto_vale`.`va_ot_id`=`manto_orden_trabajo`.`ot_id`
+					WHERE
+						NOT EXISTS (
+							SELECT 
+								`manto_vale_repuestos`.`vr_vale`
+							FROM
+								`manto_vale_repuestos`
+							WHERE
+								`manto_vale`.`vale_id`=`manto_vale_repuestos`.`vr_vale`) AND
+								DATE_FORMAT(`manto_vale`.`va_date_genera`,'%Y-%m-%d')>='$fecha_inicio_listado' AND
+								DATE_FORMAT(`manto_vale`.`va_date_genera`,'%Y-%m-%d')<='$fecha_termino_listado'
+					ORDER BY
+						`manto_vale`.`va_date_genera` DESC
+					)";
+
+		$resultado 	= $this->conexion->prepare($consulta);
+		$resultado->execute();        
+		$data		= $resultado->fetchAll(PDO::FETCH_ASSOC);
+   
+		return $data;
+		$this->conexion=null;
+	}   
+
 	function vales_observados()
 	{
 		$consulta = " SELECT COUNT(*) AS `cantidad_vales` FROM `manto_vale` WHERE `va_estado`='OBSERVADO'";
@@ -369,16 +371,107 @@ class CRUD
 		$this->conexion=null;
 	}
 
-	function buscar_estado($tabla, $campo_estado, $estado, $campo_fecha, $fecha_inicio)
+	function leer_tc_vale_usuario()
 	{
-		$consulta = " SELECT * FROM `$tabla` WHERE `$campo_estado`='$estado' AND `$campo_fecha`>'$fecha_inicio'";
+		$tc_variable = 'USUARIO';
+		$consulta="SELECT * FROM `manto_tc_vale` WHERE `tc_variable`='$tc_variable'";
+   
 		$resultado = $this->conexion->prepare($consulta);
-		$resultado->execute();
+		$resultado->execute();        
 		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
    
-		return $data;
+		print json_encode($data, JSON_UNESCAPED_UNICODE);
 		$this->conexion=null;
+	}   
+   
+	function crear_tc_vale_usuario($tc_vale_id, $tc_categoria1, $tc_categoria2, $tc_categoria3)
+	{
+		$tc_variable = 'USUARIO';
+		$consulta = "INSERT INTO `manto_tc_vale`(`tc_variable`, `tc_categoria1`, `tc_categoria2`, `tc_categoria3`) VALUES ('$tc_variable', '$tc_categoria1','$tc_categoria2','$tc_categoria3')";
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();   
+		
+		$consulta = "SELECT * FROM `manto_tc_vale` WHERE `tc_variable`='$tc_variable'";
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();        
+		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+		print json_encode($data, JSON_UNESCAPED_UNICODE);
+		  
+	   	$this->conexion=null;	
+	}  	
+	
+	function editar_tc_vale_usuario($tc_vale_id, $tc_categoria1, $tc_categoria2, $tc_categoria3)
+	{
+	  	$consulta = "UPDATE `manto_tc_vale` SET `tc_categoria1`='$tc_categoria1',`tc_categoria2`='$tc_categoria2',`tc_categoria3`='$tc_categoria3' 	WHERE`tc_vale_id`='$tc_vale_id'";		
+	  	$resultado = $this->conexion->prepare($consulta);
+	  	$resultado->execute();   
+		
+	  	$consulta= "SELECT * FROM `manto_tc_vale` WHERE `tc_vale_id` ='$tc_vale_id'";
+	  	$resultado = $this->conexion->prepare($consulta);
+	  	$resultado->execute();        
+	  	$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+	  	print json_encode($data, JSON_UNESCAPED_UNICODE);
+	  	$this->conexion=null;	
+	}  		
+	   
+	function borrar_tc_vale_usuario($tc_vale_id)
+	{
+		$consulta = "DELETE FROM `manto_tc_vale` WHERE `tc_vale_id`='$tc_vale_id'";		
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();   
+		$this->conexion=null;	
+	}
+   
+	function leer_tc_vale_sistema()
+	{
+		$tc_variable = 'SISTEMA';
+		$consulta="SELECT * FROM `manto_tc_vale` WHERE `tc_variable`='$tc_variable'";
 
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();        
+		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+
+		print json_encode($data, JSON_UNESCAPED_UNICODE);
+		$this->conexion=null;
+	}   
+   
+	function crear_tc_vale_sistema($tc_vale_id, $tc_categoria1, $tc_categoria2, $tc_categoria3)
+	{
+		$tc_variable = 'SISTEMA';
+		$consulta = "INSERT INTO `manto_tc_vale`(`tc_variable`, `tc_categoria1`, `tc_categoria2`, `tc_categoria3`) VALUES ('$tc_variable', '$tc_categoria1','$tc_categoria2','$tc_categoria3')";
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();   
+   
+		$consulta = "SELECT * FROM `manto_tc_vale` WHERE `tc_variable`='$tc_variable'";
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();        
+		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+		print json_encode($data, JSON_UNESCAPED_UNICODE);
+		  
+		$this->conexion=null;	
+	}  	
+	   
+	function editar_tc_vale_sistema($tc_vale_id, $tc_categoria1, $tc_categoria2, $tc_categoria3)
+	{
+		$consulta = "UPDATE `manto_tc_vale` SET `tc_categoria1`='$tc_categoria1',`tc_categoria2`='$tc_categoria2',`tc_categoria3`='$tc_categoria3'WHERE`tc_vale_id`='$tc_vale_id'";	
+
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();   
+
+		$consulta= "SELECT * FROM `manto_tc_vale` WHERE `tc_vale_id` ='$tc_vale_id'";
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();        
+		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+		print json_encode($data, JSON_UNESCAPED_UNICODE);
+		$this->conexion=null;	
+	}  		
+	   
+	function borrar_tc_vale_sistema($tc_vale_id)
+	{
+		$consulta = "DELETE FROM `manto_tc_vale` WHERE `tc_vale_id`='$tc_vale_id'";		
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();   
+		$this->conexion=null;	
 	}
 
 }

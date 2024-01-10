@@ -922,4 +922,56 @@ class CRUD
         $this->conexion=null;	
 	}  		
 
+	function leer_tecnico()
+	{
+        $consulta="SELECT * FROM `manto_tecnico_asociado`";
+
+        $resultado = $this->conexion->prepare($consulta);
+        $resultado->execute();        
+        $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+
+        print json_encode($data, JSON_UNESCAPED_UNICODE);
+        $this->conexion=null;
+   	}   
+		 
+	function crear_tecnico($tecnico_asociado_id, $ta_dni, $ta_nombre_corto, $ta_apellidos_nombres, $ta_ruc, $ta_razon_social)
+	{
+		$consulta = "INSERT INTO `manto_tecnico_asociado`(`ta_dni`, `ta_nombre_corto`, `ta_apellidos_nombres`, `ta_ruc`, `ta_razon_social`) VALUES ('$ta_dni', '$ta_nombre_corto', '$ta_apellidos_nombres', '$ta_ruc', '$ta_razon_social')";
+
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();   
+
+		$consulta = "SELECT * FROM `manto_tecnico_asociado`";
+        $resultado = $this->conexion->prepare($consulta);
+        $resultado->execute();        
+        $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+
+        print json_encode($data, JSON_UNESCAPED_UNICODE);
+        $this->conexion=null;	
+	}  	
+	
+	function editar_tecnico($tecnico_asociado_id, $ta_dni, $ta_nombre_corto, $ta_apellidos_nombres, $ta_ruc, $ta_razon_social)
+	{
+		$consulta = "UPDATE `manto_tecnico_asociado` SET `ta_dni`='$ta_dni', `ta_nombre_corto`='$ta_nombre_corto', `ta_apellidos_nombres`='$ta_apellidos_nombres', `ta_ruc`='$ta_ruc', `ta_razon_social`='$ta_razon_social' WHERE `tecnico_asociado_id`='$tecnico_asociado_id'";		
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();   
+
+		$consulta= "SELECT * FROM `manto_tecnico_asociado` WHERE `tecnico_asociado_id` ='$tecnico_asociado_id'";
+        $resultado = $this->conexion->prepare($consulta);
+        $resultado->execute();        
+        $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+
+        print json_encode($data, JSON_UNESCAPED_UNICODE);
+        $this->conexion=null;	
+	}  		
+	
+	function borrar_tecnico($tecnico_asociado_id)
+	{
+		$consulta = "DELETE FROM `manto_tecnico_asociado` WHERE `tecnico_asociado_id`='$tecnico_asociado_id'";		
+  		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();
+		
+        $this->conexion=null;	
+	}  		
+
 }

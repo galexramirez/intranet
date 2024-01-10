@@ -43,7 +43,9 @@
                     <script src='Module/vale/View/local_view_inicio.js' type='text/javascript'></script>
                     <script src='Module/vale/View/local_view_listado.js' type='text/javascript'></script>
                     <script src='Module/vale/View/local_view_procesar.js' type='text/javascript'></script>
-                    <script src='Module/vale/View/local_view_repuestos.js' type='text/javascript'></script> ";
+                    <script src='Module/vale/View/local_view_repuestos.js' type='text/javascript'></script> 
+                    <script src='Module/vale/View/local_view_tc_vale_sistema.js' type='text/javascript'></script>
+                    <script src='Module/vale/View/local_view_tc_vale_usuario.js' type='text/javascript'></script> ";
 
 // 4.0 CONTRUCCION DE LA VISTA
 

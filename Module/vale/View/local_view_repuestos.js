@@ -5,7 +5,7 @@
 
 ///:: DECLARACION DE VARIABLES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 var tabla_repuestos, btn_borrar_repuesto, fila_repuestos, t_autocompletar, array_vale_repuestos;
-var vr_repuesto, vr_descripcion, vr_nroserie, vr_cantidad, vr_unidad;
+var vr_repuesto, vr_descripcion, vr_nroserie, vr_cantidad_requerida, vr_unidad;
 ///:: TERMINO DECLARACION DE VARIABLES ::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///:: JS DOM VALES REPUESTOS ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
@@ -14,11 +14,11 @@ $(document).ready(function(){
     $("#vr_id").focus().select();
   });
 
-  $("#vr_cantidad_real").on('change', function(){
-    vr_cantidad_real = $("#vr_cantidad_real").val();
+  $("#vr_cantidad_requerida_utilizada").on('change', function(){
+    vr_cantidad_requerida_utilizada = $("#vr_cantidad_requerida_utilizada").val();
     mv_patrimonial = $("#mv_patrimonial").val();
     vr_cod_patrimonial_recepcion = "";
-    if(parseInt(vr_cantidad_real)===1 && mv_patrimonial==="SI"){
+    if(parseInt(vr_cantidad_requerida_utilizada)===1 && mv_patrimonial==="SI"){
       $("#vr_cod_patrimonial_recepcion").prop("disabled",false);
       $("#vr_cod_patrimonial_recepcion").val(va_cod_patrimonial_recepcion);
     }else{
@@ -33,8 +33,8 @@ $(document).ready(function(){
   $(document).on("click", ".btn_buscar_repuesto", function(){
     $("#vr_repuesto").prop("disabled",true);
     $("#vr_descripcion").prop("disabled",true);
-    $("#vr_cantidad").prop("disabled",false);
-    f_LimpiaDetalleRepuestos();
+    $("#vr_cantidad_requerida").prop("disabled",false);
+    f_limpia_repuestos();
     mv_asignacion     = "";
     mv_macrosistema   = "";
     mv_sistema        = "";
@@ -49,8 +49,9 @@ $(document).ready(function(){
     vr_descripcion    = "";
     vr_unidad         = "";
     vr_nroserie       = "";
-    vr_cantidad       = "";
-    vr_cantidad_real  = "";
+    vr_cantidad_requerida  = "";
+    vr_cantidad_utilizada  = "";
+    vr_cantidad_despachada  = "";
     vr_repuesto       = $("#buscar_repuesto").val();
     vr_cod_patrimonial_despacho = "";
     vr_cod_patrimonial_recepcion = "";
@@ -95,19 +96,19 @@ $(document).ready(function(){
     $("#mv_tipo").val(mv_tipo);
     $("#mv_moneda").val(mv_moneda);
     $("#mv_preciosoles").val(mv_preciosoles);
-    $("#vr_cantidad_real").val(vr_cantidad_real);
+    $("#vr_cantidad_requerida_utilizada").val(vr_cantidad_requerida_utilizada);
     $("#vr_cod_patrimonial_despacho").val(vr_cod_patrimonial_despacho);
     $("#vr_cod_patrimonial_recepcion").val(vr_cod_patrimonial_recepcion);
 
     if(mv_patrimonial==="SI"){
       $("#vr_cod_patrimonial_despacho").prop("disabled",false);
-      vr_cantidad = "1.00";
-      $("#vr_cantidad").prop("disabled",true);
+      vr_cantidad_requerida = "1.00";
+      $("#vr_cantidad_requerida").prop("disabled",true);
     }else{
       $("#vr_cod_patrimonial_despacho").prop("disabled",true);
       $("#vr_cod_patrimonial_recepcion").prop("disabled",true);
     }
-    $("#vr_cantidad").val(vr_cantidad);
+    $("#vr_cantidad_requerida").val(vr_cantidad_requerida);
     $("#buscar_repuesto").val("");
     $("#vr_id").focus().select();
   });
@@ -115,7 +116,7 @@ $(document).ready(function(){
 
   ///:: CREAR UN NUEVO CODIGO DE MATERIAL ::::::::::::::::::::::::::::::::::::::::::::::::///
   $(document).on("click", ".btn_nuevo_repuesto", function(){
-    f_LimpiaDetalleRepuestos();
+    f_limpia_repuestos();
     mv_asignacion     = "";
     mv_macrosistema   = "";
     mv_sistema        = "";
@@ -124,13 +125,17 @@ $(document).ready(function(){
     mv_flota          = "";
     mv_patrimonial    = "";
     mv_categoria      = "";
-    mv_tipo           = "MATERIAL";
+    mv_tipo           = "";
     mv_moneda         = "";
     mv_preciosoles    = "";
     vr_descripcion    = "";
     vr_unidad         = "";
     vr_nroserie       = "";
-    vr_cantidad       = "";
+    vr_cantidad_requerida = "";
+    vr_cantidad_despachada = "";
+    vr_cantidad_utilizada = "";
+    vr_cod_patrimonial_despacho = "";
+    vr_cod_patrimonial_recepcion = "";
     vr_repuesto       = $("#buscar_repuesto").val();
 
     $("#vr_repuesto").val(vr_repuesto);
@@ -150,6 +155,11 @@ $(document).ready(function(){
 
     $("#vr_repuesto").prop("disabled",false);
     $("#vr_descripcion").prop("disabled",false);
+    $("#vr_cantidad_despachada").val(vr_cantidad_despachada);
+    $("#vr_cantidad_utilizada").val(vr_cantidad_utilizada);
+    $("#vr_cod_patrimonial_despacho").val(vr_cod_patrimonial_despacho);
+    $("#vr_cod_patrimonial_recepcion").val(vr_cod_patrimonial_recepcion);
+
     $("#buscar_repuesto").val("");
     $("#vr_repuesto").focus().select();
   });
@@ -181,13 +191,12 @@ $(document).ready(function(){
       } );
 
       $("#form_modal_detalle_repuestos").trigger("reset");
-      f_LimpiaDetalleRepuestos();
+      f_limpia_repuestos();
   
       vr_id             = f_max_id(tabla_repuestos.rows().data().toArray());
       vr_repuesto       = "";
       vr_descripcion    = "";
       vr_nroserie       = "";
-      vr_cantidad       = "";
       vr_unidad         = "";
       mv_asignacion     = "";
       mv_macrosistema   = "";
@@ -200,12 +209,16 @@ $(document).ready(function(){
       mv_tipo           = "";
       mv_moneda         = "";
       mv_preciosoles    = "";
+      vr_cantidad_requerida = "";
+      vr_cantidad_despachada = "";
+      vr_cantidad_utilizada = "";
+      vr_cod_patrimonial_despacho = "";
+      vr_cod_patrimonial_recepcion = "";
       
       $("#vr_id").val(vr_id);
       $("#vr_repuesto").val(vr_repuesto);
       $("#vr_descripcion").val(vr_descripcion);
       $("#vr_nroserie").val(vr_nroserie);
-      $("#vr_cantidad").val(vr_cantidad);
       $("#vr_unidad").val(vr_unidad);
       $("#mv_asignacion").val(mv_asignacion);
       $("#mv_macrosistema").val(mv_macrosistema);
@@ -218,8 +231,13 @@ $(document).ready(function(){
       $("#mv_tipo").val(mv_tipo);
       $("#mv_moneda").val(mv_moneda);
       $("#mv_preciosoles").val(mv_preciosoles);
-    
-      $("#vr_cantidad").prop("disabled",false);
+      $("#vr_cantidad_requerida").val(vr_cantidad_requerida);
+      $("#vr_cantidad_despachada").val(vr_cantidad_despachada);
+      $("#vr_cantidad_utilizada").val(vr_cantidad_utilizada);
+      $("#vr_cod_patrimonial_despacho").val(vr_cod_patrimonial_despacho);
+      $("#vr_cod_patrimonial_recepcion").val(vr_cod_patrimonial_recepcion);
+
+      $("#vr_cantidad_requerida").prop("disabled",false);
       $("#vr_cod_patrimonial_despacho").prop("disabled",true);
       $("#vr_cod_patrimonial_recepcion").prop("disabled",true);
       
@@ -248,11 +266,13 @@ $(document).ready(function(){
     vr_id           = $("#vr_id").val();
     vr_repuesto     = $("#vr_repuesto").val();
     vr_nroserie     = $("#vr_nroserie").val();
+    vr_cod_patrimonial_despacho = $("#vr_cod_patrimonial_despacho").val();
     vr_descripcion  = $("#vr_descripcion").val();
-    vr_cantidad     = $("#vr_cantidad").val();
+    vr_cantidad_requerida = $("#vr_cantidad_requerida").val();
+    vr_cantidad_despachada = $("#vr_cantidad_despachada").val();
+    vr_cantidad_utilizada = $("#vr_cantidad_utilizada").val();
     vr_unidad       = $("#vr_unidad").val();
-    mv_tipo         = $("#mv_tipo").val();
-    t_ValidaDetalleRepuestos = f_ValidarDetalleRepuestos(vr_id, vr_repuesto, vr_nroserie, vr_descripcion, vr_cantidad, mv_tipo)
+    t_ValidaDetalleRepuestos = f_validar_repuestos(vr_id, vr_repuesto, vr_nroserie, vr_descripcion, vr_cantidad_requerida)
     if (t_ValidaDetalleRepuestos=="invalido"){
       Swal.fire({
         position          : 'center',
@@ -264,22 +284,23 @@ $(document).ready(function(){
     }else{  
       $("#btn_guardar_detalle_repuestos").prop("disabled",true);
       tabla_repuestos.row.add( {
-        "vr_id"         : vr_id,
-        "vr_repuesto"   : vr_repuesto,
-        "vr_nroserie"   : vr_nroserie,
-        "vr_descripcion": vr_descripcion,
-        "vr_cantidad"   : vr_cantidad,
-        "vr_unidad"     : vr_unidad,
-        "vr_tipo"       : mv_tipo,
+        "vr_id"       : vr_id,
+        "vr_repuesto" : vr_repuesto,
+        "vr_cod_patrimonial_despacho" : vr_cod_patrimonial_despacho,
+        "vr_nroserie" : vr_nroserie,
+        "vr_descripcion" : vr_descripcion,
+        "vr_cantidad_requerida"  : vr_cantidad_requerida,
+        "vr_cantidad_despachada" : vr_cantidad_despachada,
+        "vr_cantidad_utilizada"  : vr_cantidad_utilizada,
+        "vr_unidad"   : vr_unidad,
       } ).draw();
       
       $("#btn_guardar_detalle_repuestos").prop("disabled",false);
-      f_LimpiaDetalleRepuestos();
+      f_limpia_repuestos();
 
       vr_id             = f_max_id(tabla_repuestos.rows().data().toArray());
       vr_repuesto       = "";
       vr_descripcion    = "";
-      vr_cantidad       = "";
       vr_nroserie       = "";
       vr_unidad         = "";
       mv_asignacion     = "";
@@ -293,11 +314,15 @@ $(document).ready(function(){
       mv_tipo           = "";
       mv_moneda         = "";
       mv_preciosoles    = "";
+      vr_cantidad_requerida = "";
+      vr_cantidad_despachada = "";
+      vr_cantidad_utilizada = "";
+      vr_cod_patrimonial_despacho = "";
+      vr_cod_patrimonial_recepcion = "";
       
       $("#vr_id").val(vr_id);
       $("#vr_repuesto").val(vr_repuesto);
       $("#vr_descripcion").val(vr_descripcion);
-      $("#vr_cantidad").val(vr_cantidad);
       $("#vr_nroserie").val(vr_nroserie);
       $("#vr_unidad").val(vr_unidad);
       $("#mv_asignacion").val(mv_asignacion);
@@ -311,6 +336,11 @@ $(document).ready(function(){
       $("#mv_tipo").val(mv_tipo);
       $("#mv_moneda").val(mv_moneda);
       $("#mv_preciosoles").val(mv_preciosoles);
+      $("#vr_cantidad_requerida").val(vr_cantidad_requerida);
+      $("#vr_cantidad_despachada").val(vr_cantidad_despachada);
+      $("#vr_cantidad_utilizada").val(vr_cantidad_utilizada);
+      $("#vr_cod_patrimonial_despacho").val(vr_cod_patrimonial_despacho);
+      $("#vr_cod_patrimonial_recepcion").val(vr_cod_patrimonial_recepcion);
 
       $("#vr_repuesto").prop("disabled",true);
       $("#vr_descripcion").prop("disabled",true);
@@ -320,7 +350,7 @@ $(document).ready(function(){
   //:: FIN BOTON GRABAR -> REALIZA LA GRABACION EN LA TABLA manto_rep_vale ::::::::::::::::///
 
   ///:: BOTON BORRAR DETALLE REPUESTOS ::::::::::::::::::::::::::::::::::::::::::::::::::::///
-  $(document).on("click", ".btnBorrarDetalleRepuestos", function(){
+  $(document).on("click", ".btn_borrar_repuesto", function(){
     fila_repuestos = $(this); 
     vr_id = fila_repuestos.closest('tr').find('td:eq(0)').text();
     Swal.fire({
@@ -365,7 +395,7 @@ $(document).ready(function(){
 ///:: FUNCIONES DE VALES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///:: VALIDA LOS CAMPOS DE REPUESTOS ::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-function f_ValidarDetalleRepuestos(pvr_id, pvr_repuesto, pvr_nroserie, pvr_descripcion, pvr_cantidad, pmv_tipo){
+function f_validar_repuestos(pvr_id, pvr_repuesto, pvr_nroserie, pvr_descripcion, pvr_cantidad_requerida){
   NoLetrasMayuscEspacio=/[^A-Z \Ñ]/;
   let rpta_DetalleRepuestos="";
   
@@ -381,26 +411,20 @@ function f_ValidarDetalleRepuestos(pvr_id, pvr_repuesto, pvr_nroserie, pvr_descr
     $("#vr_descripcion").addClass("color-error");
     rpta_DetalleRepuestos="invalido";
   }
-  if(pvr_cantidad==""){
-    $("#vr_cantidad").addClass("color-error");
+  if(pvr_cantidad_requerida==""){
+    $("#vr_cantidad_requerida").addClass("color-error");
     rpta_DetalleRepuestos="invalido";
   }
-  if(pmv_tipo==""){
-    $("#mv_tipo").addClass("color-error");
-    rpta_DetalleRepuestos="invalido";
-  }
-
   return rpta_DetalleRepuestos;
 }
 ///:: FIN VALIDA LOS CAMPOS DE REPUESTOS ::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///:: ELIMINA EL COLOR DE ERROR EN LOS CAMPOS :::::::::::::::::::::::::::::::::::::::::::::/// 
-function f_LimpiaDetalleRepuestos(){
+function f_limpia_repuestos(){
   $("#vr_id").removeClass("color-error");
   $("#vr_repuesto").removeClass("color-error");
   $("#vr_descripcion").removeClass("color-error");
-  $("#vr_cantidad").removeClass("color-error");
-  $("#mv_tipo").removeClass("color-error");
+  $("#vr_cantidad_requerida").removeClass("color-error");
 }
 ///:: FIN ELIMINA EL COLOR DE ERROR EN LOS CAMPOS :::::::::::::::::::::::::::::::::::::::::///
 
