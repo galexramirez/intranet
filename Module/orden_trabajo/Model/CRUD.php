@@ -616,7 +616,7 @@ class CRUD
 							`manto_novedad_ot`
 						ON
 							`manto_novedad_ot`.`not_novedad_id`=`manto_check_list_observaciones`.`check_list_observaciones_id`
-							AND `manto_novedad_ot`.`not_origen_novedad`='INNSPECCION OPERACIONES'
+							AND `manto_novedad_ot`.`not_origen_novedad`='INSPECCION OPERACIONES'
 							AND `manto_novedad_ot`.`not_tipo_novedad`='CHECK LIST'
 						WHERE
 							DATE_FORMAT(`manto_check_list_registro`.`chl_fecha`,'%Y-%m-%d')>='$fecha_inicio'
@@ -690,7 +690,7 @@ class CRUD
 	    $this->conexion=null;	
 	}  	
 
-	function crear_orden_trabajo($ot_origen, $ot_ruc_proveedor, $ot_nombre_proveedor, $ot_tipo, $not_bus, $ot_descrip, $not_novedad_id)
+	function crear_orden_trabajo($ot_origen, $ot_ruc_proveedor, $ot_nombre_proveedor, $ot_tipo, $not_bus, $ot_actividad, $not_novedad_id)
 	{
 		$ot_fecha_registro = date("Y-m-d H:i:s");
 		$ot_cgm_id = $_SESSION['USUARIO_ID'];
@@ -698,7 +698,7 @@ class CRUD
 		$ot_estado = 'ABIERTO';
 		$ot_log = '<strong>'.$ot_estado.' '.$ot_fecha_registro.' '.$ot_cgm_genera.' GENERADA POR NOVEDAD '.$not_novedad_id.'</strong>';
 
-		$consulta = "INSERT INTO `manto_ots` (`ot_estado`, `ot_origen`, `ot_tipo`, `ot_bus`, `ot_ruc_proveedor`, `ot_nombre_proveedor`, `ot_cgm_id`, `ot_fecha_registro`, `ot_actividad`, `ot_log`) VALUES ('$ot_estado', '$ot_origen', '$ot_tipo', '$not_bus', '$ot_ruc_proveedor', '$ot_nombre_proveedor', '$ot_cgm_id', '$ot_fecha_registro', '$ot_descrip', '$ot_log') ";
+		$consulta = "INSERT INTO `manto_ots` (`ot_estado`, `ot_origen`, `ot_tipo`, `ot_bus`, `ot_ruc_proveedor`, `ot_nombre_proveedor`, `ot_cgm_id`, `ot_fecha_registro`, `ot_actividad`, `ot_log`) VALUES ('$ot_estado', '$ot_origen', '$ot_tipo', '$not_bus', '$ot_ruc_proveedor', '$ot_nombre_proveedor', '$ot_cgm_id', '$ot_fecha_registro', '$ot_actividad', '$ot_log') ";
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();
 		
@@ -708,13 +708,27 @@ class CRUD
 	    $this->conexion=null;	
 	}
 
-	function vincular_orden_trabajo($ot_id, $ot_descrip, $ot_estado, $ot_obs_aom, $novedad_id)
+	function vincular_orden_trabajo($ot_id, $ot_actividad_vincular, $ot_estado, $ot_log, $novedad_id)
 	{
-		$ot_date_crea = date("Y-m-d H:i:s");
-		$ot_usuario_genera = $_SESSION['Usua_NombreCorto'];
-		$ot_obs_aom_edt = '<strong>'.$ot_estado.' '.$ot_date_crea.' '.$ot_usuario_genera.' VINCULAR NOVEDAD '.$novedad_id.'</strong><br>'.$ot_obs_aom;
+		$ot_fecha_registro = date("Y-m-d H:i:s");
+		$ot_cgm_genera = $_SESSION['Usua_NombreCorto'];
+		$ot_log = '<strong>'.$ot_estado.' '.$ot_fecha_registro.' '.$ot_cgm_genera.' VINCULAR NOVEDAD '.$novedad_id.'</strong><br>'.$ot_log;
 
-		$consulta = " UPDATE `manto_orden_trabajo` SET `ot_descrip`='$ot_descrip', `ot_obs_aom`='$ot_obs_aom_edt' WHERE `ot_id`='$ot_id' ";
+		$consulta = " UPDATE `manto_ots` SET `ot_actividad_vincular`='$ot_actividad_vincular', `ot_log`='$ot_log' WHERE `ot_id`='$ot_id' ";
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();
+		
+	    $this->conexion=null;	
+	}
+
+	function desvincular_orden_trabajo($ot_id, $ot_estado, $ot_log, $novedad_id)
+	{
+		$ot_fecha_registro = date("Y-m-d H:i:s");
+		$ot_cgm_genera = $_SESSION['Usua_NombreCorto'];
+		$ot_log = '<strong>'.$ot_estado.' '.$ot_fecha_registro.' '.$ot_cgm_genera.' DESVINCULAR NOVEDAD '.$novedad_id.'</strong><br>'.$ot_log;
+
+		$consulta = " UPDATE `manto_ots` SET `ot_log`='$ot_log' WHERE `ot_id`='$ot_id' ";
+		
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();
 		
@@ -729,6 +743,18 @@ class CRUD
 		$not_novedad_id = substr($not_novedad_id,3,15);
 		
 		$consulta = " INSERT INTO `manto_novedad_ot` (`not_fecha_generacion`, `not_usuario_genera`, `not_estado`, `not_ot_tipo`, `not_ot_id`, `not_origen_novedad`, `not_tipo_novedad`, `not_novedad_id`, `not_operacion`, `not_bus`) VALUES	('$not_fecha_generacion', '$not_usuario_genera', '$not_estado', '$not_ot_tipo', '$not_ot_id', '$not_origen_novedad', '$not_tipo_novedad', '$not_novedad_id', '$not_operacion', '$not_bus') ";
+
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();   
+
+	    $this->conexion=null;	
+	}  	
+
+	function desvincular_novedad_ot($not_origen_novedad, $not_tipo_novedad, $not_novedad_id, $not_operacion, $not_bus, $not_ot_id, $not_estado)
+	{
+		$not_novedad_id = substr($not_novedad_id,3,15);
+		$not_ot_id = substr($not_ot_id,3,15);
+		$consulta = " DELETE FROM `manto_novedad_ot` WHERE `not_estado`='$not_estado' AND `not_ot_id`='$not_ot_id' AND `not_origen_novedad`='$not_origen_novedad' AND `not_tipo_novedad`='$not_tipo_novedad' AND `not_novedad_id`='$not_novedad_id' AND `not_operacion`='$not_operacion' AND `not_bus`='$not_bus' ";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();   

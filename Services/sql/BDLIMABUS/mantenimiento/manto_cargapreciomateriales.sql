@@ -8,4 +8,6 @@ CREATE TABLE `BDLIMABUS`.`manto_cargapreciomateriales` (
     `cpm_fechaeliminacion` TIMESTAMP NULL DEFAULT NULL, 
     `cpm_responsableeliminacion` VARCHAR(8) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , 
     `cpm_estado` VARCHAR(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , 
+    `cpm_prov_ruc` VARCHAR(11) NOT NULL ,
+    `cpm_prov_razon_social` VARCHAR(100) NOT NULL ,
 PRIMARY KEY (`cpm_id`)) ENGINE = InnoDB;

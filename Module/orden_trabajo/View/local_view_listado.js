@@ -181,7 +181,7 @@ $(document).ready(function(){
     });
     ///:: FIN EVENTO DE BOTON VER OTs :::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
-    ///::::::::: EVENTO DE BOTON VER VALES ::::::::::::::::::::::///       
+    ///:: EVENTO DE BOTON VER VALES :::::::::::::::::::::::::::::::::::::::::::::::::::::::///       
     $(document).on("click", ".btn_ver_vales", function(){		
         $("#form_modal_informacion").trigger("reset");
         fila_ot = $(this).closest('tr'); 
@@ -209,8 +209,9 @@ $(document).ready(function(){
             handle: ".dragable_touch",
           });
     });
+    ///:: FIN EVENTO DE BOTON VER VALES :::::::::::::::::::::::::::::::::::::::::::::::::::///
 
-    ///::::::::::::::: BOTON DESCARGAR OT :::::::::::::::::::::::///
+    ///:: BOTON DESCARGAR OT ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
     $(document).on("click", ".btn_descargar_ot", function(){		
         fecha_inicio_ot   = $("#fecha_inicio_ot").val();
         fecha_termino_ot  = $("#fecha_termino_ot").val();
@@ -234,8 +235,9 @@ $(document).ready(function(){
             }
         });
     });
+    ///:: FIN BOTON DESCARGAR OT ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
-    ///:: TERMINO DE BOTONES ORDEN DE TRABAJO :::::::::::::::::::::::::::::::::::::::::::::::///
+    ///:: TERMINO DE BOTONES ORDEN DE TRABAJO :::::::::::::::::::::::::::::::::::::::::::::///
 });
 ///:: TERMINO DE JS DON ORDEN DE TRABAJO ::::::::::::::::::::::::::::::::::::::::::::::::::::///
 

@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS `BDLIMABUS`.`manto_ots` (
   `ot_cgm_id` VARCHAR(8) NOT NULL,
   `ot_fecha_registro` DATETIME NOT NULL,
   `ot_actividad` VARCHAR(500) NULL,
+  `ot_actividad_vincular` VARCHAR(500) NULL,
   `ot_kilometraje` INT NULL,
   `ot_sistema` VARCHAR(200) NULL,
   `ot_ejecucion` VARCHAR(5000) NULL,

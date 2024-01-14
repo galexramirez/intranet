@@ -13,26 +13,38 @@ $(document).ready(function(){
 
     ///:: BOTON NUEVO :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
     $(document).on("click", ".btn_agregar_ot", function(){
-        $("#form_genera_ot").trigger("reset");
+        let validar_novedades = '';
+        validar_novedades = f_validar_novedades();
+        if(validar_novedades!==""){
+            Swal.fire({
+                position            : 'center',
+                icon                : 'error',
+                title               : validar_novedades+' !!!',
+                showConfirmButton   : false,
+                timer               : 1500
+            })
+        }else{
+            $("#form_genera_ot").trigger("reset");
 
-        f_limpia_genera_ot();
-  
-        got_ot_origen = "";
-        got_proveedor = "";
-
-        select_got = f_select_combo("manto_ot_origen","NO","or_nombre","","`or_nombre`!='' AND `or_tipo_ot`!=''","`or_nombre` ASC");
-        $("#got_ot_origen").html(select_got);
-        
-        select_got = f_select_combo("manto_proveedores","NO","prov_razonsocial","","`prov_estado`='ACTIVO'","`prov_razonsocial` ASC");
-        $("#got_proveedor").html(select_got);
-
-        $("#got_ot_origen").val(got_ot_origen); 
-        $("#gor_asociado").val(got_proveedor); 
-
-        $(".modal-header").css( "background-color", "#17a2b8");
-        $(".modal-header").css( "color", "white" );
-        $(".modal-title").text("Generar Orden de Trabajo");
-        $('#modal_crud_genera_ot').modal('show');
+            f_limpia_genera_ot();
+      
+            got_ot_origen = "";
+            got_proveedor = "";
+    
+            select_got = f_select_combo("manto_ot_origen","NO","or_nombre","","`or_nombre`!='' AND `or_tipo_ot`!=''","`or_nombre` ASC");
+            $("#got_ot_origen").html(select_got);
+            
+            select_got = f_select_combo("manto_proveedores","NO","prov_razonsocial","","`prov_estado`='ACTIVO'","`prov_razonsocial` ASC");
+            $("#got_proveedor").html(select_got);
+    
+            $("#got_ot_origen").val(got_ot_origen); 
+            $("#gor_asociado").val(got_proveedor); 
+    
+            $(".modal-header").css( "background-color", "#17a2b8");
+            $(".modal-header").css( "color", "white" );
+            $(".modal-title").text("Generar Orden de Trabajo");
+            $('#modal_crud_genera_ot').modal('show');
+        }
     });
     ///:: FIN BOTON NUEVO :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
@@ -58,11 +70,13 @@ $(document).ready(function(){
         }else{
             $("#btn_genera_ot").prop("disabled",true);
             Accion = 'crear_orden_trabajo';
+            let a_data = [];
+            a_data = JSON.stringify(filas_seleccionadas);
             $.ajax({
                 url         : "Ajax.php",
                 type        : "POST",
                 datatype    : "json",    
-                data        : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, ot_origen:got_ot_origen, ot_nombre_proveedor:got_proveedor, not_origen_novedad:origen_novedad, not_tipo_novedad:tipo_novedad, not_novedad_id:novedad_id,not_operacion:tipo_operacion, not_bus:nro_bus, ot_descrip:accion_ot},    
+                data        : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, ot_origen:got_ot_origen, ot_nombre_proveedor:got_proveedor, a_data:a_data},    
                 success     : function(data) {
                     nueva_ot = data;
                     if(nueva_ot!==""){
@@ -74,7 +88,7 @@ $(document).ready(function(){
                           }).then((result) => {
                             /* Read more about isConfirmed, isDenied below */
                             if (result.isConfirmed) {
-                                f_imprimir_ot(nueva_ot);
+                                f_imprimir_ot(nueva_ot,"div_imprimir_novedad_ot");
                             } else if (result.isDenied) {
                                 Swal.fire({
                                     position: "top-end",

@@ -28,7 +28,7 @@ $(document).ready(function(){
         fixedHeader: true,
        
         //Para cambiar el lenguaje a español
-        language: idiomaEspanol,
+        language: idioma_espanol,
         //Para usar los botones
         responsive: "true",
         dom: 'Blfrtip', // Con Botones Excel,Pdf,Print

@@ -4,9 +4,9 @@
 ///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///::::::::::::::::::::::::: Declaracion de Variables :::::::::::::::::::::::::::::::::::::///
-var tablaCargarPrecios, selectAniosCargarPrecios, OpcionCargarPrecios, filaCargarPrecios;
+var tablaCargarPrecios, selectAniosCargarPrecios, OpcionCargarPrecios, filaCargarPrecios, select_cpm;
 var cpm_fechacarga, cpm_id;
-
+let cpm_prov_ruc, cpm_prov_razon_social;
 ///::::::::::::::: JS CARGA DE DATA TABLE :::::::::::::://
 $(document).ready(function(){
 
@@ -20,7 +20,13 @@ $(document).ready(function(){
       $("#selectAniosCargarPrecios").html(data);
     }
   });
-  
+
+  $("#cpm_prov_razon_social").on('change',function(){
+    cpm_prov_razon_social = $("#cpm_prov_razon_social").val();
+    cpm_prov_ruc = f_buscar_dato("manto_proveedores", "prov_ruc", "`prov_razonsocial`='"+cpm_prov_razon_social+"'");
+    $("#cpm_prov_ruc").val(cpm_prov_ruc);
+  });
+
   // Si hay cambios en el Fecha se ocultan botones y datatable
   $("#selectAniosCargarPrecios").on('change', function () {
     $("#tablaCargarPrecios").dataTable().fnDestroy();
@@ -44,9 +50,22 @@ $(document).ready(function(){
   $('#formCargarPrecios').submit(function(e){                         
     e.preventDefault(); //evita el comportambiento normal del submit, es decir, recarga total de la página
     //:: Valida que exista el archivo Excel. 
+    let opcionCargarExcel = 0;
+    cpm_prov_ruc = $("#cpm_prov_ruc").val();
+    cpm_prov_razon_social = $("#cpm_prov_razon_social").val();
+    if(cpm_prov_razon_social===""){
+      Swal.fire({
+        icon: 'error',
+        title: 'Proveedor... ',
+        text: '*Requiere seleccionar un Proveedor!'
+      })
+    }else{
+      opcionCargarExcel = 1;
+    }
+
     let f_Excel = document.getElementById('fileCargarPrecios').value;
     let anioCarga = $("#selectAniosCargarPrecios").val();
-    let opcionCargarExcel = 0;
+    
     if(f_Excel.length==0){
         Swal.fire({
           icon: 'error',
@@ -65,6 +84,9 @@ $(document).ready(function(){
     formUsuarios.append('MoS',MoS);
     formUsuarios.append('NombreMoS',NombreMoS);
     formUsuarios.append('Accion','CrearCargarPrecios');
+    formUsuarios.append('Anio',anioCarga);
+    formUsuarios.append('cpm_prov_ruc',cpm_prov_ruc);
+    formUsuarios.append('cpm_prov_razon_social',cpm_prov_razon_social);
     formUsuarios.append('Anio',anioCarga);
     
     if(opcionCargarExcel == 1){
@@ -118,7 +140,7 @@ $("#btnBuscarCargarPrecios").on("click",function(){
     //Para mostrar 50 registros popr página 
     pageLength: 50,
     //Para cambiar el lenguaje a español
-    language: idiomaEspanol, 
+    language: idioma_espanol, 
     //Para usar los botones
     responsive: "true",
     dom: 'Blfrtip', // Con Botones Excel,Pdf,Print
@@ -128,12 +150,6 @@ $("#btnBuscarCargarPrecios").on("click",function(){
             text:       '<i class="fas fa-file-excel"></i> ',
             titleAttr:  'Exportar a Excel',
             className:  'btn btn-success'
-        },
-        {
-            extend:     'pdfHtml5',
-            text:       '<i class="fas fa-file-pdf"></i> ',
-            titleAttr:  'Exportar a PDF',
-            className:  'btn btn-danger'
         },
     ],
     "ajax":{            
@@ -149,6 +165,15 @@ $("#btnBuscarCargarPrecios").on("click",function(){
 
 ///::::::::: EVENTO DEL BOTON NUEVO ::::::::::::::///
 $("#btnCargarLista").click(function(){
+  cpm_prov_ruc = "";
+  cpm_prov_razon_social = "";
+
+  select_cpm = f_select_combo("manto_proveedores", "NO", "prov_razonsocial", "", "`prov_estado`='ACTIVO'", "`prov_razonsocial` ASC");
+  $("#cpm_prov_razon_social").html(select_cpm);
+  $("#cpm_prov_ruc").val(cpm_prov_ruc);
+  $("#cpm_prov_razon_social").val(cpm_prov_razon_social);
+
+
   OpcionCargarPrecios = 0;
   $("#div_ResultadoCargarPrecios").empty();
   $("#LabelfileCargarPrecios").text("Seleccionar Archivo .csv o .xlsx");

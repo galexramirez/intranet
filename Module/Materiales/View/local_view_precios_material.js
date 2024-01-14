@@ -129,7 +129,7 @@ function f_mostrar_precios_material(p_pm_razon_social, p_pm_fecha, p_pm_cod_prov
     //Para mostrar 50 registros popr página 
     pageLength: 50,
     //Para cambiar el lenguaje a español
-    language: idiomaEspanol, 
+    language: idioma_espanol, 
     //Para usar los botones
     responsive: "true",
     dom: 'Blfrtip', // Con Botones Excel,Pdf,Print

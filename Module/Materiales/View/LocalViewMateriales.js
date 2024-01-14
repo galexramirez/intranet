@@ -590,7 +590,7 @@ function f_MostrarTablaMateriales(){
         header        : false
       },
       pageLength      : 50,
-      language        : idiomaEspanol, 
+      language        : idioma_espanol, 
       responsive      : "true",
       dom             : 'Blfrtip', // Con Botones Excel,Pdf,Print
       buttons         :[

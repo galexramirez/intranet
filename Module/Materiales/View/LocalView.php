@@ -586,6 +586,22 @@
 							<form id="formCargarPrecios" enctype="multipart/form-data" action="" method="post">    
 								<div class="modal-body">
 									<div class="row align-items-end">
+										<div class="col-lg-4">
+											<div class="form-group">
+										  		<label for="cpm_prov_ruc" class="col-form-label form-control-sm">NRO. RUC</label>
+										   		<input type="number" readonly class="form-control form-control-sm" id="cpm_prov_ruc">
+										 	</div>
+									 	</div>
+										 <div class="col-lg-8">
+									  		<div class="form-group">
+												<label for="cpm_prov_razon_social" class="col-form-label form-control-sm">Razón Social</label>
+										   		<select class="form-control form-control-sm" id="cpm_prov_razon_social">
+
+												</select>
+											</div> 
+									 	</div>    
+									</div>
+									<div class="row align-items-end">
 										<div class="col-lg-9">
 											<div class="form-group">
 												<label for="" class="col-form-label">Cargar Archivo</label>
@@ -1008,6 +1024,200 @@
 				</div>
 
 			</div>
+
+			<!------------------------------------------------------------------------------->
+			<!-- TAB AJUSTE DE MATERIALES --------------------------------------------------->
+			<!------------------------------------------------------------------------------->
+			<div class="tab-pane fade" id="nav-ajustes_material" role="tabpanel" aria-labelledby="nav-ajustes_material">  
+				<h5 class="pt-3 pl-3">Variables</h5>
+				<nav>
+	 				<div class="nav nav-tabs" id="nav-tab-ajustes_material" role="tablist">
+					</div>
+				</nav>
+				<div class="tab-content" id="nav-tabContent-ajustes_material">
+					<!------------------------------------------------------------------------------->
+					<!-- TAB AJUSTE VARIABLE DE USUARIO DE CHECK LIST DE FLOTA ---------------------->
+					<!------------------------------------------------------------------------------->
+					<div class="tab-pane fade show active" id="nav-ajustes_material_usuario" role="tabpanel" aria-labelledby="nav-ajustes_material_usuario-tab">
+						<section class="container-fluid py-3">
+							<button id="btn_nuevo_tc_material_usuario" type="button" class="btn btn-secondary btn-sm btn_nuevo_tc_material_usuario" data-toggle="modal">+ Nuevo</button>  
+						</section>
+						<div class="row p-3">
+							<div class="col-auto m-0">
+								<div class="table-responsive" id="div_tabla_tc_material_usuario">
+								</div>
+							</div>
+						</div>
+						<!--Modal para CRUD-->
+						<div class="row modal fade" id="modal_crud_tc_material_usuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel"></h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<form id="form_tc_material_usuario">
+						  				<div class="modal-body">
+											<div class="row">
+												<div class="col-lg-6">
+													<div class="form-group">
+												  		<label for="tc_material_id_usuario" class="col-form-label form-control-sm">ID</label>
+												   		<input type="text" readonly class="form-control form-control-sm" id="tc_material_id_usuario">
+												 	</div>
+											 	</div>
+											 	<div class="col-lg-6">
+											  		<div class="form-group">
+														<label for="material_cat1_usuario" class="col-form-label form-control-sm">CATEGORIA 1</label>
+												   		<input type="text" class="form-control form-control-sm text-uppercase" id="material_cat1_usuario" maxlength="45">
+													</div> 
+											 	</div>    
+											</div>
+							  				<div class="row"> 
+												<div class="col-lg-6">
+											  		<div class="form-group">
+														<label for="material_cat2_usuario" class="col-form-label form-control-sm">CATEGORIA 2</label>
+														<input type="text" class="form-control form-control-sm text-uppercase" id="material_cat2_usuario" maxlength="45">
+													</div> 
+								  				</div>
+											</div>
+											<div class="row"> 
+								  				<div class="col-lg-12">
+											  		<div class="form-group">
+														<label for="material_cat3_usuario" class="col-form-label form-control-sm">CATEGORIA 3</label>
+												  		<textarea class="form-control z-depth-1 text-uppercase" id="material_cat3_usuario" rows="7" placeholder="escribe algo aqui..." maxlength="250"></textarea>
+													</div>               
+								   				</div>
+							  				</div>
+										</div>
+						  				<div class="modal-footer">
+							  				<button type="button" class="btn btn-light btn-sm" data-dismiss="modal">Cancelar</button>
+							  				<button type="submit" id="btn_guardar_tc_material_usuario" class="btn btn-dark btn-sm btn_guardar_tc_material_usuario">Guardar</button>
+						  				</div>
+									</form>    
+								</div>
+							</div>
+						</div>  
+					</div>
+					<!------------------------------------------------------------------------------->
+					<!-- TAB AJUSTE VARIABLE DE SISTEMA DE ORDEN DE TRABAJO ------------------------->
+					<!------------------------------------------------------------------------------->
+					<div class="tab-pane fade" id="nav-ajustes_material_sistema" role="tabpanel" aria-labelledby="nav-ajustes_material_sistema-tab">
+						<section class="container-fluid py-3">
+							<button id="btn_nuevo_tc_material_sistema" type="button" class="btn btn-secondary btn-sm btn_nuevo_tc_material_sistema" data-toggle="modal">+ Nuevo</button>  
+						</section>
+						<div class="row p-3">
+							<div class="col-auto m-0">
+								<div class="table-responsive" id="div_tabla_tc_material_sistema">
+								</div>
+							</div>
+						</div>
+						<div class="row modal fade" id="modal_crud_tc_material_sistema" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel"></h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<form id="form_tc_material_sistema">
+						  				<div class="modal-body">
+											<div class="row">
+												<div class="col-lg-6">
+													<div class="form-group">
+												  		<label for="tc_material_id_sistema" class="col-form-label form-control-sm">ID</label>
+												   		<input type="text" readonly class="form-control form-control-sm" id="tc_material_id_sistema">
+												 	</div>
+											 	</div>
+											 	<div class="col-lg-6">
+											  		<div class="form-group">
+														<label for="material_cat1_sistema" class="col-form-label form-control-sm">CATEGORIA 1</label>
+												   		<input type="text" class="form-control form-control-sm text-uppercase" id="material_cat1_sistema" maxlength="45">
+													</div> 
+											 	</div>    
+											</div>
+							  				<div class="row"> 
+												<div class="col-lg-6">
+											  		<div class="form-group">
+														<label for="material_cat2_sistema" class="col-form-label form-control-sm">CATEGORIA 2</label>
+														<input type="text" class="form-control form-control-sm text-uppercase" id="material_cat2_sistema" maxlength="45">
+													</div> 
+								  				</div>
+											</div>
+											<div class="row"> 
+								  				<div class="col-lg-12">
+											  		<div class="form-group">
+														<label for="material_cat3_sistema" class="col-form-label form-control-sm">CATEGORIA 3</label>
+												  		<textarea class="form-control z-depth-1 text-uppercase" id="material_cat3_sistema" rows="7" placeholder="escribe algo aqui..." maxlength="250"></textarea>
+													</div>               
+								   				</div>
+							  				</div>
+										</div>
+						  				<div class="modal-footer">
+							  				<button type="button" class="btn btn-light btn-sm" data-dismiss="modal">Cancelar</button>
+							  				<button type="submit" id="btn_guardar_tc_material_sistema" class="btn btn-dark btn-sm btn_guardar_tc_material_sistema">Guardar</button>
+						  				</div>
+									</form>    
+								</div>
+							</div>
+						</div>  
+					</div>
+					<!------------------------------------------------------------------------------->
+					<!-- TAB AJUSTE UNIDAD ---------------------------------------------------------->
+					<!------------------------------------------------------------------------------->
+					<div class="tab-pane fade" id="nav-ajustes_unidad" role="tabpanel" aria-labelledby="nav-ajustes_unidad-tab">
+						<section class="container-fluid py-3">
+							<button id="btn_nuevo_unidad" type="button" class="btn btn-secondary btn-sm btn_nuevo_unidad" data-toggle="modal">+ Nuevo</button>  
+						</section>
+						<div class="row p-3">
+							<div class="col-auto m-0">
+								<div class="table-responsive" id="div_tabla_unidad">
+								</div>
+							</div>
+						</div>
+						<!--Modal para CRUD-->
+						<div class="row modal fade" id="modal_crud_unidad" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel"></h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+
+					  				<form id="form_unidad">
+						  				<div class="modal-body">
+											<div class="row">
+												<div class="col-lg-3">
+													<div class="form-group">
+												  		<label for="unidad_medida" class="col-form-label form-control-sm">ID</label>
+												   		<input type="text" class="form-control form-control-sm text-uppercase" id="unidad_medida" maxlength="15">
+												 	</div>
+											 	</div>
+											 	<div class="col-lg-9">
+											  		<div class="form-group">
+														<label for="um_descripcion" class="col-form-label form-control-sm">DESCRIPCION</label>
+												   		<input type="text" class="form-control form-control-sm text-uppercase" id="um_descripcion" maxlength="100">
+													</div> 
+											 	</div>    
+											</div>
+										</div>
+						  				<div class="modal-footer">
+							  				<button type="button" class="btn btn-light btn-sm" data-dismiss="modal">Cancelar</button>
+							  				<button type="submit" id="btn_guardar_unidad" class="btn btn-dark btn-sm">Guardar</button>
+						  				</div>
+					  				</form>    
+								</div>
+							</div>
+						</div>  			
+					</div>
+				</div>
+			</div>
+
 
 		</div>
 	</div>

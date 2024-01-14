@@ -55,7 +55,7 @@
 		<div class="tab-content" id="nav-tabContent">
 
 			<!------------------------------------------------------------------------------->	
-			<!-- TAB OT's ------------------------------------------------------------------->
+			<!-- TAB LISTADO OT's ----------------------------------------------------------->
 			<!------------------------------------------------------------------------------->
 			<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 
@@ -74,7 +74,7 @@
 			    		  	</div>
 			    		</div>
 						<div class="col-lg-2">             	
-							<div class="form-group">
+							<div class="form-group" id="div_btn_seleccion_ot_listado">
 								<button type="button" id="btn_buscar_ot"class="btn btn-secondary btn-sm btn_buscar_ot">Buscar</button>
 								<button type="button" id="btn_descargar_ot" class="btn btn-secondary btn-sm btn_descargar_ot">Descargar</button>
 							</div>
@@ -952,21 +952,18 @@
 						  	<form id="form_vincular_ot">
 				      		    <div class="modal-body">
 				      		        <div class="row">
-										<div class="col-lg-12">
+										<div class="col-lg-6">
 						                  	<div class="form-group">
-						                   		<label for="vot_ot_tipo" class="col-form-label form-control-sm">TIPO ORDEN DE TRABAJO</label>
-						                   		<select class="form-control form-control-sm" id="vot_ot_tipo">
-												</select>
+						                   		<label for="vot_ot_id" class="col-form-label form-control-sm">N° ORDEN DE TRABAJO</label>
+						                   		<input type="number" class="form-control form-control-sm" id="vot_ot_id">
 				  		                	</div>
 			      		            	</div>
 			      		    	    </div>
 			      		        	<div class="row"> 
 										<div class="col-lg-12">
 					  		                <div class="form-group">
-							                	<label for="vot_ot_id" class="col-form-label form-control-sm">ORDEN DE TRABAJO</label>
-												<select class="form-control form-control-sm" id="vot_ot_id">
-
-												</select>
+							                	<label for="vot_ot_actividad" class="col-form-label form-control-sm">ACTIVIDAD</label>
+												<textarea readonly class="form-control z-depth-1 text-uppercase" id="vot_ot_actividad" rows="2" maxlength="250"></textarea>
 				  			                </div> 
 			      		        		</div>
 			      		    	    </div>
@@ -1182,7 +1179,7 @@
 
 					</div>
 					<!------------------------------------------------------------------------------->
-					<!-- TAB AJUSTE ORIGEN ---------------------------------------------------------->
+					<!-- TAB AJUSTE TECNICO --------------------------------------------------------->
 					<!------------------------------------------------------------------------------->
 					<div class="tab-pane fade" id="nav-ajustes_tecnico" role="tabpanel" aria-labelledby="nav-ajustes_tecnico-tab">
 						<section class="container-fluid py-3">

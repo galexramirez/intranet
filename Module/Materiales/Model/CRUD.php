@@ -17,6 +17,29 @@ class CRUD
 		$this->conexion=$Instancia->Conectar(); 	
 	}
 
+	function select_combo($nombre_tabla, $es_campo_unico, $campo_select, $condicion_where, $order_by)
+	{
+		$distinct 	= "";
+		$c_where 	= "";
+		$c_order_by = "";
+		if($es_campo_unico == "SI"){
+			$distinct = "DISTINCT";
+		}
+		if($condicion_where!==""){
+			$c_where = "WHERE ".$condicion_where;
+		}
+		if($order_by!==""){
+			$c_order_by = "ORDER BY ".$order_by;
+		}
+		$consulta = "SELECT ".$distinct." `$nombre_tabla`.`$campo_select` AS `detalle` FROM `$nombre_tabla` ".$c_where." ".$c_order_by;
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();
+		
+		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+		return $data;   
+		$this->conexion=null;
+	}
+
 	function SelectTipos($ttablamateriales_operacion,$ttablamateriales_tipo)
 	{
 		$consulta="SELECT `manto_tipotablamateriales`.`ttablamateriales_detalle` AS `Detalle` FROM `manto_tipotablamateriales` WHERE `manto_tipotablamateriales`.`ttablamateriales_operacion` = '$ttablamateriales_operacion' AND `manto_tipotablamateriales`.`ttablamateriales_tipo`= '$ttablamateriales_tipo' ORDER BY `Detalle` ASC";
@@ -369,7 +392,7 @@ class CRUD
 
 	function LeerCargarPrecios($Anios)
 	{
-		$consulta = "SELECT `cpm_id`, `cpm_nroregistros`, UPPER(DATE_FORMAT(`cpm_fechacarga`, '%Y-%m-%d %W')) AS `cpm_fechacarga`, (SELECT `roles_nombrecorto` FROM `glo_roles` WHERE `manto_cargapreciomateriales`.`cpm_responsablecarga` = `glo_roles`.`roles_dni` LIMIT 1) AS `cpm_responsablecarga`, UPPER(DATE_FORMAT(`cpm_fechaeliminacion`, '%Y-%m-%d %W')) AS `cpm_fechaeliminacion`,(SELECT `roles_nombrecorto` FROM `glo_roles` WHERE `manto_cargapreciomateriales`.`cpm_responsableeliminacion` = `glo_roles`.`roles_dni` LIMIT 1) AS `cpm_responsableeliminacion`, `cpm_estado` FROM `manto_cargapreciomateriales` WHERE SUBSTRING(`cpm_fechacarga`,1,4)='$Anios'";
+		$consulta = "SELECT `cpm_id`, `cpm_nroregistros`, UPPER(DATE_FORMAT(`cpm_fechacarga`, '%Y-%m-%d %W')) AS `cpm_fechacarga`, (SELECT `roles_nombrecorto` FROM `glo_roles` WHERE `manto_cargapreciomateriales`.`cpm_responsablecarga` = `glo_roles`.`roles_dni` LIMIT 1) AS `cpm_responsablecarga`, UPPER(DATE_FORMAT(`cpm_fechaeliminacion`, '%Y-%m-%d %W')) AS `cpm_fechaeliminacion`,(SELECT `roles_nombrecorto` FROM `glo_roles` WHERE `manto_cargapreciomateriales`.`cpm_responsableeliminacion` = `glo_roles`.`roles_dni` LIMIT 1) AS `cpm_responsableeliminacion`, `cpm_estado`, `cpm_prov_razon_social` FROM `manto_cargapreciomateriales` WHERE SUBSTRING(`cpm_fechacarga`,1,4)='$Anios'";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();        
@@ -379,9 +402,9 @@ class CRUD
 		$this->conexion=null;
 	}   
 
-	function CrearCargarPrecios($cpm_nroregistros, $cpm_fechacarga, $cpm_responsablecarga, $cpm_estado)
+	function CrearCargarPrecios($cpm_nroregistros, $cpm_fechacarga, $cpm_responsablecarga, $cpm_estado, $cpm_prov_ruc, $cpm_prov_razon_social)
 	{
-		$consulta = "INSERT INTO `manto_cargapreciomateriales` (`cpm_nroregistros`, `cpm_fechacarga`, `cpm_responsablecarga`, `cpm_estado`) VALUES ('$cpm_nroregistros', '$cpm_fechacarga', '$cpm_responsablecarga', '$cpm_estado')";
+		$consulta = "INSERT INTO `manto_cargapreciomateriales` (`cpm_nroregistros`, `cpm_fechacarga`, `cpm_responsablecarga`, `cpm_estado`, `cpm_prov_ruc`, `cpm_prov_razon_social`) VALUES ('$cpm_nroregistros', '$cpm_fechacarga', '$cpm_responsablecarga', '$cpm_estado', '$cpm_prov_ruc', '$cpm_prov_razon_social')";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();   
@@ -503,5 +526,159 @@ class CRUD
 
         $this->conexion=null;	
 	}
+
+	function leer_tc_material_usuario()
+	{
+		$tc_variable = 'USUARIO';
+		$consulta="SELECT * FROM `manto_tc_material` WHERE `tc_variable`='$tc_variable'";
+   
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();        
+		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+   
+		print json_encode($data, JSON_UNESCAPED_UNICODE);
+		$this->conexion=null;
+	}   
+   
+	function crear_tc_material_usuario($tc_material_id, $tc_categoria1, $tc_categoria2, $tc_categoria3)
+	{
+		$tc_variable = 'USUARIO';
+		$consulta = "INSERT INTO `manto_tc_material`(`tc_variable`, `tc_categoria1`, `tc_categoria2`, `tc_categoria3`) VALUES ('$tc_variable', '$tc_categoria1','$tc_categoria2','$tc_categoria3')";
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();   
+		
+		$consulta = "SELECT * FROM `manto_tc_material` WHERE `tc_variable`='$tc_variable'";
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();        
+		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+		print json_encode($data, JSON_UNESCAPED_UNICODE);
+		  
+	   	$this->conexion=null;	
+	}  	
+	
+	function editar_tc_material_usuario($tc_material_id, $tc_categoria1, $tc_categoria2, $tc_categoria3)
+	{
+	  	$consulta = "UPDATE `manto_tc_material` SET `tc_categoria1`='$tc_categoria1',`tc_categoria2`='$tc_categoria2',`tc_categoria3`='$tc_categoria3' 	WHERE`tc_material_id`='$tc_material_id'";		
+	  	$resultado = $this->conexion->prepare($consulta);
+	  	$resultado->execute();   
+		
+	  	$consulta= "SELECT * FROM `manto_tc_material` WHERE `tc_material_id` ='$tc_material_id'";
+	  	$resultado = $this->conexion->prepare($consulta);
+	  	$resultado->execute();        
+	  	$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+	  	print json_encode($data, JSON_UNESCAPED_UNICODE);
+	  	$this->conexion=null;	
+	}  		
+	   
+	function borrar_tc_material_usuario($tc_material_id)
+	{
+		$consulta = "DELETE FROM `manto_tc_material` WHERE `tc_material_id`='$tc_material_id'";		
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();   
+		$this->conexion=null;	
+	}
+   
+	function leer_tc_material_sistema()
+	{
+		$tc_variable = 'SISTEMA';
+		$consulta="SELECT * FROM `manto_tc_material` WHERE `tc_variable`='$tc_variable'";
+
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();        
+		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+
+		print json_encode($data, JSON_UNESCAPED_UNICODE);
+		$this->conexion=null;
+	}   
+   
+	function crear_tc_material_sistema($tc_material_id, $tc_categoria1, $tc_categoria2, $tc_categoria3)
+	{
+		$tc_variable = 'SISTEMA';
+		$consulta = "INSERT INTO `manto_tc_material`(`tc_variable`, `tc_categoria1`, `tc_categoria2`, `tc_categoria3`) VALUES ('$tc_variable', '$tc_categoria1','$tc_categoria2','$tc_categoria3')";
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();   
+   
+		$consulta = "SELECT * FROM `manto_tc_material` WHERE `tc_variable`='$tc_variable'";
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();        
+		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+		print json_encode($data, JSON_UNESCAPED_UNICODE);
+		  
+		$this->conexion=null;	
+	}  	
+	   
+	function editar_tc_material_sistema($tc_material_id, $tc_categoria1, $tc_categoria2, $tc_categoria3)
+	{
+		$consulta = "UPDATE `manto_tc_material` SET `tc_categoria1`='$tc_categoria1',`tc_categoria2`='$tc_categoria2',`tc_categoria3`='$tc_categoria3'WHERE`tc_material_id`='$tc_material_id'";	
+
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();   
+
+		$consulta= "SELECT * FROM `manto_tc_material` WHERE `tc_material_id` ='$tc_material_id'";
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();        
+		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+		print json_encode($data, JSON_UNESCAPED_UNICODE);
+		$this->conexion=null;	
+	}  		
+	   
+	function borrar_tc_material_sistema($tc_material_id)
+	{
+		$consulta = "DELETE FROM `manto_tc_material` WHERE `tc_material_id`='$tc_material_id'";		
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();   
+		$this->conexion=null;	
+	}
+
+	function leer_unidad()
+	{
+        $consulta="SELECT * FROM `manto_unidad_medida`";
+
+        $resultado = $this->conexion->prepare($consulta);
+        $resultado->execute();        
+        $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+
+        print json_encode($data, JSON_UNESCAPED_UNICODE);
+        $this->conexion=null;
+   	}   
+		 
+	function crear_unidad($unidad_medida, $um_descripcion)
+	{
+		$consulta = "INSERT INTO `manto_unidad_medida`(`unidad_medida`, `um_descripcion`) VALUES ('$unidad_medida', '$um_descripcion')";
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();   
+
+		$consulta = "SELECT * FROM `manto_unidad_medida`";
+        $resultado = $this->conexion->prepare($consulta);
+        $resultado->execute();        
+        $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+
+        print json_encode($data, JSON_UNESCAPED_UNICODE);
+        $this->conexion=null;	
+	}  	
+	
+	function editar_unidad($unidad_medida, $um_descripcion)
+	{
+		$consulta = "UPDATE `manto_unidad_medida` SET `um_descripcion`='$um_descripcion' WHERE `unidad_medida`='$unidad_medida'";		
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();   
+
+		$consulta= "SELECT * FROM `manto_unidad_medida` WHERE `unidad_medida` ='$unidad_medida'";
+        $resultado = $this->conexion->prepare($consulta);
+        $resultado->execute();        
+        $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+
+        print json_encode($data, JSON_UNESCAPED_UNICODE);
+        $this->conexion=null;	
+	}  		
+	
+	function borrar_unidad($unidad_medida)
+	{
+		$consulta = "DELETE FROM `manto_unidad_medida` WHERE `unidad_medida`='$unidad_medida'";		
+  		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();
+		
+        $this->conexion=null;	
+	}  		
 
 }

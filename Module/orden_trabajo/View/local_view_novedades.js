@@ -28,9 +28,9 @@ $(document).ready(function(){
     });
 
     ///:: Selecciona las filas a editar :::::::::::::::::::::::::::::::::::::::::::::::::::///
-    $(document).on("click", "tr",".tabla_novedad_regular tbody", function(){		
-        let ot_estado = "inicio_seleccion";
-        let componente = "inicio";
+    $(document).on("click", "tr",".tabla_novedad_regular tbody", function(){
+        let ot_estado = "";
+        let componente = "";
         
         fila_novedades = $(this).closest("tr");
         filas_seleccionadas = [];
@@ -56,7 +56,12 @@ $(document).ready(function(){
         }
         filas_seleccionadas = tabla_novedades.rows('.selected').data().toArray();
         if(tabla_novedades.rows('.selected').data().length===0){
-            ot_estado = "inicio";
+            componente = "inicio";
+            not_ot_id = "inicio";
+        }
+        if(tabla_novedades.rows('.selected').data().length>1){
+            componente = "seleccion";
+            not_ot_id = "";
         }
         if(tipo_operacion=="TRONCAL"){
             bus_tipo = "ARTICULADO";
@@ -65,7 +70,7 @@ $(document).ready(function(){
             bus_tipo = "ALIMENTADOR";
         }
 
-        div_show = f_MostrarDiv("form_seleccion_novedades", "btn_seleccion_novedades", ot_estado, componente);
+        div_show = f_MostrarDiv("form_seleccion_novedades", "btn_seleccion_novedades", componente, not_ot_id);
         $("#div_btn_seleccion_novedades").html(div_show);
     });
 
@@ -199,6 +204,57 @@ $(document).ready(function(){
     });
     ///:: FIN BOTON NOVEDAD NO GENERA OT ::::::::::::::::::::::::::::::::::::::::::::::::::///
 
+    ///:: BOTON NOVEDAD NO GENERA OT ::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+    $(document).on("click", ".btn_desvincular_ot", function(){
+        let validar_desvincular_ot = "";
+        validar_desvincular_ot = validar_novedades_desvincular_ot();
+        if(validar_desvincular_ot===""){
+            Swal.fire({
+                title               : '¿Está seguro?',
+                text                : "Se desvinculara OT !!!",
+                icon                : 'warning',
+                showCancelButton    : true,
+                confirmButtonColor  : '#3085d6',
+                cancelButtonColor   : '#d33',
+                confirmButtonText   : 'Si, desvincular!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Accion = 'desvincular_orden_trabajo';
+                    let a_data = [];
+                    a_data = JSON.stringify(filas_seleccionadas);
+                    $.ajax({
+                        url         : "Ajax.php",
+                        type        : "POST",
+                        datatype    : "json",    
+                        data        : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, a_data:a_data },   
+                        success: function(data) {
+                            tabla_novedades.ajax.reload(null, false);
+                            if(data==="se desvinculo"){
+                                Swal.fire(
+                                    'Novedad!',
+                                    'El registro ha sido desvinculado.',
+                                    'success'
+                                )
+                            }
+                            div_show = f_MostrarDiv("form_seleccion_novedades", "btn_seleccion_novedades", "inicio", "inicio");
+                            $("#div_btn_seleccion_novedades").html(div_show);    
+                        }
+                    });
+                }
+            });
+        }else{
+            Swal.fire({
+                position            : 'center',
+                icon                : 'error',
+                title               : validar_desvincular_ot+' !!!',
+                showConfirmButton   : false,
+                timer               : 1500
+            })
+        }
+        
+    });
+    ///:: FIN BOTON NOVEDAD NO GENERA OT ::::::::::::::::::::::::::::::::::::::::::::::::::///
+    
     ///:: EVENTO DEL BOTON IMPRIMIR NOVEDAD ORDEN DE TRABAJO ::::::::::::::::::::::::::::::///
     $(document).on("click", ".btn_novedad_imprimir_ot", function(){
         let nro_ot = not_ot_id.substring(2);
@@ -224,5 +280,22 @@ $(document).ready(function(){
 
 
 ///:: FUNCIONES DE NOVEDADES MANTENIMEINTO ::::::::::::::::::::::::::::::::::::::::::::::::///
+function validar_novedades_desvincular_ot(){
+    let rpta_validar_desvincular_ot = "";
+    let a_data = [];
+    a_data = JSON.stringify(filas_seleccionadas);
+    Accion = 'validar_novedades_desvincular_ot';
+    $.ajax({
+        url     : "Ajax.php",
+        type    : "POST",
+        datatype: "json",
+        async   : false,
+        data    : {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, a_data:a_data},    
+        success : function(data){
+            rpta_validar_desvincular_ot = data;
+        }
+    });
+    return rpta_validar_desvincular_ot;
+}
 
-///:: TERMINO FUNCIONES DE NOVEDADES MANTENIMEINTO :::::::::::::::::::::::::::::::::::::::///
+///:: TERMINO FUNCIONES DE NOVEDADES MANTENIMEINTO ::::::::::::::::::::::::::::::::::::::::///

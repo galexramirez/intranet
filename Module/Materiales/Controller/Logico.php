@@ -6,9 +6,27 @@ class Logico
 
 	function Contenido($NombreDeModuloVista)    
 	{		
-			
 		MView('Materiales','LocalView',compact('NombreDeModuloVista') );
-			
+	}
+
+    public function select_combo($nombre_tabla, $es_campo_unico, $campo_select, $campo_inicial, $condicion_where, $order_by)
+	{
+		MModel($this->Modulo, 'CRUD');
+		$InstanciaAjax= new CRUD();
+		$Respuesta=$InstanciaAjax->select_combo($nombre_tabla, $es_campo_unico, $campo_select, $condicion_where, $order_by);
+
+		$html = '<option value="">Seleccione una opcion</option>';
+		
+		if($campo_inicial!=""){
+			$html .= '<option value="'.$campo_inicial.'">'.$campo_inicial.'</option>';
+		}
+
+		foreach ($Respuesta as $row) {
+			if($row['detalle']!=$campo_inicial){
+				$html .= '<option value="'.$row['detalle'].'">'.$row['detalle'].'</option>';
+			}
+		}
+		echo $html;
 	}
 
     public function SelectTipos($ttablamateriales_operacion, $ttablamateriales_tipo)
@@ -370,7 +388,7 @@ class Logico
         echo $html;
     }
 
-    public function CrearCargarPrecios($inputFileName,$Anio)
+    public function CrearCargarPrecios($inputFileName,$Anio, $cpm_prov_ruc, $cpm_prov_razon_social)
     {
         require_once 'Services/Composer/vendor/autoload.php';
           /**  Identify the type of $inputFileName  **/
@@ -414,6 +432,8 @@ class Logico
         $precioprov_cargaid = $cpm_id;
         $precioprov_responsablecreacion = $cpm_responsablecarga;
         $precioprov_fechacreacion = $cpm_fechacarga;
+        $precioprov_ruc             = $cpm_prov_ruc;
+        $precioprov_razonsocial     = $cpm_prov_razon_social;
 
         $CantErrores=0;
         for ($row = 2; $row <= $highestRow; $row++) {
@@ -426,8 +446,8 @@ class Logico
             $precioprov_moneda          = $worksheet->getCell('G'.$row)->getValue();
             $precioprov_precio          = $worksheet->getCell('H'.$row)->getValue();
             $precioprov_preciosoles     = $worksheet->getCell('I'.$row)->getValue();
-            $precioprov_ruc             = $worksheet->getCell('J'.$row)->getValue();
-            $precioprov_razonsocial     = $worksheet->getCell('K'.$row)->getValue();
+            //$precioprov_ruc             = $worksheet->getCell('J'.$row)->getValue();
+            //$precioprov_razonsocial     = $worksheet->getCell('K'.$row)->getValue();
             $precioprov_materialid      = $worksheet->getCell('L'.$row)->getValue();
             if(empty($precioprov_materialid)){
                 $precioprov_estado = "NO RELACIONADO";
@@ -459,7 +479,7 @@ class Logico
         if($cpm_nroregistros>0){
             MModel($this->Modulo, 'CRUD');
             $InstanciaAjax= new CRUD();
-            $Respuesta=$InstanciaAjax->CrearCargarPrecios($cpm_nroregistros, $cpm_fechacarga, $cpm_responsablecarga, $cpm_estado);
+            $Respuesta=$InstanciaAjax->CrearCargarPrecios($cpm_nroregistros, $cpm_fechacarga, $cpm_responsablecarga, $cpm_estado, $cpm_prov_ruc, $cpm_prov_razon_social);
         }
         echo "Se cargaron ".($highestRow-$CantErrores-1)." de ".($highestRow-1);
     }

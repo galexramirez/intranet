@@ -59,6 +59,19 @@ switch ($Accion)
       $Respuesta=$InstanciaAjax->MostrarDiv($NombreFormulario,$NombreObjeto,$Dato);
    break;
 
+   case 'select_combo':
+      $nombre_tabla     = $_POST['nombre_tabla'];
+      $es_campo_unico   = $_POST['es_campo_unico'];
+      $campo_select     = $_POST['campo_select'];
+      $campo_inicial    = $_POST['campo_inicial'];
+      $condicion_where  = $_POST['condicion_where'];
+      $order_by         = $_POST['order_by'];
+
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta     = $InstanciaAjax->select_combo($nombre_tabla, $es_campo_unico, $campo_select, $campo_inicial, $condicion_where, $order_by);
+   break;
+
    case 'LeerMateriales':
       MModel($Modulo,'CRUD');
       $InstanciaAjax= new CRUD();
@@ -285,10 +298,12 @@ switch ($Accion)
    case 'CrearCargarPrecios':
       $inputFileName = $_FILES['archivoexcel']['tmp_name'];
       $Anio = $_POST['Anio'];
+      $cpm_prov_ruc = $_POST['cpm_prov_ruc'];
+      $cpm_prov_razon_social = $_POST['cpm_prov_razon_social'];
 
       MController($Modulo,'Logico');
-      $InstanciaAjax= new Logico();
-      $Respuesta=$InstanciaAjax->CrearCargarPrecios($inputFileName,$Anio);
+      $InstanciaAjax = new Logico();
+      $Respuesta = $InstanciaAjax->CrearCargarPrecios($inputFileName,$Anio, $cpm_prov_ruc, $cpm_prov_razon_social);
    break;
 
    case 'EliminarCargarPreciosProveedor':
@@ -447,6 +462,110 @@ switch ($Accion)
       MController($Modulo,'Logico');
       $InstanciaAjax = new Logico();
       $Respuesta     = $InstanciaAjax->CalculoFecha($inicio,$calculo);
+   break;
+
+   case 'leer_tc_material_usuario':
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta     = $InstanciaAjax->leer_tc_material_usuario();
+   break;
+
+   case 'crear_tc_material_usuario':
+      $tc_material_id = $_POST['tc_material_id'];
+      $tc_categoria1 = strtoupper($_POST['tc_categoria1']);
+      $tc_categoria2 = strtoupper($_POST['tc_categoria2']);
+      $tc_categoria3 = strtoupper($_POST['tc_categoria3']);
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta     = $InstanciaAjax->crear_tc_material_usuario($tc_material_id, $tc_categoria1, $tc_categoria2, $tc_categoria3);
+   break;
+
+   case 'editar_tc_material_usuario':
+      $tc_material_id = $_POST['tc_material_id'];
+      $tc_categoria1 = strtoupper($_POST['tc_categoria1']);
+      $tc_categoria2 = strtoupper($_POST['tc_categoria2']);
+      $tc_categoria3 = strtoupper($_POST['tc_categoria3']);
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta     = $InstanciaAjax->editar_tc_material_usuario($tc_material_id, $tc_categoria1, $tc_categoria2, $tc_categoria3);
+   break;
+
+   case 'borrar_tc_material_usuario':
+      $tc_material_id=$_POST['tc_material_id'];
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta     = $InstanciaAjax->borrar_tc_material_usuario($tc_material_id);
+   break;
+
+   case 'leer_tc_material_sistema':
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta     = $InstanciaAjax->leer_tc_material_sistema();
+   break;
+
+   case 'crear_tc_material_sistema':
+      $tc_material_id = $_POST['tc_material_id'];
+      $tc_categoria1 = strtoupper($_POST['tc_categoria1']);
+      $tc_categoria2 = strtoupper($_POST['tc_categoria2']);
+      $tc_categoria3 = strtoupper($_POST['tc_categoria3']);
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta     = $InstanciaAjax->crear_tc_material_sistema($tc_material_id, $tc_categoria1, $tc_categoria2, $tc_categoria3);
+   break;
+
+   case 'editar_tc_material_sistema':
+      $tc_material_id = $_POST['tc_material_id'];
+      $tc_categoria1 = strtoupper($_POST['tc_categoria1']);
+      $tc_categoria2 = strtoupper($_POST['tc_categoria2']);
+      $tc_categoria3 = strtoupper($_POST['tc_categoria3']);
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta     = $InstanciaAjax->editar_tc_material_sistema($tc_material_id, $tc_categoria1, $tc_categoria2, $tc_categoria3);
+   break;
+
+   case 'borrar_tc_material_sistema':
+      $tc_material_id=$_POST['tc_material_id'];
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta     = $InstanciaAjax->borrar_tc_material_sistema($tc_material_id);
+   break;
+
+   case 'leer_unidad':
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta = $InstanciaAjax->leer_unidad();
+   break;
+
+   case 'crear_unidad':
+      $unidad_medida = strtoupper($_POST['unidad_medida']);
+      $um_descripcion = strtoupper($_POST['um_descripcion']);
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta = $InstanciaAjax->crear_unidad($unidad_medida, $um_descripcion);
+   break;
+
+   case 'editar_unidad':
+      $unidad_medida = strtoupper($_POST['unidad_medida']);
+      $um_descripcion = strtoupper($_POST['um_descripcion']);
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta = $InstanciaAjax->editar_unidad($unidad_medida, $um_descripcion);
+   break;
+
+   case 'borrar_unidad':
+      $unidad_medida = $_POST['unidad_medida'];
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta = $InstanciaAjax->borrar_unidad($unidad_medida);
    break;
 
    default: header('Location: /inicio');

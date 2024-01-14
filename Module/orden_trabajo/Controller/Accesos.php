@@ -345,16 +345,12 @@ class Accesos
 		$botonesformulario = "";
 		switch($NombreFormulario)
 		{
-			case "formSeleccionTelemetriaCarga":
+			case "form_seleccion_ot":
 				switch($NombreObjeto)
 				{
-					case "btnNuevoTelemetriaCarga":
-						MModel($this->Modulo, 'CRUD');
-						$InstanciaAjax= new CRUD();
-						$Respuesta=$InstanciaAjax->Permisos($this->Modulo,$NombreObjeto);
-						if ($Respuesta=="SI"){
-							$botonesformulario = '<button id="btnNuevoTelemetriaCarga" type="button" class="btn btn-info" data-toggle="modal">+ Nuevo</button>';
-						}
+					case "div_btn_seleccion_ot_listado":
+						$botonesformulario  = ' <button type="button" id="btn_buscar_ot"class="btn btn-secondary btn-sm btn_buscar_ot">Buscar</button> ';
+						$botonesformulario .= ' <button type="button" id="btn_descargar_ot" class="btn btn-secondary btn-sm btn_descargar_ot">Descargar</button> ';
 					break;
 				}
 			break;
@@ -529,28 +525,34 @@ class Accesos
 						MModel($this->Modulo, 'CRUD');
 						$InstanciaAjax= new CRUD();
 						$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'btn_codificar');
-						if ($Respuesta=="SI" && $Dato2==""){
-							$Mostrar_div .= '<button type="button" id="btn_codificar" class="btn btn-secondary btn-sm btn_codificar ml-1">Arborizar</button>';
+						if ($Respuesta=="SI" && $Dato1=="" && $Dato2==""){
+							$Mostrar_div .= '<button type="button" id="btn_codificar" title="Arborizar" class="btn btn-secondary btn-sm btn_codificar ml-1"><i class="bi bi-diagram-3-fill"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-diagram-3-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M6 3.5A1.5 1.5 0 0 1 7.5 2h1A1.5 1.5 0 0 1 10 3.5v1A1.5 1.5 0 0 1 8.5 6v1H14a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0V8h-5v.5a.5.5 0 0 1-1 0V8h-5v.5a.5.5 0 0 1-1 0v-1A.5.5 0 0 1 2 7h5.5V6A1.5 1.5 0 0 1 6 4.5zm-6 8A1.5 1.5 0 0 1 1.5 10h1A1.5 1.5 0 0 1 4 11.5v1A1.5 1.5 0 0 1 2.5 14h-1A1.5 1.5 0 0 1 0 12.5zm6 0A1.5 1.5 0 0 1 7.5 10h1a1.5 1.5 0 0 1 1.5 1.5v1A1.5 1.5 0 0 1 8.5 14h-1A1.5 1.5 0 0 1 6 12.5zm6 0a1.5 1.5 0 0 1 1.5-1.5h1a1.5 1.5 0 0 1 1.5 1.5v1a1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5z"/></svg></i></button>';
 						}
 						MModel($this->Modulo, 'CRUD');
 						$InstanciaAjax= new CRUD();
 						$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'btn_agregar_ot');
-						if ($Respuesta=="SI" && $Dato1=="PENDIENTE" && $Dato2!==""){
+						if ($Respuesta=="SI" && $Dato1!=="" && $Dato2==""){
 							$Mostrar_div .= '<button type="button" id="btn_agregar_ot" class="btn btn-secondary btn-sm btn_agregar_ot ml-1">+ OT</button>';
 						}
 						MModel($this->Modulo, 'CRUD');
 						$InstanciaAjax= new CRUD();
 						$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'btn_no_genera_ot');
-						if ($Respuesta=="SI" && $Dato1=="PENDIENTE" && $Dato2!==""){
+						if ($Respuesta=="SI" && $Dato1!=="" && $Dato2=="" && $Dato1!=="seleccion"){
 							$Mostrar_div .= '<button type="button" id="btn_no_genera_ot" class="btn btn-secondary btn-sm btn_no_genera_ot ml-1">- OT</button>';
 						}
 						MModel($this->Modulo, 'CRUD');
 						$InstanciaAjax= new CRUD();
 						$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'btn_vincular_ot');
-						if ($Respuesta=="SI" && $Dato1!=="inicio"){
-							$Mostrar_div .= '<button type="button" id="btn_vincular_ot" class="btn btn-secondary btn-sm btn_vincular_ot ml-1">Vincular</button>';
+						if ($Respuesta=="SI" && $Dato1!=="" && $Dato2==""){
+							$Mostrar_div .= '<button type="button" id="btn_vincular_ot" title="Vincular" class="btn btn-secondary btn-sm btn_vincular_ot ml-1"><i class="bi bi-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-link" viewBox="0 0 16 16"><path d="M6.354 5.5H4a3 3 0 0 0 0 6h3a3 3 0 0 0 2.83-4H9q-.13 0-.25.031A2 2 0 0 1 7 10.5H4a2 2 0 1 1 0-4h1.535c.218-.376.495-.714.82-1z"/><path d="M9 5.5a3 3 0 0 0-2.83 4h1.098A2 2 0 0 1 9 6.5h3a2 2 0 1 1 0 4h-1.535a4 4 0 0 1-.82 1H12a3 3 0 1 0 0-6z"/></svg></i></button>';
 						}
-						if($Dato1=="GENERADO"){
+						MModel($this->Modulo, 'CRUD');
+						$InstanciaAjax= new CRUD();
+						$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'btn_desvincular_ot');
+						if($Respuesta=="SI" && ($Dato2!=="" && substr($Dato2,0,1)!=="N" && substr($Dato2,0,1)!=="i" || $Dato1=="seleccion")){
+							$Mostrar_div .= '<button type="button" id="btn_desvinuclar_ot" title="Desvincular" class="btn btn-secondary btn-sm btn_desvincular_ot ml-1"><i class="bi bi-share-fill"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share-fill" viewBox="0 0 16 16"><path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5"/></svg></i></button>';
+						}
+						if($Dato2!=="" && substr($Dato2,0,1)!=="N" && substr($Dato2,0,1)!=="i"){
 							$Mostrar_div .= '<button type="button" id="btn_novedad_imprimir_ot" title="Imprimir" class="btn btn-secondary btn-sm btn_novedad_imprimir_ot ml-1"><i class="bi bi-printer-fill"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer-fill" viewBox="0 0 16 16"><path d="M5 1a2 2 0 0 0-2 2v1h10V3a2 2 0 0 0-2-2zm6 8H5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1"/><path d="M0 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1v-2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2H2a2 2 0 0 1-2-2zm2.5 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/></svg></i></button>';
 						}
 					break;

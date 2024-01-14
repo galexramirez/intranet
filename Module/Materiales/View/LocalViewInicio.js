@@ -4,10 +4,10 @@
 ///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///::::::::::::::::::::::::::::::: Declaracion de Variables :::::::::::::::::::::::::::::::::::::///
-var MoS,NombreMoS,Accion,idiomaEspanol, div_tabs, div_tablas, div_boton, div_show, columnastabla;
+var MoS,NombreMoS,Accion,idioma_espanol, div_tabs, div_tablas, div_boton, div_show, columnastabla;
 MoS           = 'Module';
 NombreMoS     = 'Materiales';
-idiomaEspanol = {
+idioma_espanol = {
     "lengthMenu"  : "&nbsp&nbsp&nbsp&nbspMostrar _MENU_ registros",
     "zeroRecords" : "No se encuentran resultados",
     "info"        : "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
@@ -31,11 +31,33 @@ $(document).ready(function(){
   div_tabs = f_CreacionTabs("nav-tab-Materiales","");
   $("#nav-tab-Materiales").html(div_tabs);
 
+  div_tabs = f_CreacionTabs("nav-tab-ajustes_material","");
+  $("#nav-tab-ajustes_material").html(div_tabs);
+
   $( "#tabs" ).tabs();
 });
 
 
-///::::::::::::::::::::::::::::::::: FUNCIONES DE MATERIALES ::::::::::::::::::::::::::::::::::::///
+///:: FUNCIONES DE MATERIALES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+
+///:: FUNCION QUE GENERA EL LISTADO DEL COMBO SELECT ::::::::::::::::::::::::::::::::::::::///
+function f_select_combo(p_nombre_tabla, p_es_campo_unico, p_campo_select, p_campo_inicial, p_condicion_where, p_order_by){
+  let rpta_select_combo = "";
+  Accion    ='select_combo';
+  $.ajax({
+    url       : "Ajax.php",
+    type      : "POST",
+    datatype  : "json",
+    async     : false,
+    data      : {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, nombre_tabla:p_nombre_tabla, es_campo_unico:p_es_campo_unico, campo_select:p_campo_select, campo_inicial:p_campo_inicial, condicion_where:p_condicion_where, order_by:p_order_by},
+    success   : function(data){
+      rpta_select_combo = data;
+    }
+  });
+  return rpta_select_combo;
+}
+///:: FIN DE FUNCION QUE GENERA EL LISTADO DEL COMBO SELECT :::::::::::::::::::::::::::::::///
+
 function f_TipoTabla(p_Operacion,p_Tipo){
   let rptaSelect="";
   Accion='SelectTipos';

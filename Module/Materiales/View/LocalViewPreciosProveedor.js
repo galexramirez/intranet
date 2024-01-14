@@ -331,7 +331,7 @@ function f_MostrarPreciosProveedor(ppp_razonsocial, ppp_fecha){
     //Para mostrar 50 registros popr página 
     pageLength: 50,
     //Para cambiar el lenguaje a español
-    language: idiomaEspanol, 
+    language: idioma_espanol, 
     //Para usar los botones
     responsive: "true",
     dom: 'Blfrtip', // Con Botones Excel,Pdf,Print

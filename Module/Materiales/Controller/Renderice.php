@@ -15,7 +15,7 @@
 	$Instancia2 = new C_ConsultaModulos();     
     $Respuesta=$Instancia2->ValidaModulo($NombreDeModulo);     	    
     if ($Respuesta=="Falso")
-        { session_destroy();  header('Location: /inicio'); }
+        { session_destroy();  header('Location: /inicio'); } 
     $Respuesta=$Instancia2->PermisoAlModulo($NombreDeModulo);
 
 
@@ -46,7 +46,10 @@
                     <script src='Module/Materiales/View/LocalViewAsignarCodigos.js' type='text/javascript'></script>
                     <script src='Module/Materiales/View/LocalViewPreciosProveedor.js' type='text/javascript'></script>
                     <script src='Module/Materiales/View/LocalViewAsignarCodigos.js' type='text/javascript'></script>
-                    <script src='Module/Materiales/View/local_view_precios_material.js' type='text/javascript'></script> ";
+                    <script src='Module/Materiales/View/local_view_precios_material.js' type='text/javascript'></script>
+                    <script src='Module/Materiales/View/local_view_tc_material_sistema.js' type='text/javascript'></script>
+                    <script src='Module/Materiales/View/local_view_tc_material_usuario.js' type='text/javascript'></script>
+                    <script src='Module/Materiales/View/local_view_unidad.js' type='text/javascript'></script> ";
 
 // 4.0 CONTRUCCION DE LA VISTA
 

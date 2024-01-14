@@ -4,17 +4,17 @@
 ///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///:: DECLARACION DE VARIABLES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-let select_vot, vot_ot_tipo, vot_ot_id, vot_bus;
+let select_vot, vot_ot_id, vot_ot_actividad, vot_bus;
 
 ///:: JS DOM VINCULAR ORDEN DE TRABAJO ::::::::::::::::::::::::::::::::::::::::::::::::::::///
 $(document).ready(function(){
 
-    $("#vot_ot_tipo").change(function(){
-        vot_ot_tipo = $("#vot_ot_tipo").val();
-        vot_ot_id = "";
-        select_vot = f_select_combo("manto_orden_trabajo","NO","ot_id","","`ot_tipo`='"+vot_ot_tipo+"' AND `ot_bus`='"+vot_bus+"' AND `ot_estado`='ABIERTO'","`ot_id` DESC");
+    $("#vot_ot_id").change(function(){
+        vot_ot_id = $("#vot_ot_id").val();
+        vot_ot_actividad = f_buscar_dato("manto_ots","ot_actividad","`ot_id`='"+vot_ot_id+"'");
+        select_vot = f_select_combo("manto_orden_trabajo","NO","ot_id","","`ot_tipo`='"+vot_ot_id+"' AND `ot_bus`='"+vot_bus+"' AND `ot_estado`='ABIERTO'","`ot_id` DESC");
         $("#vot_ot_id").html(select_vot);
-        $("#vot_ot_id").val(vot_ot_id); 
+        $("#vot_ot_actividad").val(vot_ot_actividad); 
     });
 
     ///:: BOTONES DE VINCULAR ORDEN DE TRABAJO ::::::::::::::::::::::::::::::::::::::::::::///
@@ -37,17 +37,11 @@ $(document).ready(function(){
 
             f_limpia_vincular_ot();
       
-            vot_ot_tipo = "";
             vot_ot_id = "";
+            vot_ot_actividad = "";
             
-            select_vot = f_select_combo("manto_tc_orden_trabajo","NO","tc_categoria3","","`tc_variable`='SISTEMA' AND `tc_categoria1`='ORDEN TRABAJO' AND `tc_categoria2`='TIPO'","`tc_categoria3` ASC");
-            $("#vot_ot_tipo").html(select_vot);
-            
-            select_vot = f_select_combo("manto_orden_trabajo","NO","ot_id","","`ot_tipo`='"+vot_ot_tipo+"' AND `ot_bus`='"+vot_bus+"' AND `ot_estado`='ABIERTO'","`ot_id` DESC");
-            $("#vot_ot_id").html(select_vot);
-    
-            $("#vot_ot_tipo").val(vot_ot_tipo); 
             $("#vot_ot_id").val(vot_ot_id); 
+            $("#vot_ot_actividad").val(vot_ot_id); 
     
             $(".modal-header").css( "background-color", "#17a2b8");
             $(".modal-header").css( "color", "white" );
@@ -62,10 +56,10 @@ $(document).ready(function(){
         e.preventDefault();
         let validacion_vot = '';
 
-        vot_ot_tipo = $("#vot_ot_tipo").val();
-        vot_ot_id = $("#vot_ot_id").val(); 
+        vot_ot_id = $("#vot_ot_id").val();
+        vot_ot_actividad = $("#vot_ot_actividad").val(); 
 
-        validacion_vot = f_validar_vincular_ot(vot_ot_tipo, vot_ot_id);
+        validacion_vot = f_validar_vincular_ot(vot_ot_id, vot_ot_actividad);
     
         if(validacion_vot=="invalido"){
             Swal.fire({
@@ -84,8 +78,25 @@ $(document).ready(function(){
                 url         : "Ajax.php",
                 type        : "POST",
                 datatype    : "json",    
-                data        : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, ot_tipo:vot_ot_tipo, ot_id:vot_ot_id, a_data:a_data},    
+                data        : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, ot_id:vot_ot_id, a_data:a_data},    
                 success     : function(data) {
+                    if(data==="se vinculo"){
+                        Swal.fire({
+                            position            : 'center',
+                            icon                : 'success',
+                            title               : "Se Vinculo Correctamente",
+                            showConfirmButton   : false,
+                            timer               : 1500
+                        })
+                    }else{
+                        Swal.fire({
+                            position            : 'center',
+                            icon                : 'error',
+                            title               : data,
+                            showConfirmButton   : false,
+                            timer               : 1500
+                        })
+                    }
                     tabla_novedades.ajax.reload(null, false);
                     div_show = f_MostrarDiv("form_seleccion_novedades", "btn_seleccion_novedades", "inicio", "inicio");
                     $("#div_btn_seleccion_novedades").html(div_show);
@@ -125,20 +136,20 @@ function f_validar_novedades(){
 }
 
 function f_limpia_vincular_ot(){
-    $("#vot_ot_tipo").removeClass("color-error");
     $("#vot_ot_id").removeClass("color-error");
+    $("#vot_ot_actividad").removeClass("color-error");
 }
   
-function f_validar_vincular_ot(p_vot_ot_tipo, p_vot_ot_id){
+function f_validar_vincular_ot(p_vot_ot_id, p_vot_ot_actividad){
     f_limpia_vincular_ot();
     let rpta_validar_vincular_ot = "";
     
-    if(p_vot_ot_tipo==""){
-        $("#vot_ot_tipo").addClass("color-error");
-        rpta_validar_vincular_ot = "invalido";
-    } 
     if(p_vot_ot_id==""){
         $("#vot_ot_id").addClass("color-error");
+        rpta_validar_vincular_ot = "invalido";
+    } 
+    if(p_vot_ot_actividad==""){
+        $("#vot_ot_actividad").addClass("color-error");
         rpta_validar_vincular_ot = "invalido";
     } 
     return rpta_validar_vincular_ot;

@@ -1039,36 +1039,63 @@ class Logico
         echo $rpta_cierre_semanal;
     }
 
-    public function crear_orden_trabajo($ot_origen, $ot_nombre_proveedor, $not_origen_novedad, $not_tipo_novedad, $not_novedad_id, $not_operacion, $not_bus, $ot_descrip)
+    public function crear_orden_trabajo($ot_origen, $ot_nombre_proveedor, $a_data)
     {
+        $not_ot_id = "";
+        $novedad_id = "";
+        $ot_actividad = "";
         $ot_tipo = "";
         $ot_ruc_proveedor = "";
 
-        MModel($this->Modulo,'CRUD');
-        $InstanciaAjax  = new CRUD();
-		$Respuesta = $InstanciaAjax->buscar_dato("manto_ot_origen", "or_tipo_ot", "`or_nombre`='$ot_origen'");
+        foreach ($a_data as $row){
+            if($novedad_id===""){
+                $novedad_id = $row['id'];
+            }else{
+                $novedad_id .= " , ".$row['id'];
+            }
+            if($ot_actividad===""){
+                $ot_actividad = $row['ot_accion'];
+            }else{
+                $ot_actividad .= " ".$row['ot_accion'];
+            }
+        }
 
-        foreach ($Respuesta as $row) {
-			$ot_tipo = $row['or_tipo_ot'];
-		}
-
-        MModel($this->Modulo,'CRUD');
-        $InstanciaAjax  = new CRUD();
-		$Respuesta = $InstanciaAjax->buscar_dato("manto_proveedores", "prov_ruc", "`prov_razonsocial`='$ot_nombre_proveedor'");
-
-        foreach ($Respuesta as $row) {
-			$ot_ruc_proveedor = $row['prov_ruc'];
-		}
-
-        MModel($this->Modulo,'CRUD');
-        $InstanciaAjax  = new CRUD();
-        $Respuesta = $InstanciaAjax->crear_orden_trabajo($ot_origen, $ot_ruc_proveedor, $ot_nombre_proveedor, $ot_tipo, $not_bus, $ot_descrip, $not_novedad_id);
-
-        $not_ot_id = $Respuesta;
-
-        MModel($this->Modulo,'CRUD');
-        $InstanciaAjax  = new CRUD();
-        $Respuesta = $InstanciaAjax->genera_novedad_ot($not_origen_novedad, $not_tipo_novedad, $not_novedad_id, $not_operacion, $not_bus, $ot_tipo, $not_ot_id);
+        foreach($a_data as $row){
+            $not_bus = $row['bus'];
+            $not_novedad_id = $row['id'];
+            $not_origen_novedad = $row['origen'];
+            $not_tipo_novedad = $row['tipo_novedad'];
+            $not_operacion = $row['operacion'];
+            if($not_ot_id===""){
+                MModel($this->Modulo,'CRUD');
+                $InstanciaAjax  = new CRUD();
+                $Respuesta = $InstanciaAjax->buscar_dato("manto_ot_origen", "or_tipo_ot", "`or_nombre`='$ot_origen'");
+        
+                foreach ($Respuesta as $row) {
+                    $ot_tipo = $row['or_tipo_ot'];
+                }
+        
+                MModel($this->Modulo,'CRUD');
+                $InstanciaAjax  = new CRUD();
+                $Respuesta = $InstanciaAjax->buscar_dato("manto_proveedores", "prov_ruc", "`prov_razonsocial`='$ot_nombre_proveedor'");
+        
+                foreach ($Respuesta as $row) {
+                    $ot_ruc_proveedor = $row['prov_ruc'];
+                }
+        
+                MModel($this->Modulo,'CRUD');
+                $InstanciaAjax  = new CRUD();
+                $Respuesta = $InstanciaAjax->crear_orden_trabajo($ot_origen, $ot_ruc_proveedor, $ot_nombre_proveedor, $ot_tipo, $not_bus, $ot_actividad, $novedad_id);
+        
+                $not_ot_id = $Respuesta;
+        
+            }
+            if($not_ot_id!==""){
+                MModel($this->Modulo,'CRUD');
+                $InstanciaAjax  = new CRUD();
+                $Respuesta = $InstanciaAjax->genera_novedad_ot($not_origen_novedad, $not_tipo_novedad, $not_novedad_id, $not_operacion, $not_bus, $ot_tipo, $not_ot_id);
+            }
+        }
 
         echo $not_ot_id;
 
@@ -1101,44 +1128,120 @@ class Logico
         echo $rpta_validar;
     }
 
-    public function vincular_orden_trabajo($ot_tipo, $ot_id, $a_data)
+    public function validar_novedades_desvincular_ot($a_data)
+    {
+        $rpta_validar = "";
+        $rpta_estado = "";
+        $valores_ot = array_column($a_data, 'ot_id');
+        $valores_unicos = array_unique($valores_ot);
+        if(count($valores_unicos)>1){
+            $rpta_validar = "Revisar Nro. OT. ";
+        }
+        foreach ($a_data as $row){
+            if( $row['ot_estado']!=="VINCULADO" ){
+               $rpta_estado = 'OTs NO Vinculadas'; 
+            }
+        }
+        $rpta_validar .= $rpta_estado;
+        echo $rpta_validar;
+    }
+
+    public function vincular_orden_trabajo($ot_id, $a_data)
     {
         $novedad_id = "";
-        $ot_descrip_edt = "";
-        $ot_obs_aom = "";
+        $ot_actividad_vincular = "";
+        $ot_actividad_vincular_edt = "";
+        $ot_log = "";
         $ot_estado = "";
+        $ot_tipo = "";
+        $validar = "";
+        
+        MModel($this->Modulo,'CRUD');
+        $InstanciaAjax = new CRUD();
+        $Respuesta = $InstanciaAjax->BuscarDataBD("manto_ots","ot_id",$ot_id);
+
+        foreach ($Respuesta as $row){
+            $ot_log = $row['ot_log'];
+            $ot_estado = $row['ot_estado'];
+            $ot_actividad_vincular_edt = $row['ot_actividad_vincular'];
+            $ot_tipo = $row['ot_tipo'];
+            $ot_bus = $row['ot_bus'];
+        }
+
+        if($ot_estado==="CERADO"){
+            $msq_error_estado = "Revisar Estado de la OT";
+            $validar = "invalido";
+        }
 
         foreach ($a_data as $row){
+            if($row['bus']!==$ot_bus){
+                $msq_error_bus = "Revisar Buses";
+                $validar = "invalido";
+            }
+        }
+
+        if($validar==="invalido"){
+            echo $msq_error_estado." ".$msq_error_bus;
+            exit();
+        }else{
+            foreach ($a_data as $row){
+                if($novedad_id===""){
+                    $novedad_id = $row['id'];
+                }else{
+                    $novedad_id .= " , ".$row['id'];
+                }
+                if($ot_actividad_vincular===""){
+                    $ot_actividad_vincular = $row['ot_accion'];
+                }else{
+                    $ot_actividad_vincular .= " ".$row['ot_accion'];
+                }
+                MModel($this->Modulo,'CRUD');
+                $InstanciaAjax = new CRUD();
+                $Respuesta = $InstanciaAjax->vincular_novedad_ot($row['origen'], $row['tipo_novedad'], $row['id'], $row['operacion'], $row['bus'], $ot_tipo, $ot_id);
+            }
+    
+            $ot_actividad_vincular = $ot_actividad_vincular." ".$ot_actividad_vincular_edt;
+            
+            MModel($this->Modulo,'CRUD');
+            $InstanciaAjax = new CRUD();
+            $Respuesta = $InstanciaAjax->vincular_orden_trabajo($ot_id, $ot_actividad_vincular, $ot_estado, $ot_log, $novedad_id);
+            echo "se vinculo";
+        }
+    }
+
+    public function desvincular_orden_trabajo($a_data)
+    {
+        $novedad_id = "";
+        $ot_log = "";
+        $ot_estado = "";
+        $ot_id = "";
+
+        foreach ($a_data as $row){
+            $ot_id = substr($row['ot_id'],3,15);
             if($novedad_id===""){
                 $novedad_id = $row['id'];
             }else{
                 $novedad_id .= " , ".$row['id'];
             }
-            if($ot_descrip_edt===""){
-                $ot_descrip_edt = $row['ot_accion'];
-            }else{
-                $ot_descrip_edt .= " ".$row['ot_accion'];
-            }
             MModel($this->Modulo,'CRUD');
             $InstanciaAjax = new CRUD();
-            $Respuesta = $InstanciaAjax->vincular_novedad_ot($row['origen'], $row['tipo_novedad'], $row['id'], $row['operacion'], $row['bus'], $ot_tipo, $ot_id);
+            $Respuesta = $InstanciaAjax->desvincular_novedad_ot($row['origen'], $row['tipo_novedad'], $row['id'], $row['operacion'], $row['bus'], $row['ot_id'], $row['ot_estado']);
         }
-
-        MModel($this->Modulo,'CRUD');
-        $InstanciaAjax = new CRUD();
-        $Respuesta = $InstanciaAjax->BuscarDataBD("manto_orden_trabajo","ot_id",$ot_id);
-
-        foreach ($Respuesta as $row){
-            $ot_obs_aom = $row['ot_obs_aom'];
-            $ot_estado = $row['ot_estado'];
-            $ot_descrip = $row['ot_descrip'];
-        }
-
-        $ot_descrip = $ot_descrip." ".$ot_descrip_edt;
         
         MModel($this->Modulo,'CRUD');
         $InstanciaAjax = new CRUD();
-        $Respuesta = $InstanciaAjax->vincular_orden_trabajo($ot_id, $ot_descrip, $ot_estado, $ot_obs_aom, $novedad_id);
-
+        $Respuesta = $InstanciaAjax->BuscarDataBD("manto_ots", "ot_id", $ot_id);
+        
+        foreach ($Respuesta as $row){
+            $ot_log = $row['ot_log'];
+            $ot_estado = $row['ot_estado'];
+        }
+        
+        MModel($this->Modulo,'CRUD');
+        $InstanciaAjax = new CRUD();
+        $Respuesta = $InstanciaAjax->desvincular_orden_trabajo($ot_id, $ot_estado, $ot_log, $novedad_id);
+        
+        echo "se desvinculo"; 
     }
+
 }

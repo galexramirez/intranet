@@ -29,6 +29,21 @@ input{
     font-size: 11px
 }
 
+.filters_tc_material_usuario th{
+    padding:0px !important;
+    font-size: 11px
+}
+
+.filters_tc_material_sistema th{
+    padding:0px !important;
+    font-size: 11px
+}
+
+.filters_unidad th{
+    padding:0px !important;
+    font-size: 11px
+}
+
 th{
     font-size: 9px;
     font-weight: 500;
@@ -128,6 +143,21 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
     color:white;
 }
 
+#tabla_tc_material_usuario thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tabla_tc_material_sistema thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tabla_unidad thead {
+    background: #2A4C38;
+    color:white;
+}
+
 
 /* tamaño de texto de tablas*/
 
@@ -156,6 +186,18 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
 }
 
 #tabla_precios_material{
+    font-size: 12px;
+}
+
+#tabla_tc_material_usuario {
+    font-size: 12px;
+}
+
+#tabla_tc_material_sistema {
+    font-size: 12px;
+}
+
+#tabla_unidad {
     font-size: 12px;
 }
 
