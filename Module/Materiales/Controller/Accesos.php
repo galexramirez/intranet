@@ -11,6 +11,7 @@ class Accesos
 			case "nav-tab-Materiales":
 				$tabshtml = '	<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Listado</a>
 								<a class="nav-item nav-link" id="nav-proveedores-tab" data-toggle="tab" href="#nav-proveedores" role="tab" aria-controls="nav-proveedores" aria-selected="false">Proveedores</a>
+								<a class="nav-item nav-link" id="nav-repuesto_proveedor-tab" data-toggle="tab" href="#nav-repuesto_proveedor" role="tab" aria-controls="nav-repuesto_proveedor" aria-selected="false">Repuesto Proveedor</a>
 								<a class="nav-item nav-link" id="nav-cargarprecios-tab" data-toggle="tab" href="#nav-cargarprecios" role="tab" aria-controls="nav-cargarprecios" aria-selected="false">Cargar Precios</a>
 								<a class="nav-item nav-link" id="nav-preciosproveedor-tab" data-toggle="tab" href="#nav-preciosproveedor" role="tab" aria-controls="nav-preciosproveedor" aria-selected="false">Precios Proveedor</a>
 								<a class="nav-item nav-link" id="nav-asignarcodigos-tab" data-toggle="tab" href="#nav-asignarcodigos" role="tab" aria-controls="nav-asignarcodigos" aria-selected="false">Asignar Códigos</a>
@@ -99,6 +100,23 @@ class Accesos
 										<th>TELEFONO</th>
 										<th>ESTADO</th>
 										<th>ACCIONES</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>';
+            break;
+
+			case "tabla_repuesto_proveedor":
+                $tablahtml = '	<table id="tabla_repuesto_proveedor" class="table table-striped table-bordered table-condensed w-100">
+									<thead class="text-center">
+										<tr>
+											<th>CODIGO</th>
+											<th>DESCRIPCION</th>
+											<th>UNIDAD</th>
+											<th>ESTADO</th> 
+											<th>FECHA REGISTRO</th> 
+											<th>ACCIONES</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -304,6 +322,17 @@ class Accesos
 									{"data": "prov_correo"},
 									{"data": "prov_telefono"},
 									{"data": "prov_estado"},
+									{"defaultContent": " '.$defaultContent1.' "}
+								]';
+			break;
+
+			case "tabla_repuesto_proveedor":
+				$defaultContent1 = "<div class='text-center'><div class='btn-group'><button title='Editar' class='btn btn-primary btn-sm btn_editar_repuesto_proveedor'><i class='bi bi-pencil'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pencil' viewBox='0 0 16 16'><path d='M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z'/></svg></i></button></div></div>";
+				$columnashtml = '[	{"data": "repp_codigo"},
+									{"data": "repp_descripcion"},
+									{"data": "repp_unidad"},
+									{"data": "repp_estado"},
+									{"data": "repp_fecha_registro"},
 									{"defaultContent": " '.$defaultContent1.' "}
 								]';
 			break;

@@ -40,18 +40,6 @@ class CRUD
 		$this->conexion=null;
 	}
 
-	function SelectTipos($ttablamateriales_operacion,$ttablamateriales_tipo)
-	{
-		$consulta="SELECT `manto_tipotablamateriales`.`ttablamateriales_detalle` AS `Detalle` FROM `manto_tipotablamateriales` WHERE `manto_tipotablamateriales`.`ttablamateriales_operacion` = '$ttablamateriales_operacion' AND `manto_tipotablamateriales`.`ttablamateriales_tipo`= '$ttablamateriales_tipo' ORDER BY `Detalle` ASC";
-
-		$resultado = $this->conexion->prepare($consulta);
-		$resultado->execute();        
-		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
-		return $data;
-
-		$this->conexion=null;
-	}
-
 	function BuscarDataBD($TablaBD,$CampoBD,$DataBuscar)
 	{
 		$consulta="SELECT * FROM `$TablaBD` WHERE `$CampoBD` = '$DataBuscar'";
@@ -325,6 +313,22 @@ class CRUD
 		$this->conexion=null;	
 	}  	
 
+	function buscar_codigo_proveedor( $precioprov_codproveedor, $precioprov_descripcion, $precioprov_unidadmedida, $precioprov_ruc)
+	{
+		$repp_estado = "ACTIVO";
+		$consulta = " SELECT `repp_codigo` FROM `manto_repuesto_proveedor` WHERE `repp_codigo`='$precioprov_codproveedor' AND `repp_prov_ruc`='$precioprov_ruc' AND `repp_descripcion`='$precioprov_descripcion' AND `repp_unidad`='$precioprov_unidadmedida' AND `repp_estado`='$repp_estado' ";
+
+		$resultado = $this->conexion->prepare($consulta);
+        $resultado->execute();        
+        $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
+
+		foreach($data as $row){
+			$repp_codigo = $row['repp_codigo'];
+		}
+
+        return $repp_codigo;
+        $this->conexion=null;
+	}
 	function BuscarCodigoMateriales($ttablamateriales_tipo, $ttablamateriales_operacion, $ttablamateriales_detalle, $caracteres)
 	{
 		$consulta = "SELECT * FROM `manto_tipotablamateriales` WHERE `ttablamateriales_tipo` = '$ttablamateriales_tipo' AND `ttablamateriales_operacion` = '$ttablamateriales_operacion' AND SUBSTRING(`ttablamateriales_detalle`, 1, $caracteres) = '$ttablamateriales_detalle'";
@@ -378,17 +382,43 @@ class CRUD
         $this->conexion=null;	
 	}  		
 
-	function SelectProveedores()
+	function leer_repuesto_proveedor($repp_prov_ruc)
 	{
-        $consulta="SELECT * FROM `manto_proveedores`";
+        $consulta = "SELECT * FROM `manto_repuesto_proveedor` WHERE `repp_prov_ruc`='$repp_prov_ruc'";
 
         $resultado = $this->conexion->prepare($consulta);
         $resultado->execute();        
-        $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+        $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
 
-        return $data;
+        print json_encode($data, JSON_UNESCAPED_UNICODE);
         $this->conexion=null;
-   	}
+   	}   
+
+	function crear_repuesto_proveedor($repp_prov_ruc, $repp_codigo, $repp_descripcion, $repp_unidad, $repp_estado, $repp_log)
+	{
+		$repp_fecha_registro = date("Y-m-d H:i:s");
+		$responsable_creacion = $_SESSION['USUARIO_ID'];
+		$repp_log = "<strong>".$repp_estado."</strong> ".$repp_fecha_registro." ".$responsable_creacion." CREACION ";
+
+		$consulta = " INSERT INTO `manto_repuesto_proveedor`(`repp_codigo`, `repp_descripcion`, `repp_unidad`, `repp_estado`, `repp_prov_ruc`, `repp_fecha_registro`, `repp_log`) VALUES ('$repp_codigo', '$repp_descripcion', '$repp_unidad', '$repp_estado', '$repp_prov_ruc', '$repp_fecha_registro', '$repp_log') ";
+
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();   
+        $this->conexion=null;	
+	}  	
+	
+	function editar_repuesto_proveedor($repp_prov_ruc, $repp_codigo, $repp_descripcion, $repp_unidad, $repp_estado, $repp_log)
+	{
+		$repp_fecha_registro = date("Y-m-d H:i:s");
+		$responsable_creacion = $_SESSION['USUARIO_ID'];
+		$repp_log = "<strong>".$repp_estado."</strong> ".$repp_fecha_registro." ".$responsable_creacion." EDICION <br>".$repp_log;
+
+		$consulta = " UPDATE `manto_repuesto_proveedor` SET `repp_descripcion` = '$repp_descripcion', `repp_unidad` = '$repp_unidad', `repp_estado` = '$repp_estado', `repp_log` = '$repp_log' WHERE `repp_codigo` = '$repp_codigo' AND `repp_prov_ruc` = '$repp_prov_ruc'";		
+
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();   
+        $this->conexion=null;	
+	}  		
 
 	function LeerCargarPrecios($Anios)
 	{

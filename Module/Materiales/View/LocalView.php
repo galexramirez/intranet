@@ -375,35 +375,6 @@
 			    	</div>
 				</div>
 
-				<!--Modal para CRUD MOSTRAR PRECIOS POR PROVEEDOR DE MATERIALES -->
-				<div class="row modal fade" id="modalCRUDProveedorMateriales" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-					<div class="modal-dialog modal-xl" role="document">
-			        	<div class="modal-content">
-					    	<div class="modal-header">
-			                	<h5 class="modal-title"></h5>
-			                	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
-			                	</button>
-			            	</div>
-					  		<form id="formModalProveedorMateriales" enctype="multipart/form-data" action="" method="post">    
-								<div class="modal-body">
-									<div class="form-group">
-										<div class="row p-3">
-											<div class="col-auto m-0">
-												<div class="table-responsive" id="div_tablaProveedorMateriales">
-													<!-- PHP Logico -->
-												</div>
-    										</div>
-										</div>
-									</div>
-								</div>
-			      		    	<div class="modal-footer">
-								  	<button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
-								</div>
-							</form>
-			        	</div>
-			    	</div>
-				</div>
-
 			</div>
 
 			<!-- TAB PROVEEDORES -->
@@ -547,6 +518,112 @@
 
 			</div>
 
+			<!-- TAB REPUESTO POR PROVEEDORES -->
+			<div class="tab-pane fade" id="nav-repuesto_proveedor" role="tabpanel" aria-labelledby="nav-repuesto_proveedor-tab">
+				<form id="form_seleccion_repuesto_proveedor" class="row col-sm-12 container-fluid" enctype="multipart/form-data" action="" method="post">
+					<div class="row align-items-end pb-4 col-sm-12">
+						<div class="col-lg-3">
+			    		  	<div class="form-group">
+								<label for="repp_razon_social" class="col-form-label form-control-sm">RAZON SOCIAL</label>
+								<select class="form-control form-control-sm" id="repp_razon_social" name="repp_razon_social" >
+								</select>
+			    		  	</div>
+			    		</div>
+						<div class="col-lg-4">
+							<div class="form-group">
+								<button type="button" id="btn_buscar_repuesto_proveedor"class="btn btn-secondary btn-sm">Buscar</button>	
+								<button id="btn_nuevo_repuesto_proveedor" type="button" class="btn btn-secondary btn-sm" data-toggle="modal">+ Nuevo</button>
+							</div>
+			    		</div> 
+					</div>
+				</form>
+
+				<div class="row p-3">
+					<div class="col-auto m-0">
+						<div class="table-responsive" id="div_tabla_repuesto_proveedor">
+							<!-- PHP Creacion de Tablas -->
+						</div>
+					</div>
+				</div>
+
+				<!--Modal para CRUD-->
+				<div class="row modal fade" id="modal_crud_repuesto_proveedor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog modal-lg" role="document">
+						<div class="modal-content">
+	   
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel"></h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+	  
+			  				<form id="form_repuesto_proveedor">
+				  				<div class="modal-body">
+									<div class="row">
+										<div class="col-lg-8">
+									  		<div class="form-group">
+											  	<label for="prov_razon_social" class="col-form-label form-control-sm">RAZON SOCIAL</label>
+												<select class="form-control form-control-sm" id="prov_razon_social" name="prov_razon_social" >
+												</select>
+											</div> 
+									 	</div>    
+										<div class="col-lg-4">
+									  		<div class="form-group">
+												<label for="repp_codigo" class="col-form-label form-control-sm">CODIGO REPUESTO</label>
+												<input type="text" class="form-control text-uppercase form-control-sm" id="repp_codigo" maxlength="45">
+											</div> 
+						  				</div>
+									</div>
+									<div class="row">
+										 <div class="col-lg-12">
+									  		<div class="form-group">
+												<label for="repp_descripcion" class="col-form-label form-control-sm">DESCRIPCION REPUESTO</label>
+												<input type="text" class="form-control text-uppercase form-control-sm" id="repp_descripcion" maxlength="200">
+											</div> 
+						  				</div>
+									</div>
+									<div class="row"> 
+										<div class="col-lg-6">
+									  		<div class="form-group">
+												<label for="repp_unidad" class="col-form-label form-control-sm">UNIDAD REPUESTO</label>
+												<input type="text" class="form-control text-uppercase form-control-sm" id="repp_unidad" maxlength="10">
+											</div> 
+						  				</div>
+										<div class="col-lg-6">
+									  		<div class="form-group">
+												<label for="repp_estado" class="col-form-label form-control-sm">ESTADO</label>
+												<select class="form-control form-control-sm" id="repp_estado">
+												</select>
+											</div> 
+						  				</div>
+									</div>
+									<div class="row"> 
+										<div class="col-lg-12">
+									  		<div class="form-group">
+												<label for="repp_log" class="col-form-label form-control-sm">LOG</label>
+											</div> 
+						  				</div>
+										<div class="col-lg-12">
+											<div class="form-group">
+												<div class="form-control-sm overflow-auto border border-muted border-radius rounded" style="height:50px" id="div_repp_log">
+													<!-- JS proveedor_log -->
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+				  				<div class="modal-footer">
+					  				<button type="button" class="btn btn-light btn-sm" data-dismiss="modal">Cancelar</button>
+					  				<button type="submit" id="btn_guardar_reporte_proveedor" class="btn btn-dark btn-sm btn_guardar_repuesto_proveedor">Guardar</button>
+				  				</div>
+			  				</form>    
+						</div>
+					</div>
+				</div>  			
+
+			</div>
+
 			<!-- TAB CARGAR PRECIOS -->
 			<div class="tab-pane fade" id="nav-cargarprecios" role="tabpanel" aria-labelledby="nav-cargarprecios-tab">
 				<form id="formSeleccionCargarPrecios" class="row col-sm-12 container-fluid" enctype="multipart/form-data" action="" method="post">
@@ -566,6 +643,7 @@
   						</div>
 					</section>
 				</form>
+				
 				<div class="row p-3">
 					<div class="col-auto m-0">
 						<div class="table-responsive" id="div_tablaCargarPrecios">

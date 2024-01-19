@@ -123,6 +123,11 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
     color:white;
 }
 
+#tabla_repuesto_proveedor thead {
+    background: #2A4C38;
+    color:white;
+}
+
 #tablaCargarPrecios thead {
     background: #2A4C38;
     color:white;
@@ -170,6 +175,10 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
 }
 
 #tablaProveedores{
+    font-size: 12px;
+}
+
+#tabla_repuesto_proveedor{
     font-size: 12px;
 }
 

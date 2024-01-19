@@ -1,25 +1,18 @@
-///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-///:::::::::::::::::::: PROVEEDORES v 1.0 FECHA: 21-09-2022 ::::::::::::::::::::::::::::::::::///
-//:::::::::::::::::: CREAR, EDITAR, ELIMINAR TABLA DE PROVEEDORES ::::::::::::::::::::::::::::///
-///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+///:: PROVEEDORES v 1.0 FECHA: 21-09-2022 :::::::::::::::::::::::::::::::::::::::::::::::::///
+///:: CREAR, EDITAR, ELIMINAR TABLA DE PROVEEDORES ::::::::::::::::::::::::::::::::::::::::///
+///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
-
-///:::::::::::::::::: DECLARACION DE VARIABLES ::::::::::::::::::::::::::::::///
+///:: DECLARACION DE VARIABLES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 var prov_ruc, prov_razonsocial, prov_contacto, prov_cta_detraccion_soles, prov_cta_banco_soles, prov_cta_banco_dolares, prov_cta_interbanco_soles, prov_cta_interbanco_dolares, prov_correo, prov_telefono, prov_estado, prov_log;
-var tablaProveedores, opcionTablaProveedores, filaTablaProveedores;
+var tablaProveedores, opcionTablaProveedores, filaTablaProveedores, select_proveedor;
 
-///::::::::::::: DOM Tipo Tabla OTPtreventivas ::::::::::::::::::::::::::::///
+///:: DOM JS PROVEEDORES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 $(document).ready(function(){
-    selectHtml="";
-    selectHtml=f_TipoTabla("PROVEEDORES","ESTADO");
-    $("#prov_estado").html(selectHtml);
-
-    selectHtml=f_TipoTabla("PROVEEDORES","CONDICION DE PAGO");
-    $("#prov_condicion_pago").html(selectHtml);
 
     div_tabla = f_CreacionTabla("tablaProveedores","");
     $("#div_tablaProveedores").html(div_tabla);
-    columnastabla = f_ColumnasTabla("tablaProveedores","");
+    columnas_tabla = f_ColumnasTabla("tablaProveedores","");
 
     Accion='LeerProveedores';
     tablaProveedores = $('#tablaProveedores').DataTable({
@@ -46,13 +39,17 @@ $(document).ready(function(){
             "data":{MoS:MoS,NombreMoS:NombreMoS,Accion:Accion}, //enviamos opcion 4 para que haga un SELECT
             "dataSrc":""
         },
-        "columns": columnastabla
+        "columns": columnas_tabla
     });     
 
-    ///::::::::: EVENTO DEL BOTON NUEVO ::::::::::::::///
+
+    ///:: BOTONES DE PROVEEDORES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+    
+    ///:: EVENTO DEL BOTON NUEVO ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
     $("#btnNuevoProveedores").click(function(){
         opcionTablaProveedores = 1; // Alta 
         f_LimpiaMsTablaProveedores();
+        f_select_proveedor();
         $("#prov_ruc").prop('disabled', false);
         $("#formProveedores").trigger("reset");
         prov_ruc                    = "";
@@ -88,12 +85,14 @@ $(document).ready(function(){
         $(".modal-title").text("Alta de Tabla Proveedores");
         $('#modalCRUDProveedores').modal('show');	    
     });
+    ///:: FIN EVENTO DEL BOTON NUEVO ::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
-    ///::::::::: BOTON EDITAR ::::::::::::::::::::::///       
+    ///:: BOTON EDITAR ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
     $(document).on("click", ".btnEditarProveedores", function(){
         let aData;
         opcionTablaProveedores = 2;// Editar
         f_LimpiaMsTablaProveedores();
+        f_select_proveedor();
         $("#prov_ruc").prop('disabled', true);
         filaTablaProveedores        = $(this).closest("tr");	        
         prov_ruc                    = filaTablaProveedores.find('td:eq(0)').text();
@@ -134,9 +133,9 @@ $(document).ready(function(){
     
         $('#modalCRUDProveedores').modal('show');		   
     });
+    ///:: FIN BOTON EDITAR ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
-
-    /// ::::::::::::::: CREA Y EDITA USUARIO :::::::::::::///
+    ///:: CREA Y EDITA PROVEEDOR ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
     $('#formProveedores').submit(function(e){                         
         e.preventDefault(); //evita el comportambiento normal del submit, es decir, recarga total de la página
 
@@ -159,13 +158,13 @@ $(document).ready(function(){
         if(opcionTablaProveedores == 1) {
             if(validacionTablaProveedores!="invalido") {   
                 $("#btnGuardarProveedores").prop("disabled",true);
-                Accion='CrearProveedores';
+                Accion = 'CrearProveedores';
                 $.ajax({
-                    url: "Ajax.php",
-                    type: "POST",
-                    datatype:"json",    
-                    data:  { MoS:MoS,NombreMoS:NombreMoS,Accion:Accion, prov_ruc:prov_ruc, prov_razonsocial:prov_razonsocial, prov_contacto:prov_contacto, prov_cta_detraccion_soles:prov_cta_detraccion_soles, prov_cta_banco_soles:prov_cta_banco_soles, prov_cta_banco_dolares:prov_cta_banco_dolares, prov_cta_interbanco_soles:prov_cta_interbanco_soles, prov_cta_interbanco_dolares:prov_cta_interbanco_dolares, prov_condicion_pago:prov_condicion_pago,prov_correo:prov_correo, prov_telefono:prov_telefono, prov_estado:prov_estado, prov_log:prov_log },    
-                    success: function(data) {
+                    url     : "Ajax.php",
+                    type    : "POST",
+                    datatype: "json",    
+                    data    : { MoS:MoS,NombreMoS:NombreMoS,Accion:Accion, prov_ruc:prov_ruc, prov_razonsocial:prov_razonsocial, prov_contacto:prov_contacto, prov_cta_detraccion_soles:prov_cta_detraccion_soles, prov_cta_banco_soles:prov_cta_banco_soles, prov_cta_banco_dolares:prov_cta_banco_dolares, prov_cta_interbanco_soles:prov_cta_interbanco_soles, prov_cta_interbanco_dolares:prov_cta_interbanco_dolares, prov_condicion_pago:prov_condicion_pago,prov_correo:prov_correo, prov_telefono:prov_telefono, prov_estado:prov_estado, prov_log:prov_log },    
+                    success : function(data) {
                         tablaProveedores.ajax.reload(null, false);
                     }
                 });
@@ -178,13 +177,13 @@ $(document).ready(function(){
         if(opcionTablaProveedores == 2) {
             if(validacionTablaProveedores!="invalido") {   
                 $("#btnGuardarProveedores").prop("disabled",true);
-                Accion='EditarProveedores';
+                Accion = 'EditarProveedores';
                 $.ajax({
-                    url: "Ajax.php",
-                    type: "POST",
-                    datatype:"json",    
-                    data:  { MoS:MoS,NombreMoS:NombreMoS,Accion:Accion, prov_ruc:prov_ruc, prov_razonsocial:prov_razonsocial, prov_contacto:prov_contacto,prov_cta_detraccion_soles:prov_cta_detraccion_soles, prov_cta_banco_soles:prov_cta_banco_soles, prov_cta_banco_dolares:prov_cta_banco_dolares, prov_cta_interbanco_soles:prov_cta_interbanco_soles, prov_cta_interbanco_dolares:prov_cta_interbanco_dolares, prov_condicion_pago:prov_condicion_pago, prov_correo:prov_correo, prov_telefono:prov_telefono, prov_estado:prov_estado, prov_log:prov_log },    
-                    success: function(data) {
+                    url     : "Ajax.php",
+                    type    : "POST",
+                    datatype: "json",    
+                    data    : { MoS:MoS,NombreMoS:NombreMoS,Accion:Accion, prov_ruc:prov_ruc, prov_razonsocial:prov_razonsocial, prov_contacto:prov_contacto,prov_cta_detraccion_soles:prov_cta_detraccion_soles, prov_cta_banco_soles:prov_cta_banco_soles, prov_cta_banco_dolares:prov_cta_banco_dolares, prov_cta_interbanco_soles:prov_cta_interbanco_soles, prov_cta_interbanco_dolares:prov_cta_interbanco_dolares, prov_condicion_pago:prov_condicion_pago, prov_correo:prov_correo, prov_telefono:prov_telefono, prov_estado:prov_estado, prov_log:prov_log },    
+                    success : function(data) {
                         tablaProveedores.ajax.reload(null, false);
                     }
                 });
@@ -193,10 +192,15 @@ $(document).ready(function(){
             } 
         }
     });
-        
+    ///:: CREA Y EDITA PROVEEDOR ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+    
+    ///:: TERMINO BOTONES DE PROVEEDORES ::::::::::::::::::::::::::::::::::::::::::::::::::///
 });
+///:: TERMINO DOM JS PROVEEDORES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
-///::::::: FUNCION PARA VALIDAR LOS DATSO INGRESADOS AL FORMULARIO :::::::::::::::::::///
+///:: FUNCIONES EJECUTADAS AL CARGAR PROVEEDORES ::::::::::::::::::::::::::::::::::::::::::///
+
+///:: FUNCION PARA VALIDAR LOS DATOS INGRESADOS AL FORMULARIO :::::::::::::::::::::::::::::///
 function f_validarTablaProveedores(pprov_ruc, pprov_razonsocial, pprov_contacto, p_prov_cta_detraccion_soles, p_prov_cta_banco_soles, p_prov_cta_banco_dolares, p_prov_cta_interbanco_soles, p_prov_cta_interbanco_dolares, p_prov_condicion_pago, pprov_correo, pprov_telefono, pprov_estado){
     f_LimpiaMsTablaProveedores();
     NoLetrasMayuscEspacio=/[^A-Z \Ñ]/;
@@ -264,8 +268,9 @@ function f_validarTablaProveedores(pprov_ruc, pprov_razonsocial, pprov_contacto,
 
     return rpta_Proveedores; 
 }
+///:: FIN FUNCION PARA VALIDAR LOS DATOS INGRESADOS AL FORMULARIO :::::::::::::::::::::::::///
 
-///::::::::: INVISIBILIZA LOS MENSAJE DE ALERTA DEL FORMULARIO :::::: /// 
+///:: INVISIBILIZA LOS MENSAJE DE ALERTA DEL FORMULARIO :::::::::::::::::::::::::::::::::::/// 
 function f_LimpiaMsTablaProveedores(){
     $("#prov_ruc").removeClass("color-error");
     $("#prov_razonsocial").removeClass("color-error");
@@ -280,3 +285,14 @@ function f_LimpiaMsTablaProveedores(){
     $("#prov_telefono").removeClass("color-error");
     $("#prov_estado").removeClass("color-error");
 }
+///:: FIN INVISIBILIZA LOS MENSAJE DE ALERTA DEL FORMULARIO :::::::::::::::::::::::::::::::///
+
+function f_select_proveedor(){
+    select_proveedor = f_select_combo("manto_tc_material", "NO", "tc_categoria3", "", "`tc_variable`='SISTEMA' AND `tc_categoria1`='PROVEEDORES' AND `tc_categoria2`='ESTADO'", "`tc_categoria3` ASC");
+    $("#prov_estado").html(select_proveedor);
+
+    select_proveedor = f_select_combo("manto_tc_material", "NO", "tc_categoria3", "", "`tc_variable`='USUARIO' AND `tc_categoria1`='PROVEEDORES' AND `tc_categoria2`='CONDICION DE PAGO'", "`tc_categoria3` ASC");
+    $("#prov_condicion_pago").html(select_proveedor);
+}
+
+///:: TERMINO FUNCIONES EJECUTADAS AL CARGAR PROVEEDORES ::::::::::::::::::::::::::::::::::///

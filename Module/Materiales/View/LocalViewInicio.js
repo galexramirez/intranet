@@ -4,23 +4,23 @@
 ///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///::::::::::::::::::::::::::::::: Declaracion de Variables :::::::::::::::::::::::::::::::::::::///
-var MoS,NombreMoS,Accion,idioma_espanol, div_tabs, div_tablas, div_boton, div_show, columnastabla;
-MoS           = 'Module';
-NombreMoS     = 'Materiales';
-idioma_espanol = {
-    "lengthMenu"  : "&nbsp&nbsp&nbsp&nbspMostrar _MENU_ registros",
-    "zeroRecords" : "No se encuentran resultados",
-    "info"        : "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-    "infoEmpty"   : "Mostrando registros del 0 al 0 de un total de 0 registros",
-    "infoFiltered": "(Filtrado de un total de _MAX_ registros)",
-    "sSearch"     : "Buscar:",
-    "oPaginate"   : {
-      "sFirst"    : "Primero",
-      "sLast"     : "Ultimo",
-      "sNext"     : "Siguiente",
-      "sPrevious" : "Anterior"
-    },
-    "sProcessing": "Procesando...",
+var MoS, NombreMoS, Accion, idioma_espanol, div_tabs, div_tablas, div_boton, div_show, columnas_tabla;
+MoS             = 'Module';
+NombreMoS       = 'Materiales';
+idioma_espanol  = {
+  "lengthMenu"  : "&nbsp&nbsp&nbsp&nbspMostrar _MENU_ registros",
+  "zeroRecords" : "No se encuentran resultados",
+  "info"        : "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+  "infoEmpty"   : "Mostrando registros del 0 al 0 de un total de 0 registros",
+  "infoFiltered": "(Filtrado de un total de _MAX_ registros)",
+  "sSearch"     : "Buscar:",
+  "oPaginate"   : {
+    "sFirst"    : "Primero",
+    "sLast"     : "Ultimo",
+    "sNext"     : "Siguiente",
+    "sPrevious" : "Anterior"
+  },
+  "sProcessing": "Procesando...",
 };
 
 ///::::::::::::::: JS DOM MATERIALES :::::::::::::://
@@ -38,7 +38,7 @@ $(document).ready(function(){
 });
 
 
-///:: FUNCIONES DE MATERIALES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+///:: FUNCIONES DE MATERIALES :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///:: FUNCION QUE GENERA EL LISTADO DEL COMBO SELECT ::::::::::::::::::::::::::::::::::::::///
 function f_select_combo(p_nombre_tabla, p_es_campo_unico, p_campo_select, p_campo_inicial, p_condicion_where, p_order_by){
@@ -60,13 +60,13 @@ function f_select_combo(p_nombre_tabla, p_es_campo_unico, p_campo_select, p_camp
 
 function f_TipoTabla(p_Operacion,p_Tipo){
   let rptaSelect="";
-  Accion='SelectTipos';
+  Accion = 'SelectTipos';
   $.ajax({
-    url: "Ajax.php",
-    type: "POST",
-    datatype:"json",
-    async: false,
-    data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,ttablamateriales_operacion:p_Operacion,ttablamateriales_tipo:p_Tipo},    
+    url     : "Ajax.php",
+    type    : "POST",
+    datatype: "json",
+    async   : false,
+    data    : {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, ttablamateriales_operacion:p_Operacion,ttablamateriales_tipo:p_Tipo},    
     success: function(data){
       rptaSelect = data;
     }
@@ -74,58 +74,62 @@ function f_TipoTabla(p_Operacion,p_Tipo){
   return rptaSelect;
 }
 
-///::::::::::::::::::::::::::::::::: CALCULO DE FECHAS ::::::::::::::::::::::::::::::::::::///
+///:: CALCULO DE FECHAS :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 function f_CalculoFecha(p_inicio,p_calculo){
-  let rptaFecha="";
-  Accion='CalculoFecha';
+  let rptaFecha = "";
+  Accion = 'CalculoFecha';
   $.ajax({
-    url: "Ajax.php",
-    type: "POST",
-    datatype:"json",
-    async: false,
-    data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,inicio:p_inicio,calculo:p_calculo},    
+    url     : "Ajax.php",
+    type    : "POST",
+    datatype: "json",
+    async   : false,
+    data    : {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, inicio:p_inicio, calculo:p_calculo},    
     success: function(data){
       rptaFecha = data;
     }
   });
   return rptaFecha;
 }
-// Compara la feche actual con la fecha ingresada
-// rpta : fecha actual es "MAYOR" o "MENOR IGUAL"
+///:: FIN CALCULO DE FECHAS :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+
+///:: Compara la feche actual con la fecha ingresada ::::::::::::::::::::::::::::::::::::::///
+///:: rpta : fecha actual es "MAYOR" o "MENOR IGUAL"
 function f_CompararFechaActual(pfecha){
   let rptaDiferencia="";
-  Accion='CompararFechaActual';
+  Accion = 'CompararFechaActual';
   $.ajax({
-    url: "Ajax.php",
-    type: "POST",
-    datatype:"json",
-    async: false,
-    data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,fecha:pfecha},    
-    success: function(data){
+    url     : "Ajax.php",
+    type    : "POST",
+    datatype: "json",
+    async   : false,
+    data    : {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, fecha:pfecha},    
+    success : function(data){
       rptaDiferencia = data;
     }
   });
   return rptaDiferencia;
 }
+///:: FIN Compara la feche actual con la fecha ingresada ::::::::::::::::::::::::::::::::::///
 
-//::::::::::::::::::::::::::::::::: AUTOCOMPLETADO :::::::::::::::::::::::::::::://
-function f_AutoCompletar(pNombreTabla,pNombreCampo){
-  let rptaAutoCompletar="";
-  Accion='AutoCompletar';
+///:: AUTOCOMPLETADO ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+function f_AutoCompletar(pNombreTabla, pNombreCampo){
+  let rptaAutoCompletar = "";
+  Accion = 'AutoCompletar';
   $.ajax({
-    url: "Ajax.php",
-    type: "POST",
-    datatype:"json",
-    async: false,
-    data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,NombreTabla:pNombreTabla,NombreCampo:pNombreCampo},    
+    url     : "Ajax.php",
+    type    : "POST",
+    datatype: "json",
+    async   : false,
+    data    : {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, NombreTabla:pNombreTabla, NombreCampo:pNombreCampo},    
     success: function(data){
       rptaAutoCompletar=$.parseJSON(data);
     }
   });
   return rptaAutoCompletar;
 }
+///:: FIN AUTOCOMPLETADO ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
-///:: AUTOCOMPLETADO ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+///:: AUTOCOMPLETADO  :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 function f_auto_completar(p_tabla, p_campo_codigo, p_campo_descripcion, p_campo_asociado, p_asociado, p_campo_fecha, p_fecha, p_campo_tipo, p_tipo){
   let rpta_auto_completar = "";
   Accion = 'auto_completar';
@@ -142,23 +146,25 @@ function f_auto_completar(p_tabla, p_campo_codigo, p_campo_descripcion, p_campo_
   
   return rpta_auto_completar;
 }
+///:: FIN AUTOCOMPLETADO ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
-///::::::::::::::::::::::::::::::::: BUSCAR DATA EN BD ::::::::::::::::::::::::::::::///
+///:: BUSCAR DATA EN BD :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 function f_BuscarDataBD(pTablaBD,pCampoBD,pDataBuscar){
   let rptaData;
-  Accion='BuscarDataBD';
+  Accion = 'BuscarDataBD';
   $.ajax({
-    url: "Ajax.php",
-    type: "POST",
-    datatype:"json",
-    async: false,
-    data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,TablaBD:pTablaBD,CampoBD:pCampoBD,DataBuscar:pDataBuscar},    
+    url     : "Ajax.php",
+    type    : "POST",
+    datatype: "json",
+    async   : false,
+    data    : {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, TablaBD:pTablaBD, CampoBD:pCampoBD, DataBuscar:pDataBuscar},    
     success: function(data){
       rptaData = $.parseJSON(data);
     }
   });
   return rptaData;
 }
+///:: BUSCAR DATA EN BD :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///:: ENCONTRAR DATO UNICO EN TABLA :::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 function f_encontrar_dato(p_tabla,p_campo_encontrar,p_data_buscar,p_campo_devuelto){
@@ -176,7 +182,9 @@ function f_encontrar_dato(p_tabla,p_campo_encontrar,p_data_buscar,p_campo_devuel
   });
   return rpta_encontrar_dato;
 }
+///:: ENCONTRAR DATO UNICO EN TABLA :::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
+///:: COMBO SELECT PARA UNIDAD DE MEDIDA ::::::::::::::::::::::::::::::::::::::::::::::::::///
 function f_select_unidad_medida(){
   let rpta_select="";
   Accion = 'unidad_medida';
@@ -192,24 +200,27 @@ function f_select_unidad_medida(){
   });
   return rpta_select;
 }
+///:: FIN COMBO SELECT PARA UNIDAD DE MEDIDA ::::::::::::::::::::::::::::::::::::::::::::::///
 
-//:::::::::::::::::::::::::::::::::: UBICAR DIRECTORIO RAIZ ::::::::::::::::::::::://
+///:: UBICAR DIRECTORIO RAIZ ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 function f_DocumentRoot(){
   let rptaMiCarpeta = '';
   Accion = 'DocumentRoot';
   $.ajax({
-    url: "Ajax.php",
-    type: "POST",
-    datatype:"json",
-    async: false,
-    data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion},    
-    success: function(data){
+    url     : "Ajax.php",
+    type    : "POST",
+    datatype: "json",
+    async   : false,
+    data    : {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion},    
+    success : function(data){
       rptaMiCarpeta = data;
     }
   });
   return rptaMiCarpeta;
 }
+///:: FIN UBICAR DIRECTORIO RAIZ ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
+///:: FUNCION QUE BUSCA UN DATO EN ESPECIFICO :::::::::::::::::::::::::::::::::::::::::::::///
 function f_buscar_dato(p_nombre_tabla, p_campo_buscar, p_condicion_where){
   let rpta_buscar = "";
   Accion = 'buscar_dato';
@@ -225,7 +236,9 @@ function f_buscar_dato(p_nombre_tabla, p_campo_buscar, p_condicion_where){
   });
   return rpta_buscar;
 }
+///:: FIN FUNCION QUE BUSCA UN DATO EN ESPECIFICO :::::::::::::::::::::::::::::::::::::::::///
 
+///:: FUNCION DE AYUDA PARA EL MODULO :::::::::::::::::::::::::::::::::::::::::::::::::::::///
 function f_ayuda_modulo(man_titulo){
   let man_modulo_id = f_buscar_dato("Modulo", "Modulo_Id", "`Mod_Nombre` = '"+NombreMoS+"'");
   let manual_id = f_buscar_dato("glo_manual", "manual_id", "`man_modulo_id` = '"+man_modulo_id+"' AND `man_titulo` = '"+man_titulo+"'");
@@ -241,20 +254,20 @@ function f_ayuda_modulo(man_titulo){
   $(".modal-dialog").draggable({
     cursor: "move",
     handle: ".dragable_touch",
-  });         
-
+  });
 }
+///:: FIN FUNCION DE AYUDA PARA EL MODULO :::::::::::::::::::::::::::::::::::::::::::::::::///
 
-//::::::::::::::::::::::::::::::::: FUNCIONES ACCESOS :::::::::::::::::::::::::::::://
+///:: FUNCIONES ACCESOS :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 function f_CreacionTabs(pNombreTabs,pTipoTabs){
-  let rptaTabs="";
-  Accion='CreacionTabs';
+  let rptaTabs = "";
+  Accion = 'CreacionTabs';
   $.ajax({
-    url: "Ajax.php",
-    type: "POST",
-    datatype:"json",
-    async: false,
-    data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,NombreTabs:pNombreTabs,TipoTabs:pTipoTabs},    
+    url     : "Ajax.php",
+    type    : "POST",
+    datatype: "json",
+    async   : false,
+    data: {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, NombreTabs:pNombreTabs, TipoTabs:pTipoTabs},    
     success: function(data){
       rptaTabs = data;
     }
@@ -263,14 +276,14 @@ function f_CreacionTabs(pNombreTabs,pTipoTabs){
 }
 
 function f_CreacionTabla(pNombreTabla,pTipoTabla){
-  let rptaTabla="";
-  Accion='CreacionTabla';
+  let rptaTabla = "";
+  Accion = 'CreacionTabla';
   $.ajax({
-    url: "Ajax.php",
-    type: "POST",
-    datatype:"json",
-    async: false,
-    data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,NombreTabla:pNombreTabla,TipoTabla:pTipoTabla},    
+    url     : "Ajax.php",
+    type    : "POST",
+    datatype: "json",
+    async   : false,
+    data    : {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, NombreTabla:pNombreTabla, TipoTabla:pTipoTabla},    
     success: function(data){
       rptaTabla = data;
     }
@@ -278,15 +291,15 @@ function f_CreacionTabla(pNombreTabla,pTipoTabla){
   return rptaTabla;
 }
 
-function f_ColumnasTabla(pNombreTabla,pTipoTabla){
-  let rptaColumnas="";
-  Accion='ColumnasTabla';
+function f_ColumnasTabla(pNombreTabla, pTipoTabla){
+  let rptaColumnas = "";
+  Accion = 'ColumnasTabla';
   $.ajax({
-    url: "Ajax.php",
-    type: "POST",
-    datatype:"json",
-    async: false,
-    data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,NombreTabla:pNombreTabla,TipoTabla:pTipoTabla},    
+    url     : "Ajax.php",
+    type    : "POST",
+    datatype: "json",
+    async   : false,
+    data    : {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, NombreTabla:pNombreTabla, TipoTabla:pTipoTabla},    
     success: function(data){
       rptaColumnas = $.parseJSON(data);
     }
@@ -294,15 +307,15 @@ function f_ColumnasTabla(pNombreTabla,pTipoTabla){
   return rptaColumnas;
 }
 
-function f_BotonesFormulario(pNombreFormulario,pNombreObjeto){
-  let rptaBotonesFormulario="";
-  Accion='BotonesFormulario';
+function f_BotonesFormulario(pNombreFormulario, pNombreObjeto){
+  let rptaBotonesFormulario = "";
+  Accion = 'BotonesFormulario';
   $.ajax({
-    url: "Ajax.php",
-    type: "POST",
-    datatype:"json",
-    async: false,
-    data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,NombreFormulario:pNombreFormulario,NombreObjeto:pNombreObjeto},    
+    url     : "Ajax.php",
+    type    : "POST",
+    datatype: "json",
+    async   : false,
+    data    : {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, NombreFormulario:pNombreFormulario, NombreObjeto:pNombreObjeto},    
     success: function(data){
       rptaBotonesFormulario = data;
     }
@@ -311,14 +324,14 @@ function f_BotonesFormulario(pNombreFormulario,pNombreObjeto){
 }
 
 function f_DivFormulario(pNombreFormulario,pNombreObjeto){
-  let rptaDivFormulario="";
-  Accion='DivFormulario';
+  let rptaDivFormulario = "";
+  Accion = 'DivFormulario';
   $.ajax({
-    url: "Ajax.php",
-    type: "POST",
-    datatype:"json",
-    async: false,
-    data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,NombreFormulario:pNombreFormulario,NombreObjeto:pNombreObjeto},    
+    url     : "Ajax.php",
+    type    : "POST",
+    datatype: "json",
+    async   : false,
+    data    : {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, NombreFormulario:pNombreFormulario, NombreObjeto:pNombreObjeto},    
     success: function(data){
       rptaDivFormulario = data;
     }
@@ -326,18 +339,19 @@ function f_DivFormulario(pNombreFormulario,pNombreObjeto){
   return rptaDivFormulario;
 }
 
-function f_MostrarDiv(pNombreFormulario,pNombreObjeto,pDato){
+function f_MostrarDiv(pNombreFormulario, pNombreObjeto, pDato){
   let rptaMostrarDiv="";
-  Accion='MostrarDiv';
+  Accion = 'MostrarDiv';
   $.ajax({
-    url: "Ajax.php",
-    type: "POST",
-    datatype:"json",
-    async: false,
-    data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,NombreFormulario:pNombreFormulario,NombreObjeto:pNombreObjeto,Dato:pDato},    
+    url     : "Ajax.php",
+    type    : "POST",
+    datatype: "json",
+    async   : false,
+    data    : {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, NombreFormulario:pNombreFormulario, NombreObjeto:pNombreObjeto, Dato:pDato},    
     success: function(data){
       rptaMostrarDiv = data;
     }
   });
   return rptaMostrarDiv;
 }
+///:: FIN FUNCIONES ACCESOS :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///

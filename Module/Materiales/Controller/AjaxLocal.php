@@ -158,15 +158,6 @@ switch ($Accion)
       $Respuesta     = $InstanciaAjax->leer_precios_material($asignarcod_ruc, $asignarcod_fecha, $asignarcod_proveedor);
    break;
 
-   case 'SelectTipos':
-      $ttablamateriales_operacion= $_POST['ttablamateriales_operacion'];
-      $ttablamateriales_tipo = $_POST['ttablamateriales_tipo'];
-
-      MController($Modulo,'Logico');
-      $InstanciaAjax= new Logico();
-      $Respuesta=$InstanciaAjax->SelectTipos($ttablamateriales_operacion,$ttablamateriales_tipo);
-   break;
-
    case 'AutoCompletar':
       $NombreTabla= $_POST['NombreTabla'];
       $NombreCampo = $_POST['NombreCampo'];
@@ -275,10 +266,38 @@ switch ($Accion)
       $Respuesta=$InstanciaAjax->EditarProveedores($prov_ruc,$prov_razonsocial,$prov_contacto,$prov_cta_detraccion_soles,$prov_cta_banco_soles,$prov_cta_banco_dolares,$prov_cta_interbanco_soles,$prov_cta_interbanco_dolares,$prov_condicion_pago,$prov_correo,$prov_telefono,$prov_estado, $prov_log);
    break;
 
-   case 'SelectProveedores':
-      MController($Modulo,'Logico');
-      $InstanciaAjax = new Logico();
-      $Respuesta = $InstanciaAjax->SelectProveedores();
+   case 'leer_repuesto_proveedor':
+      $repp_prov_ruc    = $_POST['repp_prov_ruc'];
+
+      MModel($Modulo,'CRUD');
+      $instancia_ajax = new CRUD();
+      $respuesta = $instancia_ajax->leer_repuesto_proveedor($repp_prov_ruc);
+   break;
+
+   case 'crear_repuesto_proveedor':
+      $repp_prov_ruc    = $_POST['repp_prov_ruc'];
+      $repp_codigo      = strtoupper($_POST['repp_codigo']);
+      $repp_descripcion = strtoupper($_POST['repp_descripcion']);
+      $repp_unidad      = strtoupper($_POST['repp_unidad']);
+      $repp_estado      = $_POST['repp_estado'];
+      $repp_log         = $_POST['repp_log'];
+
+      MModel($Modulo,'CRUD');
+      $instancia_ajax = new CRUD();
+      $respuesta = $instancia_ajax->crear_repuesto_proveedor($repp_prov_ruc, $repp_codigo, $repp_descripcion, $repp_unidad, $repp_estado, $repp_log);
+   break;
+
+   case 'editar_repuesto_proveedor':
+      $repp_prov_ruc    = $_POST['repp_prov_ruc'];
+      $repp_codigo      = strtoupper($_POST['repp_codigo']);
+      $repp_descripcion = strtoupper($_POST['repp_descripcion']);
+      $repp_unidad      = strtoupper($_POST['repp_unidad']);
+      $repp_estado      = $_POST['repp_estado'];
+      $repp_log         = $_POST['repp_log'];
+
+      MModel($Modulo,'CRUD');
+      $instancia_ajax = new CRUD();
+      $respuesta = $instancia_ajax->editar_repuesto_proveedor($repp_prov_ruc, $repp_codigo, $repp_descripcion, $repp_unidad, $repp_estado, $repp_log);
    break;
 
    case 'SelectAnios':

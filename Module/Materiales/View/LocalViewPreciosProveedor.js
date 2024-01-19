@@ -1,82 +1,76 @@
-///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-///:::::::::::::::::::: PRECIOS PROVEEDOR v 1.0 FECHA: 07-10-2022 :::::::::::::::::::::::::::::::///
-//:::::::::::::::::: CREAR, EDITAR, ELIMINAR TABLA DE PRECIOS PROVEEDOR :::::::::::::::::::::::::///
-///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+///:: PRECIOS PROVEEDOR v 2.0 FECHA: 14-01-2024 :::::::::::::::::::::::::::::::::::::::::::///
+//:: CREAR, EDITAR, ELIMINAR TABLA DE PRECIOS PROVEEDOR :::::::::::::::::::::::::::::::::::///
+///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
-///::::::::::::::::::::::::::::::: Declaracion de Variables :::::::::::::::::::::::::::::::::::::///
-var tablaPreciosProveedor, filaPreciosProveedor, opcionTablaPreciosProveedor, pprecioprov_razonsocial, pp_razonsocial, pp_fecha;
+///:: Declaracion de Variables ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+var tablaPreciosProveedor, filaPreciosProveedor, opcionTablaPreciosProveedor, pprecioprov_razonsocial, pp_razonsocial, pp_fecha, select_precio_proveedor;
 var precioprov_id, precioprov_codproveedor, precioprov_descripcion, precioprov_marca, precioprov_procedencia, precioprov_unidadmedida, precioprov_garantia, precioprov_moneda, precioprov_precio, precioprov_preciosoles, precioprov_fechavigencia, precioprov_razonsocial, precioprov_obslog, precioprov_log, precioprov_tipo;
 
-
-///::::::::::::::: JS CARGA DE DATA TABLE :::::::::::::://
+///:: JS CARGA DE PRECIOS PROVEEDOR :::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 $(document).ready(function(){
   pp_fecha = f_CalculoFecha("hoy","0");
   $('#pp_fecha').val(pp_fecha);
   
-  selectHtml="";
-  selectHtml=f_TipoTabla("PRECIOS PROVEEDOR","MARCA");
-  $("#precioprov_marca").html(selectHtml);
-  selectHtml=f_TipoTabla("PRECIOS PROVEEDOR","PROCEDENCIA");
-  $("#precioprov_procedencia").html(selectHtml);
-  selectHtml=f_select_unidad_medida();
-  $("#precioprov_unidadmedida").html(selectHtml);
-  selectHtml=f_TipoTabla("PRECIOS PROVEEDOR","MONEDA");
-  $("#precioprov_moneda").html(selectHtml);
-  selectHtml=f_TipoTabla("MATERIALES","TIPO");
-  $("#precioprov_tipo").html(selectHtml);
+  select_precio_proveedor = f_select_combo("manto_proveedores","NO", "prov_razonsocial", "", "`prov_estado`='ACTIVO'", "`prov_razonsocial` ASC");
+  $("#precioprov_razonsocial").html(select_precio_proveedor);
+  $("#pp_razonsocial").html(select_precio_proveedor);
   
-  Accion = "SelectProveedores";
-  $.ajax({
-    url: "Ajax.php",
-    type: "POST",
-    datatype:"json",
-    async: false,
-    data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion},    
-    success: function(data){
-      $("#precioprov_razonsocial").html(data);
-      $("#pp_razonsocial").html(data);
-    }
-  });
-
-  // Si hay cambios en razon social
-  $("#pp_razonsocial").on('change', function () {
+  ///:: Si hay cambios en razon social o en precios a la fecha ::::::::::::::::::::::::::::///
+  $("#pp_razonsocial, #pp_fecha").on('change', function () {
     pp_razonsocial = $("#pp_razonsocial").val();
-    $('#div_tablaPreciosProveedor').hide();
-  });
-
-  // Si hay cambios en precioa la fecha
-  $("#pp_fecha").on('change', function () {
     pp_fecha = $("#pp_fecha").val();
     $('#div_tablaPreciosProveedor').hide();
   });
-  
+
+  ///:: BOTONES DE PRECIOS POR PROVEEDOR ::::::::::::::::::::::::::::::::::::::::::::::::::///
+
+  ///:: BOTON QUE BUSCA LOS PRECIOS POR PROVEEDOR :::::::::::::::::::::::::::::::::::::::::///
   $("#btnBuscarPreciosProveedor").click(function(){
     pp_razonsocial = $("#pp_razonsocial").val();
     pp_fecha = $("#pp_fecha").val();pp_fecha
     if(pp_razonsocial=="" || pp_fecha==""){
       Swal.fire({
-        icon: 'error',
-        title: 'Razon Social, Fecha ...',
-        text: 'Falta información para la busqueda !!!'
+        icon  : 'error',
+        title : 'Razon Social, Fecha ...',
+        text  : 'Falta información para la busqueda !!!'
       })    
     }else{
       $("#div_tablaPreciosProveedor").show();
       f_MostrarPreciosProveedor(pp_razonsocial, pp_fecha);
     }
   });
-
-  ///::::::::: EVENTO DEL BOTON NUEVO ::::::::::::::///
+  ///:: FIN BOTON QUE BUSCA LOS PRECIOS POR PROVEEDOR :::::::::::::::::::::::::::::::::::::///
+  
+  ///:: EVENTO DEL BOTON NUEVO ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
   $("#btnNuevoPreciosProveedor").click(function(){
       opcionTablaPreciosProveedor = 1; // Alta 
       f_LimpiaMsTablaPreciosProveedor();
+      
+      select_precio_proveedor = f_select_combo("manto_tc_material", "NO", "tc_categoria3", "", "`tc_variable`='USUARIO' AND `tc_categoria1`='PRECIOS PROVEEDOR' AND `tc_categoria2`='MARCA'", "`tc_categoria3` ASC");
+      $("#precioprov_marca").html(select_precio_proveedor);
+
+      select_precio_proveedor = f_select_combo("manto_tc_material", "NO", "tc_categoria3", "", "`tc_variable`='USUARIO' AND `tc_categoria1`='PRECIOS PROVEEDOR' AND `tc_categoria2`='PROCEDENCIA'", "`tc_categoria3` ASC");
+      $("#precioprov_procedencia").html(select_precio_proveedor);
+
+      select_precio_proveedor = f_select_unidad_medida();
+      $("#precioprov_unidadmedida").html(select_precio_proveedor);
+
+      select_precio_proveedor = f_select_combo("manto_tc_material", "NO", "tc_categoria3", "", "`tc_variable`='SISTEMA' AND `tc_categoria1`='PRECIOS PROVEEDOR' AND `tc_categoria2`='MONEDA'", "`tc_categoria3` ASC");
+      $("#precioprov_moneda").html(select_precio_proveedor);
+
+      select_precio_proveedor = f_select_combo("manto_tc_material", "NO", "tc_categoria3", "", "`tc_variable`='SISTEMA' AND `tc_categoria1`='MATERIALES' AND `tc_categoria2`='TIPO'", "`tc_categoria3` ASC");
+      $("#precioprov_tipo").html(select_precio_proveedor);
+    
       $("#formModalPreciosProveedor").trigger("reset");
       $(".modal-header").css( "background-color", "#17a2b8");
       $(".modal-header").css( "color", "white" );
       $(".modal-title").text("Alta de Tabla PreciosProveedor");
       $('#modalCRUDPreciosProveedor').modal('show');	    
   });
-
-  /// ::::::::::::::: CREA Y EDITA USUARIO :::::::::::::///
+  ///:: FIN EVENTO DEL BOTON NUEVO ::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+  
+  ///:: CREAR PRECIOS POR PROVEEDOR :::::::::::::::::::::::::::::::::::::::::::::::::::::::///
   $('#formModalPreciosProveedor').submit(function(e){                         
       e.preventDefault(); //evita el comportambiento normal del submit, es decir, recarga total de la página
       precioprov_codproveedor   = $.trim($('#precioprov_codproveedor').val());    
@@ -117,8 +111,9 @@ $(document).ready(function(){
           } 
       }
   });
+  ///:: FIN CREAR PRECIOS POR PROVEEDOR :::::::::::::::::::::::::::::::::::::::::::::::::::///
         
-  ///::::::::  BOTON ANULAR REGISTRO  
+  ///:: BOTON ANULAR REGISTRO :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::/// 
   $(document).on("click", ".btnAnularPreciosProveedor", function(){
     let fila = $(this);
     let rptaValidaFecha = "";
@@ -166,15 +161,18 @@ $(document).ready(function(){
           }
       });
     }
-    });
+  });
+  ///:: FIN BOTON ANULAR REGISTRO :::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+
+  ///:: BOTONES DE PRECIOS POR PROVEEDOR ::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 });    
+///:: TERMINO JS CARGA DE PRECIOS PROVEEDOR :::::::::::::::::::::::::::::::::::::::::::::::///
 
-///::::::::::::::::::::::::: BOTONES DE MATERIALES :::::::::::::::::::::///
 
-///::::::::::::::::::::::::::::::::: FUNCIONES DE MATERIALES ::::::::::::::::::::::::::::::::::::///
+///:: FUNCIONES DE PRECIOS POR PROVEEDOR ::::::::::::::::::::::::::::::::::::::::::::::::::///
 
-///::::::::: VALIDAR MATERIALES ::::::::::::::::::::::///       
+///:: VALIDAR PRECIOS POR PROVEEDOR :::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 function f_validarTablaPreciosProveedor(pprecioprov_codproveedor, pprecioprov_descripcion, pprecioprov_marca, pprecioprov_procedencia, pprecioprov_unidadmedida, pprecioprov_garantia,pprecioprov_moneda, pprecioprov_precio, pprecioprov_preciosoles, pprecioprov_fechavigencia, pprecioprov_razonsocial, pprecioprov_obslog, p_precioprov_tipo){
   f_LimpiaMsTablaPreciosProveedor();
   NoLetrasMayuscEspacio=/[^A-Z \Ñ]/;
@@ -247,8 +245,9 @@ function f_validarTablaPreciosProveedor(pprecioprov_codproveedor, pprecioprov_de
 
   return rpta_PreciosProveedor; 
 }
+///:: FIN VALIDAR PRECIOS POR PROVEEDOR :::::::::::::::::::::::::::::::::::::::::::::::::::///
 
-///::::::::: INVISIBILIZA LOS MENSAJE DE ALERTA DEL FORMULARIO :::::: /// 
+///:: REESTABLECE COLOR DE FONDO DE LOS CAMPOS DEL FORMULARIO ::::::::::::::::::::::::::::/// 
 function f_LimpiaMsTablaPreciosProveedor(){
   $("#precioprov_codproveedor").removeClass("color-error");
   $("#precioprov_descripcion").removeClass("color-error");
@@ -264,8 +263,9 @@ function f_LimpiaMsTablaPreciosProveedor(){
   $("#precioprov_obslog").removeClass("color-error");
   $("#precioprov_tipo").removeClass("color-error");
 }
+///:: FIN REESTABLECE COLOR DE FONDO DE LOS CAMPOS DEL FORMULARIO ::::::::::::::::::::::::///
 
-///:::::::::::::: MOSTRAR DATATABLE DE PRECIOS POR PROVEEDOR ::::::::::::::::::///
+///:: MOSTRAR DATATABLE DE PRECIOS POR PROVEEDOR :::::::::::::::::::::::::::::::::::::::::///
 function f_MostrarPreciosProveedor(ppp_razonsocial, ppp_fecha){
   let aTablaBD = "manto_proveedores";
   let aCampoBD = "prov_razonsocial";
@@ -276,7 +276,7 @@ function f_MostrarPreciosProveedor(ppp_razonsocial, ppp_fecha){
 
   div_tabla = f_CreacionTabla("tablaPreciosProveedor","");
   $("#div_tablaPreciosProveedor").html(div_tabla);
-  columnastabla = f_ColumnasTabla("tablaPreciosProveedor","");
+  columnas_tabla = f_ColumnasTabla("tablaPreciosProveedor","");
 
   $("#tablaPreciosProveedor").dataTable().fnDestroy();
   $('#tablaPreciosProveedor').show();
@@ -317,42 +317,41 @@ function f_MostrarPreciosProveedor(ppp_razonsocial, ppp_fecha){
       });
     },
     // Para mostrar la barra scroll horizontal y vertical
-    deferRender:    true,
-    scrollY:        800,
+    deferRender   : true,
+    scrollY       : 800,
     scrollCollapse: true,
-    scroller:       true,
-    scrollX:        true,
-    fixedColumns:{
-      left: 1
+    scroller      : true,
+    scrollX       : true,
+    fixedColumns  : {
+      left : 1
     },
-    fixedHeader:{
+    fixedHeader   : {
       header : false
     },
-    //Para mostrar 50 registros popr página 
-    pageLength: 50,
-    //Para cambiar el lenguaje a español
-    language: idioma_espanol, 
-    //Para usar los botones
-    responsive: "true",
-    dom: 'Blfrtip', // Con Botones Excel,Pdf,Print
+    pageLength    : 50,
+    language      : idioma_espanol, 
+    responsive    : "true",
+    dom           : 'Blfrtip',
     buttons:[{
-      extend:     'excelHtml5',
-      text:       '<i class="fas fa-file-excel"></i> ',
-      titleAttr:  'Exportar a Excel',
-      className:  'btn btn-success',
-      title: 'PRECIOS X PROVEEDOR',
+      extend      : 'excelHtml5',
+      text        : '<i class="fas fa-file-excel"></i> ',
+      titleAttr   : 'Exportar a Excel',
+      className   : 'btn btn-success',
+      title       : 'PRECIOS X PROVEEDOR',
       exportOptions: {
         columns: [ 1,2,3,4,5,6,7,8,9,10,11,12,14,15 ]
       }
     }],
-          
     "ajax":{            
-      "url": "Ajax.php", 
-      "method": 'POST', //usamos el metodo POST
-      "data": {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,asignarcod_ruc:ppp_ruc, asignarcod_fecha:ppp_fecha}, //enviamos opcion 4 para que haga un SELECT
-      "dataSrc":""
+      "url"     : "Ajax.php", 
+      "method"  : 'POST',
+      "data"    : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, asignarcod_ruc:ppp_ruc, asignarcod_fecha:ppp_fecha}, //enviamos opcion 4 para que haga un SELECT
+      "dataSrc" : ""
     },
-    "columns": columnastabla,
-    "order": [[0, 'desc']]
+    "columns"   : columnas_tabla,
+    "order"     : [[0, 'desc']]
   });     
 }
+///:: FIN MOSTRAR DATATABLE DE PRECIOS POR PROVEEDOR ::::::::::::::::::::::::::::::::::::::///
+
+///:: TERMINO FUNCIONES DE PRECIOS POR PROVEEDOR ::::::::::::::::::::::::::::::::::::::::::///

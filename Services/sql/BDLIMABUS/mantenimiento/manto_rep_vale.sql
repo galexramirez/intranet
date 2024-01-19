@@ -8,6 +8,7 @@ CREATE TABLE `BDLIMABUS`.`manto_rep_vale` (
   `rv_nroserie` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   `rv_cantidad` decimal(10,2) NOT NULL,
   `rv_precio` decimal(10,2) NOT NULL,
+  `rv_unidad` varchar(10) NOT NULL,
   PRIMARY KEY (`cod_rv`),
   KEY `rv_vale` (`rv_vale`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;

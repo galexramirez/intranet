@@ -1,18 +1,18 @@
-///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-///:::::::::::::::::::: ASIGNAR CODIGOS v 1.0 FECHA: 07-11-2022 :::::::::::::::::::::::::::::::///
-//:::::::::::::::::: EDITAR TABLA DE PRECIOS PROVEEDOR ::::::::::::::::::::::::::::::::::::::::///
-///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+///:: ASIGNAR CODIGOS v 1.0 FECHA: 14-01-2024 :::::::::::::::::::::::::::::::::::::::::::::///
+///:: EDITAR TABLA DE PRECIOS PROVEEDOR PARA ASIGNAR CODIGOS ::::::::::::::::::::::::::::::///
+///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
-///::::::::::::::::::::::::::::::: Declaracion de Variables :::::::::::::::::::::::::::::::::::::///
+///:: Declaracion de Variables ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 var tablaAsignarCodigos, filaAsignarCodigos, opcionAsignarCodigos, PrecioMasActual;
 var asignarcod_materialid, asignarcod_descripcion, asignarcod_precioprovid, asignarcod_codproveedor, asignarcod_desproveedor, asignarcod_raxonsocial;
 var select_razonsocial, select_tipo, miCarpeta, opcionCargaPDF, matimag_tipoimagen;
 
 miCarpeta = f_DocumentRoot();
 
-///::::::::::::::: JS CARGA DE DATA TABLE :::::::::::::://
+///:: JS DOM ASIGNAR CODIGOS DE PRECIOS POR PROVEEDOR :::::::::::::::::::::::::::::::::::::///
 $(document).ready(function(){
-  ///::::::::: COLOCA EL NOMBRE DEL ARCHIVO PDF EN EL INPUT FILE PARA PDF
+  ///::::::::: COLOCA EL NOMBRE DEL ARCHIVO PDF EN EL INPUT FILE PARA PDF :::::::::::::::::///
   $(document).on('change', '#FichaTecnica_PDF', function (event) {
     pdfEditar="";
     let NombreArch=event.target.files[0].name;
@@ -30,49 +30,27 @@ $(document).ready(function(){
     }
   });
 
-  /// CARGAMOS LOS PROVEEDORES
-  Accion = "SelectProveedores";
-  $.ajax({
-    url: "Ajax.php",
-    type: "POST",
-    datatype:"json",
-    async: false,
-    data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion},    
-    success: function(data){
-      $("#select_razonsocial").html(data);
-    }
-  });
+  let select_asignar = f_select_combo("manto_proveedores","NO", "prov_razonsocial", "", "`prov_estado`='ACTIVO'", "`prov_razonsocial` ASC");
+  $("#select_razonsocial").html(select_asignar);
 
-  //:: BOTON CARGAR PDF -> REALIZA LA GRABACION EN LA TABLA OPE_AccidentesImagenes BUS
-  $('#formModalFichaTecnicaPDF').submit(function(e){
-    e.preventDefault(); //evita el comportambiento normal del submit, es decir, recarga total de la página
-    f_GrabarPDF(opcionCargaPDF);
-    $('#modalCRUDFichaTecnicaPDF').modal('hide');
-  });
-  
-  // Si hay cambios en select razon social
-  $("#select_razonsocial").on('change', function () {
+  /// Si hay cambios en select razon social Y TIPO DE DOCUMENTACION :::::::::::::::::::::::///
+  $("#select_razonsocial, #select_tipo").on('change', function () {
     select_razonsocial = $("#select_razonsocial").val();
-    $('#div_tablaAsignarCodigos').hide();
-  });
-
-  // Si hay cambios en SIN DOCUMENTACION
-  $("#select_tipo").on('change', function () {
     select_tipo = $("#select_tipo").val();
     $('#div_tablaAsignarCodigos').hide();
   });
 
-  // Si hay cambios en Codigo Material se actualiza Descripcion Material
+  ///:: Si hay cambios en Codigo Material se actualiza Descripcion Material :::::::::::::::///
   $("#asignarcod_materialid").on('change', function () {
     asignarcod_materialid = $("#asignarcod_materialid").val();
     asignarcod_descripcion = "";
-    Accion='BuscarAsignarCodigoId';
+    Accion = 'BuscarAsignarCodigoId';
     $.ajax({
-      url: "Ajax.php",
-      type: "POST",
-      datatype:"json",
-      async: false,
-      data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,material_id:asignarcod_materialid},    
+      url     : "Ajax.php",
+      type    : "POST",
+      datatype: "json",
+      async   : false,
+      data    : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, material_id:asignarcod_materialid },    
       success: function(data){
         data = $.parseJSON(data);
         $.each(data, function(idx, obj){ 
@@ -85,22 +63,22 @@ $(document).ready(function(){
     $("#asignarcod_materialid").val(asignarcod_materialid);
   });
 
-  // Si hay cambios en Descripcion Repuesto se actualiza Codigo Repuesto
+  ///:: Si hay cambios en Descripcion Repuesto se actualiza Codigo Repuesto :::::::::::::::///
   $("#asignarcod_descripcion").on('change', function () {
     asignarcod_descripcion = $("#asignarcod_descripcion").val();
     asignarcod_materialid = "";
-    Accion='BuscarAsignarCodigoDescripcion';
+    Accion = 'BuscarAsignarCodigoDescripcion';
     $.ajax({
-      url: "Ajax.php",
-      type: "POST",
-      datatype:"json",
-      async: false,
-      data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,material_descripcion:asignarcod_descripcion},    
+      url       : "Ajax.php",
+      type      : "POST",
+      datatype  : "json",
+      async     : false,
+      data      : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, material_descripcion:asignarcod_descripcion},    
       success: function(data){
         data = $.parseJSON(data);
         $.each(data, function(idx, obj){ 
-            asignarcod_descripcion = obj.material_descripcion;
-            asignarcod_materialid = obj.material_id;
+          asignarcod_descripcion = obj.material_descripcion;
+          asignarcod_materialid = obj.material_id;
         });
       }
     });
@@ -108,7 +86,53 @@ $(document).ready(function(){
     $("#asignarcod_materialid").val(asignarcod_materialid);
   });
 
-  ///::::::::: BOTON BUSCAR ::::::::::::::::::::::///       
+  ///:: BOTONES DE ASIGNAR CODIGOS ::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+
+  ///:: BOTON ADJUNTAR DOCUMENTOS EN PDF ::::::::::::::::::::::::::::::::::::::::::::::::::///
+  $(document).on("click", ".btnAdjuntarPDF", function(){
+    $("#formModalFichaTecnicaPDF").trigger("reset");
+    filaAsignarCodigos = $(this).closest('tr'); 
+    asignarcod_codproveedor = filaAsignarCodigos.find('td:eq(0)').text();
+    asignarcod_razonsocial = filaAsignarCodigos.find('td:eq(3)').text();
+
+    if(asignarcod_codproveedor!="" && asignarcod_razonsocial!=""){
+      let pPDF;
+      let buscarPDF="";
+      matimag_tipoimagen = "PDF";
+      buscarPDF = f_BuscarPDF(matimag_tipoimagen);
+      if(buscarPDF==""){
+        pPDF = '<iframe src="Module/Materiales/View/Img/VistaPrevia.pdf" width="750" height="400"></iframe>';
+        opcionCargaPDF = 1; //CREAR nueva imagen
+      }else{
+        pPDF = '<iframe src="' + buscarPDF + '"  width="750" height="400"></iframe>';
+        opcionCargaPDF = 2; //EDITAR imagen
+      }
+
+      $(".modal-header").css( "background-color", "#17a2b8");
+      $(".modal-header").css( "color", "white" );
+      $(".modal-title").text("Carga de Archivo PDF");
+      $("#div_FichaTecnicaPDF").html(pPDF);
+      $("#labelFichaTecnica_PDF").text("Seleccionar Archivo .pdf");
+      $('#modalCRUDFichaTecnicaPDF').modal('show');
+    }else{
+      Swal.fire({
+        icon: 'error',
+        title: 'ID Código de Proveedor...',
+        text: 'Falta información para cargar el archivo!'
+      })    
+    }
+  });
+  ///:: FIN BOTON ADJUNTAR DOCUMENTOS EN PDF ::::::::::::::::::::::::::::::::::::::::::::::///
+    
+  ///:: BOTON CARGAR PDF -> REALIZA LA GRABACION EN LA TABLA OPE_AccidentesImagenes BUS :::///
+  $('#formModalFichaTecnicaPDF').submit(function(e){
+    e.preventDefault(); //evita el comportambiento normal del submit, es decir, recarga total de la página
+    f_GrabarPDF(opcionCargaPDF);
+    $('#modalCRUDFichaTecnicaPDF').modal('hide');
+  });
+  ///:: FIN BOTON CARGAR PDF REALIZA LA GRABACION EN LA TABLA OPE_AccidentesImagenes BUS ::///
+  
+  ///:: BOTON BUSCAR ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
   $("#btnBuscarAsignarcod").click(function(){
     select_tipo = $("#select_tipo").val();
     select_razonsocial = $("#select_razonsocial").val();
@@ -123,8 +147,9 @@ $(document).ready(function(){
       f_MostrarAsignarCodigos(select_razonsocial, select_tipo);
     }
   });
-  
-  ///::::::::: BOTON EDITAR ::::::::::::::::::::::///       
+  ///:: FIN BOTON BUSCAR ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+
+  ///:: BOTON EDITAR ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
   $(document).on("click", ".btnAsignarCodigos", function(){
     opcionAsignarCodigos = 2;// Editar
     f_LimpiaAsignarCodigos();
@@ -180,9 +205,9 @@ $(document).ready(function(){
 
     $('#modalCRUDAsignarCodigos').modal('show');		   
   });
+  ///:: FIN BOTON EDITAR ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
-
-  /// ::::::::::::::: CREA Y EDITA USUARIO :::::::::::::///
+  ///:: CREA Y EDITA ASIGNAR CODIGO A PRECIOS POR PROVEEDOR :::::::::::::::::::::::::::::::///
   $('#formModalAsignarCodigos').submit(function(e){                         
     e.preventDefault(); //evita el comportambiento normal del submit, es decir, recarga total de la página
     asignarcod_materialid = $.trim($('#asignarcod_materialid').val());    
@@ -195,10 +220,10 @@ $(document).ready(function(){
         $("#btnGuardarAsignarCodigos").prop("disabled",true);
         Accion='EditarAsignarCodigos';
         $.ajax({
-            url: "Ajax.php",
-            type: "POST",
-            datatype:"json",    
-            data:  { MoS:MoS,NombreMoS:NombreMoS,Accion:Accion, precioprov_codproveedor:asignarcod_codproveedor, precioprov_descripcion:asignarcod_desproveedor, precioprov_razonsocial:asignarcod_razonsocial, precioprov_materialid:asignarcod_materialid },    
+            url       : "Ajax.php",
+            type      : "POST",
+            datatype  : "json",    
+            data      : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, precioprov_codproveedor:asignarcod_codproveedor, precioprov_descripcion:asignarcod_desproveedor, precioprov_razonsocial:asignarcod_razonsocial, precioprov_materialid:asignarcod_materialid },    
             success: function(data) {
                 tablaAsignarCodigos.ajax.reload(null, false);
             }
@@ -208,47 +233,14 @@ $(document).ready(function(){
       } 
     }
   });
+  ///:: FIN CREA Y EDITA ASIGNAR CODIGO A PRECIOS POR PROVEEDOR :::::::::::::::::::::::::::///
 
+  ///:: TERMINO BOTONES DE ASIGNAR CODIGOS ::::::::::::::::::::::::::::::::::::::::::::::::///
 });    
+///:: TERMINO JS DOM ASIGNAR CODIGOS DE PRECIOS POR PROVEEDOR :::::::::::::::::::::::::::::///
 
-///:::::::::::::::::::::::::::::::::: BOTONES DE ASIGNAR CODIGOS :::::::::::::::::::::::::::::::::::::///
 
-///::::::::  BOTON ADJUNTAR DOCUMENTOS EN PDF ::::::::::///
-$(document).on("click", ".btnAdjuntarPDF", function(){
-  $("#formModalFichaTecnicaPDF").trigger("reset");
-  filaAsignarCodigos = $(this).closest('tr'); 
-  asignarcod_codproveedor = filaAsignarCodigos.find('td:eq(0)').text();
-  asignarcod_razonsocial = filaAsignarCodigos.find('td:eq(3)').text();
-
-  if(asignarcod_codproveedor!="" && asignarcod_razonsocial!=""){
-    let pPDF;
-    let buscarPDF="";
-    matimag_tipoimagen = "PDF";
-    buscarPDF = f_BuscarPDF(matimag_tipoimagen);
-    if(buscarPDF==""){
-      pPDF = '<iframe src="Module/Materiales/View/Img/VistaPrevia.pdf" width="750" height="400"></iframe>';
-      opcionCargaPDF = 1; //CREAR nueva imagen
-    }else{
-      pPDF = '<iframe src="' + buscarPDF + '"  width="750" height="400"></iframe>';
-      opcionCargaPDF = 2; //EDITAR imagen
-    }
-    
-    $(".modal-header").css( "background-color", "#17a2b8");
-    $(".modal-header").css( "color", "white" );
-    $(".modal-title").text("Carga de Archivo PDF");
-    $("#div_FichaTecnicaPDF").html(pPDF);
-    $("#labelFichaTecnica_PDF").text("Seleccionar Archivo .pdf");
-    $('#modalCRUDFichaTecnicaPDF').modal('show');
-  }else{
-    Swal.fire({
-      icon: 'error',
-      title: 'ID Código de Proveedor...',
-      text: 'Falta información para cargar el archivo!'
-    })    
-  }
-});
-
-///::::::::::::::::::::::::::::::::: FUNCIONES DE ASIGNAR CODIGOS ::::::::::::::::::::::::::::::::::::///
+///:: FUNCIONES DE ASIGNAR CODIGOS ::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///::::::::: VALIDAR ASIGNAR CODIGOS ::::::::::::::::::::::///       
 function f_validarAsignarCodigos(pasignarcod_materialid, pasignarcod_descripcion){
@@ -272,7 +264,7 @@ function f_LimpiaAsignarCodigos(){
     $("#asignarcod_descripcion").removeClass("color-error");
 }
 
-// FUNCION para utilizar el label del autocomplete como html
+///:: FUNCION para utilizar el label del autocomplete como html :::::::::::::::::::::::::::///
 (function( $ ) {
     var proto = $.ui.autocomplete.prototype,
       initSource = proto._initSource;
@@ -303,8 +295,9 @@ function f_LimpiaAsignarCodigos(){
       }
     });
 })( jQuery );
+///:: FIN FUNCION para utilizar el label del autocomplete como html :::::::::::::::::::::::///
 
-///:::::::::::::: MOSTRAR DATATABLE DE ASIGNAR CODIGOS ::::::::::::::::::///
+///:: MOSTRAR DATATABLE DE ASIGNAR CODIGOS ::::::::::::::::::::::::::::::::::::::::::::::::///
 function f_MostrarAsignarCodigos(pselect_razonsocial, pselect_tipo){
   let pselect_ruc = "";
   let aTablaBD = "manto_proveedores";
@@ -316,7 +309,7 @@ function f_MostrarAsignarCodigos(pselect_razonsocial, pselect_tipo){
 
   div_tabla = f_CreacionTabla("tablaAsignarCodigos","");
   $("#div_tablaAsignarCodigos").html(div_tabla);
-  columnastabla = f_ColumnasTabla("tablaAsignarCodigos","");
+  columnas_tabla = f_ColumnasTabla("tablaAsignarCodigos","");
     
   $("#tablaAsignarCodigos").dataTable().fnDestroy();
   $('#tablaAsignarCodigos').show();
@@ -357,46 +350,44 @@ function f_MostrarAsignarCodigos(pselect_razonsocial, pselect_tipo){
         });
       });
     },
-    // Para mostrar la barra scroll horizontal y vertical
-    deferRender:    true,
-    scrollY:        800,
-    scrollCollapse: true,
-    scroller:       true,
-    scrollX:        true,
-    fixedColumns:{
-        left: 1
+    ///:: Para mostrar la barra scroll horizontal y vertical
+    deferRender     : true,
+    scrollY         : 800,
+    scrollCollapse  : true,
+    scroller        : true,
+    scrollX         : true,
+    fixedColumns    : {
+      left: 1
     },
-    fixedHeader:{
-        header : false
+    fixedHeader     : {
+      header : false
     },
-    //Para mostrar 50 registros popr página 
-    pageLength: 50,
-    //Para cambiar el lenguaje a español
-    language: idioma_espanol, 
-    //Para usar los botones
-    responsive: "true",
-    dom: 'Blfrtip', // Con Botones Excel,Pdf,Print
+    pageLength      : 50,
+    language        : idioma_espanol, 
+    responsive      : "true",
+    dom             : 'Blfrtip',
     buttons:[
-        {
-            extend:     'excelHtml5',
-            text:       '<i class="fas fa-file-excel"></i> ',
-            titleAttr:  'Exportar a Excel',
-            className:  'btn btn-success',
-            title: 'ASIGNAR CODIGOS'
-        },
+      {
+        extend      : 'excelHtml5',
+        text        : '<i class="fas fa-file-excel"></i> ',
+        titleAttr   : 'Exportar a Excel',
+        className   : 'btn btn-success',
+        title       : 'ASIGNAR CODIGOS'
+      },
     ],
     "ajax":{            
-        "url": "Ajax.php", 
-        "method": 'POST', //usamos el metodo POST
-        "data": {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,asignarcod_ruc:pselect_ruc,asignarcod_tipo:pselect_tipo}, //enviamos opcion 4 para que haga un SELECT
-        "dataSrc":""
+        "url"     : "Ajax.php", 
+        "method"  : 'POST',
+        "data"    : {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, asignarcod_ruc:pselect_ruc, asignarcod_tipo:pselect_tipo}, //enviamos opcion 4 para que haga un SELECT
+        "dataSrc" : ""
     },
-    "columns": columnastabla,
-    "order": [[0, 'desc']]
+    "columns"     : columnas_tabla,
+    "order"       : [[0, 'desc']]
   });
 }
+///:: FIN MOSTRAR DATATABLE DE ASIGNAR CODIGOS ::::::::::::::::::::::::::::::::::::::::::::///
 
-///:::::::::::: GRABAR IMAGEN ::::::::::::::::::::::::///
+///:: GRABAR ARCHIVO IMAGEN :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 function f_GrabarPDF(p_opcionCargaPDF){
   let blobFile;
   let formData = new FormData();
@@ -404,9 +395,9 @@ function f_GrabarPDF(p_opcionCargaPDF){
   $("#btnGuardarFichaTecnicaPDF").prop("disabled",true);
 
   if(p_opcionCargaPDF==1){
-    Accion='GrabarImagen';
+    Accion = 'GrabarImagen';
   }else{
-    Accion='EditarImagen';
+    Accion = 'EditarImagen';
   }
 
   formData.append("MoS", MoS);
@@ -418,30 +409,31 @@ function f_GrabarPDF(p_opcionCargaPDF){
   formData.append("matimag_imagen", blobFile);
 
   $.ajax({
-      url: "Ajax.php",
-      type: "POST",
-      datatype:"json",    
-      data:  formData,   
-      contentType:false,
-      processData:false,
-      success: function(data) {
-        $("#btnGuardarFichaTecnicaPDF").prop("disabled",false);
-      }
+    url         : "Ajax.php",
+    type        : "POST",
+    datatype    : "json",    
+    data        : formData,   
+    contentType : false,
+    processData : false,
+    success: function(data) {
+      $("#btnGuardarFichaTecnicaPDF").prop("disabled",false);
+    }
   });	
 }
+///:: FIN GRABAR ARCHIVO IMAGEN :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
-///::::::::: BUSCAR PDF ::::::::::::::::::::::///       
+///:: BUSCAR ARCHIVO PDF ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 function f_BuscarPDF(pmatimag_tipoimagen){
-  let pdf="";
+  let pdf = "";
   $("#btnAdjuntarPDF").prop("disabled",true);
-  Accion='BuscarImagen';
+  Accion = 'BuscarImagen';
   $.ajax({
-      url: "Ajax.php",
-      type: "POST",
-      datatype:"json",    
-      async: false,   
-      data:  { MoS:MoS,NombreMoS:NombreMoS,Accion:Accion, matimag_codproveedor:asignarcod_codproveedor, asignarcod_razonsocial:asignarcod_razonsocial, matimag_tipoimagen:pmatimag_tipoimagen },   
-      success: function(data) {
+      url       : "Ajax.php",
+      type      : "POST",
+      datatype  : "json",    
+      async     : false,   
+      data      : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, matimag_codproveedor:asignarcod_codproveedor, asignarcod_razonsocial:asignarcod_razonsocial, matimag_tipoimagen:pmatimag_tipoimagen },   
+      success   : function(data) {
           data = $.parseJSON(data);
           $.each(data, function(idx, obj){ 
               if(obj.b64_Foto){
@@ -453,3 +445,6 @@ function f_BuscarPDF(pmatimag_tipoimagen){
   });	
   return pdf;
 }
+///:: FIN BUSCAR ARCHIVO PDF ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+
+///:: TERMINO FUNCIONES DE ASIGNAR CODIGOS ::::::::::::::::::::::::::::::::::::::::::::::::///

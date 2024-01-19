@@ -44,6 +44,7 @@ class Logico
             $rv_repuesto = $row['rv_repuesto'];
             $rv_nroserie = $row['rv_nroserie'];
             $rv_cantidad = $row['rv_cantidad'];
+            $rv_unidad   = $row['rv_unidad'];
 
             $TablaBD = "manto_repuestos";
             $CampoBD = "cod_rep";
@@ -59,7 +60,7 @@ class Logico
     
             MModel($this->Modulo, 'CRUD');
             $InstanciaAjax= new CRUD();
-            $Respuesta=$InstanciaAjax->crear_detalle_repuestos($rv_vale, $rv_id, $rv_repuesto, $rv_nroserie, $rv_cantidad, $rv_precio);    
+            $Respuesta=$InstanciaAjax->crear_detalle_repuestos($rv_vale, $rv_id, $rv_repuesto, $rv_nroserie, $rv_cantidad, $rv_precio, $rv_unidad);
         }
     }
 
@@ -105,6 +106,7 @@ class Logico
             $rv_repuesto = $row['rv_repuesto'];
             $rv_nroserie = $row['rv_nroserie'];
             $rv_cantidad = $row['rv_cantidad'];
+            $rv_unidad   = $row['rv_unidad'];
 
             $TablaBD = "manto_repuestos";
             $CampoBD = "cod_rep";
@@ -120,7 +122,7 @@ class Logico
     
             MModel($this->Modulo, 'CRUD');
             $InstanciaAjax  = new CRUD();
-            $Respuesta      = $InstanciaAjax->crear_detalle_repuestos($rv_vale, $rv_id, $rv_repuesto, $rv_nroserie, $rv_cantidad, $rv_precio);    
+            $Respuesta      = $InstanciaAjax->crear_detalle_repuestos($rv_vale, $rv_id, $rv_repuesto, $rv_nroserie, $rv_cantidad, $rv_precio, $rv_unidad);
         }
     }
 

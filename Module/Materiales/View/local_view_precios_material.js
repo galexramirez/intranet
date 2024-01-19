@@ -1,42 +1,29 @@
-///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-///:: PRECIOS MATERIAL v 1.0 FECHA: 2023-06-21 ::::::::::::::::::::::::::::::::::::::::::::::::::///
-///:: REPORTE DE PRECIOS POR PROVEEDOR Y POR MATERIAL :::::::::::::::::::::::::::::::::::::::::::///
-///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+///:: PRECIOS MATERIAL v 1.0 FECHA: 2023-06-21 ::::::::::::::::::::::::::::::::::::::::::::///
+///:: REPORTE DE PRECIOS POR PROVEEDOR Y POR MATERIAL :::::::::::::::::::::::::::::::::::::///
+///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
-///:: DECLARACION DE VARIABLES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+///:: DECLARACION DE VARIABLES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 var tabla_precios_material, fila_precios_material, opcion_tabla_precios_material, pm_cod_proveedor, pm_razon_social, pm_fecha;
 
 
-///:: JS DOM DE REPORTE DE PRECIOS POR PROVEEDOR Y POR MATERIAL :::::::::::::::::::::::::::::::::///
+///:: JS DOM DE REPORTE DE PRECIOS POR PROVEEDOR Y POR MATERIAL :::::::::::::::::::::::::::///
 $(document).ready(function(){
   pm_fecha = f_CalculoFecha("hoy","0");
   $('#pm_fecha').val(pm_fecha);
   
-  Accion = "SelectProveedores";
-  $.ajax({
-    url: "Ajax.php",
-    type: "POST",
-    datatype:"json",
-    async: false,
-    data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion},    
-    success: function(data){
-      $("#pm_razon_social").html(data);
-    }
-  });
+  let select_precios = f_select_combo("manto_proveedores","NO", "prov_razonsocial", "", "`prov_estado`='ACTIVO'", "`prov_razonsocial` ASC");
+  $("#pm_razon_social").html(select_precios);
 
-  // Si hay cambios en razon social
-  $("#pm_razon_social").on('change', function () {
+  ///:: Si hay cambios en razon social Y PRECIOS A LA FECHA :::::::::::::::::::::::::::::::///
+  $("#pm_razon_social, #pm_fecha").on('change', function () {
     f_cargar_auto_completar();
+    $('#div_tabla_precios_material').hide();
   });
 
   $("#pm_cod_proveedor").on('change', function () {
     pm_cod_proveedor = $("#pm_cod_proveedor").val();
     $('#div_tabla_precios_material').hide();
-  });
-
-  // Si hay cambios en precioa la fecha
-  $("#pm_fecha").on('change', function () {
-    f_cargar_auto_completar();
   });
 
   ///:: BOTON BUSCAR PRECIOS POR PROVEEDOR Y POR MATERIAL :::::::::::::::::::::::::::::::::///
@@ -59,7 +46,7 @@ $(document).ready(function(){
 
 });    
 
-
+///:: JS DOM DE REPORTE DE PRECIOS POR PROVEEDOR Y POR MATERIAL :::::::::::::::::::::::::::///
 
 ///:: FUNCIONES DE PRECIOS MATERIALES :::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
@@ -74,7 +61,7 @@ function f_mostrar_precios_material(p_pm_razon_social, p_pm_fecha, p_pm_cod_prov
 
   div_tabla = f_CreacionTabla("tabla_precios_material","");
   $("#div_tabla_precios_material").html(div_tabla);
-  columnastabla = f_ColumnasTabla("tabla_precios_material","");
+  columnas_tabla = f_ColumnasTabla("tabla_precios_material","");
 
   $("#tabla_precios_material").dataTable().fnDestroy();
   $('#tabla_precios_material').show();
@@ -115,47 +102,44 @@ function f_mostrar_precios_material(p_pm_razon_social, p_pm_fecha, p_pm_cod_prov
       });
     },
     // Para mostrar la barra scroll horizontal y vertical
-    deferRender:    true,
-    scrollY:        800,
-    scrollCollapse: true,
-    scroller:       true,
-    scrollX:        true,
-    fixedColumns:{
+    deferRender     : true,
+    scrollY         : 800,
+    scrollCollapse  : true,
+    scroller        : true,
+    scrollX         : true,
+    fixedColumns    : {
       left: 1
     },
-    fixedHeader:{
+    fixedHeader     : {
       header : false
     },
-    //Para mostrar 50 registros popr página 
-    pageLength: 50,
-    //Para cambiar el lenguaje a español
-    language: idioma_espanol, 
-    //Para usar los botones
-    responsive: "true",
-    dom: 'Blfrtip', // Con Botones Excel,Pdf,Print
-    buttons:[{
-      extend:     'excelHtml5',
-      text:       '<i class="fas fa-file-excel"></i> ',
-      titleAttr:  'Exportar a Excel',
-      className:  'btn btn-success',
-      title: 'PRECIOS POR PROVEEDOR Y POR MATERIAL Y/O SERVICIO',
-      exportOptions: {
-        columns: [ 1,2,3,4,5,6,7,8,9,10,11,12,14,15 ]
+    pageLength      : 50,
+    language        : idioma_espanol, 
+    responsive      : "true",
+    dom             : 'Blfrtip',
+    buttons         : [{
+      extend        : 'excelHtml5',
+      text          : '<i class="fas fa-file-excel"></i> ',
+      titleAttr     : 'Exportar a Excel',
+      className     : 'btn btn-success',
+      title         : 'PRECIOS POR PROVEEDOR Y POR MATERIAL Y/O SERVICIO',
+      exportOptions : {
+        columns     : [ 1,2,3,4,5,6,7,8,9,10,11,12,14,15 ]
       }
     }],
-          
-    "ajax":{            
-      "url": "Ajax.php", 
-      "method": 'POST', //usamos el metodo POST
-      "data": {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,asignarcod_ruc:p_pm_ruc, asignarcod_fecha:p_pm_fecha, asignarcod_proveedor:p_pm_cod_proveedor},
-      "dataSrc":""
+    "ajax"          : {            
+      "url"     : "Ajax.php", 
+      "method"  : 'POST',
+      "data"    : {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, asignarcod_ruc:p_pm_ruc, asignarcod_fecha:p_pm_fecha, asignarcod_proveedor:p_pm_cod_proveedor},
+      "dataSrc" : ""
     },
-    "columns": columnastabla,
+    "columns": columnas_tabla,
     "order": [[11, 'desc']]
   });     
 }
 ///:: FIN MOSTRAR DATATABLE DE PRECIOS POR PROVEEDOR ::::::::::::::::::::::::::::::::::::::///
 
+///:: FUNCION PARA CARGAR AUTOCOMPLETAR :::::::::::::::::::::::::::::::::::::::::::::::::::///
 function f_cargar_auto_completar(){
   $('#div_tabla_precios_material').hide();
   pm_razon_social = $("#pm_razon_social").val();
@@ -185,5 +169,6 @@ function f_cargar_auto_completar(){
 
   $("#pm_cod_proveedor").val(pm_cod_proveedor);
 }
+///:: FIN FUNCION PARA CARGAR AUTOCOMPLETAR :::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///:: TERMINO FUNCIONES DE PRECIOS MATERIALES :::::::::::::::::::::::::::::::::::::::::::::///

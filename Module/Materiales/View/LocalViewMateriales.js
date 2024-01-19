@@ -1,120 +1,75 @@
-///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-///:::::::::::::::::::: MATERIALES v 1.0 FECHA: 05-10-2022 ::::::::::::::::::::::::::::::::::///
-//:::::::::::::::::: CREAR, EDITAR, ELIMINAR TABLA DE MATERIALES ::::::::::::::::::::::::::::///
-///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+///:: MATERIALES v 2.0 FECHA: 11-01-2024 ::::::::::::::::::::::::::::::::::::::::::::::::::///
+///:: CREAR, EDITAR, ELIMINAR TABLA DE MATERIALES :::::::::::::::::::::::::::::::::::::::::///
+///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
-///::::::::::::::::::::::::::::::: Declaracion de Variables :::::::::::::::::::::::::::::::::///
-var tablaMateriales, filaMateriales, opcionTablaMateriales, codPatrimonial;
+///:: Declaracion de Variables ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+var tablaMateriales, filaMateriales, opcionTablaMateriales, select_html;
 var material_id, material_descripcion, material_categoria, material_patrimonial, material_observaciones, material_log, material_estado, material_obslog, mate_unidad_medida, material_unidadmedida;
 var cod_asignacion, cod_macrosistema, cod_sistema, cod_componente, cod_material, cod_tarjeta, cod_condicion, cod_flota;
 
-///::::::::::::::: JS CARGA DE DATA TABLE :::::::::::::://
+///:: JS CARGA DE DATA TABLE ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 $(document).ready(function(){
-    $("#cod_asignacion").on('change', function () {
-      f_GeneraCodigoMateriales();
-    });
+  $("#cod_asignacion").on('change', function () {
+    f_GeneraCodigoMateriales();
+  });
+  
+  $("#cod_macrosistema").on('change', function () {
+    cod_macrosistema  = $("#cod_macrosistema").val();
+    cod_sistema       = "";
+    select_html       = "";
+    select_html       = f_TipoTabla("MATERIALES",cod_macrosistema);
+    $("#cod_sistema").html(select_html);
+    $("#cod_sistema").val(cod_sistema);
+    f_GeneraCodigoMateriales();
+  });
+  
+  $("#cod_tarjeta").on('change', function () {
+    cod_tarjeta   = $("#cod_tarjeta").val();
+    cod_condicion = "";
+    select_html   = "";
+    select_html   = f_TipoTabla("MATERIALES",cod_tarjeta);
+    $("#cod_condicion").html(select_html);
+    $("#cod_condicion").val(cod_condicion);
+    f_GeneraCodigoMateriales();
+  });
+  
+  $("#cod_sistema, #cod_tarjeta, #cod_condicion, #cod_flota ").on('change', function () { 
+    f_GeneraCodigoMateriales(); 
+  });
+  
+  ///:: BOTON RECARGAR TABLA ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+  $("#btnBuscarMateriales").click(function(){
+    f_MostrarTablaMateriales();
+  });
+  ///:: BOTON RECARGAR TABLA ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+    
+  ///:: EVENTO DEL BOTON NUEVO ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+  $("#btnNuevoMateriales").click(function(){
+    opcionTablaMateriales = 1; // Alta 
+    material_log          = "";
+    material_id           = "";
+    material_obslog       = "";
 
-    $("#codPatrimonial").on('change', function () {
-      f_MostrarTablaMateriales();
-    });
+    f_LimpiaMsTablaMateriales();
+    f_select_materiales();    
 
-    $("#cod_macrosistema").on('change', function () {
-      cod_macrosistema  = $("#cod_macrosistema").val();
-      cod_sistema       = "";
-      selectHtml        = "";
-      selectHtml        = f_TipoTabla("MATERIALES",cod_macrosistema);
-      $("#cod_sistema").html(selectHtml);
-      $("#cod_sistema").val(cod_sistema);
-      f_GeneraCodigoMateriales();
-    });
+    $("#material_id").prop('disabled', false);
+    $("#btnCodigoMateriales").show();
+    $("#btnGuardarMateriales").show();
+    $("#formModalMateriales").trigger("reset");
+    $("#div_material_log").html(material_log);
+    $("#material_obslog").val(material_obslog);
 
-    $("#cod_tarjeta").on('change', function () {
-      cod_tarjeta   = $("#cod_tarjeta").val();
-      cod_condicion = "";
-      selectHtml    = "";
-      selectHtml    = f_TipoTabla("MATERIALES",cod_tarjeta);
-      $("#cod_condicion").html(selectHtml);
-      $("#cod_condicion").val(cod_condicion);
-      f_GeneraCodigoMateriales();
-    });
+    $(".modal-header").css( "background-color", "#17a2b8");
+    $(".modal-header").css( "color", "white" );
+    $(".modal-title").text("Alta Materiales y Servicios");
+    $('#modalCRUDMateriales').modal('show');
+    $('#modalCRUDMateriales').draggable();
+  });
+  ///:: FIN EVENTO DEL BOTON NUEVO ::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
-    $("#cod_sistema").on('change', function () { f_GeneraCodigoMateriales(); });
-    $("#cod_tarjeta").on('change', function () { f_GeneraCodigoMateriales(); });
-    $("#cod_condicion").on('change', function () { f_GeneraCodigoMateriales(); });
-    $("#cod_flota").on('change', function () { f_GeneraCodigoMateriales(); });
-
-    selectHtml = f_select_unidad_medida();
-    $("#mate_unidad_medida").html(selectHtml);
-
-    selectHtml="";
-    selectHtml=f_TipoTabla("MATERIALES","TIPO");
-    $("#material_tipo").html(selectHtml);
-
-    selectHtml  = "";
-    selectHtml  = f_TipoTabla("MATERIALES","PATRIMONIAL");
-    $("#material_patrimonial").html(selectHtml);
-    $("#codPatrimonial").html(selectHtml);
-
-    selectHtml  = "";
-    selectHtml  = f_TipoTabla("MATERIALES","CATEGORIA");
-    $("#material_categoria").html(selectHtml);
-
-    selectHtml  = "";
-    selectHtml  = f_TipoTabla("MATERIALES","ESTADO");
-    $("#material_estado").html(selectHtml);
-
-    selectHtml  = "";
-    selectHtml  = f_TipoTabla("MATERIALES","ASIGNACION");
-    $("#cod_asignacion").html(selectHtml);
-
-    selectHtml  = "";
-    selectHtml  = f_TipoTabla("MATERIALES","MACROSISTEMA");
-    $("#cod_macrosistema").html(selectHtml);
-
-    selectHtml  = "";
-    selectHtml  = f_TipoTabla("MATERIALES",cod_macrosistema);
-    $("#cod_sistema").html(selectHtml);
-
-    selectHtml  = "";
-    selectHtml  = f_TipoTabla("MATERIALES","TARJETA");
-    $("#cod_tarjeta").html(selectHtml);
-
-    selectHtml  = "";
-    selectHtml  = f_TipoTabla("MATERIALES",cod_tarjeta);
-    $("#cod_condicion").html(selectHtml);
-
-    selectHtml  = "";
-    selectHtml  = f_TipoTabla("MATERIALES","FLOTA");
-    $("#cod_flota").html(selectHtml);
-
-    ///::::::::: BOTON RECARGAR TABLA ::::::::::::::::::::::///       
-    $("#btnBuscarMateriales").click(function(){
-      f_MostrarTablaMateriales();
-    });
-
-    ///::::::::: EVENTO DEL BOTON NUEVO ::::::::::::::///
-    $("#btnNuevoMateriales").click(function(){
-        opcionTablaMateriales = 1; // Alta 
-        material_log          = "";
-        material_id           = "";
-        material_obslog       = "";
-
-        f_LimpiaMsTablaMateriales();
-        $("#material_id").prop('disabled', false);
-        $("#btnCodigoMateriales").show();
-        $("#btnGuardarMateriales").show();
-        $("#formModalMateriales").trigger("reset");
-        $("#div_material_log").html(material_log);
-        $("#material_obslog").val(material_obslog);
-        $(".modal-header").css( "background-color", "#17a2b8");
-        $(".modal-header").css( "color", "white" );
-        $(".modal-title").text("Alta Materiales y Servicios");
-        $('#modalCRUDMateriales').modal('show');
-        $('#modalCRUDMateriales').draggable();
-        //document.getElementById("btnCodigoMateriales").click();
-    });
-
-    ///::::::::: EVENTO DEL BOTON NUEVO ::::::::::::::///
+  ///:: EVENTO DEL BOTON NUEVO ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
     $("#btnCodigoMateriales").click(function(){
       if(material_id==""){
         cod_material      = "";
@@ -153,254 +108,208 @@ $(document).ready(function(){
       $('#modalCRUDCodigoMateriales').modal('show');	    
       $('#modalCRUDCodigoMateriales').draggable();
     });
-
-    ///::::::::: BOTON EDITAR ::::::::::::::::::::::///       
-    $(document).on("click", ".btnEditarMateriales", function(){
-      f_LimpiaMsTablaMateriales();
-      opcionTablaMateriales = 2;// Editar
-      filaTablaMateriales   = $(this).closest("tr");	        
-      material_id           = filaTablaMateriales.find('td:eq(0)').text();
-      material_descripcion  = filaTablaMateriales.find('td:eq(1)').text();
-      mate_unidad_medida    = filaTablaMateriales.find('td:eq(2)').text(); 
-      material_tipo         = filaTablaMateriales.find('td:eq(3)').text();
-      material_patrimonial  = filaTablaMateriales.find('td:eq(4)').text();
-      material_categoria    = filaTablaMateriales.find('td:eq(5)').text();
-      material_estado       = filaTablaMateriales.find('td:eq(13)').text();
-      material_obslog       = "";
-
-      $("#btnCodigoMateriales").hide();
-      if(material_estado=="INACTIVO"){
-        $("#material_descripcion").prop('disabled', true);
-        $("#mate_unidad_medida").prop('disabled', true);
-        $("#material_tipo").prop('disabled', true);
-        $("#material_patrimonial").prop('disabled', true);
-        $("#material_categoria").prop('disabled', true);
-        $("#material_observaciones").prop('disabled', true);
-      }else{
-        $("#material_descripcion").prop('disabled', false);
-        $("#mate_unidad_medida").prop('disabled', false);
-        $("#material_tipo").prop('disabled', false);
-        $("#material_patrimonial").prop('disabled', false);
-        $("#material_categoria").prop('disabled', false);
-        $("#material_observaciones").prop('disabled', false);
-      }
-
-      mTablaBD = "manto_materiales";
-      mCampoBD = "material_id";
-
-      mdata = f_BuscarDataBD(mTablaBD,mCampoBD,material_id)
-      $.each(mdata, function(idx, obj){ 
-        material_observaciones  = obj.material_observaciones;
-        material_log            = obj.material_log;
-      });
-
-        $("#material_id").val(material_id);
-        $("#material_descripcion").val(material_descripcion);
-        $("#mate_unidad_medida").val(mate_unidad_medida);
-        $("#material_tipo").val(material_tipo);
-        $("#material_patrimonial").val(material_patrimonial);
-        $("#material_categoria").val(material_categoria);
-        $("#material_observaciones").val(material_observaciones);
-        $("#material_estado").val(material_estado);
-        $("#div_material_log").html(material_log);
-        $("#material_obslog").val(material_obslog);
-   
-        $(".modal-header").css("background-color", "#007bff");
-        $(".modal-header").css("color", "white" );
-        $(".modal-title").text("Editar Materiales y Servicios");		
+  ///:: FIN EVENTO DEL BOTON NUEVO ::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
     
-        $('#modalCRUDMateriales').modal('show');
-    });
-
-    /// ::::::::::::::: CREA Y EDITA MATERIALES :::::::::::::///
-    $('#formModalMateriales').submit(function(e){                         
-      let validacionTablaMateriales = "";
-      e.preventDefault(); //evita el comportambiento normal del submit, es decir, recarga total de la página
-
-      material_id             = $.trim($('#material_id').val());    
-      material_descripcion    = $.trim($('#material_descripcion').val());
-      mate_unidad_medida      = $.trim($('#mate_unidad_medida').val());
-      material_tipo           = $.trim($('#material_tipo').val());
-      material_patrimonial    = $.trim($('#material_patrimonial').val());
-      material_categoria      = $.trim($('#material_categoria').val());
-      material_estado         = $.trim($('#material_estado').val());
-      material_observaciones  = $.trim($('#material_observaciones').val());
-      material_obslog         = $.trim($('#material_obslog').val());
-
-      cod_macrosistema        = $("#cod_macrosistema").val();
-      cod_sistema             = $("#cod_sistema").val();
-      cod_tarjeta             = $("#cod_tarjeta").val();
-      cod_condicion           = $("#cod_condicion").val();
-      cod_flota               = $("#cod_flota").val();
-  
-      validacionTablaMateriales = f_validarTablaMateriales(material_id, material_descripcion, mate_unidad_medida, material_tipo, material_patrimonial, material_categoria, material_estado, material_observaciones, material_obslog);
-
-      unidad_medida         = $.trim(mate_unidad_medida.substring(0,mate_unidad_medida.indexOf('-')));
-      material_unidadmedida = f_encontrar_dato('manto_unidad_medida','unidad_medida',unidad_medida,'unidad_medida') 
-
-      /// CREAR
-      if(opcionTablaMateriales == 1) {
-        if(validacionTablaMateriales!="invalido") {   
-          $("#btnGuardarMateriales").prop("disabled",true);
-          Accion = 'CrearMateriales';
-          $.ajax({
-            url       : "Ajax.php",
-            type      : "POST",
-            datatype  : "json",    
-            data      : { MoS:MoS,NombreMoS:NombreMoS,Accion:Accion, material_id:material_id, material_descripcion:material_descripcion, material_unidadmedida:material_unidadmedida, material_tipo:material_tipo, material_patrimonial:material_patrimonial, material_categoria:material_categoria,  material_estado:material_estado, material_observaciones:material_observaciones, material_obslog:material_obslog, material_macrosistema:cod_macrosistema, material_sistema:cod_sistema, material_tarjeta:cod_tarjeta, material_condicion:cod_condicion, material_flota:cod_flota },
-            success   : function(data) {
-              tablaMateriales.ajax.reload(null, false);
-            }
-          });
-          $('#modalCRUDMateriales').modal('hide');
-          $("#btnGuardarMateriales").prop("disabled",false);
-        } 
-      }
-
-      /// EDITAR
-      if(opcionTablaMateriales == 2) {
-        if(validacionTablaMateriales!="invalido") {   
-          $("#btnGuardarMateriales").prop("disabled",true);
-          Accion='EditarMateriales';
-          $.ajax({
-            url       : "Ajax.php",
-            type      : "POST",
-            datatype  : "json",    
-            data      : { MoS:MoS,NombreMoS:NombreMoS,Accion:Accion, material_id:material_id, material_descripcion:material_descripcion, material_unidadmedida:material_unidadmedida, material_tipo:material_tipo, material_patrimonial:material_patrimonial, material_categoria:material_categoria,  material_estado:material_estado, material_observaciones:material_observaciones, material_obslog:material_obslog },    
-            success   : function(data) {
-              tablaMateriales.ajax.reload(null, false);
-            }
-          });
-          $('#modalCRUDMateriales').modal('hide');
-          $("#btnGuardarMateriales").prop("disabled",false);
-        } 
-      }
-    });
-
-    /// ::::::::::::::: GENERA CODIGO MATERIALES :::::::::::::///
-    $('#formModalCodigoMateriales').submit(function(e){                         
-        let validarCodigoMateriales = "";
-        e.preventDefault(); //evita el comportambiento normal del submit, es decir, recarga total de la página
-
-        cod_material      = $.trim($("#cod_material").val());
-        cod_asignacion    = $.trim($("#cod_asignacion").val());
-        cod_macrosistema  = $.trim($("#cod_macrosistema").val());
-        cod_sistema       = $.trim($("#cod_sistema").val());
-        cod_componente    = $.trim($("#cod_componente").val());
-        cod_tarjeta       = $.trim($("#cod_tarjeta").val());
-        cod_condicion     = $.trim($("#cod_condicion").val());
-        cod_flota         = $.trim($("#cod_flota").val());
-      
-        validarCodigoMateriales = f_validarCodigoMateriales(cod_material, cod_asignacion, cod_macrosistema, cod_sistema, cod_componente, cod_tarjeta, cod_condicion, cod_flota);
-        if (validarCodigoMateriales!="invalido"){
-          material_id = cod_material;
-          $("#material_id").val(cod_material);
-          $("#modalCRUDCodigoMateriales").modal('hide');  
-        }else{
-          Swal.fire(
-            'Generar!',
-            'Falta completar información ...!',
-            'success'
-          )  
-        }
-    });
-
-});    
-
-///::::::::::::::::::::::::: BOTONES DE MATERIALES :::::::::::::::::::::///
-
-///::::::::  BOTON PRECIOS PROVEEDORES  
-$(document).on("click", ".btnProveedor", function(){
-  let div_html          = "";
-  let adata             = [];
-  filaMateriales        = $(this);           
-  material_id           = filaMateriales.closest('tr').find('td:eq(0)').text();
-  material_descripcion  = filaMateriales.closest('tr').find('td:eq(1)').text();
-  adata                 = f_BuscarDataBD("manto_preciosproveedor","precioprov_materialid",material_id);
-
-  if(adata.length==0){
-    Swal.fire({
-      position          : 'center',
-      icon              : 'warning',
-      title             : '*No se encuentra relación con proveedor !!!',
-      showConfirmButton : false,
-      timer             : 1500
-    })
-  }else{
-    Accion='MostrarPreciosProveedor';
-    $.ajax({
-      url       : "Ajax.php",
-      type      : "POST",
-      datatype  : "json",
-      async     : false,    
-      data      : { MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,material_id:material_id},   
-      success : function(data) {
-        div_html = data;
-      }
-    });
-    $("#formModalProveedorMateriales").trigger("reset");
-    $(".modal-header").css( "background-color", "#17a2b8");
-    $(".modal-header").css( "color", "white" );
-    $(".modal-title").text("Precios por Proveedor de "+material_descripcion);
-    $('#modalCRUDProveedorMateriales').modal('show');
-    $("#div_tablaProveedorMateriales").html(div_html);  
-  }
-});
-
-///:::::::::::::::::::::::::::: ::::: FUNCIONES DE MATERIALES ::::::::::::::::::::::::::::::::::::///
-
-///::::::::: VALIDAR MATERIALES ::::::::::::::::::::::///       
-function f_validarTablaMateriales(pmaterial_id, pmaterial_descripcion, pmate_unidad_medida, pmaterial_tipo, pmaterial_patrimonial, pmaterial_categoria, pmaterial_estado, pmaterial_observaciones, pmaterial_obslog){
+  ///:: BOTON EDITAR ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///       
+  $(document).on("click", ".btnEditarMateriales", function(){
     f_LimpiaMsTablaMateriales();
-    NoLetrasMayuscEspacio=/[^A-Z \Ñ]/;
-    var rpta_Materiales="";    
-
-    if(pmaterial_id==""){
-        $("#material_id").addClass("color-error");
-        rpta_Materiales="invalido";
+    f_select_materiales();
+    opcionTablaMateriales = 2;// Editar
+    filaTablaMateriales   = $(this).closest("tr");	        
+    material_id           = filaTablaMateriales.find('td:eq(0)').text();
+    material_descripcion  = filaTablaMateriales.find('td:eq(1)').text();
+    mate_unidad_medida    = filaTablaMateriales.find('td:eq(2)').text(); 
+    material_tipo         = filaTablaMateriales.find('td:eq(3)').text();
+    material_patrimonial  = filaTablaMateriales.find('td:eq(4)').text();
+    material_categoria    = filaTablaMateriales.find('td:eq(5)').text();
+    material_estado       = filaTablaMateriales.find('td:eq(13)').text();
+    material_obslog       = "";
+    
+    $("#btnCodigoMateriales").hide();
+    
+    if(material_estado=="INACTIVO"){
+      $("#material_descripcion").prop('disabled', true);
+      $("#mate_unidad_medida").prop('disabled', true);
+      $("#material_tipo").prop('disabled', true);
+      $("#material_patrimonial").prop('disabled', true);
+      $("#material_categoria").prop('disabled', true);
+      $("#material_observaciones").prop('disabled', true);
+    }else{
+      $("#material_descripcion").prop('disabled', false);
+      $("#mate_unidad_medida").prop('disabled', false);
+      $("#material_tipo").prop('disabled', false);
+      $("#material_patrimonial").prop('disabled', false);
+      $("#material_categoria").prop('disabled', false);
+      $("#material_observaciones").prop('disabled', false);
     }
+    
+    mTablaBD = "manto_materiales";
+    mCampoBD = "material_id";
+    mdata = f_BuscarDataBD(mTablaBD,mCampoBD,material_id)
+    
+    $.each(mdata, function(idx, obj){ 
+      material_observaciones  = obj.material_observaciones;
+      material_log            = obj.material_log;
+    });
 
-    if(pmaterial_descripcion==""){
-        $("#material_descripcion").addClass("color-error");
-        rpta_Materiales="invalido";
+    $("#material_id").val(material_id);
+    $("#material_descripcion").val(material_descripcion);
+    $("#mate_unidad_medida").val(mate_unidad_medida);
+    $("#material_tipo").val(material_tipo);
+    $("#material_patrimonial").val(material_patrimonial);
+    $("#material_categoria").val(material_categoria);
+    $("#material_observaciones").val(material_observaciones);
+    $("#material_estado").val(material_estado);
+    $("#div_material_log").html(material_log);
+    $("#material_obslog").val(material_obslog);
+
+    $(".modal-header").css("background-color", "#007bff");
+    $(".modal-header").css("color", "white" );
+    $(".modal-title").text("Editar Materiales y Servicios");		
+
+    $('#modalCRUDMateriales').modal('show');
+  });
+
+  ///:: CREA Y EDITA MATERIALES :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+  $('#formModalMateriales').submit(function(e){                         
+    let validacionTablaMateriales = "";
+    e.preventDefault(); //evita el comportambiento normal del submit, es decir, recarga total de la página
+    material_id             = $.trim($('#material_id').val());    
+    material_descripcion    = $.trim($('#material_descripcion').val());
+    mate_unidad_medida      = $.trim($('#mate_unidad_medida').val());
+    material_tipo           = $.trim($('#material_tipo').val());
+    material_patrimonial    = $.trim($('#material_patrimonial').val());
+    material_categoria      = $.trim($('#material_categoria').val());
+    material_estado         = $.trim($('#material_estado').val());
+    material_observaciones  = $.trim($('#material_observaciones').val());
+    material_obslog         = $.trim($('#material_obslog').val());
+    cod_macrosistema        = $("#cod_macrosistema").val();
+    cod_sistema             = $("#cod_sistema").val();
+    cod_tarjeta             = $("#cod_tarjeta").val();
+    cod_condicion           = $("#cod_condicion").val();
+    cod_flota               = $("#cod_flota").val();
+
+    validacionTablaMateriales = f_validarTablaMateriales(material_id, material_descripcion, mate_unidad_medida, material_tipo, material_patrimonial, material_categoria,material_estado, material_observaciones, material_obslog);
+    unidad_medida         = $.trim(mate_unidad_medida.substring(0,mate_unidad_medida.indexOf('-')));
+    material_unidadmedida = f_encontrar_dato('manto_unidad_medida','unidad_medida',unidad_medida,'unidad_medida') 
+
+    /// CREAR
+    if(opcionTablaMateriales == 1) {
+      if(validacionTablaMateriales!="invalido") {   
+        $("#btnGuardarMateriales").prop("disabled",true);
+        Accion = 'CrearMateriales';
+        $.ajax({
+          url       : "Ajax.php",
+          type      : "POST",
+          datatype  : "json",    
+          data      : { MoS:MoS,NombreMoS:NombreMoS,Accion:Accion, material_id:material_id, material_descripcion:material_descripcion, material_unidadmedida:material_unidadmedida, material_tipo:material_tipo, material_patrimonial:material_patrimonial, material_categoria:material_categoria,  material_estado:material_estado, material_observaciones:material_observaciones, material_obslog:material_obslog, material_macrosistema:cod_macrosistema, material_sistema:cod_sistema, material_tarjeta:cod_tarjeta, material_condicion:cod_condicion, material_flota:cod_flota },
+          success   : function(data) {
+            tablaMateriales.ajax.reload(null, false);
+          }
+        });
+        $('#modalCRUDMateriales').modal('hide');
+        $("#btnGuardarMateriales").prop("disabled",false);
+      } 
     }
+    /// EDITAR
+    if(opcionTablaMateriales == 2) {
+      if(validacionTablaMateriales!="invalido") {   
+        $("#btnGuardarMateriales").prop("disabled",true);
+        Accion='EditarMateriales';
+        $.ajax({
+          url       : "Ajax.php",
+          type      : "POST",
+          datatype  : "json",    
+          data      : { MoS:MoS,NombreMoS:NombreMoS,Accion:Accion, material_id:material_id, material_descripcion:material_descripcion, material_unidadmedida:material_unidadmedida, material_tipo:material_tipo, material_patrimonial:material_patrimonial, material_categoria:material_categoria,  material_estado:material_estado, material_observaciones:material_observaciones, material_obslog:material_obslog },    
+          success   : function(data) {
+            tablaMateriales.ajax.reload(null, false);
+          }
+        });
+        $('#modalCRUDMateriales').modal('hide');
+        $("#btnGuardarMateriales").prop("disabled",false);
+      } 
+    }
+  });
+  ///:: FIN CREA Y EDITA MATERIALES :::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+  
+  ///:: GENERA CODIGO MATERIALES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+  $('#formModalCodigoMateriales').submit(function(e){                         
+    let validarCodigoMateriales = "";
+    e.preventDefault(); //evita el comportambiento normal del submit, es decir, recarga total de la página
+    cod_material      = $.trim($("#cod_material").val());
+    cod_asignacion    = $.trim($("#cod_asignacion").val());
+    cod_macrosistema  = $.trim($("#cod_macrosistema").val());
+    cod_sistema       = $.trim($("#cod_sistema").val());
+    cod_componente    = $.trim($("#cod_componente").val());
+    cod_tarjeta       = $.trim($("#cod_tarjeta").val());
+    cod_condicion     = $.trim($("#cod_condicion").val());
+    cod_flota         = $.trim($("#cod_flota").val());
+    
+    validarCodigoMateriales = f_validarCodigoMateriales(cod_material, cod_asignacion, cod_macrosistema, cod_sistema, cod_componente, cod_tarjeta, cod_condicion, cod_flota);
+    if (validarCodigoMateriales!="invalido"){
+      material_id = cod_material;
+      $("#material_id").val(cod_material);
+      $("#modalCRUDCodigoMateriales").modal('hide');  
+    }else{
+      Swal.fire(
+        'Generar!',
+        'Falta completar información ...!',
+        'success'
+      )  
+    }
+  });
+  ///:: FIN GENERA CODIGO MATERIALES ::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
-    if(pmate_unidad_medida==""){
-      $("#mate_unidad_medida").addClass("color-error");
+  ///:: TERMINO BOTONES DE MATERIALES :::::::::::::::::::::::::::::::::::::::::::::::::::::///
+});
+///:: TERMINO JS CARGA DE DATA TABLE ::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+
+
+///:: FUNCIONES DE MATERIALES :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+
+///:: VALIDAR MATERIALES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///       
+function f_validarTablaMateriales(pmaterial_id, pmaterial_descripcion, pmate_unidad_medida, pmaterial_tipo, pmaterial_patrimonial, pmaterial_categoria, pmaterial_estado, pmaterial_observaciones, pmaterial_obslog){
+  f_LimpiaMsTablaMateriales();
+  NoLetrasMayuscEspacio=/[^A-Z \Ñ]/;
+  var rpta_Materiales="";    
+  
+  if(pmaterial_id==""){
+      $("#material_id").addClass("color-error");
       rpta_Materiales="invalido";
-    }
-
-    if(pmaterial_tipo==""){
-      $("#material_tipo").addClass("color-error");
+  }
+  if(pmaterial_descripcion==""){
+      $("#material_descripcion").addClass("color-error");
       rpta_Materiales="invalido";
-    }
-
-    if(pmaterial_patrimonial==""){
-      $("#material_patrimonial").addClass("color-error");
+  }
+  if(pmate_unidad_medida==""){
+    $("#mate_unidad_medida").addClass("color-error");
+    rpta_Materiales="invalido";
+  }
+  if(pmaterial_tipo==""){
+    $("#material_tipo").addClass("color-error");
+    rpta_Materiales="invalido";
+  }
+  if(pmaterial_patrimonial==""){
+    $("#material_patrimonial").addClass("color-error");
+    rpta_Materiales="invalido";
+  }
+  if(pmaterial_categoria==""){
+    $("#material_categoria").addClass("color-error");
+    rpta_Materiales="invalido";
+  }
+  if(pmaterial_estado==""){
+    $("#material_estado").addClass("color-error");
+    rpta_Materiales="invalido";
+  }
+  /*if(pmaterial_observaciones==""){
+      $("#material_observaciones").addClass("color-error");
       rpta_Materiales="invalido";
-    }
-
-    if(pmaterial_categoria==""){
-      $("#material_categoria").addClass("color-error");
-      rpta_Materiales="invalido";
-    }
-
-    if(pmaterial_estado==""){
-      $("#material_estado").addClass("color-error");
-      rpta_Materiales="invalido";
-    }
-
-    /*if(pmaterial_observaciones==""){
-        $("#material_observaciones").addClass("color-error");
-        rpta_Materiales="invalido";
-    }
-
-    if(pmaterial_obslog==""){
-      $("#material_obslog").addClass("color-error");
-      rpta_Materiales="invalido";
-    }*/
-
-    return rpta_Materiales; 
+  }
+  if(pmaterial_obslog==""){
+    $("#material_obslog").addClass("color-error");
+    rpta_Materiales="invalido";
+  }*/
+  return rpta_Materiales; 
 }
 
 function f_validarCodigoMateriales(pcod_material, pcod_asignacion, pcod_macrosistema, pcod_sistema, pcod_componente, pcod_tarjeta, pcod_condicion, pcod_flota){
@@ -630,5 +539,39 @@ function f_MostrarTablaMateriales(){
       ],
       "order"         : [[0, 'desc']]
   });     
+}
 
+function f_select_materiales(){
+  select_html = f_select_unidad_medida();
+  $("#mate_unidad_medida").html(select_html);
+
+  select_html = f_select_combo("manto_tc_material", "NO", "tc_categoria3", "", "`tc_variable`='SISTEMA' AND `tc_categoria1`='MATERIALES' AND `tc_categoria2`='TIPO'", "`tc_categoria3` ASC");
+  $("#material_tipo").html(select_html);
+
+  select_html  = f_select_combo("manto_tc_material", "NO", "tc_categoria3", "", "`tc_variable`='SISTEMA' AND `tc_categoria1`='MATERIALES' AND `tc_categoria2`='PATRIMONIAL'", "`tc_categoria3` ASC");
+  $("#material_patrimonial").html(select_html);
+
+  select_html  = f_select_combo("manto_tc_material", "NO", "tc_categoria3", "", "`tc_variable`='USUARIO' AND `tc_categoria1`='MATERIALES' AND `tc_categoria2`='CATEGORIA'", "`tc_categoria3` ASC");
+  $("#material_categoria").html(select_html);
+
+  select_html  = f_select_combo("manto_tc_material", "NO", "tc_categoria3", "", "`tc_variable`='SISTEMA' AND `tc_categoria1`='MATERIALES' AND `tc_categoria2`='ESTADO'", "`tc_categoria3` ASC");
+  $("#material_estado").html(select_html);
+  
+  select_html  = f_select_combo("manto_tc_material", "NO", "tc_categoria3", "", "`tc_variable`='USUARIO' AND `tc_categoria1`='MATERIALES' AND `tc_categoria2`='ASIGNACION'", "`tc_categoria3` ASC");
+  $("#cod_asignacion").html(select_html);
+
+  select_html  = f_select_combo("manto_tc_material", "NO", "tc_categoria3", "", "`tc_variable`='USUARIO' AND `tc_categoria1`='MATERIALES' AND `tc_categoria2`='MACROSISTEMA'", "`tc_categoria3` ASC");
+  $("#cod_macrosistema").html(select_html);
+
+  select_html  = f_select_combo("manto_tc_material", "NO", "tc_categoria3", "", "`tc_variable`='USUARIO' AND `tc_categoria1`='MATERIALES' AND `tc_categoria2`='"+cod_macrosistema+"'", "`tc_categoria3` ASC");
+  $("#cod_sistema").html(select_html);
+
+  select_html  = f_select_combo("manto_tc_material", "NO", "tc_categoria3", "", "`tc_variable`='USUARIO' AND `tc_categoria1`='MATERIALES' AND `tc_categoria2`='TARJETA'", "`tc_categoria3` ASC");
+  $("#cod_tarjeta").html(select_html);
+
+  select_html  = f_select_combo("manto_tc_material", "NO", "tc_categoria3", "", "`tc_variable`='USUARIO' AND `tc_categoria1`='MATERIALES' AND `tc_categoria2`='"+cod_tarjeta+"'", "`tc_categoria3` ASC");
+  $("#cod_condicion").html(select_html);
+
+  select_html  = f_select_combo("manto_tc_material", "NO", "tc_categoria3", "", "`tc_variable`='SISTEMA' AND `tc_categoria1`='MATERIALES' AND `tc_categoria2`='FLOTA'", "`tc_categoria3` ASC");
+  $("#cod_flota").html(select_html);
 }

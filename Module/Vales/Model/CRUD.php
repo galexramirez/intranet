@@ -55,7 +55,7 @@ class CRUD
 
 	function cargar_detalle_repuestos($cod_vale)
 	{
-		$consulta="SELECT `rv_id`, `cod_rv`, `rv_repuesto`, `rv_nroserie`, `rv_cantidad`, `rv_precio`, `rep_desc` AS `rv_desc`, `rep_unida` AS `rv_unidad` FROM `manto_rep_vale` LEFT JOIN `manto_repuestos` ON `cod_rep`=`rv_repuesto` WHERE `rv_vale`='$cod_vale'";
+		$consulta="SELECT `rv_id`, `cod_rv`, `rv_repuesto`, `rv_nroserie`, `rv_cantidad`, `rv_precio`, `rep_desc` AS `rv_desc`, IF(`manto_rep_vale`.`rv_unidad`='',`manto_repuestos`.`rep_unida`,`manto_rep_vale`.`rv_unidad`) AS `rv_unidad` FROM `manto_rep_vale` LEFT JOIN `manto_repuestos` ON `cod_rep`=`rv_repuesto` WHERE `rv_vale`='$cod_vale'";
 
 		$resultado = $this->conexion->prepare($consulta);
         $resultado->execute();
@@ -81,9 +81,9 @@ class CRUD
 		$this->conexion=null;
 	}
 
-	function crear_detalle_repuestos($rv_vale, $rv_id, $rv_repuesto, $rv_nroserie, $rv_cantidad, $rv_precio)
+	function crear_detalle_repuestos($rv_vale, $rv_id, $rv_repuesto, $rv_nroserie, $rv_cantidad, $rv_precio, $rv_unidad)
 	{
-		$consulta="INSERT INTO `manto_rep_vale`(`rv_vale`, `rv_id`, `rv_repuesto`, `rv_nroserie`, `rv_cantidad`, `rv_precio`) VALUES ('$rv_vale', '$rv_id', '$rv_repuesto', '$rv_nroserie', '$rv_cantidad', '$rv_precio')";
+		$consulta="INSERT INTO `manto_rep_vale`(`rv_vale`, `rv_id`, `rv_repuesto`, `rv_nroserie`, `rv_cantidad`, `rv_precio`, `rv_unidad`) VALUES ('$rv_vale', '$rv_id', '$rv_repuesto', '$rv_nroserie', '$rv_cantidad', '$rv_precio', '$rv_unidad')";
 
 		$resultado = $this->conexion->prepare($consulta);
         $resultado->execute();        
@@ -441,7 +441,7 @@ class CRUD
 							`manto_rep_vale`.`rv_nroserie`, 
 							`manto_rep_vale`.`rv_cantidad`,
 							`manto_repuestos`.`rep_desc`, 
-							`manto_repuestos`.`rep_unida` AS `rep_unidad` 
+							IF(`manto_rep_vale`.`rv_unidad`='',`manto_repuestos`.`rep_unida`,`manto_rep_vale`.`rv_unidad`) AS `rep_unidad` 
 						FROM 
 							`manto_vales`
 						LEFT JOIN `manto_rep_vale`
@@ -463,10 +463,8 @@ class CRUD
 		$this->conexion=null;
 	}   
 
-
 	function vales_observadas()
 	{
-
 		$consulta = " SELECT COUNT(*) AS `cantidad_vales` FROM `manto_vales` WHERE `va_estado`='OBSERVADO' AND `va_date_genera`>'2022-12-31'";
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();

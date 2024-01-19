@@ -29,20 +29,6 @@ class Logico
 		echo $html;
 	}
 
-    public function SelectTipos($ttablamateriales_operacion, $ttablamateriales_tipo)
-    {
-        MModel($this->Modulo, 'CRUD');
-        $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->SelectTipos($ttablamateriales_operacion, $ttablamateriales_tipo);
-
-        $html = '<option value="">Seleccione una opcion</option>';
-
-        foreach ($Respuesta as $row) {
-            $html .= '<option value="'.$row['Detalle'].'">'.$row['Detalle'].'</option>';
-        }
-        echo $html;
-    }
-
     public function CalculoFecha($inicio,$calculo)
     {
         $rptaFecha = "";
@@ -99,8 +85,7 @@ class Logico
         $InstanciaAjax= new CRUD();
         $Respuesta=$InstanciaAjax->SelectAnios();
 
-        foreach ($Respuesta as $row)
-        {
+        foreach ($Respuesta as $row){
             $html .= '<option value="'.$row['Anio'].'">'.$row['Anio'].'</option>';
         }
         echo $html;	
@@ -461,17 +446,25 @@ class Logico
             $UNIX_DATE                  = ($precioprov_fechavigencia - 25569) * 86400;
             $precioprov_fechavigencia   = gmdate("Y-m-d", $UNIX_DATE);
                 if (empty($precioprov_descripcion) || empty($precioprov_marca) || empty($precioprov_unidadmedida) || empty($precioprov_garantia) || empty($precioprov_moneda) || empty($precioprov_precio) || empty($precioprov_ruc) || empty($precioprov_razonsocial) || empty($precioprov_fechavigencia)){
-                    $CantErrores=$CantErrores+1;
+                    $CantErrores = $CantErrores + 1;
                     echo "No grabo linea ".$row." -> Código Proveedor: ".$precioprov_codproveedor." ERROR: Posible Datos INCOMPLETOS . <hr>"  ;
                 }else{
                     MModel($this->Modulo, 'CRUD');
-                    $InstanciaAjax= new CRUD();
-                    $Respuesta=$InstanciaAjax->CrearPreciosProveedor($precioprov_codproveedor, $precioprov_descripcion, $precioprov_marca, $precioprov_procedencia, $precioprov_unidadmedida, $precioprov_garantia, $precioprov_moneda, $precioprov_precio, $precioprov_preciosoles, $precioprov_ruc, $precioprov_razonsocial, $precioprov_materialid, $precioprov_documentacion, $precioprov_fechavigencia, $precioprov_cargaid, $precioprov_responsablecreacion, $precioprov_fechacreacion, $precioprov_estado, $precioprov_log, $precioprov_tipo );
-                    if(count($Respuesta)>0){
-                        echo "No grabo linea ".$row." -> Código Proveedor: ".$precioproveedor_codproveedor." ERROR: "  ;
-                        print_r($Respuesta);
-                        echo "<br>";
+                    $InstanciaAjax = new CRUD();
+                    $repp_codigo = $InstanciaAjax->buscar_codigo_proveedor( $precioprov_codproveedor, $precioprov_descripcion, $precioprov_unidadmedida, $precioprov_ruc);
+                    if($repp_codigo !== $precioprov_codproveedor){
                         $CantErrores = $CantErrores + 1;
+                        echo "No grabo linea ".$row." -> Código Proveedor: ".$precioprov_codproveedor." ERROR: Posible Datos CAMBIADOS . <hr>"  ;    
+                    }else{
+                        MModel($this->Modulo, 'CRUD');
+                        $InstanciaAjax= new CRUD();
+                        $Respuesta=$InstanciaAjax->CrearPreciosProveedor( $precioprov_codproveedor, $precioprov_descripcion, $precioprov_marca, $precioprov_procedencia, $precioprov_unidadmedida, $precioprov_garantia, $precioprov_moneda, $precioprov_precio, $precioprov_preciosoles, $precioprov_ruc, $precioprov_razonsocial, $precioprov_materialid, $precioprov_documentacion, $precioprov_fechavigencia, $precioprov_cargaid, $precioprov_responsablecreacion, $precioprov_fechacreacion, $precioprov_estado, $precioprov_log, $precioprov_tipo );
+                        if(count($Respuesta)>0){
+                            echo "No grabo linea ".$row." -> Código Proveedor: ".$precioproveedor_codproveedor." ERROR: "  ;
+                            print_r($Respuesta);
+                            echo "<br>";
+                            $CantErrores = $CantErrores + 1;
+                        }    
                     }
                 }
         }
@@ -547,20 +540,6 @@ class Logico
         $InstanciaAjax= new CRUD();
         $Respuesta=$InstanciaAjax->EditarProveedores($prov_ruc,$prov_razonsocial,$prov_contacto,$prov_cta_detraccion_soles,$prov_cta_banco_soles,$prov_cta_banco_dolares,$prov_cta_interbanco_soles,$prov_cta_interbanco_dolares,$prov_condicion_pago,$prov_correo,$prov_telefono,$prov_estado, $prov_log);
 	}  		
-
-    public function SelectProveedores()
-    {
-        MModel($this->Modulo,'CRUD');
-        $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->SelectProveedores();
-
-        $html = '<option value="">Seleccione una opcion</option>';
-
-        foreach ($Respuesta as $row) {
-            $html .= '<option value="'.$row['prov_razonsocial'].'">'.$row['prov_razonsocial'].'</option>';
-        }
-        echo $html;
-    }
 
     public function EditarAsignarCodigos($precioprov_codproveedor, $precioprov_descripcion, $precioprov_razonsocial, $precioprov_materialid)
     {
