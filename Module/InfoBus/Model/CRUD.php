@@ -163,7 +163,7 @@ class CRUD
 
 	function InfoBusDetalleRepuestos($cod_vale)
 	{
-		$consulta="SELECT `cod_rv`, `rv_repuesto`, `rv_nroserie`, `rv_cantidad`, `rv_precio`, `rep_desc` AS `rv_desc`, `rep_unida` AS `rv_unidad` FROM `manto_rep_vale` LEFT JOIN `manto_repuestos` ON `cod_rep`=`rv_repuesto` WHERE `rv_vale`='$cod_vale'";
+		$consulta="SELECT `cod_rv`, `rv_repuesto`, `rv_nroserie`, `rv_cantidad`, `rv_precio`, `rep_desc` AS `rv_desc`, IF(`rv_unidad`='',`rep_unida`,`rv_unidad`) AS `rv_unidad` FROM `manto_rep_vale` LEFT JOIN `manto_repuestos` ON `cod_rep`=`rv_repuesto` WHERE `rv_vale`='$cod_vale'";
 
 		$resultado = $this->conexion->prepare($consulta);
         $resultado->execute();

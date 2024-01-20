@@ -395,7 +395,7 @@
 								</div>
 				  				<div class="modal-footer">
 					  				<button type="button" class="btn btn-light btn-sm" data-dismiss="modal">Cancelar</button>
-					  				<button type="submit" id="btn_guardar:periodo" class="btn btn-dark btn-sm btn_guardar_periodo">Guardar</button>
+					  				<button type="submit" id="btn_guardar_periodo" class="btn btn-dark btn-sm btn_guardar_periodo">Guardar</button>
 				  				</div>
 			  				</form>    
 						</div>

@@ -38,9 +38,32 @@ idioma_espanol = {
 $(document).ready(function() {
   div_show = f_MostrarDiv("contenido", "div_alertsDropdown_ayuda", NombreMoS);
   $("#div_alertsDropdown_ayuda").html(div_show);
+
+  div_tabs = f_CreacionTabs("nav-tab-nomina","");
+  $("#nav-tab-nomina").html(div_tabs);
+
+  $("#nav-tab-nomina").tabs();
 });
 
 ///:: FUNCIONES NOMINA ;;::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+
+///:: FUNCION QUE GENERA EL LISTADO DEL COMBO SELECT ::::::::::::::::::::::::::::::::::::::///
+function f_select_combo(p_nombre_tabla, p_es_campo_unico, p_campo_select, p_campo_inicial, p_condicion_where, p_order_by){
+  let rpta_select_combo = "";
+  Accion    ='select_combo';
+  $.ajax({
+    url       : "Ajax.php",
+    type      : "POST",
+    datatype  : "json",
+    async     : false,
+    data      : {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, nombre_tabla:p_nombre_tabla, es_campo_unico:p_es_campo_unico, campo_select:p_campo_select, campo_inicial:p_campo_inicial, condicion_where:p_condicion_where, order_by:p_order_by},
+    success   : function(data){
+      rpta_select_combo = data;
+    }
+  });
+  return rpta_select_combo;
+}
+///:: FIN DE FUNCION QUE GENERA EL LISTADO DEL COMBO SELECT :::::::::::::::::::::::::::::::///
 
 ///:: CALCULO DE FECHAS :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 function f_CalculoFecha(p_inicio,p_calculo){

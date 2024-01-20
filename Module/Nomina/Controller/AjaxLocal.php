@@ -58,6 +58,19 @@ switch ($Accion){
       $Respuesta     = $InstanciaAjax->MostrarDiv($NombreFormulario,$NombreObjeto,$Dato);
    break;
 
+   case 'select_combo':
+      $nombre_tabla     = $_POST['nombre_tabla'];
+      $es_campo_unico   = $_POST['es_campo_unico'];
+      $campo_select     = $_POST['campo_select'];
+      $campo_inicial    = $_POST['campo_inicial'];
+      $condicion_where  = $_POST['condicion_where'];
+      $order_by         = $_POST['order_by'];
+
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta     = $InstanciaAjax->select_combo($nombre_tabla, $es_campo_unico, $campo_select, $campo_inicial, $condicion_where, $order_by);
+   break;
+
    case 'CalculoFecha':
       $inicio  = $_POST['inicio'];
       $calculo = $_POST['calculo'];
@@ -103,13 +116,42 @@ switch ($Accion){
       $Respuesta     = $InstanciaAjax->buscar_dato($nombre_tabla, $campo_buscar, $condicion_where);
    break;
 
-   case 'CargarNomina':
+   case 'listar_nomina':
       $fecha_inicio = $_POST['fecha_inicio'];
       $fecha_termino = $_POST['fecha_termino'];
 
       MModel($Modulo,'CRUD');
       $InstanciaAjax = new CRUD();
-      $Respuesta = $InstanciaAjax->CargarNomina($fecha_inicio,$fecha_termino);
+      $Respuesta = $InstanciaAjax->listar_nomina($fecha_inicio,$fecha_termino);
+   break;
+
+   case 'listar_nomina_json':
+      $fecha_inicio = $_POST['fecha_inicio'];
+      $fecha_termino = $_POST['fecha_termino'];
+
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta = $InstanciaAjax->listar_nomina_json($fecha_inicio,$fecha_termino);
+   break;
+
+   case 'leer_generar_nomina':
+      $ncar_anio = $_POST['ncar_anio'];
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta = $InstanciaAjax->leer_generar_nomina($ncar_anio);
+   break;
+
+   case 'generar_nomina':
+      $ncar_anio           = $_POST['ncar_anio'];
+      $ncar_periodo        = $_POST['ncar_periodo'];
+      $ncar_tipo           = $_POST['ncar_tipo'];
+      $ncar_fecha_inicio   = $_POST['ncar_fecha_inicio'];
+      $ncar_fecha_termino  = $_POST['ncar_fecha_termino'];
+
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta     = $InstanciaAjax->generar_nomina($ncar_anio, $ncar_periodo, $ncar_tipo, $ncar_fecha_inicio, $ncar_fecha_termino);
    break;
 
    default: header('Location: /inicio');
