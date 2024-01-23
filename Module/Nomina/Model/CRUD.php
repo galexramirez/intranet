@@ -3,6 +3,7 @@ session_start();
 class CRUD
 {	
 	var $conexion;
+	var $conexion2;
 	var $objeto;
 
 	function __construct()
@@ -14,7 +15,8 @@ class CRUD
 		}
 		SController('ConexionesBD','C_ConexionBD');
 		$Instancia= new C_ConexionesBD();
-		$this->conexion=$Instancia->Conectar(); 	
+		$this->conexion = $Instancia->Conectar();
+		$this->conexion2 = $Instancia->conectar2(); 	
 	}
 
 	function select_combo($nombre_tabla, $es_campo_unico, $campo_select, $condicion_where, $order_by)
@@ -135,28 +137,41 @@ class CRUD
 						   TIME_FORMAT(SUBTIME(MAX( `Prog_HoraDestino`),MIN( `Prog_HoraOrigen`)),'%H:%i') AS Amplitud, 
 						   TIME_FORMAT(SEC_TO_TIME(SUM(TIME_TO_SEC(SUBTIME( `Prog_HoraDestino`,`Prog_HoraOrigen`)))),'%H:%i') AS Duracion, 
 						   ANY_VALUE( `Prog_Operacion`) AS TipoOperacion, 
-						   ANY_VALUE( `Prog_Servicio`) AS Servicio 
-					   FROM 
-						   `Programacion` 
-					   GROUP BY 
+						   ANY_VALUE( `Prog_Servicio`) AS Servicio,
+						   CONCAT(ANY_VALUE(DATE_FORMAT( `Prog_Fecha`,'%Y-%m-%d')),`Prog_Dni`) AS `FechaDNI`
+					   	FROM 
+					   		`OPE_ControlFacilitador` 
+					   	GROUP BY 
 						   `Prog_Fecha`, 
 						   `Prog_Dni` 
-					   HAVING 
+					   	HAVING 
 						   `Prog_Fecha`>='$fecha_inicio' AND 
 						   `Prog_Fecha`<='$fecha_termino' ";
-   
+
 	   	$resultado = $this->conexion->prepare($consulta);
 	   	$resultado->execute();        
-	   	$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
-   
-	   	return $data;
+	   	$data_horas =$resultado->fetchAll(PDO::FETCH_ASSOC);
+
+		$consulta = " SELECT CONCAT(`inas_fechaoperacion`,`inas_dni`) AS `FechaDNI` FROM `ope_inasistencias` WHERE `inas_fechaoperacion`>='$fecha_inicio' AND `inas_fechaoperacion`<='$fecha_termino' AND `inas_tiponovedad`='INASISTENCIA_TOTAL' AND `inas_estadoinasistencias`='CIERRE OPERACIONAL' ";
+
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();        
+		$data_inasistencias =$resultado->fetchAll(PDO::FETCH_ASSOC);
+
+		foreach($data_inasistencias as $row){
+			$key = array_search($row['FechaDNI'], array_column($data_horas,'FechaDNI'));
+			unset($data_horas[$key]);
+		}
+		$data = array_values($data_horas);
+		return $data;
 	   	$this->conexion=null;
 	}
    
 	function leer_generar_nomina($ncar_anio)
 	{   
 	   $consulta = "	SELECT 
-					    	`ope_nomina_carga`.`ncar_anio`,
+					    	`ope_nomina_carga`.`nomina_carga_id`,
+							`ope_nomina_carga`.`ncar_anio`,
     						`ope_nomina_carga`.`ncar_periodo`,
     						`ope_nomina_carga`.`ncar_tipo`,
 							`ope_nomina_carga`.`ncar_archivo`,
@@ -213,6 +228,20 @@ class CRUD
         $resultado->execute();        
 
 		$this->conexion=null;
+	}
+
+	function borrar_generar_nomina($nomina_carga_id)
+	{
+		$ncar_estado = "ANULADO";
+		$ncar_usuario_id_elimina = $_SESSION['USUARIO_ID'];
+		$ncar_fecha_elimina = date("Y-m-d H:i:s");
+		$consulta = " UPDATE `ope_nomina_carga` SET `ncar_estado`='$ncar_estado', `ncar_usuario_id_elimina`='$ncar_usuario_id_elimina', `ncar_fecha_elimina`='$ncar_fecha_elimina' WHERE `nomina_carga_id`='$nomina_carga_id' ";
+
+		$resultado = $this->conexion->prepare($consulta);
+        $resultado->execute();        
+
+		$this->conexion=null;
 
 	}
+
 }

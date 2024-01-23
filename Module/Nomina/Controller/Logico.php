@@ -182,10 +182,10 @@ class Logico
         echo "Generación Exitosa ...!!!";
     }
 
-    public function listar_nomina_json($fecha_inicio,$fecha_termino)
+    public function listar_nomina_json($fecha_inicio, $fecha_termino, $tipo_nomina)
     {
         $nomina_array = array();
-        $ncar_tipo = "PROGRAMACION";
+        $ncar_tipo = $tipo_nomina;
         $ncar_estado = "GENERADO";
         $meses_array = array(
             '01' => 'ENERO',

@@ -58,6 +58,15 @@
 									<input type="date" class="form-control form-control-sm" id="fecha_termino" placeholder="aaaa-mm-dd" >
 						      	</div>
 						    </div>
+							<div class="col-lg-2">
+					        	<div class="form-group">
+									<label for="tipo_nomina" class="col-form-label form-control-sm">TIPO</label>
+									<select name="tipo_nomina" class="form-control form-control-sm" id="tipo_nomina">
+										<option value="PROGRAMACION">PROGRAMACION</option>
+										<option value="OPERACION">OPERACION</option>
+									</select>
+						       	</div>
+			        		</div>
 							<div class="col-lg-1">
 								<div class="form-group">
 									<button type="button" id="btn_buscar_nomina" class="btn btn-secondary btn-sm btn_buscar_nomina">Buscar</button>
@@ -160,14 +169,6 @@
 											</div>
 						  				</div>
 									</div>
-									<div class="row"> 
-						  				<div class="col-lg-12">
-							  				<div class="form-group">
-												<label for="ncar_archivo" class="col-form-label form-control-sm">ARCHIVO</label>
-												<input type="text" readonly class="form-control form-control-sm" id="ncar_archivo">
-											</div>               
-						   				</div>
-					  				</div>
 									<div class="row">
 										<div class="col-lg-6">
 											<div class="form-group">

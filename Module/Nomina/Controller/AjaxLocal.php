@@ -128,10 +128,11 @@ switch ($Accion){
    case 'listar_nomina_json':
       $fecha_inicio = $_POST['fecha_inicio'];
       $fecha_termino = $_POST['fecha_termino'];
+      $tipo_nomina = $_POST['tipo_nomina'];
 
       MController($Modulo,'Logico');
       $InstanciaAjax = new Logico();
-      $Respuesta = $InstanciaAjax->listar_nomina_json($fecha_inicio,$fecha_termino);
+      $Respuesta = $InstanciaAjax->listar_nomina_json($fecha_inicio, $fecha_termino, $tipo_nomina);
    break;
 
    case 'leer_generar_nomina':
@@ -152,6 +153,14 @@ switch ($Accion){
       MController($Modulo,'Logico');
       $InstanciaAjax = new Logico();
       $Respuesta     = $InstanciaAjax->generar_nomina($ncar_anio, $ncar_periodo, $ncar_tipo, $ncar_fecha_inicio, $ncar_fecha_termino);
+   break;
+
+   case 'borrar_generar_nomina':
+      $nomina_carga_id = $_POST['nomina_carga_id'];
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta = $InstanciaAjax->borrar_generar_nomina($nomina_carga_id);
    break;
 
    default: header('Location: /inicio');

@@ -4,7 +4,7 @@
 ///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///:: DECLARACION DE VARIABLES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-var fecha_inicio, fecha_termino, tabla_listado_nomina;
+var fecha_inicio, fecha_termino, tabla_listado_nomina, tipo_nomina;
 fecha_inicio = fecha_termino = "";
 
 ///:: JS DOM REPORTE DE NOMINA ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
@@ -17,7 +17,7 @@ $(document).ready(function(){
   }
 
   // Si hay cambios en el Fecha se ocultan botones y datatable
-  $("#fecha_inicio, #fecha_termino").on('change', function () {
+  $("#fecha_inicio, #fecha_termino, #tipo_nomina").on('change', function () {
     $("#tabla_listado_nomina").dataTable().fnDestroy();
     $('#tabla_listado_nomina').hide();  
   });
@@ -27,6 +27,7 @@ $(document).ready(function(){
     let t_validar_nomina = "";
     fecha_inicio = $("#fecha_inicio").val();
     fecha_termino = $("#fecha_termino").val();
+    tipo_nomina = $("#tipo_nomina").val();
     t_validar_nomina = f_validar_listado_nomina(fecha_inicio,fecha_termino);
 
     if(t_validar_nomina=="invalido"){
@@ -43,8 +44,8 @@ $(document).ready(function(){
       $("#tabla_listado_nomina").dataTable().fnDestroy();
       $('#tabla_listado_nomina').show();
 
-      //Accion = 'listar_nomina';
-      Accion = 'listar_nomina_json';
+      Accion = 'listar_nomina';
+      //Accion = 'listar_nomina_json';
       tabla_listado_nomina = $('#tabla_listado_nomina').DataTable({
         "processing"  : true,
         language      : idioma_espanol,
@@ -65,7 +66,7 @@ $(document).ready(function(){
         "ajax":{            
                 "url"     : "Ajax.php", 
                 "method"  : 'POST',
-                "data"    : {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, fecha_inicio:fecha_inicio, fecha_termino:fecha_termino},
+                "data"    : {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, fecha_inicio:fecha_inicio, fecha_termino:fecha_termino, tipo_nomina:tipo_nomina},
                 "dataSrc" : ""
                 },
         "columns": columnas_tabla,

@@ -220,7 +220,7 @@ function f_validarTablaProveedores(pprov_ruc, pprov_razonsocial, pprov_contacto,
         $("#prov_contacto").addClass("color-error");
         rpta_Proveedores="invalido";
     }
-
+    /*
     if(p_prov_cta_detraccion_soles==""){
         $("#prov_cta_detraccion_soles").addClass("color-error");
         rpta_Proveedores="invalido";
@@ -260,7 +260,7 @@ function f_validarTablaProveedores(pprov_ruc, pprov_razonsocial, pprov_contacto,
         $("#prov_telefono").addClass("color-error");
         rpta_Proveedores="invalido";
     }
-
+    */
     if(pprov_estado==""){
         $("#prov_estado").addClass("color-error");
         rpta_Proveedores="invalido";

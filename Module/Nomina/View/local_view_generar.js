@@ -8,9 +8,10 @@ var anio_generar_nomina, select_carga_nomina, fecha_hoy;
 var ncar_anio, ncar_periodo, ncar_tipo, ncar_archivo, ncar_fecha_inicio, ncar_fecha_termino;
 ///:: JS DOM GENERAR NOMINA A JSON ::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 $(document).ready(function(){
+  
   fecha_hoy = f_CalculoFecha("hoy","0");
   anio_generar_nomina = fecha_hoy.substring(0,4);
-  select_carga_nomina = f_select_combo("Calendario", "SI", "Calendario_Anio", "", "`Calendario_Anio`>'2022'", "`Calendario_Anio` DESC");
+  select_carga_nomina = f_select_combo("Calendario", "SI", "Calendario_Anio", "", "`Calendario_Anio`>'2020'", "`Calendario_Anio` DESC");
   $("#anio_generar_nomina").html(select_carga_nomina);
   $("#anio_generar_nomina").val(anio_generar_nomina);
 
@@ -20,60 +21,6 @@ $(document).ready(function(){
     $('#tabla_generar_nomina').hide();  
   });
 
-  $("#ncar_anio, #ncar_periodo, #ncar_tipo").on('change', function () {
-    let n_periodo = "", n_tipo = "";
-    ncar_anio = $("#ncar_anio").val();
-    ncar_periodo = $("#ncar_periodo").val();
-    switch (ncar_periodo) {
-      case "ENERO":
-        n_periodo = "01";
-      break;
-      case "FEBRERO":
-        n_periodo = "02"; 
-      break;
-      case "MARZO":
-        n_periodo = "03";
-      break;
-      case "ABRIL":
-        n_periodo = "04";
-      break;
-      case "MAYO":
-        n_periodo = "05";
-      break;
-      case "JUNIO":
-        n_periodo = "06";
-      break;
-      case "JULIO":
-        n_periodo = "07";
-      break;
-      case "AGOSTO":
-        n_periodo = "08";
-      break;
-      case "SETIEMBRE":
-        n_periodo = "09";
-      break;
-      case "OCTUBRE":
-        n_periodo = "10";
-      break;
-      case "NOVIEMBRE":
-        n_periodo = "11";
-      break;
-      case "DICIEMBRE":
-        n_periodo = "12";
-      break;
-    }
-    ncar_tipo = $("#ncar_tipo").val();
-    switch (ncar_tipo) {
-      case "PROGRAMACION":
-        n_tipo = "01";
-      break;
-      case "OPERACION":
-        n_tipo = "02";
-      break;
-    }
-    ncar_archivo = ncar_anio+"_M"+n_periodo+"_T"+n_tipo+"_+id.json";
-    $("#ncar_archivo").val(ncar_archivo);
-  });
   ///:: BOTONES GENERAR NOMINA A JSON :::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
   ///:: JS BUSCAR GENERAR NOMINA A JSON :::::::::::::::::::::::::::::::::::::::::::::::::::///
@@ -108,7 +55,7 @@ $(document).ready(function(){
         "dataSrc" : ""
       },
       "columns"   : columnas_tabla,
-      "order"     : [[4, 'desc']]
+      "order"     : [[5, 'desc']]
     });
   });
   ///:: FIN JS BUSCAR GENERAR NOMINA A JSON :::::::::::::::::::::::::::::::::::::::::::::::///
@@ -121,129 +68,92 @@ $(document).ready(function(){
     ncar_tipo = $("#ncar_tipo").val();
     ncar_fecha_inicio = $('#ncar_fecha_inicio').val();
     ncar_fecha_termino = $('#ncar_fecha_termino').val();
-
-    Accion = 'generar_nomina';
-    $("#btn_generar_nomina").prop("disabled",true);
-    $.ajax({
-      url     : "Ajax.php",
-      type    : "POST",
-      datatype: "json",    
-      data    : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, ncar_anio:ncar_anio, ncar_periodo:ncar_periodo, ncar_tipo:ncar_tipo, ncar_fecha_inicio:ncar_fecha_inicio, ncar_fecha_termino:ncar_fecha_termino },    
-      beforeSend: function () {
-
-      },
-      success: function(data) {
-
-        tabla_generar_nomina.ajax.reload(null, false);
-        $("#btn_generar_nomina").prop("disabled",false);
-        $('#modal_crud_generar_nomina').modal('hide');
-      }
-    });
+    
+    let existe_nomina = "";
+    existe_nomina = f_buscar_dato("ope_nomina_carga", "nomina_carga_id", "`ncar_anio`='"+ncar_anio+"' AND `ncar_periodo`='"+ncar_periodo+"' AND `ncar_tipo`='"+ncar_tipo+"' AND `ncar_estado`='GENERADO'" );
+    
+    if(existe_nomina!=""){
+      Swal.fire({
+        icon  : 'error',
+        title : 'GENERAR NOMINA...',
+        text  : '*La nómina ya se encuentra generada!'
+      })
+    }else{
+      Accion = 'generar_nomina';
+      $("#btn_generar_nomina").prop("disabled",true);
+      $.ajax({
+        url     : "Ajax.php",
+        type    : "POST",
+        datatype: "json",    
+        data    : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, ncar_anio:ncar_anio, ncar_periodo:ncar_periodo, ncar_tipo:ncar_tipo, ncar_fecha_inicio:ncar_fecha_inicio, ncar_fecha_termino:ncar_fecha_termino },    
+        beforeSend: function () {
+          Swal.fire({
+            position: "top-end",
+            icon: "info",
+            title: "Procesando Información!",
+            showConfirmButton: false,
+            timer: 3000
+          });  
+        },
+        success: function(data) {
+          Swal.fire({
+            icon              : 'success',
+            title             : data,
+            showConfirmButton : false,
+            timer             : 2000
+          })
+          tabla_generar_nomina.ajax.reload(null, false);
+          $("#btn_generar_nomina").prop("disabled",false);
+          $('#modal_crud_generar_nomina').modal('hide');
+        }
+      });  
+    }
   });
   ///:: FIN BOTON CARGAR -> REALIZA LA CARGA DE LA NOMINA A JSON ::::::::::::::::::::::::::///
 
   ///:: BOTON BORRAR REGISTRO generar_nomina ::::::::::::::::::::::::::::::::::::::::::::///
   $(document).on("click", ".btn_borrar_generar_nomina", function(){
-    fila = $(this);           
-    CFaRg_Id = $(this).closest('tr').find('td:eq(0)').text();     
-    CFaRg_FechaCargada = $(this).closest('tr').find('td:eq(1)').text();
-    CFaRg_TipoOperacionCargada = $(this).closest('tr').find('td:eq(2)').text();
-    CFaRg_Estado = $(this).closest('tr').find('td:eq(9)').text(); 
+    let fila_generar_nomina = $(this).closest('tr');           
+    nomina_carga_id = fila_generar_nomina.find('td:eq(0)').text();     
+    ncar_anio = fila_generar_nomina.find('td:eq(1)').text();
+    ncar_periodo = fila_generar_nomina.find('td:eq(2)').text();
+    ncar_estado = fila_generar_nomina.find('td:eq(11)').text();
 
-    respuesta = 0;
-    opcion2 = 0;  
-
-    if(CFaRg_Estado=='ELIMINADO')
-    {
+    if(ncar_estado=='ANULADO'){
       Swal.fire({
         icon  : 'error',
-        title : 'ELIMINAR...',
-        text  : '*El registro ya se encuentra ELIMINADO!'
+        title : 'ANULAR...',
+        text  : '*El registro ya se encuentra ANULADO!'
       })
     }else{
-      if(CFaRg_Estado=='CERRADO'){
-        Swal.fire({
-          icon  : 'error',
-          title : 'CERRADO...',
-          text  : '*El registro se encuentra CERRADO!'
-        })  
-      }else{
-        Swal.fire({
-          title: '¿Está seguro?',
-          text: "Se eliminara el registro "+CFaRg_Id+" | "+CFaRg_FechaCargada+" | "+CFaRg_TipoOperacionCargada+" y TODAS las novedades reportadas !",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Si, eliminar!'
+      Swal.fire({
+        title       : '¿Está seguro?',
+        text        : "Se anulará el registro ID "+nomina_carga_id+" del "+ncar_anio+"_"+ncar_periodo+" !",
+        icon        : 'warning',
+        showCancelButton  : true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor : '#d33',
+        confirmButtonText : 'Si, anular!',
+        cancelButtonText  : 'Cancelar'
         }).then((result) => 
         {
-          if (result.isConfirmed)
-            {
-            Swal.fire(
-              'Eliminado!',
-              'El registro ha sido eliminado.',
-              'success')
-            respuesta = 1;
-            // BORRAR REGISTRO DE PROGRAMACION REGISTRO CARGA CAMBIAR ESTADO ELIMINADO
-            if (respuesta = 1)
-            {            
-              Accion='Borrargenerar_nomina';
-              $.ajax({
-                url       : "Ajax.php",
-                type      : "POST",
-                datatype  : "json",    
-                data: { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, CFaRg_Id:CFaRg_Id},   
-                success: function() {
-                  tablagenerar_nomina.ajax.reload(null, false);
-                }
-              });
-            
-              opcion2 = 1;
-
-              if(opcion2 = 1)
-              {
-                // BORRAR DETALLE DEL CONTROL FACILITADOR 
-                Accion='BorrarDetalleFacilitador'; 
-                $.ajax({
-                  url: "Ajax.php",
-                  type: "POST",
-                  datatype:"json",    
-                  data: {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, CFaRg_Id:CFaRg_Id, CFaRg_FechaCargada:CFaRg_FechaCargada},    
-                  success: function(){
-                    //tablagenerar_nomina.ajax.reload(null, false);
-                  }
-                });
-              
-                // BORRAR NOVEDADES
-                Accion='BorrarNovedadCarga'; 
-                $.ajax({
-                  url: "Ajax.php",
-                  type: "POST",
-                  datatype:"json",    
-                  data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,CFaRg_Id:CFaRg_Id},    
-                  success: function(){
-                  
-                  }
-                });
-
-                // BORRAR CONTROL DE CAMBIOS DE NOVEDAD
-                Accion='BorrarControlCambiosNovedad'; 
-                $.ajax({
-                  url: "Ajax.php",
-                  type: "POST",
-                  datatype:"json",    
-                  data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,CFaRg_Id:CFaRg_Id},    
-                  success: function(){
-                  
-                  }
-                });
-              
+          if (result.isConfirmed){
+            Accion = 'borrar_generar_nomina';
+            $.ajax({
+              url       : "Ajax.php",
+              type      : "POST",
+              datatype  : "json",    
+              data: { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, nomina_carga_id:nomina_carga_id },   
+              success: function() {
+                Swal.fire(
+                  'Eliminado!',
+                  'El registro ha sido eliminado.',
+                  'success')
+                tabla_generar_nomina.ajax.reload(null, false);
               }
-            }
+            });
           }
         });  
-      }
     }
   });
   ///:: FIN BOTON BORRAR REGISTRO generar_nomina ::::::::::::::::::::::::::::::::::::::::///
@@ -257,8 +167,9 @@ $(document).ready(function(){
     ncar_anio = fecha_hoy.substring(0,4);
     $("#ncar_anio").val(ncar_anio);
 
-    n_mes = fecha_hoy.substring(5,7);
-    switch (n_mes) {
+    let n_mes = "";
+    let t_mes = fecha_hoy.substring(5,7);
+    switch (t_mes) {
       case "01":
         n_mes = "ENERO";
       break;

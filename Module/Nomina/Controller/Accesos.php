@@ -51,6 +51,7 @@ class Accesos
 				$tablahtml = '	<table id="tabla_generar_nomina" class="table table-striped table-bordered table-condensed w-100">
 									<thead class="text-center">
 										<tr>
+											<th>ID</th>
 											<th>AÑO</th>
 											<th>PERIODO</th>
 											<th>TIPO</th>
@@ -95,7 +96,8 @@ class Accesos
 
 			case "tabla_generar_nomina":
 				$defaultContent1 = "<div class='text-center'><div class='btn-group'><button title='Anular' class='btn btn-danger btn-sm btn_borrar_generar_nomina'><i class='bi bi-trash'><svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='currentColor' class='bi bi-trash' viewBox='0 0 16 16'><path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z'/><path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'/></svg></i></button></div></div>";
-				$columnashtml = '[	{"data": "ncar_anio"},
+				$columnashtml = '[	{"data": "nomina_carga_id"},
+									{"data": "ncar_anio"},
 									{"data": "ncar_periodo"},                    
 									{"data": "ncar_tipo"},					
 									{"data": "ncar_archivo"},

@@ -18,7 +18,7 @@ $(document).ready(function(){
     cod_macrosistema  = $("#cod_macrosistema").val();
     cod_sistema       = "";
     select_html       = "";
-    select_html       = f_TipoTabla("MATERIALES",cod_macrosistema);
+    select_html       = f_select_combo("manto_tc_material", "", "tc_categoria3", "", "`tc_variable`='USUARIO' AND `tc_categoria1`='MATERIALES' AND `tc_categoria2`='"+cod_macrosistema+"'", "`tc_categoria3` ASC");
     $("#cod_sistema").html(select_html);
     $("#cod_sistema").val(cod_sistema);
     f_GeneraCodigoMateriales();
@@ -28,7 +28,7 @@ $(document).ready(function(){
     cod_tarjeta   = $("#cod_tarjeta").val();
     cod_condicion = "";
     select_html   = "";
-    select_html   = f_TipoTabla("MATERIALES",cod_tarjeta);
+    select_html       = f_select_combo("manto_tc_material", "", "tc_categoria3", "", "`tc_variable`='USUARIO' AND `tc_categoria1`='MATERIALES' AND `tc_categoria2`='"+cod_tarjeta+"'", "`tc_categoria3` ASC");
     $("#cod_condicion").html(select_html);
     $("#cod_condicion").val(cod_condicion);
     f_GeneraCodigoMateriales();
