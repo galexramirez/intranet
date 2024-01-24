@@ -13,9 +13,9 @@ class Accesos
 								<a class="nav-item nav-link" id="nav-proveedores-tab" data-toggle="tab" href="#nav-proveedores" role="tab" aria-controls="nav-proveedores" aria-selected="false">Proveedores</a>
 								<a class="nav-item nav-link" id="nav-repuesto_proveedor-tab" data-toggle="tab" href="#nav-repuesto_proveedor" role="tab" aria-controls="nav-repuesto_proveedor" aria-selected="false">Repuesto Proveedor</a>
 								<a class="nav-item nav-link" id="nav-cargarprecios-tab" data-toggle="tab" href="#nav-cargarprecios" role="tab" aria-controls="nav-cargarprecios" aria-selected="false">Cargar Precios</a>
-								<a class="nav-item nav-link" id="nav-preciosproveedor-tab" data-toggle="tab" href="#nav-preciosproveedor" role="tab" aria-controls="nav-preciosproveedor" aria-selected="false">Precios Proveedor</a>
-								<a class="nav-item nav-link" id="nav-asignarcodigos-tab" data-toggle="tab" href="#nav-asignarcodigos" role="tab" aria-controls="nav-asignarcodigos" aria-selected="false">Asignar Códigos</a>
-								<a class="nav-item nav-link" id="nav-precios_material-tab" data-toggle="tab" href="#nav-precios_material" role="tab" aria-controls="nav-precios_material" aria-selected="false">Precios Material</a>';
+								<a class="nav-item nav-link" id="nav-preciosproveedor-tab" data-toggle="tab" href="#nav-preciosproveedor" role="tab" aria-controls="nav-preciosproveedor" aria-selected="false">Precios Proveedor</a>';
+								/*<a class="nav-item nav-link" id="nav-asignarcodigos-tab" data-toggle="tab" href="#nav-asignarcodigos" role="tab" aria-controls="nav-asignarcodigos" aria-selected="false">Asignar Códigos</a>
+								<a class="nav-item nav-link" id="nav-precios_material-tab" data-toggle="tab" href="#nav-precios_material" role="tab" aria-controls="nav-precios_material" aria-selected="false">Precios Material</a>';*/
 				MModel($this->Modulo, 'CRUD');
 				$InstanciaAjax= new CRUD();
 				$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'nav-ajustes_material-tab');
@@ -114,8 +114,9 @@ class Accesos
 											<th>CODIGO</th>
 											<th>DESCRIPCION</th>
 											<th>UNIDAD</th>
-											<th>ESTADO</th> 
-											<th>FECHA REGISTRO</th> 
+											<th>ESTADO</th>
+											<th>MATERIAL_ID</th>
+											<th>DESCRIPCION MATERIAL</th>
 											<th>ACCIONES</th>
 										</tr>
 									</thead>
@@ -332,7 +333,8 @@ class Accesos
 									{"data": "repp_descripcion"},
 									{"data": "repp_unidad"},
 									{"data": "repp_estado"},
-									{"data": "repp_fecha_registro"},
+									{"data": "repp_material_id"},
+									{"data": "repp_material_descripcion"},
 									{"defaultContent": " '.$defaultContent1.' "}
 								]';
 			break;

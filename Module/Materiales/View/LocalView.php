@@ -559,7 +559,7 @@
 							</div>
 	  
 			  				<form id="form_repuesto_proveedor">
-				  				<div class="modal-body">
+				  				<div class="modal-body ui-front">
 									<div class="row">
 										<div class="col-lg-8">
 									  		<div class="form-group">
@@ -597,6 +597,20 @@
 												</select>
 											</div> 
 						  				</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-3">
+									  		<div class="form-group ui-widget">
+												<label for="repp_material_id" class="col-form-label form-control-sm">CODIGO LBI</label>
+												<input type="text" class="form-control form-control-sm text-uppercase" id="repp_material_id">
+											</div> 
+						  				</div>
+										<div class="col-lg-9">
+									  		<div class="form-group">
+												<label for="repp_material_descripcion" class="col-form-label form-control-sm">DESCRIPCION LBI</label>
+												<input type="text" readonly class="form-control form-control-sm text-uppercase" id="repp_material_descripcion">
+											</div> 
+						  				</div>										
 									</div>
 									<div class="row"> 
 										<div class="col-lg-12">

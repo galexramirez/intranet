@@ -56,7 +56,7 @@ class Logico
         $Respuesta=$InstanciaAjax->AutoCompletar($NombreTabla,$NombreCampo);
         foreach ($Respuesta as $row) {
             if($NombreCampo=="material_id"){
-                $rpta_autocompletar[] = ["value" => $row['material_id'], "label" => "<strong>".$row['material_id']."</strong>   ".$row['material_descripcion']];
+                $rpta_autocompletar[] = ["value" => $row['material_id'], "label" => "<strong>".$row['material_id']."</strong>   ".$row['material_descripcion'], "material_descripcion" => $row['material_descripcion']];
             }else{
                 $rpta_autocompletar[] = ["value" => $row['material_descripcion'], "label" => "<strong>".$row['material_id']."</strong>   ".$row['material_descripcion']];
             }
@@ -451,7 +451,7 @@ class Logico
                 }else{
                     MModel($this->Modulo, 'CRUD');
                     $InstanciaAjax = new CRUD();
-                    $repp_codigo = $InstanciaAjax->buscar_codigo_proveedor( $precioprov_codproveedor, $precioprov_descripcion, $precioprov_unidadmedida, $precioprov_ruc);
+                    $repp_codigo = $InstanciaAjax->buscar_codigo_proveedor( $precioprov_codproveedor, $precioprov_descripcion, $precioprov_unidadmedida, $precioprov_ruc, $precioprov_materialid);
                     if($repp_codigo !== $precioprov_codproveedor){
                         $CantErrores = $CantErrores + 1;
                         echo "No grabo linea ".$row." -> Código Proveedor: ".$precioprov_codproveedor." ERROR: Posible Datos CAMBIADOS . <hr>"  ;    

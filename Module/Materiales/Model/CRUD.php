@@ -313,10 +313,10 @@ class CRUD
 		$this->conexion=null;	
 	}  	
 
-	function buscar_codigo_proveedor( $precioprov_codproveedor, $precioprov_descripcion, $precioprov_unidadmedida, $precioprov_ruc)
+	function buscar_codigo_proveedor( $precioprov_codproveedor, $precioprov_descripcion, $precioprov_unidadmedida, $precioprov_ruc, $precioprov_materialid )
 	{
 		$repp_estado = "ACTIVO";
-		$consulta = " SELECT `repp_codigo` FROM `manto_repuesto_proveedor` WHERE `repp_codigo`='$precioprov_codproveedor' AND `repp_prov_ruc`='$precioprov_ruc' AND `repp_descripcion`='$precioprov_descripcion' AND `repp_unidad`='$precioprov_unidadmedida' AND `repp_estado`='$repp_estado' ";
+		$consulta = " SELECT `repp_codigo` FROM `manto_repuesto_proveedor` WHERE `repp_codigo`='$precioprov_codproveedor' AND `repp_prov_ruc`='$precioprov_ruc' AND `repp_descripcion`='$precioprov_descripcion' AND `repp_unidad`='$precioprov_unidadmedida' AND `repp_estado`='$repp_estado' AND `repp_material_id`='$precioprov_materialid'";
 
 		$resultado = $this->conexion->prepare($consulta);
         $resultado->execute();        
@@ -394,26 +394,26 @@ class CRUD
         $this->conexion=null;
    	}   
 
-	function crear_repuesto_proveedor($repp_prov_ruc, $repp_codigo, $repp_descripcion, $repp_unidad, $repp_estado, $repp_log)
+	function crear_repuesto_proveedor($repp_prov_ruc, $repp_codigo, $repp_descripcion, $repp_unidad, $repp_estado, $repp_material_id, $repp_material_descripcion, $repp_log)
 	{
 		$repp_fecha_registro = date("Y-m-d H:i:s");
 		$responsable_creacion = $_SESSION['USUARIO_ID'];
 		$repp_log = "<strong>".$repp_estado."</strong> ".$repp_fecha_registro." ".$responsable_creacion." CREACION ";
 
-		$consulta = " INSERT INTO `manto_repuesto_proveedor`(`repp_codigo`, `repp_descripcion`, `repp_unidad`, `repp_estado`, `repp_prov_ruc`, `repp_fecha_registro`, `repp_log`) VALUES ('$repp_codigo', '$repp_descripcion', '$repp_unidad', '$repp_estado', '$repp_prov_ruc', '$repp_fecha_registro', '$repp_log') ";
+		$consulta = " INSERT INTO `manto_repuesto_proveedor`(`repp_codigo`, `repp_descripcion`, `repp_unidad`, `repp_estado`, `repp_prov_ruc`, `repp_fecha_registro`,  `repp_material_id`, `repp_material_descripcion`, `repp_log`) VALUES ('$repp_codigo', '$repp_descripcion', '$repp_unidad', '$repp_estado', '$repp_prov_ruc', '$repp_fecha_registro',  '$repp_material_id', '$repp_material_descripcion', '$repp_log') ";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();   
         $this->conexion=null;	
 	}  	
 	
-	function editar_repuesto_proveedor($repp_prov_ruc, $repp_codigo, $repp_descripcion, $repp_unidad, $repp_estado, $repp_log)
+	function editar_repuesto_proveedor($repp_prov_ruc, $repp_codigo, $repp_descripcion, $repp_unidad, $repp_estado, $repp_material_id, $repp_material_descripcion, $repp_log)
 	{
 		$repp_fecha_registro = date("Y-m-d H:i:s");
 		$responsable_creacion = $_SESSION['USUARIO_ID'];
 		$repp_log = "<strong>".$repp_estado."</strong> ".$repp_fecha_registro." ".$responsable_creacion." EDICION <br>".$repp_log;
 
-		$consulta = " UPDATE `manto_repuesto_proveedor` SET `repp_descripcion` = '$repp_descripcion', `repp_unidad` = '$repp_unidad', `repp_estado` = '$repp_estado', `repp_log` = '$repp_log' WHERE `repp_codigo` = '$repp_codigo' AND `repp_prov_ruc` = '$repp_prov_ruc'";		
+		$consulta = " UPDATE `manto_repuesto_proveedor` SET `repp_descripcion` = '$repp_descripcion', `repp_unidad` = '$repp_unidad', `repp_estado` = '$repp_estado',  `repp_material_id`='$repp_material_id', `repp_material_descripcion`='$repp_material_descripcion', `repp_log` = '$repp_log' WHERE `repp_codigo` = '$repp_codigo' AND `repp_prov_ruc` = '$repp_prov_ruc'";		
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();   
