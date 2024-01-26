@@ -31,6 +31,12 @@ $(document).ready(function(){
   div_tabs = f_CreacionTabs("nav-tab-Materiales","");
   $("#nav-tab-Materiales").html(div_tabs);
 
+  div_tabs = f_CreacionTabs("nav-tab-repuesto_proveedor","");
+  $("#nav-tab-repuesto_proveedor").html(div_tabs);
+
+  div_tabs = f_CreacionTabs("nav-tab-precio_proveedor","");
+  $("#nav-tab-precio_proveedor").html(div_tabs);
+
   div_tabs = f_CreacionTabs("nav-tab-ajustes_material","");
   $("#nav-tab-ajustes_material").html(div_tabs);
 

@@ -266,6 +266,32 @@ switch ($Accion)
       $Respuesta=$InstanciaAjax->EditarProveedores($prov_ruc,$prov_razonsocial,$prov_contacto,$prov_cta_detraccion_soles,$prov_cta_banco_soles,$prov_cta_banco_dolares,$prov_cta_interbanco_soles,$prov_cta_interbanco_dolares,$prov_condicion_pago,$prov_correo,$prov_telefono,$prov_estado, $prov_log);
    break;
 
+   case 'leer_repuesto_proveedor_carga':
+      $rpc_anio = $_POST['rpc_anio'];
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax= new CRUD();
+      $Respuesta=$InstanciaAjax->leer_repuesto_proveedor_carga($rpc_anio);
+   break;
+
+   case 'crear_repuesto_proveedor_carga':
+      $input_file_name = $_FILES['archivo_excel']['tmp_name'];
+      $rpc_prov_ruc = $_POST['rpc_prov_ruc'];
+      $rpc_prov_razon_social = $_POST['rpc_prov_razon_social'];
+
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta = $InstanciaAjax->crear_repuesto_proveedor_carga($input_filename, $rpc_prov_ruc, $cpm_prov_razon_social);
+   break;
+
+   case 'eliminar_repuesto_proveedor_carga':
+      $rpc_id = $_POST['rpc_id'];
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax= new CRUD();
+      $Respuesta=$InstanciaAjax->eliminar_repuesto_proveedor_carga($rpc_id);
+   break;
+
    case 'leer_repuesto_proveedor':
       $repp_prov_ruc    = $_POST['repp_prov_ruc'];
 
@@ -278,30 +304,34 @@ switch ($Accion)
       $repp_prov_ruc    = $_POST['repp_prov_ruc'];
       $repp_codigo      = strtoupper($_POST['repp_codigo']);
       $repp_descripcion = strtoupper($_POST['repp_descripcion']);
-      $repp_unidad      = strtoupper($_POST['repp_unidad']);
+      $repp_moneda      = $_POST['repp_moneda'];
+      $repp_unidad      = $_POST['repp_unidad'];
       $repp_estado      = $_POST['repp_estado'];
       $repp_material_id = $_POST['repp_material_id'];
       $repp_material_descripcion = $_POST['repp_material_descripcion'];
       $repp_log         = $_POST['repp_log'];
+      $repp_rcp_id      = $_POST['repp_rcp_id'];
 
       MModel($Modulo,'CRUD');
       $instancia_ajax = new CRUD();
-      $respuesta = $instancia_ajax->crear_repuesto_proveedor($repp_prov_ruc, $repp_codigo, $repp_descripcion, $repp_unidad, $repp_estado, $repp_material_id, $repp_material_descripcion, $repp_log);
+      $respuesta = $instancia_ajax->crear_repuesto_proveedor($repp_prov_ruc, $repp_codigo, $repp_descripcion, $repp_moneda, $repp_unidad, $repp_estado, $repp_material_id, $repp_material_descripcion, $repp_log, $repp_rcp_id);
    break;
 
    case 'editar_repuesto_proveedor':
       $repp_prov_ruc    = $_POST['repp_prov_ruc'];
       $repp_codigo      = strtoupper($_POST['repp_codigo']);
       $repp_descripcion = strtoupper($_POST['repp_descripcion']);
-      $repp_unidad      = strtoupper($_POST['repp_unidad']);
+      $repp_unidad      = $_POST['repp_unidad'];
+      $repp_moneda      = $_POST['repp_moneda'];
       $repp_estado      = $_POST['repp_estado'];
       $repp_material_id = $_POST['repp_material_id'];
       $repp_material_descripcion = $_POST['repp_material_descripcion'];
       $repp_log         = $_POST['repp_log'];
+      $repp_rcp_id      = $_POST['repp_rcp_id'];
 
       MModel($Modulo,'CRUD');
       $instancia_ajax = new CRUD();
-      $respuesta = $instancia_ajax->editar_repuesto_proveedor($repp_prov_ruc, $repp_codigo, $repp_descripcion, $repp_unidad, $repp_estado, $repp_material_id, $repp_material_descripcion, $repp_log);
+      $respuesta = $instancia_ajax->editar_repuesto_proveedor($repp_prov_ruc, $repp_codigo, $repp_descripcion, $repp_moneda, $repp_unidad, $repp_estado, $repp_material_id, $repp_material_descripcion, $repp_log, $repp_rcp_id);
    break;
 
    case 'SelectAnios':

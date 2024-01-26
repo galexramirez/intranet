@@ -42,6 +42,7 @@
                     <script src='Module/Materiales/View/LocalViewInicio.js' type='text/javascript'></script>
                     <script src='Module/Materiales/View/LocalViewMateriales.js' type='text/javascript'></script>
                     <script src='Module/Materiales/View/LocalViewProveedores.js' type='text/javascript'></script>
+                    <script src='Module/Materiales/View/local_view_repuesto_proveedor_carga.js' type='text/javascript'></script>
                     <script src='Module/Materiales/View/local_view_repuesto_proveedor.js' type='text/javascript'></script>
                     <script src='Module/Materiales/View/LocalViewCargarPrecios.js' type='text/javascript'></script>
                     <script src='Module/Materiales/View/LocalViewAsignarCodigos.js' type='text/javascript'></script>

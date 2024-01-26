@@ -9,11 +9,10 @@ class Accesos
 		switch($NombreTabs)
 		{
 			case "nav-tab-Materiales":
-				$tabshtml = '	<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Listado</a>
+				$tabshtml = '	<a class="nav-item nav-link active" id="nav-codigo_lbi-tab" data-toggle="tab" href="#nav-codigo_lbi" role="tab" aria-controls="nav-codigo_lbi" aria-selected="true">Código LBI</a>
 								<a class="nav-item nav-link" id="nav-proveedores-tab" data-toggle="tab" href="#nav-proveedores" role="tab" aria-controls="nav-proveedores" aria-selected="false">Proveedores</a>
 								<a class="nav-item nav-link" id="nav-repuesto_proveedor-tab" data-toggle="tab" href="#nav-repuesto_proveedor" role="tab" aria-controls="nav-repuesto_proveedor" aria-selected="false">Repuesto Proveedor</a>
-								<a class="nav-item nav-link" id="nav-cargarprecios-tab" data-toggle="tab" href="#nav-cargarprecios" role="tab" aria-controls="nav-cargarprecios" aria-selected="false">Cargar Precios</a>
-								<a class="nav-item nav-link" id="nav-preciosproveedor-tab" data-toggle="tab" href="#nav-preciosproveedor" role="tab" aria-controls="nav-preciosproveedor" aria-selected="false">Precios Proveedor</a>';
+								<a class="nav-item nav-link" id="nav-precio_proveedor-tab" data-toggle="tab" href="#nav-precio_proveedor" role="tab" aria-controls="nav-precio_proveedor" aria-selected="false">Precios Proveedor</a> ';
 								/*<a class="nav-item nav-link" id="nav-asignarcodigos-tab" data-toggle="tab" href="#nav-asignarcodigos" role="tab" aria-controls="nav-asignarcodigos" aria-selected="false">Asignar Códigos</a>
 								<a class="nav-item nav-link" id="nav-precios_material-tab" data-toggle="tab" href="#nav-precios_material" role="tab" aria-controls="nav-precios_material" aria-selected="false">Precios Material</a>';*/
 				MModel($this->Modulo, 'CRUD');
@@ -22,7 +21,16 @@ class Accesos
 				if ($Respuesta=="SI"){
 					$tabshtml .= '<a class="nav-item nav-link" id="nav-ajustes_material-tab" data-toggle="tab" href="#nav-ajustes_material" role="tab" aria-controls="nav-ajustes_material" aria-selected="false">Ajustes</a>';
 				}
+			break;
 
+			case "nav-tab-repuesto_proveedor":
+				$tabshtml  = ' <a class="nav-item nav-link active" id="nav-cargar_repuesto_proveedor-tab" data-toggle="tab" href="#nav-cargar_repuesto_proveedor" role="tab" aria-controls="nav-cargar_repuesto_proveedor" aria-selected="true">Cargar</a> ';
+				$tabshtml .= ' <a class="nav-item nav-link" id="nav-listado_repuesto_proveedor-tab" data-toggle="tab" href="#nav-listado_repuesto_proveedor" role="tab" aria-controls="nav-listado_repuesto_proveedor" aria-selected="true">Listado</a> ';
+			break;
+
+			case "nav-tab-precio_proveedor":
+				$tabshtml  = ' <a class="nav-item nav-link active" id="nav-cargar_precio_proveedor-tab" data-toggle="tab" href="#nav-cargar_precio_proveedor" role="tab" aria-controls="nav-cargar_precio_proveedor" aria-selected="false">Cargar</a> ';
+				$tabshtml .= ' <a class="nav-item nav-link" id="nav-listado_precio_proveedor-tab" data-toggle="tab" href="#nav-listado_precio_proveedor" role="tab" aria-controls="nav-listado_precio_proveedor" aria-selected="false">Listado</a> ';
 			break;
 
 			case "nav-tab-ajustes_material":
@@ -89,17 +97,37 @@ class Accesos
 										<tr>
 										<th>RUC</th>
 										<th>RAZON_SOCIAL</th>
-										<th>CONTACTO</th>
+										<th>PERSONA_DE_CONTACTO</th>
 										<th>CUENTA_DETRACCION_SOLES</th> 
 										<th>CUENTA_BANCARIA_SOLES</th> 
 										<th>CUENTA_BANCARIA_DOLARES</th>
 										<th>CUENTA_INTERBANCARIA_SOLES</th> 
 										<th>CUENTA_INTERBANCARIA_DOLARES</th>
-										<th>CONDICION DE PAGO</th>  
+										<th>COND.PAGO</th>  
 										<th>CORREO</th>
 										<th>TELEFONO</th>
 										<th>ESTADO</th>
 										<th>ACCIONES</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>';
+            break;
+
+			case "tabla_repuesto_proveedor_carga":
+                $tablahtml = '	<table id="tabla_repuesto_proveedor_carga" class="table table-striped table-bordered table-condensed w-100">
+									<thead class="text-center">
+										<tr>
+											<th>ID</th>
+											<th>NRO.REGISTROS</th>
+											<th>FECHA_CARGA</th>
+											<th>RAZON SOCIAL DEL PROVEEDOR</th>
+											<th>RESPONSABLE_CARGA</th>
+											<th>FECHA_ELIMINACION</th>
+											<th>RESPONSABLE_ELIMINACION</th>
+											<th>ESTADO</th>
+											<th>ACCIONES</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -114,9 +142,10 @@ class Accesos
 											<th>CODIGO</th>
 											<th>DESCRIPCION</th>
 											<th>UNIDAD</th>
-											<th>ESTADO</th>
+											<th>MONEDA</th>
 											<th>MATERIAL_ID</th>
 											<th>DESCRIPCION MATERIAL</th>
+											<th>ESTADO</th>	
 											<th>ACCIONES</th>
 										</tr>
 									</thead>
@@ -327,14 +356,29 @@ class Accesos
 								]';
 			break;
 
+			case "tabla_repuesto_proveedor_carga":
+				$defaultContent1 = "<div class='text-center'><div class='btn-group'><button title='ELIMINAR' class='btn btn-danger btn-sm btn_eliminar_repuesto_proveedor_carga'><i class='bi bi-trash'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-trash' viewBox='0 0 16 16'><path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z'/><path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'/></svg></i></button></div></div>";
+				$columnashtml = '[	{"data": "rpc_id"},
+									{"data": "rpc_nro_registros"},
+									{"data": "rpc_fecha_carga"},
+									{"data": "rpc_prov_razon_social"},
+									{"data": "rpc_responsable_carga"},
+									{"data": "cpm_fecha_elimina"},
+									{"data": "cpm_responsable_elimina"},
+									{"data": "cpm_estado"},
+									{"defaultContent": " '.$defaultContent1.' "}
+								]';
+			break;
+
 			case "tabla_repuesto_proveedor":
 				$defaultContent1 = "<div class='text-center'><div class='btn-group'><button title='Editar' class='btn btn-primary btn-sm btn_editar_repuesto_proveedor'><i class='bi bi-pencil'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pencil' viewBox='0 0 16 16'><path d='M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z'/></svg></i></button></div></div>";
 				$columnashtml = '[	{"data": "repp_codigo"},
 									{"data": "repp_descripcion"},
-									{"data": "repp_unidad"},
-									{"data": "repp_estado"},
+									{"data": "repp_unidad_medida"},
+									{"data": "repp_moneda"},
 									{"data": "repp_material_id"},
 									{"data": "repp_material_descripcion"},
+									{"data": "repp_estado"},
 									{"defaultContent": " '.$defaultContent1.' "}
 								]';
 			break;

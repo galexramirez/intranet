@@ -171,7 +171,7 @@ class CRUD
 
 	function crear_ot($ot_id, $ot_origen, $ot_bus, $ot_kilometraje, $ot_fecha_registro, $ot_ruc_proveedor, $ot_nombre_proveedor, $ot_cgm_id, $ot_estado, $ot_actividad, $ot_ejecucion, $ot_obs_cgm, $ot_sistema, $ot_obs_proveedor, $ot_semana_cierre, $ot_tipo)
 	{
-		$ot_usuario_genera = $_SESSION['Usua_NombreCorto'];;
+		$ot_usuario_genera = $_SESSION['Usua_NombreCorto'];
 		$ot_log = '<strong>'.$ot_estado.' '.$ot_fecha_registro.' '.$ot_usuario_genera.' CREACION </strong>';
 
 		$consulta = " INSERT INTO `manto_ots` (`ot_estado`, `ot_origen`, `ot_tipo`, `ot_bus`, `ot_ruc_proveedor`, `ot_nombre_proveedor`, `ot_cgm_id`, `ot_fecha_registro`, `ot_actividad`, `ot_kilometraje`, `ot_sistema`, `ot_ejecucion`, `ot_obs_proveedor`, `ot_obs_cgm`, `ot_log`, `ot_semana_cierre`) VALUES ('$ot_estado', '$ot_origen', '$ot_tipo', '$ot_bus', '$ot_ruc_proveedor', '$ot_nombre_proveedor', '$ot_cgm_id', '$ot_fecha_registro', '$ot_actividad', '$ot_kilometraje', '$ot_sistema', '$ot_ejecucion', '$ot_obs_proveedor', '$ot_obs_cgm', '$ot_log', '$ot_semana_cierre') ";

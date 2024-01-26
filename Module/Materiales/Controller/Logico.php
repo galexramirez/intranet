@@ -305,73 +305,152 @@ class Logico
         $Respuesta=$InstanciaAjax->EditarMateriales($material_id, $material_descripcion, $material_unidadmedida, $material_patrimonial, $material_categoria,$material_observaciones,$material_usuario,$material_log,$material_estado, $material_obslog);
     }
 
-    public function BuscarAsignarCodigoId($material_id)
-    {
-        $a_data = [];
-        $TablaBD = "manto_materiales";
-        $CampoBD = "material_id";
+    public function CrearProveedores($prov_ruc,$prov_razonsocial,$prov_contacto,$prov_cta_detraccion_soles,$prov_cta_banco_soles,$prov_cta_banco_dolares,$prov_cta_interbanco_soles,$prov_cta_interbanco_dolares,$prov_condicion_pago,$prov_correo,$prov_telefono,$prov_estado, $prov_log)
+	{
+        $prov_responsablecreacion = $_SESSION['USUARIO_ID'];
+        $prov_fechacreacion = date("Y-m-d H:i:s");
 
+        $TablaBD = "glo_roles";
+        $CampoBD = "roles_dni";
         MModel($this->Modulo,'CRUD');
         $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$material_id);
-        echo json_encode($Respuesta);
-    }
-
-    public function BuscarAsignarCodigoDescripcion($material_descripcion)
-    {
-        $a_data = [];
-        $TablaBD = "manto_materiales";
-        $CampoBD = "material_descripcion";
-
-        MModel($this->Modulo,'CRUD');
-        $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$material_descripcion);
+        $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$prov_responsablecreacion);
         foreach ($Respuesta as $row) {
-            $a_data[] = ["material_id" => $row['material_id'], "material_descripcion" => $row['material_descripcion']];
+            $prov_usuario = $row['roles_nombrecorto'];
         }
-        echo json_encode($a_data);
-    }
+        $prov_log = "<strong>".$prov_estado."</strong> ".$prov_fechacreacion." ".$prov_usuario." CREACIÓN <br>".$prov_log;	
+        
+        MModel($this->Modulo,'CRUD');
+        $InstanciaAjax= new CRUD();
+        $Respuesta=$InstanciaAjax->CrearProveedores($prov_ruc,$prov_razonsocial,$prov_contacto,$prov_cta_detraccion_soles,$prov_cta_banco_soles,$prov_cta_banco_dolares,$prov_cta_interbanco_soles,$prov_cta_interbanco_dolares,$prov_condicion_pago,$prov_correo,$prov_telefono,$prov_estado, $prov_log);
+	}  	
+	
+	public function EditarProveedores($prov_ruc,$prov_razonsocial,$prov_contacto,$prov_cta_detraccion_soles,$prov_cta_banco_soles,$prov_cta_banco_dolares,$prov_cta_interbanco_soles,$prov_cta_interbanco_dolares,$prov_condicion_pago,$prov_correo,$prov_telefono,$prov_estado, $prov_log)
+	{
+        $prov_responsablecreacion = $_SESSION['USUARIO_ID'];
+        $prov_fechacreacion = date("Y-m-d H:i:s");
 
-    public function MostrarPreciosProveedor($material_id)
-    {
-        $html = "";
-        $TablaBD = "manto_preciosproveedor";
-        $CampoBD = "precioprov_materialid";
+        $TablaBD = "glo_roles";
+        $CampoBD = "roles_dni";
+        MModel($this->Modulo,'CRUD');
+        $InstanciaAjax= new CRUD();
+        $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$prov_responsablecreacion);
+        foreach ($Respuesta as $row) {
+            $prov_usuario = $row['roles_nombrecorto'];
+        }
+        $prov_log = "<strong>".$prov_estado."</strong> ".$prov_fechacreacion." ".$prov_usuario." EDICIÓN <br>".$prov_log;	
 
         MModel($this->Modulo,'CRUD');
         $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$material_id);
+        $Respuesta=$InstanciaAjax->EditarProveedores($prov_ruc,$prov_razonsocial,$prov_contacto,$prov_cta_detraccion_soles,$prov_cta_banco_soles,$prov_cta_banco_dolares,$prov_cta_interbanco_soles,$prov_cta_interbanco_dolares,$prov_condicion_pago,$prov_correo,$prov_telefono,$prov_estado, $prov_log);
+	}  		
 
-        $html = '	<table id="tablaProveedorMateriales" class="table table-striped table-bordered table-condensed w-100 my-custom-scrollbar table-wrapper-scroll-y">
-						<thead class="text-center">
-							<tr>
-							    <th>RUC</th>
-							    <th>RAZON SOCIAL</th>
-							    <th>CODIGO PROVEEDOR</th>
-							    <th>DESCRIPCION PROVEEDOR</th> 
-							    <th>MARCA</th>
-							    <th>MONEDA</th>
-							    <th>PRECIO</th>
-							    <th>FECHA VIGENCIA</th>
-							</tr>
-                        </thead>
-                        <tbody>';
-        foreach ($Respuesta as $row){
-            $html .='       <tr>
-                                <td>'.$row['precioprov_ruc'].'</td>
-                                <td>'.$row['precioprov_razonsocial'].'</td>
-                                <td>'.$row['precioprov_codproveedor'].'</td>
-                                <td>'.$row['precioprov_descripcion'].'</td>
-                                <td>'.$row['precioprov_marca'].'</td>
-                                <td>'.$row['precioprov_moneda'].'</td>
-                                <td>'.$row['precioprov_precio'].'</td>
-                                <td>'.$row['precioprov_fechavigencia'].'</td>
-                            <tr>';
+    public function crear_repuesto_proveedor_carga($input_file_name, $rpc_prov_ruc, $rpc_prov_razon_social)
+    {
+        require_once 'Services/Composer/vendor/autoload.php';
+        $input_file_type = \PhpOffice\PhpSpreadsheet\IOFactory::identify($input_file_name);
+        $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($input_file_type);
+        $spread_sheet = $reader->load($input_file_name);
+        $work_sheet = $spread_sheet->getActiveSheet();
+        $highest_row = $work_sheet->getHighestRow(); // e.g. 10
+
+        $rpc_fecha_carga = date("Y-m-d H:i:s");
+
+        // Se asigna el nombre corto del usuario que genera
+        $rpc_usuario_id_carga = $_SESSION['USUARIO_ID'];
+        $rpc_estado = "CARGADO";
+
+        // Se asigna el siguiente Id de manto_repuesto_proveedor_carga a rpc_id
+        $TablaBD = "manto_repuesto_proveedor_carga";
+        $CampoId = "rpc_id";
+        MModel($this->Modulo, 'CRUD');
+        $InstanciaAjax= new CRUD();
+        $max_id = $InstanciaAjax->MaxId($TablaBD, $CampoId);
+        foreach ($max_id as $row) {
+            $rpc_id = $row['MaxId']+1;
         }
-		$html .='	    </tbody>
-					</table>';
-        echo $html;
+        
+        $repp_estado = "ACTIVO";
+        $repp_rpc_id = $rpc_id;
+        $repp_prov_ruc = $rpc_prov_ruc;
+        $repp_log = "";
+
+        $cant_errores = 0;
+        for ($row = 2; $row <= $highest_row; $row++) {
+            $repp_codigo      = $worksheet->getCell('A'.$row)->getValue();
+            $repp_descripcion = $worksheet->getCell('B'.$row)->getValue();
+            $repp_unidad      = $worksheet->getCell('C'.$row)->getValue();
+            $repp_moneda      = $worksheet->getCell('D'.$row)->getValue();
+            $repp_material_id = $worksheet->getCell('E'.$row)->getValue();
+            if  (empty($repp_codigo) || empty($repp_descripcion) || empty($repp_unidad) || empty($repp_moneda) || empty($repp_material_id) || empty($repp_prov_ruc) ){
+                $cant_errores = $cant_errores + 1;
+                echo "No grabo linea ".$row." -> Código de Repuesto: ".$repp_codigo." ERROR: Posible Datos INCOMPLETOS !. <hr>"  ;
+            }else{
+                $error_registro = 0;
+                MModel($this->Modulo, 'CRUD');
+                $InstanciaAjax = new CRUD();
+                $respuesta = $InstanciaAjax->buscar_dato( "manto_repuesto_proveedor", "repp_codigo","`repp_prov_ruc`='".$repp_prov_ruc."' AND `repp_codigo`='".$repp_codigo."'");
+                foreach ($respuesta as $row2) {
+                    if($row2['repp_codigo'] == $repp_codigo){
+                        $error_registro = 1;
+                        $cant_errores = $cant_errores + 1;
+                        echo "No grabo linea ".$row." -> Código de Repuesto: ".$repp_codigo." ERROR: Posible Código EXISTE !. <hr>"  ;    
+                    }
+                }
+                if($error_registro==0){
+                    $error_registro = 1;
+                    MModel($this->Modulo, 'CRUD');
+                    $InstanciaAjax = new CRUD();
+                    $respuesta = $InstanciaAjax->buscar_dato( "manto_unidad_medida", "unidad_medida","`unidad_medida`='".$repp_unidad."'");
+                    foreach ($respuesta as $row2) {
+                        if($row2['unidad_medida'] == $repp_unidad){
+                            $error_registro = 0;
+                        }
+                    }
+                    if($error_registro==1){
+                        $cant_errores = $cant_errores + 1;
+                        echo "No grabo linea ".$row." -> Código de Repuesto: ".$repp_codigo." ERROR: Posible Unidad de Medida NO EXISTE !. <hr>"  ;    
+                    }
+                }
+                if($error_registro==0){
+                    $error_registro = 1;
+                    MModel($this->Modulo, 'CRUD');
+                    $InstanciaAjax = new CRUD();
+                    $respuesta = $InstanciaAjax->BuscarDataBD( "manto_materiales", "material_id",$repp_material_id);
+                    foreach ($respuesta as $row2) {
+                        if($row2['material_id'] == $repp_material_id){
+                            $error_registro = 0;
+                            $repp_material_descripcion = $row2['material_descripcion'];
+                        }
+                    }
+                    if($error_registro==1){
+                        $cant_errores = $cant_errores + 1;
+                        echo "No grabo linea ".$row." -> Código de Repuesto: ".$repp_codigo." ERROR: Posible Codigo de LBI NO EXISTE !. <hr>"  ;    
+                    }
+                }
+                if($error_registro==0){
+                    MModel($this->Modulo, 'CRUD');
+                    $InstanciaAjax = new CRUD();
+                    $Respuesta = $InstanciaAjax->crear_repuesto_proveedor( $repp_prov_ruc, $repp_codigo, $repp_descripcion, $repp_moneda, $repp_unidad, $repp_estado, $repp_material_id, $repp_material_descripcion, $repp_log, $repp_rpc_id );
+                        if(count($Respuesta)>0){
+                            echo "No grabo linea ".$row." -> Código de Repuesto: ".$repp_codidgo." ERROR: "  ;
+                            print_r($Respuesta);
+                            echo "<br>";
+                            $CantErrores = $CantErrores + 1;
+                        }
+                }
+                }
+        }
+
+        $rpc_nro_registros = $highest_row - $cant_errores - 1;
+        if($rpc_nro_registros > 0){
+            MModel($this->Modulo, 'CRUD');
+            $InstanciaAjax = new CRUD();
+            $Respuesta = $InstanciaAjax->crear_repuesto_proveedor_carga($rpc_nro_registros, $rpc_prov_ruc, $rpc_prov_razon_social, $rpc_fecha_carga, $rpc_usuario_id_carga, $rpc_estado);
+        }
+        echo "Se cargaron ".($highest_row - $cant_errores - 1)." de ".($highest_row - 1);
     }
+
 
     public function CrearCargarPrecios($inputFileName,$Anio, $cpm_prov_ruc, $cpm_prov_razon_social)
     {
@@ -501,46 +580,6 @@ class Logico
         return $validarCargarPrecios;
     }
 
-    public function CrearProveedores($prov_ruc,$prov_razonsocial,$prov_contacto,$prov_cta_detraccion_soles,$prov_cta_banco_soles,$prov_cta_banco_dolares,$prov_cta_interbanco_soles,$prov_cta_interbanco_dolares,$prov_condicion_pago,$prov_correo,$prov_telefono,$prov_estado, $prov_log)
-	{
-        $prov_responsablecreacion = $_SESSION['USUARIO_ID'];
-        $prov_fechacreacion = date("Y-m-d H:i:s");
-
-        $TablaBD = "glo_roles";
-        $CampoBD = "roles_dni";
-        MModel($this->Modulo,'CRUD');
-        $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$prov_responsablecreacion);
-        foreach ($Respuesta as $row) {
-            $prov_usuario = $row['roles_nombrecorto'];
-        }
-        $prov_log = "<strong>".$prov_estado."</strong> ".$prov_fechacreacion." ".$prov_usuario." CREACIÓN <br>".$prov_log;	
-        
-        MModel($this->Modulo,'CRUD');
-        $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->CrearProveedores($prov_ruc,$prov_razonsocial,$prov_contacto,$prov_cta_detraccion_soles,$prov_cta_banco_soles,$prov_cta_banco_dolares,$prov_cta_interbanco_soles,$prov_cta_interbanco_dolares,$prov_condicion_pago,$prov_correo,$prov_telefono,$prov_estado, $prov_log);
-	}  	
-	
-	public function EditarProveedores($prov_ruc,$prov_razonsocial,$prov_contacto,$prov_cta_detraccion_soles,$prov_cta_banco_soles,$prov_cta_banco_dolares,$prov_cta_interbanco_soles,$prov_cta_interbanco_dolares,$prov_condicion_pago,$prov_correo,$prov_telefono,$prov_estado, $prov_log)
-	{
-        $prov_responsablecreacion = $_SESSION['USUARIO_ID'];
-        $prov_fechacreacion = date("Y-m-d H:i:s");
-
-        $TablaBD = "glo_roles";
-        $CampoBD = "roles_dni";
-        MModel($this->Modulo,'CRUD');
-        $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$prov_responsablecreacion);
-        foreach ($Respuesta as $row) {
-            $prov_usuario = $row['roles_nombrecorto'];
-        }
-        $prov_log = "<strong>".$prov_estado."</strong> ".$prov_fechacreacion." ".$prov_usuario." EDICIÓN <br>".$prov_log;	
-
-        MModel($this->Modulo,'CRUD');
-        $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->EditarProveedores($prov_ruc,$prov_razonsocial,$prov_contacto,$prov_cta_detraccion_soles,$prov_cta_banco_soles,$prov_cta_banco_dolares,$prov_cta_interbanco_soles,$prov_cta_interbanco_dolares,$prov_condicion_pago,$prov_correo,$prov_telefono,$prov_estado, $prov_log);
-	}  		
-
     public function EditarAsignarCodigos($precioprov_codproveedor, $precioprov_descripcion, $precioprov_razonsocial, $precioprov_materialid)
     {
         $precioprov_estado = 'RELACIONADO';
@@ -611,6 +650,74 @@ class Logico
         MModel($this->Modulo, 'CRUD');
         $InstanciaAjax  = new CRUD();
         $Respuesta      = $InstanciaAjax->CrearPreciosProveedor($precioprov_codproveedor, $precioprov_descripcion, $precioprov_marca, $precioprov_procedencia, $precioprov_unidadmedida, $precioprov_garantia, $precioprov_moneda, $precioprov_precio, $precioprov_preciosoles, $precioprov_ruc, $precioprov_razonsocial, $precioprov_materialid, $precioprov_documentacion, $precioprov_fechavigencia, $precioprov_cargaid, $precioprov_responsablecreacion, $precioprov_fechacreacion, $precioprov_estado, $precioprov_log, $precioprov_tipo );        
+    }
+
+    public function BuscarAsignarCodigoId($material_id)
+    {
+        $a_data = [];
+        $TablaBD = "manto_materiales";
+        $CampoBD = "material_id";
+
+        MModel($this->Modulo,'CRUD');
+        $InstanciaAjax= new CRUD();
+        $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$material_id);
+        echo json_encode($Respuesta);
+    }
+
+    public function BuscarAsignarCodigoDescripcion($material_descripcion)
+    {
+        $a_data = [];
+        $TablaBD = "manto_materiales";
+        $CampoBD = "material_descripcion";
+
+        MModel($this->Modulo,'CRUD');
+        $InstanciaAjax= new CRUD();
+        $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$material_descripcion);
+        foreach ($Respuesta as $row) {
+            $a_data[] = ["material_id" => $row['material_id'], "material_descripcion" => $row['material_descripcion']];
+        }
+        echo json_encode($a_data);
+    }
+
+    public function MostrarPreciosProveedor($material_id)
+    {
+        $html = "";
+        $TablaBD = "manto_preciosproveedor";
+        $CampoBD = "precioprov_materialid";
+
+        MModel($this->Modulo,'CRUD');
+        $InstanciaAjax= new CRUD();
+        $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$material_id);
+
+        $html = '	<table id="tablaProveedorMateriales" class="table table-striped table-bordered table-condensed w-100 my-custom-scrollbar table-wrapper-scroll-y">
+						<thead class="text-center">
+							<tr>
+							    <th>RUC</th>
+							    <th>RAZON SOCIAL</th>
+							    <th>CODIGO PROVEEDOR</th>
+							    <th>DESCRIPCION PROVEEDOR</th> 
+							    <th>MARCA</th>
+							    <th>MONEDA</th>
+							    <th>PRECIO</th>
+							    <th>FECHA VIGENCIA</th>
+							</tr>
+                        </thead>
+                        <tbody>';
+        foreach ($Respuesta as $row){
+            $html .='       <tr>
+                                <td>'.$row['precioprov_ruc'].'</td>
+                                <td>'.$row['precioprov_razonsocial'].'</td>
+                                <td>'.$row['precioprov_codproveedor'].'</td>
+                                <td>'.$row['precioprov_descripcion'].'</td>
+                                <td>'.$row['precioprov_marca'].'</td>
+                                <td>'.$row['precioprov_moneda'].'</td>
+                                <td>'.$row['precioprov_precio'].'</td>
+                                <td>'.$row['precioprov_fechavigencia'].'</td>
+                            <tr>';
+        }
+		$html .='	    </tbody>
+					</table>';
+        echo $html;
     }
 
     public function GrabarImagen($matimag_codproveedor, $asignarcod_razonsocial, $matimag_tipoimagen, $matimag_imagen)

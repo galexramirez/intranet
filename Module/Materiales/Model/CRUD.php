@@ -382,9 +382,78 @@ class CRUD
         $this->conexion=null;	
 	}  		
 
+	function leer_repuesto_proveedor_carga($rpc_anio)
+	{
+		$consulta = "	SELECT	`manto_repuesto_proveedor_carga`.`rpc_id`,
+								`manto_repuesto_proveedor_carga`.`rpc_nro_registros`,
+								`manto_repuesto_proveedor_carga`.`rpc_prov_ruc`,
+								`manto_repuesto_proveedor_carga`.`rpc_prov_razon_social`,
+								`manto_repuesto_proveedor_carga`.`rpc_fecha_carga`,
+								`t_crea`.`Colab_nombre_corto` AS `rpc_responsable_carga`,
+								`manto_repuesto_proveedor_carga`.`rpc_fecha_elimina`,
+								`t_elimina`.`Colab_nombre_corto` AS `rpc_responsable_elimina`,
+								`manto_repuesto_proveedor_carga`.`rpc_estado`
+						FROM `manto_repuesto_proveedor_carga`
+						LEFT JOIN
+						   `colaborador` AS `t_crea`
+						ON
+						   `manto_repuesto_proveedor_carga`.`rpc_usuario_id_carga`=`t_crea`.`Colaborador_id`
+						LEFT JOIN
+						   `colaborador` AS `t_elimina`
+						ON
+						   `manto_repuesto_proveedor_carga`.`rpc_usuario_id_elimina`=`t_elimina`.`Colaborador_id`
+
+	 					WHERE SUBSTRING(`rpc_fecha_carga`,1,4)='$rpc_anio'";
+
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();        
+		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+		print json_encode($data, JSON_UNESCAPED_UNICODE);//envio el array final el formato json a AJAX
+
+		$this->conexion=null;
+	}   
+
+	function crear_repuesto_proveedor_carga($rpc_nro_registros, $rpc_prov_ruc, $rpc_prov_razon_social, $rpc_fecha_carga, $rpc_usuario_id_carga, $rpc_estado)
+	{
+		$consulta = " INSERT INTO `manto_repuesto_proveedor_carga` (`rpc_nro_registros`, `rpc_prov_ruc`, `rpc_prov_razon_social`, `rpc_fecha_carga`, `rpc_usuario_id_carga`, `rpc_estado`) VALUES ('$rpc_nro_registros', '$rpc_prov_ruc', '$rpc_prov_razon_social', '$rpc_fecha_carga', '$rpc_usuario_id_carga', '$rpc_estado') ";
+
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();   
+		$this->conexion=null;	
+	}
+
+	function eliminar_repuesto_proveedor_carga($rpc_id)
+	{
+		$rpc_fecha_elimina = date("Y-m-d H:i:s");
+		$rpc_usuario_id_elimina = $_SESSION['USUARIO_ID'];
+		$rpc_usuario_nombre_elimina = $_SESSION['Usua_NombreCorto'];
+		$rpc_estado = "ELIMINADO";
+
+		$consulta = " UPDATE `manto_repuesto_proveedor_carga` SET `rpc_fecha_elimina`='$rpc_fecha_elimina', `rpc_usuario_id_elimina`='$rpc_usuario_id_elimina', `rpc_estado`='$rpc_estado' WHERE `rpc_id`='$rpc_id' ";		
+
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();
+		
+		$consulta = " SELECT * FROM `manto_repuesto_proveedor` WHERE `repp_rpc_id`='$rpc_id' ";
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();
+		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+
+		$reep_estado = "INACTIVO";
+		foreach($data as $row){
+			$repp_log = $row['repp_log'];
+			$repp_log_edt = "<strong>".$rpc_estado."</strong> ".$rpc_fecha_elimina." ".$rpc_usuario_nombre_elimina." ELIMINACION CARGA <br>".$repp_log;
+			$consulta = " UPDATE `manto_repuesto_proveedor` SET `repp_estado`='$reep_estado', `repp_log`='$repp_log_edt' WHERE `repp_rpc_id`='$rpc_id' ";
+			$resultado = $this->conexion->prepare($consulta);
+			$resultado->execute();	
+		}
+
+		$this->conexion=null;	
+	}
+
 	function leer_repuesto_proveedor($repp_prov_ruc)
 	{
-        $consulta = "SELECT * FROM `manto_repuesto_proveedor` WHERE `repp_prov_ruc`='$repp_prov_ruc'";
+        $consulta = "SELECT *,  CONCAT(`manto_unidad_medida`.`unidad_medida`,' - ',`manto_unidad_medida`.`um_descripcion`) AS `repp_unidad_medida` FROM `manto_repuesto_proveedor` LEFT JOIN `manto_unidad_medida` ON `manto_unidad_medida`.`unidad_medida`=`manto_repuesto_proveedor`.`repp_unidad` WHERE `repp_prov_ruc`='$repp_prov_ruc'";
 
         $resultado = $this->conexion->prepare($consulta);
         $resultado->execute();        
@@ -394,26 +463,35 @@ class CRUD
         $this->conexion=null;
    	}   
 
-	function crear_repuesto_proveedor($repp_prov_ruc, $repp_codigo, $repp_descripcion, $repp_unidad, $repp_estado, $repp_material_id, $repp_material_descripcion, $repp_log)
+	function crear_repuesto_proveedor($repp_prov_ruc, $repp_codigo, $repp_descripcion, $repp_moneda, $repp_unidad, $repp_estado, $repp_material_id, $repp_material_descripcion, $repp_log, $repp_rpc_id)
 	{
+		$error		= [];
 		$repp_fecha_registro = date("Y-m-d H:i:s");
-		$responsable_creacion = $_SESSION['USUARIO_ID'];
+		$responsable_creacion = $_SESSION['Usua_NombreCorto'];
 		$repp_log = "<strong>".$repp_estado."</strong> ".$repp_fecha_registro." ".$responsable_creacion." CREACION ";
 
-		$consulta = " INSERT INTO `manto_repuesto_proveedor`(`repp_codigo`, `repp_descripcion`, `repp_unidad`, `repp_estado`, `repp_prov_ruc`, `repp_fecha_registro`,  `repp_material_id`, `repp_material_descripcion`, `repp_log`) VALUES ('$repp_codigo', '$repp_descripcion', '$repp_unidad', '$repp_estado', '$repp_prov_ruc', '$repp_fecha_registro',  '$repp_material_id', '$repp_material_descripcion', '$repp_log') ";
+		$consulta = " INSERT INTO `manto_repuesto_proveedor`(`repp_codigo`, `repp_descripcion`, `repp_unidad`, `rep_moneda`, `repp_estado`, `repp_prov_ruc`, `repp_fecha_registro`,  `repp_material_id`, `repp_material_descripcion`, `repp_log`, `repp_rpc_id`) VALUES ('$repp_codigo', '$repp_descripcion', '$repp_unidad', '$repp_moneda', '$repp_estado', '$repp_prov_ruc', '$repp_fecha_registro',  '$repp_material_id', '$repp_material_descripcion', '$repp_log', '$repp_rpc_id') ";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();   
-        $this->conexion=null;	
+		$valida 	= $resultado->rowCount();
+		
+		if($valida == 0){
+			$error = $resultado->errorInfo();
+		}
+
+		return $error;
+
+		$this->conexion=null;	
 	}  	
 	
-	function editar_repuesto_proveedor($repp_prov_ruc, $repp_codigo, $repp_descripcion, $repp_unidad, $repp_estado, $repp_material_id, $repp_material_descripcion, $repp_log)
+	function editar_repuesto_proveedor($repp_prov_ruc, $repp_codigo, $repp_descripcion, $repp_moneda, $repp_unidad, $repp_estado, $repp_material_id, $repp_material_descripcion, $repp_log, $repp_rpc_id)
 	{
 		$repp_fecha_registro = date("Y-m-d H:i:s");
 		$responsable_creacion = $_SESSION['USUARIO_ID'];
 		$repp_log = "<strong>".$repp_estado."</strong> ".$repp_fecha_registro." ".$responsable_creacion." EDICION <br>".$repp_log;
 
-		$consulta = " UPDATE `manto_repuesto_proveedor` SET `repp_descripcion` = '$repp_descripcion', `repp_unidad` = '$repp_unidad', `repp_estado` = '$repp_estado',  `repp_material_id`='$repp_material_id', `repp_material_descripcion`='$repp_material_descripcion', `repp_log` = '$repp_log' WHERE `repp_codigo` = '$repp_codigo' AND `repp_prov_ruc` = '$repp_prov_ruc'";		
+		$consulta = " UPDATE `manto_repuesto_proveedor` SET `repp_descripcion` = '$repp_descripcion', `repp_unidad` = '$repp_unidad', `repp_moneda` = '$repp_moneda', `repp_estado` = '$repp_estado',  `repp_material_id`='$repp_material_id', `repp_material_descripcion`='$repp_material_descripcion', `repp_log` = '$repp_log' WHERE `repp_codigo` = '$repp_codigo' AND `repp_prov_ruc` = '$repp_prov_ruc'";		
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();   
