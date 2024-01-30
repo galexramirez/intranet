@@ -67,8 +67,9 @@ class Accesos
 									<thead class="text-center">
 										<tr>
 											<th>CÓDIGO</th>
-											<th>DESCRIPCIÓN</th>
-											<th>UNIDAD_MEDIDA</th>
+											<th>DESCRIPCIÓN_MATERIAL_SERVICIO</th>
+											<th>UNID.</th>
+											<th>DESC.UNID.</th>
 											<th>TIPO</th>
 											<th>COD.PATRIMONIAL</TH>
 											<th>CATEGORIA</th>
@@ -79,8 +80,7 @@ class Accesos
 											<th>FLOTA</th>
 											<th>RESPONSABLE_CREACIÓN</th>
 											<th>FECHA_CREACIÓN</th>
-											<th>ESTADO</th>
-											<th>PROVEEDOR</th>';
+											<th>ESTADO</th>';
                 if($Respuesta=="SI"){
                     $tablahtml .=          '<th>ACCIONES</th>';
                 }
@@ -120,9 +120,9 @@ class Accesos
 									<thead class="text-center">
 										<tr>
 											<th>ID</th>
-											<th>NRO.REGISTROS</th>
+											<th>NRO.REG.</th>
+											<th>RAZON_SOCIAL_DEL_PROVEEDOR</th>
 											<th>FECHA_CARGA</th>
-											<th>RAZON SOCIAL DEL PROVEEDOR</th>
 											<th>RESPONSABLE_CARGA</th>
 											<th>FECHA_ELIMINACION</th>
 											<th>RESPONSABLE_ELIMINACION</th>
@@ -141,7 +141,8 @@ class Accesos
 										<tr>
 											<th>CODIGO</th>
 											<th>DESCRIPCION</th>
-											<th>UNIDAD</th>
+											<th>UNID.</th>
+											<th>UNID.DESC.</th>
 											<th>MONEDA</th>
 											<th>MATERIAL_ID</th>
 											<th>DESCRIPCION MATERIAL</th>
@@ -182,10 +183,8 @@ class Accesos
 											<th>CÓDIGO_PROVEEDOR</th>
 											<th>DESCRIPCIÓN_PROVEEDOR</th>
 											<th>TIPO</th>
-											<th>MARCA</th>
-											<th>PROCEDENCIA</th>
-											<th>UNIDAD</th>
-											<th>GARANTIA</th>
+											<th>UNID.</th>
+											<th>UNID.DESC.</th>
 											<th>MONEDA</th>
 											<th>PRECIO</th>
 											<th>PRECIO_SOLES</th>
@@ -193,7 +192,6 @@ class Accesos
 											<th>RAZON_SOCIAL</th>
 											<th>CÓDIGO_LBI</th>
 											<th>DESCRIPCIÓN_LBI</th>
-											<TH>DOCUMENTACIÓN</th>
 											<th>FECHA VIGENCIA</th>
 											<th>ID_CARGA</th>											
 											<th>FECHA_CARGA</th>
@@ -319,7 +317,8 @@ class Accesos
 				$defaultContent1 = "<div class='text-center'><div class='btn-group'><button title='Editar' class='btn btn-primary btn-sm btnEditarMateriales'><i class='bi bi-pencil'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pencil' viewBox='0 0 16 16'><path d='M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z'/></svg></i></button></div></div>";
 				$columnashtml = '[	{"data": "material_id"},
 									{"data": "material_descripcion"},
-									{"data": "mate_unidad_medida"},
+									{"data": "material_unidadmedida"},
+									{"data": "material_descripcion_unidad_medida"},
 									{"data": "material_tipo"},
 									{"data": "material_patrimonial"},
 									{"data": "material_categoria"},
@@ -328,10 +327,9 @@ class Accesos
 									{"data": "material_tarjeta"},
 									{"data": "material_condicion"},
 									{"data": "material_flota"},
-									{"data": "material_nombreresponsablecreacion"},
+									{"data": "material_nombre_responsable_creacion"},
 									{"data": "material_fechacreacion"},
-									{"data": "material_estado"},
-									{"data": "proveedor"}';
+									{"data": "material_estado"}';
 				if($Respuesta=="SI"){
                     $columnashtml.= ' ,{"defaultContent": "'.$defaultContent1.'"}';
                 }                
@@ -360,12 +358,12 @@ class Accesos
 				$defaultContent1 = "<div class='text-center'><div class='btn-group'><button title='ELIMINAR' class='btn btn-danger btn-sm btn_eliminar_repuesto_proveedor_carga'><i class='bi bi-trash'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-trash' viewBox='0 0 16 16'><path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z'/><path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'/></svg></i></button></div></div>";
 				$columnashtml = '[	{"data": "rpc_id"},
 									{"data": "rpc_nro_registros"},
-									{"data": "rpc_fecha_carga"},
 									{"data": "rpc_prov_razon_social"},
+									{"data": "rpc_fecha_carga"},
 									{"data": "rpc_responsable_carga"},
-									{"data": "cpm_fecha_elimina"},
-									{"data": "cpm_responsable_elimina"},
-									{"data": "cpm_estado"},
+									{"data": "rpc_fecha_elimina"},
+									{"data": "rpc_responsable_elimina"},
+									{"data": "rpc_estado"},
 									{"defaultContent": " '.$defaultContent1.' "}
 								]';
 			break;
@@ -374,7 +372,8 @@ class Accesos
 				$defaultContent1 = "<div class='text-center'><div class='btn-group'><button title='Editar' class='btn btn-primary btn-sm btn_editar_repuesto_proveedor'><i class='bi bi-pencil'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pencil' viewBox='0 0 16 16'><path d='M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z'/></svg></i></button></div></div>";
 				$columnashtml = '[	{"data": "repp_codigo"},
 									{"data": "repp_descripcion"},
-									{"data": "repp_unidad_medida"},
+									{"data": "repp_unidad"},
+									{"data": "repp_unidad_medida_descripcion"},
 									{"data": "repp_moneda"},
 									{"data": "repp_material_id"},
 									{"data": "repp_material_descripcion"},
@@ -403,10 +402,8 @@ class Accesos
 									{"data": "precioprov_codproveedor"},
 									{"data": "precioprov_descripcion"},
 									{"data": "precioprov_tipo"},									
-									{"data": "precioprov_marca"},
-									{"data": "precioprov_procedencia"},
 									{"data": "precioprov_unidadmedida"},
-									{"data": "precioprov_garantia"},
+									{"data": "precioprov_unidad_medida_descripcion"},
 									{"data": "precioprov_moneda"},
 									{"data": "precioprov_precio"},
 									{"data": "precioprov_preciosoles"},
@@ -414,11 +411,10 @@ class Accesos
 									{"data": "precioprov_razonsocial"},
 									{"data": "precioprov_materialid"},
 									{"data": "precioprov_materialdescripcion"},
-									{"data": "precioprov_documentacion"},
 									{"data": "precioprov_maxfechavigencia"},
 									{"data": "precioprov_cargaid"},
 									{"data": "precioprov_fechacreacion"},
-									{"data": "precioprov_responsablecreacion"},
+									{"data": "precioprov_nombre_responsable_creacion"},
 									{"data": "precioprov_estado"},
 									{"defaultContent": " '.$defaultContent1.' "}
 								]';

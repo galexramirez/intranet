@@ -274,6 +274,16 @@ switch ($Accion)
       $Respuesta=$InstanciaAjax->leer_repuesto_proveedor_carga($rpc_anio);
    break;
 
+   case 'validar_repuesto_proveedor_carga':
+      $input_file_name = $_FILES['archivo_excel']['tmp_name'];
+      $rpc_prov_ruc = $_POST['rpc_prov_ruc'];
+      $rpc_prov_razon_social = $_POST['rpc_prov_razon_social'];
+
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta = $InstanciaAjax->validar_repuesto_proveedor_carga($input_file_name, $rpc_prov_ruc, $rpc_prov_razon_social);
+   break;
+
    case 'crear_repuesto_proveedor_carga':
       $input_file_name = $_FILES['archivo_excel']['tmp_name'];
       $rpc_prov_ruc = $_POST['rpc_prov_ruc'];
@@ -281,7 +291,7 @@ switch ($Accion)
 
       MController($Modulo,'Logico');
       $InstanciaAjax = new Logico();
-      $Respuesta = $InstanciaAjax->crear_repuesto_proveedor_carga($input_filename, $rpc_prov_ruc, $cpm_prov_razon_social);
+      $Respuesta = $InstanciaAjax->crear_repuesto_proveedor_carga($input_file_name, $rpc_prov_ruc, $rpc_prov_razon_social);
    break;
 
    case 'eliminar_repuesto_proveedor_carga':
@@ -348,8 +358,19 @@ switch ($Accion)
       $Respuesta=$InstanciaAjax->LeerCargarPrecios($Anios);
    break;
 
+   case 'validar_archivo_cargar_precios':
+      $input_file_name = $_FILES['archivo_excel']['tmp_name'];
+      $anio = $_POST['anio'];
+      $cpm_prov_ruc = $_POST['cpm_prov_ruc'];
+      $cpm_prov_razon_social = $_POST['cpm_prov_razon_social'];
+
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta = $InstanciaAjax->validar_archivo_cargar_precios($input_file_name, $anio, $cpm_prov_ruc, $cpm_prov_razon_social);
+   break;
+
    case 'CrearCargarPrecios':
-      $inputFileName = $_FILES['archivoexcel']['tmp_name'];
+      $inputFileName = $_FILES['archivo_excel']['tmp_name'];
       $Anio = $_POST['Anio'];
       $cpm_prov_ruc = $_POST['cpm_prov_ruc'];
       $cpm_prov_razon_social = $_POST['cpm_prov_razon_social'];

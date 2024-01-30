@@ -70,7 +70,7 @@ $(document).ready(function(){
   ///:: FIN EVENTO DEL BOTON NUEVO ::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
   ///:: EVENTO DEL BOTON NUEVO ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-    $("#btnCodigoMateriales").click(function(){
+  $("#btnCodigoMateriales").click(function(){
       if(material_id==""){
         cod_material      = "";
         cod_asignacion    = "";
@@ -107,24 +107,23 @@ $(document).ready(function(){
       $("#codigoModalLabel").text("Generar Código de Materiales");
       $('#modalCRUDCodigoMateriales').modal('show');	    
       $('#modalCRUDCodigoMateriales').draggable();
-    });
+  });
   ///:: FIN EVENTO DEL BOTON NUEVO ::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
     
   ///:: BOTON EDITAR ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///       
   $(document).on("click", ".btnEditarMateriales", function(){
     f_LimpiaMsTablaMateriales();
-    f_select_materiales();
     opcionTablaMateriales = 2;// Editar
     filaTablaMateriales   = $(this).closest("tr");	        
     material_id           = filaTablaMateriales.find('td:eq(0)').text();
     material_descripcion  = filaTablaMateriales.find('td:eq(1)').text();
     mate_unidad_medida    = filaTablaMateriales.find('td:eq(2)').text(); 
-    material_tipo         = filaTablaMateriales.find('td:eq(3)').text();
-    material_patrimonial  = filaTablaMateriales.find('td:eq(4)').text();
-    material_categoria    = filaTablaMateriales.find('td:eq(5)').text();
-    material_estado       = filaTablaMateriales.find('td:eq(13)').text();
+    material_tipo         = filaTablaMateriales.find('td:eq(4)').text();
+    material_patrimonial  = filaTablaMateriales.find('td:eq(5)').text();
+    material_categoria    = filaTablaMateriales.find('td:eq(6)').text();
+    material_estado       = filaTablaMateriales.find('td:eq(14)').text();
     material_obslog       = "";
-    
+    f_select_materiales();
     $("#btnCodigoMateriales").hide();
     
     if(material_estado=="INACTIVO"){
@@ -190,8 +189,9 @@ $(document).ready(function(){
     cod_flota               = $("#cod_flota").val();
 
     validacionTablaMateriales = f_validarTablaMateriales(material_id, material_descripcion, mate_unidad_medida, material_tipo, material_patrimonial, material_categoria,material_estado, material_observaciones, material_obslog);
-    unidad_medida         = $.trim(mate_unidad_medida.substring(0,mate_unidad_medida.indexOf('-')));
-    material_unidadmedida = f_encontrar_dato('manto_unidad_medida','unidad_medida',unidad_medida,'unidad_medida') 
+    //unidad_medida         = $.trim(mate_unidad_medida.substring(0,mate_unidad_medida.indexOf('-')));
+    //material_unidadmedida = f_encontrar_dato('manto_unidad_medida','unidad_medida',unidad_medida,'unidad_medida') 
+    material_unidadmedida = mate_unidad_medida;
 
     /// CREAR
     if(opcionTablaMateriales == 1) {
@@ -519,22 +519,12 @@ function f_MostrarTablaMateriales(){
       "columns"       : columnastabla,
       "columnDefs"    : [
         {
-          "targets"   : [14, 15],
+          "targets"   : [15],
           "orderable" : false
         },
         {
           "className" : "text-center",
-          "targets"   : [2,4,5,6,7,8]
-        },
-        {
-          "targets"   : [14],
-          "render"    : function(data, type, row, meta) {
-              if(data==="SI"){
-                  return "<div class='text-center'><div class='btn-group'><button title='Proveedor' class='btn btn-sm btnProveedor'><i class='bi bi-people-fill'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-people-fill' viewBox='0 0 16 16'><path d='M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z'/><path fill-rule='evenodd' d='M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z'/><path d='M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z'/></svg></i></button></div></div>";
-              }else{
-                  return "";
-              }
-          }
+          "targets"   : [2,4,5,13,14]
         }
       ],
       "order"         : [[0, 'desc']]

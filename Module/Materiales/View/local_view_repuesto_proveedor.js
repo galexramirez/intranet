@@ -116,10 +116,10 @@ $(document).ready(function(){
         repp_codigo       = fila_repuesto_proveedor.find('td:eq(0)').text();
         repp_descripcion  = fila_repuesto_proveedor.find('td:eq(1)').text();
         repp_unidad       = fila_repuesto_proveedor.find('td:eq(2)').text();
-        repp_moneda       = fila_repuesto_proveedor.find('td:eq(3)').text();
-        repp_material_id  = fila_repuesto_proveedor.find('td:eq(4)').text();
-        repp_material_descripcion = fila_repuesto_proveedor.find('td:eq(5)').text();
-        repp_estado       = fila_repuesto_proveedor.find('td:eq(6)').text();
+        repp_moneda       = fila_repuesto_proveedor.find('td:eq(4)').text();
+        repp_material_id  = fila_repuesto_proveedor.find('td:eq(5)').text();
+        repp_material_descripcion = fila_repuesto_proveedor.find('td:eq(6)').text();
+        repp_estado       = fila_repuesto_proveedor.find('td:eq(7)').text();
         repp_prov_ruc     = f_buscar_dato("manto_proveedores", "prov_ruc", "`prov_razonsocial`='"+prov_razon_social+"'");
         repp_log          = f_buscar_dato("manto_repuesto_proveedor", "repp_log", "`repp_prov_ruc`='"+repp_prov_ruc+"' AND `repp_codigo`='"+repp_codigo+"'");
 
@@ -135,9 +135,13 @@ $(document).ready(function(){
    
         $(".modal-header").css("background-color", "#007bff");
         $(".modal-header").css("color", "white" );
-        $(".modal-title").text("Editar Tabla Proveedores");		
+        $(".modal-title").text("Editar Repuesto por Proveedor");		
     
-        $('#modal_crud_listado_repuesto_proveedor').modal('show');		   
+        $('#modal_crud_listado_repuesto_proveedor').modal('show');
+        $(".modal-dialog").draggable({
+            cursor: "move",
+            handle: ".dragable_touch",
+        });   	   
     });
     ///:: FIN BOTON EDITAR ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
@@ -158,9 +162,6 @@ $(document).ready(function(){
         repp_log           = $.trim($('#div_repp_log').html());
 
         validar_repuesto_proveedor = f_validar_repuesto_proveedor(prov_razon_social, repp_prov_ruc, repp_codigo, repp_descripcion, repp_unidad, repp_unidad, repp_estado, repp_material_id, repp_material_descripcion);
-
-        let unidad_medida = $.trim(repp_unidad.substring(0,repp_unidad.indexOf('-')));
-        repp_unidad = f_buscar_dato("manto_unidad_medida", "unidad_medida", "`unidad_medida`='"+unidad_medida+"'") 
 
         if(opcion_repuesto_proveedor == "CREAR") { Accion = 'crear_repuesto_proveedor'; };
         if(opcion_repuesto_proveedor == "EDITAR") { Accion = 'editar_repuesto_proveedor'; };

@@ -406,13 +406,13 @@
 			  				<form id="formProveedores">
 				  				<div class="modal-body">
 									<div class="row">
-										<div class="col-lg-6">
+										<div class="col-lg-3">
 											<div class="form-group">
 										  		<label for="prov_ruc" class="col-form-label form-control-sm">NRO. RUC</label>
 										   		<input type="number" class="form-control form-control-sm" id="prov_ruc">
 										 	</div>
 									 	</div>
-										 <div class="col-lg-6">
+										 <div class="col-lg-9">
 									  		<div class="form-group">
 												<label for="prov_razonsocial" class="col-form-label form-control-sm">RAZON SOCIAL</label>
 										   		<input type="text" class="form-control text-uppercase form-control-sm" id="prov_razonsocial" maxlength="100">
@@ -420,71 +420,70 @@
 									 	</div>    
 									</div>
 									<div class="row">
-										 <div class="col-lg-6">
+										 <div class="col">
+								  			<div class="form-group">
+												<label for="prov_contacto" class="col-form-label form-control-sm">CONTACTO (Máx.100 caract.)</label>
+												<textarea class="form-control text-uppercase form-control-sm" id="prov_contacto" rows="2" placeholder="escribe algo aqui..."></textarea>
+											</div>
+										</div>
+										<div class="col">
 									  		<div class="form-group">
-												<label for="prov_contacto" class="col-form-label form-control-sm">CONTACTO</label>
-												<input type="text" class="form-control text-uppercase form-control-sm" id="prov_contacto" maxlength="100">
-											</div> 
-						  				</div>
-										  <div class="col-lg-6">
-									  		<div class="form-group">
-												<label for="prov_cta_detraccion_soles" class="col-form-label form-control-sm">CUENTA DETRACCION EN SOLES</label>
-												<input type="text" class="form-control text-uppercase form-control-sm" id="prov_cta_detraccion_soles" maxlength="200">
-											</div> 
-						  				</div>
-									</div>
-									<div class="row"> 
-										<div class="col-lg-6">
-									  		<div class="form-group">
-												<label for="prov_cta_banco_soles" class="col-form-label form-control-sm">CUENTA BANCARIA EN SOLES</label>
-												<input type="text" class="form-control text-uppercase form-control-sm" id="prov_cta_banco_soles" maxlength="200">
-											</div> 
-						  				</div>
-										<div class="col-lg-6">
-									  		<div class="form-group">
-												<label for="prov_cta_banco_dolares" class="col-form-label form-control-sm">CUENTA BANCARIA EN DOLARES</label>
-												<input type="text" class="form-control text-uppercase form-control-sm" id="prov_cta_banco_dolares" maxlength="200">
+												<label for="prov_cta_detraccion_soles" class="col-form-label form-control-sm">CTA. DETRACCION SOLES (Máx.200 caract.)</label>
+												<textarea class="form-control text-uppercase form-control-sm" id="prov_cta_detraccion_soles" rows="2" placeholder="escribe algo aqui..."></textarea>
 											</div> 
 						  				</div>
 									</div>
 									<div class="row"> 
-										<div class="col-lg-6">
+										<div class="col">
 									  		<div class="form-group">
-												<label for="prov_cta_interbanco_soles" class="col-form-label form-control-sm">CUENTA INTER BANCARIA EN SOLES</label>
-												<input type="text" class="form-control text-uppercase form-control-sm" id="prov_cta_interbanco_soles" maxlength="200">
+												<label for="prov_cta_banco_soles" class="col-form-label form-control-sm">CTA. BANCARIA SOLES (Máx.200 caract.)</label>
+												<textarea class="form-control text-uppercase form-control-sm" id="prov_cta_banco_soles" rows="2" placeholder="escribe algo aqui..."></textarea>
 											</div> 
 						  				</div>
-										<div class="col-lg-6">
+										<div class="col">
 									  		<div class="form-group">
-												<label for="prov_cta_interbanco_dolares" class="col-form-label form-control-sm">CUENTA INTER BANCARIA EN DOLARES</label>
-												<input type="text" class="form-control text-uppercase form-control-sm" id="prov_cta_interbanco_dolares" maxlength="200">
+												<label for="prov_cta_banco_dolares" class="col-form-label form-control-sm">CTA. BANCARIA DOLARES (Máx.200 caract.)</label>
+												<textarea class="form-control text-uppercase form-control-sm" id="prov_cta_banco_dolares" rows="2" placeholder="escribe algo aqui..."></textarea>
 											</div> 
 						  				</div>
 									</div>
 									<div class="row"> 
-										<div class="col-lg-6">
+										<div class="col">
+									  		<div class="form-group">
+												<label for="prov_cta_interbanco_soles" class="col-form-label form-control-sm">CTA. INTER BANCARIA SOLES (Máx.200 caract.)</label>
+												<textarea class="form-control text-uppercase form-control-sm" id="prov_cta_interbanco_soles" rows="2" placeholder="escribe algo aqui..."></textarea>
+											</div> 
+						  				</div>
+										<div class="col">
+									  		<div class="form-group">
+												<label for="prov_cta_interbanco_dolares" class="col-form-label form-control-sm">CTA. INTER BANCARIA DOLARES (Máx.200 caract.)</label>
+												<textarea class="form-control text-uppercase form-control-sm" id="prov_cta_interbanco_dolares" rows="2" placeholder="escribe algo aqui..."></textarea>
+											</div> 
+						  				</div>
+									</div>
+									<div class="row"> 
+										<div class="col">
+									  		<div class="form-group">
+												<label for="prov_correo" class="col-form-label form-control-sm">CORREO ELECTRONICO</label>
+												<textarea class="form-control text-lowercase form-control-sm" id="prov_correo" rows="2" placeholder="escribe algo aqui..."></textarea>
+											</div>
+										</div>
+										<div class="col">
+									  		<div class="form-group">
+												<label for="prov_telefono" class="col-form-label form-control-sm">TELEFONO</label>
+												<textarea class="form-control form-control-sm" id="prov_telefono" rows="2" placeholder="escribe algo aqui..."></textarea>
+											</div> 
+						  				</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-3">
 									  		<div class="form-group">
 												<label for="prov_condicion_pago" class="col-form-label form-control-sm">CONDICION DE PAGO</label>
 												<select class="form-control form-control-sm" id="prov_condicion_pago">
 												</select>	
 											</div> 
 						  				</div>
-										<div class="col-lg-6">
-									  		<div class="form-group">
-												<label for="prov_correo" class="col-form-label form-control-sm">CORREO ELECTRONICO</label>
-												<input type="text" class="form-control text-lowercase form-control-sm" id="prov_correo" maxlength="100">
-											</div> 
-						  				</div>
-									</div>
-
-									<div class="row"> 
-										<div class="col-lg-6">
-									  		<div class="form-group">
-												<label for="prov_telefono" class="col-form-label form-control-sm">TELEFONO</label>
-												<input type="text" class="form-control form-control-sm" id="prov_telefono">
-											</div> 
-						  				</div>
-										  <div class="col-lg-6">
+										<div class="col-lg-3">
 									  		<div class="form-group">
 												<label for="prov_estado" class="col-form-label form-control-sm">ESTADO</label>
 												<select class="form-control form-control-sm" id="prov_estado">
@@ -500,7 +499,7 @@
 						  				</div>
 										<div class="col-lg-12">
 											<div class="form-group">
-												<div class="form-control-sm overflow-auto border border-muted border-radius rounded" style="height:50px" id="div_proveedor_log">
+												<div class="form-control-sm overflow-auto border border-muted border-radius rounded mb-1" style="height:50px" id="div_proveedor_log">
 													<!-- JS proveedor_log -->
 												</div>
 											</div>
@@ -844,19 +843,19 @@
 											 	</div>    
 											</div>
 											<div class="row align-items-end">
-												<div class="col-lg-9">
+												<div class="col-lg-10">
 													<div class="form-group">
 														<label for="" class="col-form-label">Cargar Archivo</label>
 														<div class="custom-file">
-															<label id="LabelfileCargarPrecios" class="custom-file-label" for="customFileLang">Seleccionar Archivo .csv o .xlsx</label>
-															<input type="file" class="custom-file-input" id="fileCargarPrecios" lang="es" accept=".csv, .xlsx"> 
+															<label id="LabelfileCargarPrecios" class="custom-file-label form-control-sm" for="customFileLang">Seleccionar Archivo .csv o .xlsx</label>
+															<input type="file" class="custom-file-input form-control-sm" id="fileCargarPrecios" lang="es" accept=".csv, .xlsx"> 
 														</div>
 													</div>
 											  	</div>
-											  	<div class="col-lg-3">
+											  	<div class="col-lg-2">
 												  	<div class="form-group">
 													  	<label for="" class="col-form-label"></label>
-														<button type="submit" id="btnCargarListaPrecios" class="btn btn-success">Cargar Lista</button>
+														<button type="submit" id="btnCargarListaPrecios" class="btn btn-secondary btn-sm">Cargar Lista</button>
 													</div>
 											  	</div>
 										  	</div>    

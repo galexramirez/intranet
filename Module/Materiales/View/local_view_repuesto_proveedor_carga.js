@@ -185,28 +185,70 @@ $(document).ready(function(){
       })
       $("#div_resultado_repuesto_proveedor_carga").empty();
     }else{
-      // Objeto FormData para enviar datos de al formulario   
-      let form_repuesto_proveedor_carga = new FormData(); 
-      let files_excel = $("#file_rpc")[0].files[0]; 
-      form_repuesto_proveedor_carga.append('archivo_excel',files_excel);
-      form_repuesto_proveedor_carga.append('MoS',MoS);
-      form_repuesto_proveedor_carga.append('NombreMoS',NombreMoS);
-      form_repuesto_proveedor_carga.append('Accion','crear_repuesto_proveedor_carga');
-      form_repuesto_proveedor_carga.append('rpc_prov_ruc',rpc_prov_ruc);
-      form_repuesto_proveedor_carga.append('rpc_prov_razon_social',rpc_prov_razon_social);
+      // Objeto FormData para enviar datos de al formulario 
+      Accion =  'validar_repuesto_proveedor_carga';
+      let form_repuesto_proveedor_carga_validar = new FormData(); 
+      let files_excel_validar = $("#file_rpc")[0].files[0]; 
+      form_repuesto_proveedor_carga_validar.append('archivo_excel',files_excel_validar);
+      form_repuesto_proveedor_carga_validar.append('MoS',MoS);
+      form_repuesto_proveedor_carga_validar.append('NombreMoS',NombreMoS);
+      form_repuesto_proveedor_carga_validar.append('Accion',Accion);
+      form_repuesto_proveedor_carga_validar.append('rpc_prov_ruc',rpc_prov_ruc);
+      form_repuesto_proveedor_carga_validar.append('rpc_prov_razon_social',rpc_prov_razon_social);
       $("#bnt_cargar_lista_repuesto_proveedor").prop("disabled",true);
       $.ajax({
         url         : "Ajax.php",
         type        : "POST",
-        data        : form_repuesto_proveedor_carga,
+        data        : form_repuesto_proveedor_carga_validar,
         contentType : false,
         processData : false,
         beforeSend: function () {
           $("#div_resultado_repuesto_proveedor_carga").html("Procesando, espere por favor...<img src='Services/PlantillaTemplon/View/Img/loading5.gif' width='20' height='20'>");
         },
         success:function(resp){
-          $("#div_resultado_repuesto_proveedor_carga").html(resp);
-          tabla_repuesto_proveedor_carga.ajax.reload(null, false);
+          if(resp===""){
+            Swal.fire({
+              title             : '¿ Desea cargar los repuestos ?',
+              text              : "Registros Validados!!",
+              icon              : 'success',
+              showCancelButton  : true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor : '#d33',
+              confirmButtonText : 'Si, cargar!',
+              cancelButtonText  : 'Cancelar'
+            }).then((result) => {
+              if (result.isConfirmed) {
+                // CREAR CARGAR PRECIOS POR PROVEEDOR
+                Accion='crear_repuesto_proveedor_carga';
+                let form_repuesto_proveedor_carga_crear = new FormData(); 
+                let files_excel_crear = $("#file_rpc")[0].files[0]; 
+                form_repuesto_proveedor_carga_crear.append('archivo_excel',files_excel_crear);
+                form_repuesto_proveedor_carga_crear.append('MoS',MoS);
+                form_repuesto_proveedor_carga_crear.append('NombreMoS',NombreMoS);
+                form_repuesto_proveedor_carga_crear.append('Accion',Accion);
+                form_repuesto_proveedor_carga_crear.append('rpc_prov_ruc',rpc_prov_ruc);
+                form_repuesto_proveedor_carga_crear.append('rpc_prov_razon_social',rpc_prov_razon_social);
+                $.ajax({
+                  url         : "Ajax.php",
+                  type        : "POST",
+                  data        : form_repuesto_proveedor_carga_crear,
+                  contentType : false,
+                  processData : false,
+                  success: function(resp) {
+                    $("#div_resultado_repuesto_proveedor_carga").html(resp);
+                    tabla_repuesto_proveedor_carga.ajax.reload(null, false);
+                    Swal.fire(
+                      'Carga Exitosa!',
+                      'Los repuestos han sido cargados.',
+                      'success'
+                    )    
+                  }
+                });
+              }
+            });
+          }else{
+            $("#div_resultado_repuesto_proveedor_carga").html(resp);
+          }
           $("#bnt_cargar_lista_repuesto_proveedor").prop("disabled",false);
         },
       });

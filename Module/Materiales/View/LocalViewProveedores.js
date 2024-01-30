@@ -216,51 +216,67 @@ function f_validarTablaProveedores(pprov_ruc, pprov_razonsocial, pprov_contacto,
         rpta_Proveedores="invalido";
     }
 
-    if(pprov_contacto==""){
-        $("#prov_contacto").addClass("color-error");
-        rpta_Proveedores="invalido";
+    if(pprov_contacto!==""){
+        if(pprov_contacto.length>100){
+            $("#prov_contacto").addClass("color-error");
+            rpta_Proveedores="invalido";
+        }
     }
-    /*
-    if(p_prov_cta_detraccion_soles==""){
-        $("#prov_cta_detraccion_soles").addClass("color-error");
-        rpta_Proveedores="invalido";
-    }
-
-    if(p_prov_cta_banco_soles==""){
-        $("#prov_cta_banco_soles").addClass("color-error");
-        rpta_Proveedores="invalido";
-    }
-
-    if(p_prov_cta_banco_dolares==""){
-        $("#prov_cta_banco_dolares").addClass("color-error");
-        rpta_Proveedores="invalido";
+    
+    if(p_prov_cta_detraccion_soles!==""){
+        if(p_prov_cta_detraccion_soles.length>200){
+            $("#prov_cta_detraccion_soles").addClass("color-error");
+            rpta_Proveedores="invalido";
+        }
     }
 
-    if(p_prov_cta_interbanco_soles==""){
-        $("#prov_cta_interbanco_soles").addClass("color-error");
-        rpta_Proveedores="invalido";
+    if(p_prov_cta_banco_soles!==""){
+        if(p_prov_cta_banco_soles.length>200){
+            $("#prov_cta_banco_soles").addClass("color-error");
+            rpta_Proveedores="invalido";
+        }
     }
 
-    if(p_prov_cta_interbanco_dolares==""){
-        $("#prov_cta_interbanco_dolares").addClass("color-error");
-        rpta_Proveedores="invalido";
+    if(p_prov_cta_banco_dolares!==""){
+        if(p_prov_cta_banco_dolares.length>200){
+            $("#prov_cta_banco_dolares").addClass("color-error");
+            rpta_Proveedores="invalido";
+        }
     }
 
-    if(p_prov_condicion_pago==""){
+    if(p_prov_cta_interbanco_soles!==""){
+        if(p_prov_cta_interbanco_soles.length>200){
+            $("#prov_cta_interbanco_soles").addClass("color-error");
+            rpta_Proveedores="invalido";
+        }
+    }
+
+    if(p_prov_cta_interbanco_dolares!==""){
+        if(p_prov_cta_interbanco_dolares.length>200){
+            $("#prov_cta_interbanco_dolares").addClass("color-error");
+            rpta_Proveedores="invalido";
+        }
+    }
+
+    /* if(p_prov_condicion_pago==""){
         $("#prov_condicion_pago").addClass("color-error");
         rpta_Proveedores="invalido";
+    } */
+
+    if(pprov_correo!==""){
+        if(pprov_correo.length>100){
+            $("#prov_correo").addClass("color-error");
+            rpta_Proveedores="invalido";
+        }
     }
 
-    if(pprov_correo==""){
-        $("#prov_correo").addClass("color-error");
-        rpta_Proveedores="invalido";
+    if(pprov_telefono!==""){
+        if(pprov_telefono.length>100){
+            $("#prov_telefono").addClass("color-error");
+            rpta_Proveedores="invalido";
+        }
     }
 
-    if(pprov_telefono==""){
-        $("#prov_telefono").addClass("color-error");
-        rpta_Proveedores="invalido";
-    }
-    */
     if(pprov_estado==""){
         $("#prov_estado").addClass("color-error");
         rpta_Proveedores="invalido";
@@ -275,7 +291,7 @@ function f_LimpiaMsTablaProveedores(){
     $("#prov_ruc").removeClass("color-error");
     $("#prov_razonsocial").removeClass("color-error");
     $("#prov_contacto").removeClass("color-error");
-    $("#prov_cta_interbanco_soles").removeClass("color-error");
+    $("#prov_cta_detraccion_soles").removeClass("color-error");
     $("#prov_cta_banco_soles").removeClass("color-error");
     $("#prov_cta_banco_dolares").removeClass("color-error");
     $("#prov_cta_interbanco_soles").removeClass("color-error");

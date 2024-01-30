@@ -146,8 +146,8 @@ $(document).ready(function(){
               data: { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, nomina_carga_id:nomina_carga_id },   
               success: function() {
                 Swal.fire(
-                  'Eliminado!',
-                  'El registro ha sido eliminado.',
+                  'Anulado!',
+                  'El registro ha sido anulado.',
                   'success')
                 tabla_generar_nomina.ajax.reload(null, false);
               }

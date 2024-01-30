@@ -170,7 +170,18 @@ class Logico
                 $Respuesta = $InstanciaAjax->leer_nomina_operacion($ncar_fecha_inicio, $ncar_fecha_termino);      
             break;
         }
-        
+        /* Calculo de Horas Totales de Nomina*/
+        /* $sum_hora_0 = strtotime('00:00');
+        $total_time = 0;
+        foreach( $Respuesta as $row ) {
+            $time_in_sec = strtotime($row['Duracion']) - $sum_hora_0;
+            $total_time = $total_time + $time_in_sec;
+        }
+        $h = intval($total_time / 3600);
+        $total_time = $total_time - ($h * 3600);
+        $m = intval($total_time / 60);
+        $total_horas = $h.":".$m; */
+
         $ncar_archivo = $ncar_anio."_M".$n_periodo."_T".$n_tipo."_".$nomina_carga_id.".json";
         $data = json_encode($Respuesta, JSON_UNESCAPED_UNICODE);
         file_put_contents($mi_carpeta."/".$ncar_archivo, $data);

@@ -230,6 +230,16 @@ switch ($Accion)
       $Respuesta     = $InstanciaAjax->vales_observados();
    break;
 
+   case 'leer_novedades':
+      $prov_ruc = $_POST['prov_ruc'];
+      $fecha_inicio    = $_POST['fecha_inicio'];
+      $fecha_termino   = $_POST['fecha_termino'];
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta     = $InstanciaAjax->leer_novedades($prov_ruc, $fecha_inicio, $fecha_termino);
+   break;
+
    case 'leer_tc_vale_usuario':
       MModel($Modulo,'CRUD');
       $InstanciaAjax = new CRUD();

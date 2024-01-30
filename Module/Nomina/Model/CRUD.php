@@ -152,17 +152,118 @@ class CRUD
 	   	$resultado->execute();        
 	   	$data_horas =$resultado->fetchAll(PDO::FETCH_ASSOC);
 
+	   	$consulta = "	SELECT 
+						   ANY_VALUE(DATE_FORMAT( `Prog_Fecha`,'%Y-%m-%d')) AS Fecha, 
+						   ANY_VALUE( `Prog_CodigoColaborador`) AS Codigo, 
+						   `Prog_Dni` AS DNI, 
+						   ANY_VALUE( `Prog_NombreColaborador`) AS ApellidosNombres, 
+						   TIME_FORMAT(MIN( `Prog_HoraOrigen`),'%H:%i') AS HoraInicio, 
+						   TIME_FORMAT(MAX( `Prog_HoraDestino`),'%H:%i') AS HoraTermino,
+						   TIME_FORMAT(SUBTIME(MAX( `Prog_HoraDestino`),MIN( `Prog_HoraOrigen`)),'%H:%i') AS Amplitud, 
+						   TIME_FORMAT(SEC_TO_TIME(SUM(TIME_TO_SEC(SUBTIME( `Prog_HoraDestino`,`Prog_HoraOrigen`)))),'%H:%i') AS Duracion, 
+						   ANY_VALUE( `Prog_Operacion`) AS TipoOperacion, 
+						   ANY_VALUE( `Prog_Servicio`) AS Servicio,
+						   CONCAT(ANY_VALUE(DATE_FORMAT( `Prog_Fecha`,'%Y-%m-%d')),`Prog_Dni`) AS `FechaDNI`
+					   	FROM 
+					   		`OPE_ControlFacilitador` 
+						WHERE
+							`Prog_Servicio` = 'DISPONIBLE'
+					   	GROUP BY 
+						   `Prog_Fecha`, 
+						   `Prog_Dni` 
+					   	HAVING 
+						   `Prog_Fecha`>='$fecha_inicio' AND 
+						   `Prog_Fecha`<='$fecha_termino' ";
+
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();        
+		$data_disponibles = $resultado->fetchAll(PDO::FETCH_ASSOC);
+
+		$consulta = "	SELECT 
+							ANY_VALUE(DATE_FORMAT( `Prog_Fecha`,'%Y-%m-%d')) AS Fecha, 
+							ANY_VALUE( `Prog_CodigoColaborador`) AS Codigo, 
+							`Prog_Dni` AS DNI, 
+							ANY_VALUE( `Prog_NombreColaborador`) AS ApellidosNombres, 
+							TIME_FORMAT(MIN( `Prog_HoraOrigen`),'%H:%i') AS HoraInicio, 
+							TIME_FORMAT(MAX( `Prog_HoraDestino`),'%H:%i') AS HoraTermino,
+							TIME_FORMAT(SUBTIME(MAX( `Prog_HoraDestino`),MIN( `Prog_HoraOrigen`)),'%H:%i') AS Amplitud, 
+							TIME_FORMAT(SEC_TO_TIME(SUM(TIME_TO_SEC(SUBTIME( `Prog_HoraDestino`,`Prog_HoraOrigen`)))),'%H:%i') AS Duracion, 
+							ANY_VALUE( `Prog_Operacion`) AS TipoOperacion, 
+							ANY_VALUE( `Prog_Servicio`) AS Servicio,
+							CONCAT(ANY_VALUE(DATE_FORMAT( `Prog_Fecha`,'%Y-%m-%d')),`Prog_Dni`) AS `FechaDNI`
+						FROM 
+							`OPE_ControlFacilitador` 
+	 					WHERE
+							SUBSTRING(`Prog_NombreColaborador`,1,19) = 'SIN PILOTO ASIGNADO'
+						GROUP BY 
+							`Prog_Fecha`, 
+							`Prog_Dni` 
+						HAVING 
+							`Prog_Fecha`>='$fecha_inicio' AND 
+							`Prog_Fecha`<='$fecha_termino' ";
+
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();        
+		$data_sin_piloto_asignado = $resultado->fetchAll(PDO::FETCH_ASSOC);
+
 		$consulta = " SELECT CONCAT(`inas_fechaoperacion`,`inas_dni`) AS `FechaDNI` FROM `ope_inasistencias` WHERE `inas_fechaoperacion`>='$fecha_inicio' AND `inas_fechaoperacion`<='$fecha_termino' AND `inas_tiponovedad`='INASISTENCIA_TOTAL' AND `inas_estadoinasistencias`='CIERRE OPERACIONAL' ";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();        
-		$data_inasistencias =$resultado->fetchAll(PDO::FETCH_ASSOC);
-
-		foreach($data_inasistencias as $row){
-			$key = array_search($row['FechaDNI'], array_column($data_horas,'FechaDNI'));
-			unset($data_horas[$key]);
+		$data_inasistencias = $resultado->fetchAll(PDO::FETCH_ASSOC);
+/*
+		$key = "";
+		$key = array_search("", array_column($data_horas,'DNI'));
+		if($key!==""){
+			array_splice($data_horas, $key, 1);
 		}
+		 
+		//:: Se eliminan los registros que no se deben mostrar en la nomina porque no tienen piloto asignado
+		foreach($data_sin_piloto_asignado as $row){
+			$key = "";
+			$key = array_search($row['FechaDNI'], array_column($data_horas,'FechaDNI'));
+			if($key!==""){
+				array_splice($data_horas, $key, 1);
+			}
+		}
+
+		//:: Se eliminan los registros que no se deben mostrar en la nomina porque tienen inasistencia total
+		foreach($data_inasistencias as $row){
+			$key = "";
+			$key = array_search($row['FechaDNI'], array_column($data_horas,'FechaDNI'));
+			if($key!==""){
+				array_splice($data_horas, $key, 1);
+			}
+		}
+
+		//:: Se eliminan los registros que no se deben mostrar en la nomina porque son pilotos disponibles
+		foreach($data_disponibles as $row){
+			$key = "";
+			$key = array_search($row['FechaDNI'], array_column($data_horas,'FechaDNI'));
+			if($key!==""){
+				array_splice($data_horas, $key, 1);
+			}
+		}
+
+		//:: Se eliminan los registros de pilotos disponibles que tienen inasistencia total
+		foreach($data_inasistencias as $row){
+			$key = "";
+			$key = array_search($row['FechaDNI'], array_column($data_disponibles,'FechaDNI'));
+			if($key!==""){
+				array_splice($data_disponibles, $key, 1);
+			}
+		}
+
+		//:: Se unen los registros de nomina horas y pilotos disponibles
+		$data_array = array_merge($data_horas, $data_disponibles);    
+
+		$key = 'FechaDNI';
+		array_walk($data_array, function (&$v) use ($key) {
+			unset($v[$key]);
+		});
+*/
 		$data = array_values($data_horas);
+		//$data = array_values($data_array);
 		return $data;
 	   	$this->conexion=null;
 	}

@@ -223,29 +223,71 @@ $(document).ready(function(){
       $("#div_ResultadoCargarPrecios").empty();
     }else{
       // Objeto FormData para enviar datos de al formulario   
-      let formUsuarios = new FormData(); 
-      let filesexcel = $("#fileCargarPrecios")[0].files[0]; 
-      formUsuarios.append('archivoexcel',filesexcel);
-      formUsuarios.append('MoS',MoS);
-      formUsuarios.append('NombreMoS',NombreMoS);
-      formUsuarios.append('Accion','CrearCargarPrecios');
-      formUsuarios.append('Anio',anioCarga);
-      formUsuarios.append('cpm_prov_ruc',cpm_prov_ruc);
-      formUsuarios.append('cpm_prov_razon_social',cpm_prov_razon_social);
-      formUsuarios.append('Anio',anioCarga);
+      Accion = 'validar_archivo_cargar_precios';
+      let form_validar = new FormData(); 
+      let files_excel = $("#fileCargarPrecios")[0].files[0]; 
+      form_validar.append('archivo_excel',files_excel);
+      form_validar.append('MoS',MoS);
+      form_validar.append('NombreMoS',NombreMoS);
+      form_validar.append('Accion',Accion);
+      form_validar.append('Anio',anioCarga);
+      form_validar.append('cpm_prov_ruc',cpm_prov_ruc);
+      form_validar.append('cpm_prov_razon_social',cpm_prov_razon_social);
       $("#bntCargarListaPrecios").prop("disabled",true);
       $.ajax({
         url         : "Ajax.php",
         type        : "POST",
-        data        : formUsuarios,
+        data        : form_validar,
         contentType : false,
         processData : false,
         beforeSend: function () {
           $("#div_ResultadoCargarPrecios").html("Procesando, espere por favor...<img src='Services/PlantillaTemplon/View/Img/loading5.gif' width='20' height='20'>");
         },
         success:function(resp){
-          $("#div_ResultadoCargarPrecios").html(resp);
-          tablaCargarPrecios.ajax.reload(null, false);
+          if(resp===""){
+            Swal.fire({
+              title             : '¿ Desea cargar los precios de repuestos ?',
+              text              : "Registros Validados!!",
+              icon              : 'success',
+              showCancelButton  : true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor : '#d33',
+              confirmButtonText : 'Si, cargar!',
+              cancelButtonText  : 'Cancelar'
+            }).then((result) => {
+              if (result.isConfirmed) {
+                // CREAR CARGAR PRECIOS POR PROVEEDOR
+                Accion = 'CrearCargarPrecios';
+                let form_crear = new FormData(); 
+                let files_excel = $("#fileCargarPrecios")[0].files[0]; 
+                form_crear.append('archivo_excel',files_excel);
+                form_crear.append('MoS',MoS);
+                form_crear.append('NombreMoS',NombreMoS);
+                form_crear.append('Accion',Accion);
+                form_crear.append('anio',anioCarga);
+                form_crear.append('cpm_prov_ruc',cpm_prov_ruc);
+                form_crear.append('cpm_prov_razon_social',cpm_prov_razon_social);
+                $.ajax({
+                  url         : "Ajax.php",
+                  type        : "POST",
+                  data        : form_crear,
+                  contentType : false,
+                  processData : false,
+                  success: function(resp) {
+                    $("#div_ResultadoCargarPrecios").html(resp);
+                    tablaCargarPrecios.ajax.reload(null, false);
+                    Swal.fire(
+                      'Carga Exitosa!',
+                      'Los precios de repuestos han sido cargados.',
+                      'success'
+                    )    
+                  }
+                });
+              }
+            });
+          }else{
+            $("#div_ResultadoCargarPrecios").html(resp);
+          }
           $("#bntCargarListaPrecios").prop("disabled",false);
         },
       });

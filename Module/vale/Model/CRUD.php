@@ -371,6 +371,201 @@ class CRUD
 		$this->conexion=null;
 	}
 
+	function leer_novedades($prov_ruc, $fecha_inicio, $fecha_termino)
+	{
+		$Nove_TipoNovedad = ['FALLA_COMUNICACION', 'FALLA_TELEMETRIA','FALLA_BUS' ];
+		$Nove_TipoNovedad = "'" . implode("','", $Nove_TipoNovedad) . "'";
+		$consulta = "( ";
+		$consulta .= "	SELECT  
+							CONCAT('NO-',`OPE_Novedad`.`Novedad_Id`) AS `id`,
+							`OPE_Novedad`.`Nove_FechaOperacion` AS `fecha`,
+							`colaborador`.`Colab_nombre_corto` AS `nombres_usuario_genera`,
+							'NOVEDAD OPERACIONES' AS `origen`,
+							`OPE_Novedad`.`Nove_TipoNovedad` AS `tipo_novedad`,
+							CONCAT(`manto_novedad_operacion`.`nope_accion`,'-',`manto_novedad_operacion`.`nope_componente`,'-',`manto_novedad_operacion`.`nope_posicion`,'-',`manto_novedad_operacion`.`nope_falla`) AS `ot_accion`,
+							`OPE_Novedad`.`Nove_Operacion` AS `operacion`,
+							`OPE_Novedad`.`Nove_Bus` AS `bus`,
+							`manto_novedad_operacion`.`nope_componente` AS `componente`,
+							`manto_novedad_operacion`.`nope_posicion` AS `posicion`,
+							`manto_novedad_operacion`.`nope_falla` AS `falla`,
+							`manto_novedad_operacion`.`nope_accion` AS `accion`,
+							CONCAT(SUBSTRING(`manto_novedad_ot`.`not_ot_tipo`,1,1),'-',SUBSTRING(CONCAT('00000000',`manto_novedad_ot`.`not_ot_id`),-8)) AS `ot_id`,
+							IF(`manto_novedad_ot`.`not_estado` IS NULL,'PENDIENTE',`manto_novedad_ot`.`not_estado`) AS `ot_estado`
+						FROM 
+							`OPE_Novedad`
+						LEFT JOIN
+							`colaborador`
+						ON
+							`colaborador`.`Colaborador_id` = `OPE_Novedad`.`Nove_UsuarioId`
+						LEFT JOIN
+							`manto_novedad_operacion`
+						ON
+							`manto_novedad_operacion`.`nope_novedad_id`=`OPE_Novedad`.`Novedad_Id`
+						LEFT JOIN
+							`manto_novedad_ot`
+						ON
+							`manto_novedad_ot`.`not_novedad_id`=`OPE_Novedad`.`Novedad_Id`
+							AND `manto_novedad_ot`.`not_origen_novedad`='NOVEDAD OPERACIONES'
+							AND `manto_novedad_ot`.`not_tipo_novedad`=`OPE_Novedad`.`Nove_TipoNovedad`
+						WHERE 
+							`OPE_Novedad`.`Nove_TipoNovedad` IN ($Nove_TipoNovedad)
+							AND `OPE_Novedad`.`Nove_FechaOperacion`>='$fecha_inicio' 
+							AND `OPE_Novedad`.`Nove_FechaOperacion`<='$fecha_termino'
+						UNION
+						SELECT
+							CONCAT('IP-',`OPE_AccidentesInformePreliminar`.`Accidentes_Id`) AS `id`,
+							`OPE_AccidentesInformePreliminar`.`Acci_Fecha` AS `fecha`,
+							`colaborador`.`Colab_nombre_corto` AS `nombres_usuario_genera`,
+							'INFORME PRELIMINAR' AS `origen`,
+							`OPE_AccidentesInformePreliminar`.`Acci_TipoAccidente` AS `tipo_novedad`,
+							CONCAT(`manto_novedad_operacion`.`nope_accion`,'-',`manto_novedad_operacion`.`nope_componente`,'-',`manto_novedad_operacion`.`nope_posicion`,'-',`manto_novedad_operacion`.`nope_falla`) AS `ot_accion`,
+							`OPE_AccidentesInformePreliminar`.`Acci_Operacion` AS `operacion`,
+							`OPE_AccidentesInformePreliminar`.`Acci_Bus` AS `bus`,
+							`manto_novedad_operacion`.`nope_componente` AS `componente`,
+							`manto_novedad_operacion`.`nope_posicion` AS `posicion`,
+							`manto_novedad_operacion`.`nope_falla` AS `falla`,
+							`manto_novedad_operacion`.`nope_accion` AS `accion`,
+							CONCAT(SUBSTRING(`manto_novedad_ot`.`not_ot_tipo`,1,1),'-',SUBSTRING(CONCAT('00000000',`manto_novedad_ot`.`not_ot_id`),-8)) AS `ot_id`,
+							IF(`manto_novedad_ot`.`not_estado` IS NULL,'PENDIENTE',`manto_novedad_ot`.`not_estado`) AS `ot_estado`
+						FROM 
+							`OPE_AccidentesInformePreliminar`
+						LEFT JOIN
+							`manto_orden_trabajo`
+						ON
+							`manto_orden_trabajo`.`ot_accidentes_id`=`OPE_AccidentesInformePreliminar`.`Accidentes_Id` 
+						LEFT JOIN
+							`colaborador`
+						ON
+							`colaborador`.`Colaborador_id` = `OPE_AccidentesInformePreliminar`.`Acci_UsuarioId_Generar`
+						LEFT JOIN
+							`manto_novedad_operacion`
+						ON
+							`manto_novedad_operacion`.`nope_novedad_id`=`OPE_AccidentesInformePreliminar`.`Accidentes_Id`
+						LEFT JOIN
+							`manto_novedad_ot`
+						ON
+							`manto_novedad_ot`.`not_novedad_id`=`OPE_AccidentesInformePreliminar`.`Accidentes_Id`
+							AND `manto_novedad_ot`.`not_origen_novedad`='INFORME PRELIMINAR'
+							AND `manto_novedad_ot`.`not_tipo_novedad`=`OPE_AccidentesInformePreliminar`.`Acci_TipoAccidente`
+						WHERE 
+							`OPE_AccidentesInformePreliminar`.`Acci_Fecha`>='$fecha_inicio'
+							AND `OPE_AccidentesInformePreliminar`.`Acci_Fecha`<='$fecha_termino'
+							AND `OPE_AccidentesInformePreliminar`.`Acci_DanosMateriales`='CON_DAÑOS_MATERIALES'
+						UNION
+						SELECT 
+							CONCAT('IF-',`manto_inspeccion_movimiento`.`inspeccion_movimiento_id`) AS `id`,
+						    DATE_FORMAT(`manto_inspeccion_movimiento`.`insp_fecha`,'%Y-%m-%d') AS `fecha`,
+						    `colaborador`.`Colab_nombre_corto` AS `nombres_usuario_genera`,
+						    'INSPECCION MANTENIMIENTO' AS `origen`,
+						    'INSPECCION FLOTA' AS `tipo_novedad`,
+						    CONCAT(`manto_inspeccion_movimiento`.`insp_accion`,'-',`manto_inspeccion_movimiento`.`insp_componente`,'-',`manto_inspeccion_movimiento`.`insp_posicion`,'-',`manto_inspeccion_movimiento`.`insp_falla`) AS `ot_accion`,
+							`Buses`.`Bus_Operacion` AS `operacion`,
+						    `manto_inspeccion_movimiento`.`insp_bus` AS `bus`,
+						    `manto_inspeccion_movimiento`.`insp_componente` AS `componente`,
+						    `manto_inspeccion_movimiento`.`insp_posicion` AS `posicion`,
+						    `manto_inspeccion_movimiento`.`insp_falla` AS `falla`,
+						    `manto_inspeccion_movimiento`.`insp_accion` AS `accion`,
+							CONCAT(SUBSTRING(`manto_novedad_ot`.`not_ot_tipo`,1,1),'-',SUBSTRING(CONCAT('00000000',`manto_novedad_ot`.`not_ot_id`),-8)) AS `ot_id`,
+							IF(`manto_novedad_ot`.`not_estado` IS NULL,'PENDIENTE',`manto_novedad_ot`.`not_estado`) AS `ot_estado`
+						FROM 
+							`manto_inspeccion_movimiento`
+						LEFT JOIN 
+							`colaborador`
+						ON
+							`colaborador`.`Colaborador_id`=`manto_inspeccion_movimiento`.`insp_usuario_id`
+						LEFT JOIN
+							`Buses`
+						ON
+							`Buses`.`Bus_NroExterno`=`manto_inspeccion_movimiento`.`insp_bus`
+							LEFT JOIN
+							`manto_novedad_ot`
+						ON
+							`manto_novedad_ot`.`not_novedad_id`=`manto_inspeccion_movimiento`.`inspeccion_movimiento_id`
+							AND `manto_novedad_ot`.`not_origen_novedad`='INSPECCION MANTENIMIENTO'
+							AND `manto_novedad_ot`.`not_tipo_novedad`='INSPECCION FLOTA'
+						WHERE
+							DATE_FORMAT(`manto_inspeccion_movimiento`.`insp_fecha`,'%Y-%m-%d')>='$fecha_inicio'
+							AND DATE_FORMAT(`manto_inspeccion_movimiento`.`insp_fecha`,'%Y-%m-%d')<='$fecha_termino'
+						UNION
+						SELECT 
+							CONCAT('CL-',`manto_check_list_observaciones`.`check_list_observaciones_id`) AS `id`,
+    						`manto_check_list_registro`.`chl_fecha` AS `fecha`,
+							`colaborador`.`Colab_nombre_corto` AS `nombres_usuario_genera`,
+							'INSPECCION OPERACIONES' AS `origen`,
+							'CHECK LIST' AS `tipo_novedad`,
+							CONCAT(`manto_check_list_observaciones`.`chl_accion`,'-',`manto_check_list_observaciones`.`chl_componente`,'-',`manto_check_list_observaciones`.`chl_posicion`,'-',`manto_check_list_observaciones`.`chl_falla`) AS `ot_accion`,
+    						`Buses`.`Bus_Operacion` AS `operacion`,
+    						`manto_check_list_registro`.`chl_bus` AS `bus`,
+							`manto_check_list_observaciones`.`chl_componente` AS `componente`,
+    						`manto_check_list_observaciones`.`chl_posicion` AS `posicion`,
+    						`manto_check_list_observaciones`.`chl_falla` AS `falla`,
+    						`manto_check_list_observaciones`.`chl_accion` AS `accion`,
+							CONCAT(SUBSTRING(`manto_novedad_ot`.`not_ot_tipo`,1,1),'-',SUBSTRING(CONCAT('00000000',`manto_novedad_ot`.`not_ot_id`),-8)) AS `ot_id`,
+							IF(`manto_novedad_ot`.`not_estado` IS NULL,'PENDIENTE',`manto_novedad_ot`.`not_estado`) AS `ot_estado`
+						FROM 
+							`manto_check_list_registro`
+						RIGHT JOIN
+							`manto_check_list_observaciones`
+						ON
+							`manto_check_list_registro`.`check_list_id`=`manto_check_list_observaciones`.`check_list_id`
+						LEFT JOIN
+							`colaborador`
+						ON
+							`colaborador`.`Colaborador_id`=`manto_check_list_registro`.`chl_usuario_id_genera`
+						LEFT JOIN
+							`Buses`
+						ON
+							`Buses`.`Bus_NroExterno`=`manto_check_list_registro`.`chl_bus`
+						LEFT JOIN
+							`manto_novedad_ot`
+						ON
+							`manto_novedad_ot`.`not_novedad_id`=`manto_check_list_observaciones`.`check_list_observaciones_id`
+							AND `manto_novedad_ot`.`not_origen_novedad`='INSPECCION OPERACIONES'
+							AND `manto_novedad_ot`.`not_tipo_novedad`='CHECK LIST'
+						WHERE
+							DATE_FORMAT(`manto_check_list_registro`.`chl_fecha`,'%Y-%m-%d')>='$fecha_inicio'
+							AND DATE_FORMAT(`manto_check_list_registro`.`chl_fecha`,'%Y-%m-%d')<='$fecha_termino'
+						UNION
+						SELECT 
+							CONCAT('NR-',`manto_novedad_regular`.`novedad_regular_id`) AS `id`,
+    						DATE_FORMAT(`manto_novedad_regular`.`nreg_fecha`,'%Y-%m-%d') AS `fecha`,
+    						`colaborador`.`Colab_nombre_corto` AS `nombres_usuario_genera`,
+    						`manto_novedad_regular`.`nreg_origen` AS `origen`,
+    						`manto_novedad_regular`.`nreg_tipo` AS `tipo_novedad`,
+							CONCAT(`manto_novedad_regular`.`nreg_accion`,'-',`manto_novedad_regular`.`nreg_componente`,'-',`manto_novedad_regular`.`nreg_posicion`,'-',`manto_novedad_regular`.`nreg_falla`) AS `ot_accion`,
+    						`manto_novedad_regular`.`nreg_operacion` AS `operacion`,
+    						`manto_novedad_regular`.`nreg_bus` AS `bus`,
+    						`manto_novedad_regular`.`nreg_componente` AS `componente`,
+    						`manto_novedad_regular`.`nreg_posicion` AS `posicion`,
+    						`manto_novedad_regular`.`nreg_falla` AS `falla`,
+    						`manto_novedad_regular`.`nreg_accion` AS `accion`,
+							CONCAT(SUBSTRING(`manto_novedad_ot`.`not_ot_tipo`,1,1),'-',SUBSTRING(CONCAT('00000000',`manto_novedad_ot`.`not_ot_id`),-8)) AS `ot_id`,
+							IF(`manto_novedad_ot`.`not_estado` IS NULL,'PENDIENTE',`manto_novedad_ot`.`not_estado`) AS `ot_estado`
+						FROM 
+							`manto_novedad_regular`
+						LEFT JOIN 
+							`colaborador`
+						ON
+							`colaborador`.`Colaborador_id`=`manto_novedad_regular`.`nreg_usuario_genera`
+							LEFT JOIN
+							`manto_novedad_ot`
+						ON
+							`manto_novedad_ot`.`not_novedad_id`=`manto_novedad_regular`.`novedad_regular_id`
+							AND `manto_novedad_ot`.`not_origen_novedad`=`manto_novedad_regular`.`nreg_origen`
+							AND `manto_novedad_ot`.`not_tipo_novedad`=`manto_novedad_regular`.`nreg_tipo`
+						WHERE
+							DATE_FORMAT(`manto_novedad_regular`.`nreg_fecha`,'%Y-%m-%d')>='$fecha_inicio'
+							AND DATE_FORMAT(`manto_novedad_regular`.`nreg_fecha`,'%Y-%m-%d')<='$fecha_termino')
+						ORDER BY `fecha` DESC";
+
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();        
+		$data = $resultado->fetchAll(PDO::FETCH_ASSOC);
+		print json_encode($data, JSON_UNESCAPED_UNICODE);//envio el array final el formato json a AJAX
+
+		$this->conexion=null;
+   	}   
+
 	function leer_tc_vale_usuario()
 	{
 		$tc_variable = 'USUARIO';

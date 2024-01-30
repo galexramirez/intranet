@@ -145,7 +145,7 @@ class Logico
         $html = '<option value="">Seleccione una opcion</option>';
 
         foreach ($Respuesta as $row) {
-            $html .= '<option value="'.$row['unidad_medida'].' - '.$row['um_descripcion'].'">'.$row['unidad_medida'].' - '.$row['um_descripcion'].'</option>';
+            $html .= '<option value="'.$row['unidad_medida'].'">'.$row['unidad_medida'].' - '.$row['um_descripcion'].'</option>';
         }
         echo $html;
     }
@@ -345,6 +345,93 @@ class Logico
         $Respuesta=$InstanciaAjax->EditarProveedores($prov_ruc,$prov_razonsocial,$prov_contacto,$prov_cta_detraccion_soles,$prov_cta_banco_soles,$prov_cta_banco_dolares,$prov_cta_interbanco_soles,$prov_cta_interbanco_dolares,$prov_condicion_pago,$prov_correo,$prov_telefono,$prov_estado, $prov_log);
 	}  		
 
+    public function validar_repuesto_proveedor_carga($input_file_name, $rpc_prov_ruc, $rpc_prov_razon_social)
+    {
+        require_once 'Services/Composer/vendor/autoload.php';
+        $input_file_type = \PhpOffice\PhpSpreadsheet\IOFactory::identify($input_file_name);
+        $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($input_file_type);
+        $spread_sheet = $reader->load($input_file_name);
+        $work_sheet = $spread_sheet->getActiveSheet();
+        $highest_row = $work_sheet->getHighestRow();
+
+        $codigos_array = [];
+        $repp_prov_ruc = $rpc_prov_ruc;
+        $cant_errores = 0;
+        for ($row = 2; $row <= $highest_row; $row++) {
+            $repp_codigo      = trim($work_sheet->getCell('A'.$row)->getValue());
+            $repp_descripcion = trim($work_sheet->getCell('B'.$row)->getValue());
+            $repp_unidad      = trim($work_sheet->getCell('C'.$row)->getValue());
+            $repp_moneda      = trim($work_sheet->getCell('D'.$row)->getValue());
+            $repp_material_id = trim($work_sheet->getCell('E'.$row)->getValue());
+
+            $clave = "";
+            $clave = array_search($repp_codigo, $codigos_array);
+            if($codigos_array[$clave] === $repp_codigo){
+                $cant_errores = $cant_errores + 1;
+                echo "Error en línea ".$row." -> Código Proveedor: ".$repp_codigo." ERROR: Códigos duplicados . <hr>"  ;
+            }
+            $codigos_array[] = $repp_codigo;
+
+            if  (empty($repp_codigo) || empty($repp_descripcion) || empty($repp_unidad) || empty($repp_moneda) || empty($repp_material_id) || empty($repp_prov_ruc) ){
+                $cant_errores = $cant_errores + 1;
+                echo "Error linea ".$row." -> Código de Repuesto: ".$repp_codigo." ERROR: Posible Datos INCOMPLETOS !. <hr>"  ;
+            }else{
+                MModel($this->Modulo, 'CRUD');
+                $InstanciaAjax = new CRUD();
+                $respuesta = $InstanciaAjax->buscar_dato( "manto_repuesto_proveedor", "repp_codigo","`repp_prov_ruc`='".$repp_prov_ruc."' AND `repp_codigo`='".$repp_codigo."'");
+                foreach ($respuesta as $row2) {
+                    if($row2['repp_codigo'] == $repp_codigo){
+                        $cant_errores = $cant_errores + 1;
+                        echo "Error linea ".$row." -> Código de Repuesto: ".$repp_codigo." ERROR: Posible Código EXISTE !. <hr>"  ;    
+                    }
+                }
+
+                $error_registro = 1;
+                MModel($this->Modulo, 'CRUD');
+                $InstanciaAjax = new CRUD();
+                $respuesta = $InstanciaAjax->buscar_dato( "manto_unidad_medida", "unidad_medida","`unidad_medida`='".$repp_unidad."'");
+                foreach ($respuesta as $row2) {
+                    if($row2['unidad_medida'] == $repp_unidad){
+                        $error_registro = 0;
+                    }
+                }
+                if($error_registro==1){
+                    $cant_errores = $cant_errores + 1;
+                    echo "Error linea ".$row." -> Código de Repuesto: ".$repp_codigo." ERROR: Posible Unidad de Medida NO EXISTE !. <hr>"  ;    
+                }
+
+                $error_registro = 1;
+                MModel($this->Modulo, 'CRUD');
+                $InstanciaAjax = new CRUD();
+                $respuesta2 = $InstanciaAjax->buscar_dato( "manto_tc_material", "tc_categoria3","`tc_variable`='SISTEMA' AND `tc_categoria1`='PRECIOS PROVEEDOR' AND `tc_categoria2`='MONEDA' AND`tc_categoria3`='".$repp_moneda."'");
+                foreach ($respuesta2 as $row2) {
+                    if($row2['tc_categoria3'] == $repp_moneda){
+                        $error_registro = 0;
+                    }
+                }
+                if($error_registro==1){
+                    $cant_errores = $cant_errores + 1;
+                    echo "Error linea ".$row." -> Código de Repuesto: ".$repp_codigo." ERROR: Posible Moneda NO EXISTE !. <hr>"  ;    
+                }
+
+                $error_registro = 1;
+                MModel($this->Modulo, 'CRUD');
+                $InstanciaAjax = new CRUD();
+                $respuesta = $InstanciaAjax->BuscarDataBD( "manto_materiales", "material_id",$repp_material_id);
+                foreach ($respuesta as $row2) {
+                    if($row2['material_id'] == $repp_material_id){
+                        $error_registro = 0;
+                    }
+                }
+                if($error_registro==1){
+                    $cant_errores = $cant_errores + 1;
+                    echo "Error linea ".$row." -> Código de Repuesto: ".$repp_codigo." ERROR: Posible Codigo de LBI NO EXISTE !. <hr>"  ;    
+                }
+            }
+        }
+        //echo "Registros validados ".($highest_row - $cant_errores - 1)." de ".($highest_row - 1);
+    }
+
     public function crear_repuesto_proveedor_carga($input_file_name, $rpc_prov_ruc, $rpc_prov_razon_social)
     {
         require_once 'Services/Composer/vendor/autoload.php';
@@ -353,7 +440,6 @@ class Logico
         $spread_sheet = $reader->load($input_file_name);
         $work_sheet = $spread_sheet->getActiveSheet();
         $highest_row = $work_sheet->getHighestRow(); // e.g. 10
-
         $rpc_fecha_carga = date("Y-m-d H:i:s");
 
         // Se asigna el nombre corto del usuario que genera
@@ -369,7 +455,6 @@ class Logico
         foreach ($max_id as $row) {
             $rpc_id = $row['MaxId']+1;
         }
-        
         $repp_estado = "ACTIVO";
         $repp_rpc_id = $rpc_id;
         $repp_prov_ruc = $rpc_prov_ruc;
@@ -377,69 +462,29 @@ class Logico
 
         $cant_errores = 0;
         for ($row = 2; $row <= $highest_row; $row++) {
-            $repp_codigo      = $worksheet->getCell('A'.$row)->getValue();
-            $repp_descripcion = $worksheet->getCell('B'.$row)->getValue();
-            $repp_unidad      = $worksheet->getCell('C'.$row)->getValue();
-            $repp_moneda      = $worksheet->getCell('D'.$row)->getValue();
-            $repp_material_id = $worksheet->getCell('E'.$row)->getValue();
-            if  (empty($repp_codigo) || empty($repp_descripcion) || empty($repp_unidad) || empty($repp_moneda) || empty($repp_material_id) || empty($repp_prov_ruc) ){
+            $repp_codigo      = trim($work_sheet->getCell('A'.$row)->getValue());
+            $repp_descripcion = trim($work_sheet->getCell('B'.$row)->getValue());
+            $repp_unidad      = trim($work_sheet->getCell('C'.$row)->getValue());
+            $repp_moneda      = trim($work_sheet->getCell('D'.$row)->getValue());
+            $repp_material_id = trim($work_sheet->getCell('E'.$row)->getValue());
+            $repp_descripcion = addslashes($repp_descripcion);
+
+            MModel($this->Modulo, 'CRUD');
+            $InstanciaAjax = new CRUD();
+            $respuesta2 = $InstanciaAjax->buscar_dato( "manto_materiales", "material_descripcion","`material_id`='".$repp_material_id."'");
+            foreach ($respuesta2 as $row2) {
+                $repp_material_descripcion = $row2['material_descripcion'];
+            }
+
+            MModel($this->Modulo, 'CRUD');
+            $InstanciaAjax = new CRUD();
+            $Respuesta = $InstanciaAjax->crear_repuesto_proveedor( $repp_prov_ruc, $repp_codigo, $repp_descripcion, $repp_moneda, $repp_unidad, $repp_estado, $repp_material_id, $repp_material_descripcion, $repp_log, $repp_rpc_id );
+            if(count($Respuesta)>0){
+                echo "No grabo linea ".$row." -> Código de Repuesto: ".$repp_codidgo." ERROR: "  ;
+                print_r($Respuesta);
+                echo "<br>";
                 $cant_errores = $cant_errores + 1;
-                echo "No grabo linea ".$row." -> Código de Repuesto: ".$repp_codigo." ERROR: Posible Datos INCOMPLETOS !. <hr>"  ;
-            }else{
-                $error_registro = 0;
-                MModel($this->Modulo, 'CRUD');
-                $InstanciaAjax = new CRUD();
-                $respuesta = $InstanciaAjax->buscar_dato( "manto_repuesto_proveedor", "repp_codigo","`repp_prov_ruc`='".$repp_prov_ruc."' AND `repp_codigo`='".$repp_codigo."'");
-                foreach ($respuesta as $row2) {
-                    if($row2['repp_codigo'] == $repp_codigo){
-                        $error_registro = 1;
-                        $cant_errores = $cant_errores + 1;
-                        echo "No grabo linea ".$row." -> Código de Repuesto: ".$repp_codigo." ERROR: Posible Código EXISTE !. <hr>"  ;    
-                    }
-                }
-                if($error_registro==0){
-                    $error_registro = 1;
-                    MModel($this->Modulo, 'CRUD');
-                    $InstanciaAjax = new CRUD();
-                    $respuesta = $InstanciaAjax->buscar_dato( "manto_unidad_medida", "unidad_medida","`unidad_medida`='".$repp_unidad."'");
-                    foreach ($respuesta as $row2) {
-                        if($row2['unidad_medida'] == $repp_unidad){
-                            $error_registro = 0;
-                        }
-                    }
-                    if($error_registro==1){
-                        $cant_errores = $cant_errores + 1;
-                        echo "No grabo linea ".$row." -> Código de Repuesto: ".$repp_codigo." ERROR: Posible Unidad de Medida NO EXISTE !. <hr>"  ;    
-                    }
-                }
-                if($error_registro==0){
-                    $error_registro = 1;
-                    MModel($this->Modulo, 'CRUD');
-                    $InstanciaAjax = new CRUD();
-                    $respuesta = $InstanciaAjax->BuscarDataBD( "manto_materiales", "material_id",$repp_material_id);
-                    foreach ($respuesta as $row2) {
-                        if($row2['material_id'] == $repp_material_id){
-                            $error_registro = 0;
-                            $repp_material_descripcion = $row2['material_descripcion'];
-                        }
-                    }
-                    if($error_registro==1){
-                        $cant_errores = $cant_errores + 1;
-                        echo "No grabo linea ".$row." -> Código de Repuesto: ".$repp_codigo." ERROR: Posible Codigo de LBI NO EXISTE !. <hr>"  ;    
-                    }
-                }
-                if($error_registro==0){
-                    MModel($this->Modulo, 'CRUD');
-                    $InstanciaAjax = new CRUD();
-                    $Respuesta = $InstanciaAjax->crear_repuesto_proveedor( $repp_prov_ruc, $repp_codigo, $repp_descripcion, $repp_moneda, $repp_unidad, $repp_estado, $repp_material_id, $repp_material_descripcion, $repp_log, $repp_rpc_id );
-                        if(count($Respuesta)>0){
-                            echo "No grabo linea ".$row." -> Código de Repuesto: ".$repp_codidgo." ERROR: "  ;
-                            print_r($Respuesta);
-                            echo "<br>";
-                            $CantErrores = $CantErrores + 1;
-                        }
-                }
-                }
+            }
         }
 
         $rpc_nro_registros = $highest_row - $cant_errores - 1;
@@ -451,6 +496,67 @@ class Logico
         echo "Se cargaron ".($highest_row - $cant_errores - 1)." de ".($highest_row - 1);
     }
 
+    public function validar_archivo_cargar_precios($input_file_name, $anio, $cpm_prov_ruc, $cpm_prov_razon_social)
+    {
+        require_once 'Services/Composer/vendor/autoload.php';
+        $input_file_type = \PhpOffice\PhpSpreadsheet\IOFactory::identify($input_file_name);
+        $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($input_file_type);
+        $spread_sheet = $reader->load($input_file_name);
+        $work_sheet = $spread_sheet->getActiveSheet();
+        $highest_row = $work_sheet->getHighestRow(); // e.g. 10
+        $precioprov_ruc = $cpm_prov_ruc;
+        $precioprov_razonsocial = $cpm_prov_razon_social;
+        $codigos_array = [];
+
+        $cant_errores=0;
+        for ($row = 2; $row <= $highest_row; $row++) {
+            $precioprov_codproveedor    = trim($work_sheet->getCell('A'.$row)->getValue());
+            $precioprov_descripcion     = trim($work_sheet->getCell('B'.$row)->getValue());
+            $precioprov_tipo            = trim($work_sheet->getCell('C'.$row)->getValue());
+            $precioprov_unidadmedida    = trim($work_sheet->getCell('D'.$row)->getValue());
+            $precioprov_moneda          = trim($work_sheet->getCell('E'.$row)->getValue());
+            $precioprov_precio          = trim($work_sheet->getCell('F'.$row)->getValue());
+            $precioprov_preciosoles     = trim($work_sheet->getCell('G'.$row)->getValue());
+            $precioprov_materialid      = trim($work_sheet->getCell('J'.$row)->getValue());
+            $precioprov_fechavigencia   = trim($work_sheet->getCell('L'.$row)->getValue());
+
+            $precioprov_descripcion     = addslashes($precioprov_descripcion);
+            $UNIX_DATE                  = ($precioprov_fechavigencia - 25569) * 86400;
+            $precioprov_fechavigencia   = gmdate("Y-m-d", $UNIX_DATE);
+            
+            $clave = "";
+            $clave = array_search($precioprov_codproveedor, $codigos_array);
+            if($codigos_array[$clave] === $precioprov_codproveedor){
+                $cant_errores = $cant_errores + 1;
+                echo "Error en línea ".$row." -> Código Proveedor: ".$precioprov_codproveedor." - ".strlen($clave)." ERROR: Códigos duplicados . <hr>"  ;
+            }
+            $codigos_array[] = $precioprov_codproveedor;
+
+            if (empty($precioprov_codproveedor) || empty($precioprov_descripcion) || empty($precioprov_tipo) || empty($precioprov_unidadmedida) || empty($precioprov_moneda) || $precioprov_precio==="" || $precioprov_preciosoles==="" || empty($precioprov_ruc) || empty($precioprov_razonsocial) || empty($precioprov_materialid) || empty($precioprov_fechavigencia)){
+                $cant_errores = $cant_errores + 1;
+                echo "Error en línea ".$row." -> Código Proveedor: ".$precioprov_codproveedor." ERROR: Posible Datos INCOMPLETOS . <hr>"  ;
+            }else{
+                MModel($this->Modulo, 'CRUD');
+                $InstanciaAjax = new CRUD();
+                $repp_codigo = $InstanciaAjax->buscar_codigo_proveedor( $precioprov_codproveedor, $precioprov_descripcion, $precioprov_unidadmedida, $precioprov_moneda, $precioprov_ruc, $precioprov_materialid);
+
+                if($repp_codigo!==$precioprov_codproveedor){
+                    $cant_errores = $cant_errores + 1;
+                    echo "Error en línea ".$row." -> Código Proveedor: ".$precioprov_codproveedor." ERROR: Posible Datos CAMBIADOS . <hr>"  ;    
+                }
+
+                MModel($this->Modulo, 'CRUD');
+                $InstanciaAjax = new CRUD();
+                $respuesta2 = $InstanciaAjax->buscar_dato("manto_preciosproveedor","precioprov_codproveedor","`precioprov_codproveedor`='".$precioprov_codproveedor."' AND `precioprov_ruc`='".$precioprov_ruc."' AND `precioprov_fechavigencia`='".$precioprov_fechavigencia."'" );
+                foreach($respuesta2 as $row2){
+                    if($row2['precioprov_codproveedor'] === $precioprov_codproveedor){
+                        $cant_errores = $cant_errores + 1;
+                        echo "Error en línea ".$row." -> Código Proveedor: ".$precioprov_codproveedor." ERROR: Código EXISTE en base de datos . <hr>"  ;    
+                    }    
+                }
+            }
+        }
+    }
 
     public function CrearCargarPrecios($inputFileName,$Anio, $cpm_prov_ruc, $cpm_prov_razon_social)
     {
@@ -470,19 +576,9 @@ class Logico
 
         // Se asigna el nombre corto del usuario que genera
         $cpm_responsablecarga = $_SESSION['USUARIO_ID'];
+        $cpm_usuario = $_SESSION['Usua_NombreCorto'];
         $precioprov_log = "";
-        $cpm_usuario = "";
         $cpm_estado = "ACTIVO";
-
-        $TablaBD = "glo_roles";
-        $CampoBD = "roles_dni";
-
-        MModel($this->Modulo,'CRUD');
-        $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$cpm_responsablecarga);
-        foreach ($Respuesta as $row) {
-            $cpm_usuario = $row['roles_nombrecorto'];
-        }
 
         // Se asigna el siguiente Id de manto_cargapreciomateriales a cpm_id
         $TablaBD="manto_cargapreciomateriales";
@@ -495,57 +591,41 @@ class Logico
         }
         $precioprov_cargaid = $cpm_id;
         $precioprov_responsablecreacion = $cpm_responsablecarga;
-        $precioprov_fechacreacion = $cpm_fechacarga;
+        $precioprov_fechacreacion   = $cpm_fechacarga;
         $precioprov_ruc             = $cpm_prov_ruc;
         $precioprov_razonsocial     = $cpm_prov_razon_social;
 
         $CantErrores=0;
         for ($row = 2; $row <= $highestRow; $row++) {
-            $precioprov_codproveedor    = $worksheet->getCell('A'.$row)->getValue();
-            $precioprov_descripcion     = $worksheet->getCell('B'.$row)->getValue();
-            $precioprov_marca           = $worksheet->getCell('C'.$row)->getValue();
-            $precioprov_procedencia     = $worksheet->getCell('D'.$row)->getValue();
-            $precioprov_unidadmedida    = $worksheet->getCell('E'.$row)->getValue();
-            $precioprov_garantia        = $worksheet->getCell('F'.$row)->getValue();
-            $precioprov_moneda          = $worksheet->getCell('G'.$row)->getValue();
-            $precioprov_precio          = $worksheet->getCell('H'.$row)->getValue();
-            $precioprov_preciosoles     = $worksheet->getCell('I'.$row)->getValue();
-            //$precioprov_ruc             = $worksheet->getCell('J'.$row)->getValue();
-            //$precioprov_razonsocial     = $worksheet->getCell('K'.$row)->getValue();
-            $precioprov_materialid      = $worksheet->getCell('L'.$row)->getValue();
+            $precioprov_codproveedor    = trim($worksheet->getCell('A'.$row)->getValue());
+            $precioprov_descripcion     = trim($worksheet->getCell('B'.$row)->getValue());
+            $precioprov_tipo            = trim($worksheet->getCell('C'.$row)->getValue());
+            $precioprov_unidadmedida    = trim($worksheet->getCell('D'.$row)->getValue());
+            $precioprov_moneda          = trim($worksheet->getCell('E'.$row)->getValue());
+            $precioprov_precio          = trim($worksheet->getCell('F'.$row)->getValue());
+            $precioprov_preciosoles     = trim($worksheet->getCell('G'.$row)->getValue());
+            $precioprov_materialid      = trim($worksheet->getCell('J'.$row)->getValue());
+            $precioprov_fechavigencia   = trim($worksheet->getCell('L'.$row)->getValue());
+
+            $precioprov_descripcion = addslashes($precioprov_descripcion);
             if(empty($precioprov_materialid)){
                 $precioprov_estado = "NO RELACIONADO";
             }else{
                 $precioprov_estado = "RELACIONADO";
             }
             $precioprov_log             = "<strong>".$precioprov_estado."</strong> ".$precioprov_fechacreacion." ".$cpm_usuario." CREACIÓN";
-            $precioprov_documentacion   = $worksheet->getCell('M'.$row)->getValue();
-            $precioprov_fechavigencia   = $worksheet->getCell('N'.$row)->getValue();
-            $precioprov_tipo            = $worksheet->getCell('O'.$row)->getValue();
             $UNIX_DATE                  = ($precioprov_fechavigencia - 25569) * 86400;
             $precioprov_fechavigencia   = gmdate("Y-m-d", $UNIX_DATE);
-                if (empty($precioprov_descripcion) || empty($precioprov_marca) || empty($precioprov_unidadmedida) || empty($precioprov_garantia) || empty($precioprov_moneda) || empty($precioprov_precio) || empty($precioprov_ruc) || empty($precioprov_razonsocial) || empty($precioprov_fechavigencia)){
-                    $CantErrores = $CantErrores + 1;
-                    echo "No grabo linea ".$row." -> Código Proveedor: ".$precioprov_codproveedor." ERROR: Posible Datos INCOMPLETOS . <hr>"  ;
-                }else{
-                    MModel($this->Modulo, 'CRUD');
-                    $InstanciaAjax = new CRUD();
-                    $repp_codigo = $InstanciaAjax->buscar_codigo_proveedor( $precioprov_codproveedor, $precioprov_descripcion, $precioprov_unidadmedida, $precioprov_ruc, $precioprov_materialid);
-                    if($repp_codigo !== $precioprov_codproveedor){
-                        $CantErrores = $CantErrores + 1;
-                        echo "No grabo linea ".$row." -> Código Proveedor: ".$precioprov_codproveedor." ERROR: Posible Datos CAMBIADOS . <hr>"  ;    
-                    }else{
-                        MModel($this->Modulo, 'CRUD');
-                        $InstanciaAjax= new CRUD();
-                        $Respuesta=$InstanciaAjax->CrearPreciosProveedor( $precioprov_codproveedor, $precioprov_descripcion, $precioprov_marca, $precioprov_procedencia, $precioprov_unidadmedida, $precioprov_garantia, $precioprov_moneda, $precioprov_precio, $precioprov_preciosoles, $precioprov_ruc, $precioprov_razonsocial, $precioprov_materialid, $precioprov_documentacion, $precioprov_fechavigencia, $precioprov_cargaid, $precioprov_responsablecreacion, $precioprov_fechacreacion, $precioprov_estado, $precioprov_log, $precioprov_tipo );
-                        if(count($Respuesta)>0){
-                            echo "No grabo linea ".$row." -> Código Proveedor: ".$precioproveedor_codproveedor." ERROR: "  ;
-                            print_r($Respuesta);
-                            echo "<br>";
-                            $CantErrores = $CantErrores + 1;
-                        }    
-                    }
-                }
+                
+            MModel($this->Modulo, 'CRUD');
+            $InstanciaAjax= new CRUD();
+            $Respuesta = $InstanciaAjax->CrearPreciosProveedor( $precioprov_codproveedor, $precioprov_descripcion, $precioprov_unidadmedida, $precioprov_moneda, $precioprov_precio, $precioprov_preciosoles, $precioprov_ruc, $precioprov_razonsocial, $precioprov_materialid, $precioprov_fechavigencia, $precioprov_cargaid, $precioprov_responsablecreacion, $precioprov_fechacreacion, $precioprov_estado, $precioprov_log, $precioprov_tipo );
+            if(count($Respuesta)>0){
+                echo "No grabo linea ".$row." -> Código Proveedor: ".$precioproveedor_codproveedor." ERROR: "  ;
+                print_r($Respuesta);
+                echo "<br>";
+                $CantErrores = $CantErrores + 1;
+            }    
         }
         $cpm_nroregistros = $highestRow-$CantErrores-1;
         if($cpm_nroregistros>0){

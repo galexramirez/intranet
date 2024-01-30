@@ -184,7 +184,19 @@ class CRUD
 	
 	function LeerMateriales()
 	{
-		$consulta = "SELECT *, (SELECT `roles_nombrecorto` FROM `glo_roles` WHERE `roles_dni`=`material_responsablecreacion` LIMIT 1) AS `material_nombreresponsablecreacion`, IF(NOT EXISTS (SELECT `precioprov_materialid` FROM `manto_preciosproveedor` WHERE `manto_preciosproveedor`.`precioprov_materialid`=`manto_materiales`.`material_id` LIMIT 1),'NO','SI') AS `proveedor`, CONCAT(`manto_unidad_medida`.`unidad_medida`,' - ',`manto_unidad_medida`.`um_descripcion`) AS `mate_unidad_medida` FROM `manto_materiales` LEFT JOIN `manto_unidad_medida` ON `manto_unidad_medida`.`unidad_medida`=`manto_materiales`.`material_unidadmedida`";
+		$consulta = " 	SELECT *, 
+							`colaborador`.`Colab_nombre_corto` AS `material_nombre_responsable_creacion`,
+							`manto_unidad_medida`.`um_descripcion` AS `material_descripcion_unidad_medida` 
+						FROM 
+							`manto_materiales` 
+						LEFT JOIN 
+							`manto_unidad_medida` 
+						ON 
+							`manto_unidad_medida`.`unidad_medida`=`manto_materiales`.`material_unidadmedida`
+						LEFT JOIN
+							`colaborador`
+						ON
+							`colaborador`.`Colaborador_id`=`manto_materiales`.`material_responsablecreacion`";
 		
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();        
@@ -235,7 +247,45 @@ class CRUD
 
 	function LeerPreciosProveedor($asignarcod_ruc, $asignarcod_fecha)
 	{
-		$consulta = "SELECT ANY_VALUE(`manto_preciosproveedor`.`precioprov_id`) AS `precioprov_id`, `manto_preciosproveedor`.`precioprov_codproveedor`, ANY_VALUE(`manto_preciosproveedor`.`precioprov_descripcion`) AS `precioprov_descripcion`, ANY_VALUE(`manto_preciosproveedor`.`precioprov_marca`) AS `precioprov_marca`, ANY_VALUE(`manto_preciosproveedor`.`precioprov_procedencia`) AS `precioprov_procedencia`, ANY_VALUE(CONCAT(`manto_preciosproveedor`.`precioprov_unidadmedida`,' - ',`manto_unidad_medida`.`um_descripcion`)) AS `precioprov_unidadmedida`, ANY_VALUE(`manto_preciosproveedor`.`precioprov_garantia`) AS `precioprov_garantia`, ANY_VALUE(`manto_preciosproveedor`.`precioprov_moneda`) AS `precioprov_moneda`, ANY_VALUE(FORMAT(`manto_preciosproveedor`.`precioprov_precio`,2)) AS `precioprov_precio`, ANY_VALUE(FORMAT(`manto_preciosproveedor`.`precioprov_preciosoles`,2)) AS `precioprov_preciosoles`, `manto_preciosproveedor`.`precioprov_ruc`, ANY_VALUE(`manto_preciosproveedor`.`precioprov_razonsocial`) AS `precioprov_razonsocial`, ANY_VALUE(`manto_preciosproveedor`.`precioprov_materialid`) AS `precioprov_materialid`, ANY_VALUE(`manto_materiales`.`material_descripcion`) AS `precioprov_materialdescripcion`,  ANY_VALUE(`manto_preciosproveedor`.`precioprov_documentacion`) AS `precioprov_documentacion`, DATE_FORMAT(MAX(`precioprov_fechavigencia`),'%Y-%m-%d') AS `precioprov_maxfechavigencia`, ANY_VALUE(`manto_preciosproveedor`.`precioprov_cargaid`) AS `precioprov_cargaid`, ANY_VALUE((SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`precioprov_responsablecreacion` LIMIT 1)) AS `precioprov_responsablecreacion`, ANY_VALUE(DATE_FORMAT(`manto_preciosproveedor`.`precioprov_fechacreacion`,'%Y-%m-%d')) AS `precioprov_fechacreacion`, ANY_VALUE(`manto_preciosproveedor`.`precioprov_estado`) AS `precioprov_estado`, ANY_VALUE(`manto_preciosproveedor`.`precioprov_log`) AS `precioprov_log`, ANY_VALUE(`precioprov_tipo`) AS `precioprov_tipo` FROM `manto_preciosproveedor` LEFT JOIN `manto_materiales` ON `manto_materiales`.`material_id` = `manto_preciosproveedor`.`precioprov_materialid` LEFT JOIN `manto_unidad_medida` ON `manto_unidad_medida`.`unidad_medida`=`manto_preciosproveedor`.`precioprov_unidadmedida` WHERE `manto_preciosproveedor`.`precioprov_ruc`='$asignarcod_ruc' AND `manto_preciosproveedor`.`precioprov_fechavigencia` <= '$asignarcod_fecha' GROUP BY `manto_preciosproveedor`.`precioprov_ruc`, `manto_preciosproveedor`.`precioprov_codproveedor`";
+		$consulta = "	SELECT 
+							ANY_VALUE(`manto_preciosproveedor`.`precioprov_id`) AS `precioprov_id`, 
+							`manto_preciosproveedor`.`precioprov_codproveedor`, 
+							ANY_VALUE(`manto_preciosproveedor`.`precioprov_descripcion`) AS `precioprov_descripcion`, 
+							ANY_VALUE(`manto_preciosproveedor`.`precioprov_unidadmedida`) AS `precioprov_unidadmedida`,
+							ANY_VALUE(`manto_unidad_medida`.`um_descripcion`) AS `precioprov_unidad_medida_descripcion`, 
+							ANY_VALUE(`manto_preciosproveedor`.`precioprov_moneda`) AS `precioprov_moneda`, 
+							ANY_VALUE(FORMAT(`manto_preciosproveedor`.`precioprov_precio`,2)) AS `precioprov_precio`, 
+							ANY_VALUE(FORMAT(`manto_preciosproveedor`.`precioprov_preciosoles`,2)) AS `precioprov_preciosoles`, 
+							`manto_preciosproveedor`.`precioprov_ruc`, 
+							ANY_VALUE(`manto_preciosproveedor`.`precioprov_razonsocial`) AS `precioprov_razonsocial`, 
+							ANY_VALUE(`manto_preciosproveedor`.`precioprov_materialid`) AS `precioprov_materialid`, 
+							ANY_VALUE(`manto_materiales`.`material_descripcion`) AS `precioprov_materialdescripcion`,  
+							DATE_FORMAT(MAX(`precioprov_fechavigencia`),'%Y-%m-%d') AS `precioprov_maxfechavigencia`, 
+							ANY_VALUE(`manto_preciosproveedor`.`precioprov_cargaid`) AS `precioprov_cargaid`, 
+							ANY_VALUE(`colaborador`.`Colab_nombre_corto`) AS `precioprov_nombre_responsable_creacion`, 
+							ANY_VALUE(DATE_FORMAT(`manto_preciosproveedor`.`precioprov_fechacreacion`,'%Y-%m-%d')) AS `precioprov_fechacreacion`, 
+							ANY_VALUE(`manto_preciosproveedor`.`precioprov_estado`) AS `precioprov_estado`, 
+							ANY_VALUE(`manto_preciosproveedor`.`precioprov_log`) AS `precioprov_log`, 
+							ANY_VALUE(`precioprov_tipo`) AS `precioprov_tipo` 
+						FROM 
+							`manto_preciosproveedor` 
+						LEFT JOIN 
+							`manto_materiales` 
+						ON 
+							`manto_materiales`.`material_id` = `manto_preciosproveedor`.`precioprov_materialid`
+						LEFT JOIN 
+							`manto_unidad_medida` 
+						ON 
+							`manto_unidad_medida`.`unidad_medida`=`manto_preciosproveedor`.`precioprov_unidadmedida`
+						LEFT JOIN
+							`colaborador`
+						ON
+							`colaborador`.`Colaborador_id`=`precioprov_responsablecreacion` 
+						WHERE 
+							`manto_preciosproveedor`.`precioprov_ruc`='$asignarcod_ruc' 
+							AND `manto_preciosproveedor`.`precioprov_fechavigencia` <= '$asignarcod_fecha' 
+						GROUP BY 
+							`manto_preciosproveedor`.`precioprov_ruc`, `manto_preciosproveedor`.`precioprov_codproveedor`";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();        
@@ -250,11 +300,9 @@ class CRUD
 		$consulta = "	SELECT 
 							`manto_preciosproveedor`.`precioprov_id`, 
 							`manto_preciosproveedor`.`precioprov_codproveedor`, 
-							`manto_preciosproveedor`.`precioprov_descripcion`, 
-							`manto_preciosproveedor`.`precioprov_marca`, 
-							`manto_preciosproveedor`.`precioprov_procedencia`, 
-							CONCAT(`manto_preciosproveedor`.`precioprov_unidadmedida`,' - ',`manto_unidad_medida`.`um_descripcion`) AS `precioprov_unidadmedida`, 
-							`manto_preciosproveedor`.`precioprov_garantia`, 
+							`manto_preciosproveedor`.`precioprov_descripcion`,
+							`manto_preciosproveedor`.`precioprov_unidadmedida`,
+							`manto_unidad_medida`.`um_descripcion` AS `precioprov_unidad_medida_descripcion`, 
 							`manto_preciosproveedor`.`precioprov_moneda`, 
 							FORMAT(`manto_preciosproveedor`.`precioprov_precio`,2) AS `precioprov_precio`, 
 							FORMAT(`manto_preciosproveedor`.`precioprov_preciosoles`,2) AS `precioprov_preciosoles`, 
@@ -262,10 +310,9 @@ class CRUD
 							`manto_preciosproveedor`.`precioprov_razonsocial`, 
 							`manto_preciosproveedor`.`precioprov_materialid`, 
 							`manto_materiales`.`material_descripcion`,  
-							`manto_preciosproveedor`.`precioprov_documentacion`, 
 							DATE_FORMAT(`precioprov_fechavigencia`,'%Y-%m-%d') AS `precioprov_fechavigencia`, 
 							`manto_preciosproveedor`.`precioprov_cargaid`, 
-							(SELECT `colaborador`.`Colab_nombre_corto` FROM `colaborador` WHERE `colaborador`.`Colaborador_id`=`precioprov_responsablecreacion`) AS `precioprov_responsablecreacion`, 
+							`colaborador`.`Colab_nombre_corto` AS `precioprov_responsablecreacion`, 
 							DATE_FORMAT(`manto_preciosproveedor`.`precioprov_fechacreacion`,'%Y-%m-%d') AS `precioprov_fechacreacion`, 
 							`manto_preciosproveedor`.`precioprov_estado`, 
 							`manto_preciosproveedor`.`precioprov_log`, 
@@ -280,6 +327,10 @@ class CRUD
 							`manto_unidad_medida` 
 						ON 
 							`manto_unidad_medida`.`unidad_medida` = `manto_preciosproveedor`.`precioprov_unidadmedida` 
+						LEFT JOIN
+							`colaborador`
+						ON
+							`colaborador`.`Colaborador_id`=`precioprov_responsablecreacion`
 						WHERE 
 							`manto_preciosproveedor`.`precioprov_ruc`='$asignarcod_ruc' AND 
 							`manto_preciosproveedor`.`precioprov_fechavigencia` <= '$asignarcod_fecha' AND
@@ -295,10 +346,10 @@ class CRUD
 		$this->conexion=null;
    	}   
 
-	function CrearPreciosProveedor($precioprov_codproveedor, $precioprov_descripcion, $precioprov_marca, $precioprov_procedencia, $precioprov_unidadmedida, $precioprov_garantia, $precioprov_moneda, $precioprov_precio, $precioprov_preciosoles, $precioprov_ruc, $precioprov_razonsocial, $precioprov_materialid, $precioprov_documentacion, $precioprov_fechavigencia, $precioprov_cargaid, $precioprov_responsablecreacion, $precioprov_fechacreacion, $precioprov_estado, $precioprov_log, $precioprov_tipo)
+	function CrearPreciosProveedor($precioprov_codproveedor, $precioprov_descripcion, $precioprov_unidadmedida, $precioprov_moneda, $precioprov_precio, $precioprov_preciosoles, $precioprov_ruc, $precioprov_razonsocial, $precioprov_materialid, $precioprov_fechavigencia, $precioprov_cargaid, $precioprov_responsablecreacion, $precioprov_fechacreacion, $precioprov_estado, $precioprov_log, $precioprov_tipo)
 	{
 		$error		= [];
-		$consulta 	= "INSERT INTO `manto_preciosproveedor` (`precioprov_codproveedor`, `precioprov_descripcion`, `precioprov_marca`, `precioprov_procedencia`, `precioprov_unidadmedida`, `precioprov_garantia`, `precioprov_moneda`, `precioprov_precio`, `precioprov_preciosoles`, `precioprov_ruc`, `precioprov_razonsocial`, `precioprov_materialid`, `precioprov_documentacion`, `precioprov_fechavigencia`, `precioprov_cargaid`, `precioprov_responsablecreacion`, `precioprov_fechacreacion`, `precioprov_estado`, `precioprov_log`, `precioprov_tipo`) VALUES ('$precioprov_codproveedor', '$precioprov_descripcion', '$precioprov_marca', '$precioprov_procedencia', '$precioprov_unidadmedida', '$precioprov_garantia', '$precioprov_moneda', '$precioprov_precio', '$precioprov_preciosoles', '$precioprov_ruc', '$precioprov_razonsocial', '$precioprov_materialid', '$precioprov_documentacion', '$precioprov_fechavigencia', '$precioprov_cargaid', '$precioprov_responsablecreacion', '$precioprov_fechacreacion', '$precioprov_estado', '$precioprov_log', '$precioprov_tipo')";
+		$consulta 	= "INSERT INTO `manto_preciosproveedor` (`precioprov_codproveedor`, `precioprov_descripcion`, `precioprov_unidadmedida`, `precioprov_moneda`, `precioprov_precio`, `precioprov_preciosoles`, `precioprov_ruc`, `precioprov_razonsocial`, `precioprov_materialid`, `precioprov_fechavigencia`, `precioprov_cargaid`, `precioprov_responsablecreacion`, `precioprov_fechacreacion`, `precioprov_estado`, `precioprov_log`, `precioprov_tipo`) VALUES ('$precioprov_codproveedor', '$precioprov_descripcion', '$precioprov_unidadmedida', '$precioprov_moneda', '$precioprov_precio', '$precioprov_preciosoles', '$precioprov_ruc', '$precioprov_razonsocial', '$precioprov_materialid', '$precioprov_fechavigencia', '$precioprov_cargaid', '$precioprov_responsablecreacion', '$precioprov_fechacreacion', '$precioprov_estado', '$precioprov_log', '$precioprov_tipo')";
 
 		$resultado 	= $this->conexion->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
 		$resultado 	= $this->conexion->prepare($consulta);
@@ -313,10 +364,10 @@ class CRUD
 		$this->conexion=null;	
 	}  	
 
-	function buscar_codigo_proveedor( $precioprov_codproveedor, $precioprov_descripcion, $precioprov_unidadmedida, $precioprov_ruc, $precioprov_materialid )
+	function buscar_codigo_proveedor( $precioprov_codproveedor, $precioprov_descripcion, $precioprov_unidadmedida, $precioprov_moneda, $precioprov_ruc, $precioprov_materialid )
 	{
 		$repp_estado = "ACTIVO";
-		$consulta = " SELECT `repp_codigo` FROM `manto_repuesto_proveedor` WHERE `repp_codigo`='$precioprov_codproveedor' AND `repp_prov_ruc`='$precioprov_ruc' AND `repp_descripcion`='$precioprov_descripcion' AND `repp_unidad`='$precioprov_unidadmedida' AND `repp_estado`='$repp_estado' AND `repp_material_id`='$precioprov_materialid'";
+		$consulta = " SELECT `repp_codigo` FROM `manto_repuesto_proveedor` WHERE `repp_codigo`='$precioprov_codproveedor' AND `repp_prov_ruc`='$precioprov_ruc' AND `repp_descripcion`='$precioprov_descripcion' AND `repp_unidad`='$precioprov_unidadmedida' AND `repp_moneda`='$precioprov_moneda' AND `repp_estado`='$repp_estado' AND `repp_material_id`='$precioprov_materialid'";
 
 		$resultado = $this->conexion->prepare($consulta);
         $resultado->execute();        
@@ -329,6 +380,7 @@ class CRUD
         return $repp_codigo;
         $this->conexion=null;
 	}
+
 	function BuscarCodigoMateriales($ttablamateriales_tipo, $ttablamateriales_operacion, $ttablamateriales_detalle, $caracteres)
 	{
 		$consulta = "SELECT * FROM `manto_tipotablamateriales` WHERE `ttablamateriales_tipo` = '$ttablamateriales_tipo' AND `ttablamateriales_operacion` = '$ttablamateriales_operacion' AND SUBSTRING(`ttablamateriales_detalle`, 1, $caracteres) = '$ttablamateriales_detalle'";
@@ -453,7 +505,16 @@ class CRUD
 
 	function leer_repuesto_proveedor($repp_prov_ruc)
 	{
-        $consulta = "SELECT *,  CONCAT(`manto_unidad_medida`.`unidad_medida`,' - ',`manto_unidad_medida`.`um_descripcion`) AS `repp_unidad_medida` FROM `manto_repuesto_proveedor` LEFT JOIN `manto_unidad_medida` ON `manto_unidad_medida`.`unidad_medida`=`manto_repuesto_proveedor`.`repp_unidad` WHERE `repp_prov_ruc`='$repp_prov_ruc'";
+        $consulta = "	SELECT *,  
+							`manto_unidad_medida`.`um_descripcion` AS `repp_unidad_medida_descripcion`
+						FROM 
+							`manto_repuesto_proveedor` 
+						LEFT JOIN 
+							`manto_unidad_medida` 
+						ON 
+							`manto_unidad_medida`.`unidad_medida`=`manto_repuesto_proveedor`.`repp_unidad` 
+						WHERE 
+							`repp_prov_ruc`='$repp_prov_ruc'";
 
         $resultado = $this->conexion->prepare($consulta);
         $resultado->execute();        
@@ -470,8 +531,8 @@ class CRUD
 		$responsable_creacion = $_SESSION['Usua_NombreCorto'];
 		$repp_log = "<strong>".$repp_estado."</strong> ".$repp_fecha_registro." ".$responsable_creacion." CREACION ";
 
-		$consulta = " INSERT INTO `manto_repuesto_proveedor`(`repp_codigo`, `repp_descripcion`, `repp_unidad`, `rep_moneda`, `repp_estado`, `repp_prov_ruc`, `repp_fecha_registro`,  `repp_material_id`, `repp_material_descripcion`, `repp_log`, `repp_rpc_id`) VALUES ('$repp_codigo', '$repp_descripcion', '$repp_unidad', '$repp_moneda', '$repp_estado', '$repp_prov_ruc', '$repp_fecha_registro',  '$repp_material_id', '$repp_material_descripcion', '$repp_log', '$repp_rpc_id') ";
-
+		$consulta = " INSERT INTO `manto_repuesto_proveedor`(`repp_codigo`, `repp_descripcion`, `repp_unidad`, `repp_moneda`, `repp_estado`, `repp_prov_ruc`, `repp_fecha_registro`,  `repp_material_id`, `repp_material_descripcion`, `repp_log`, `repp_rpc_id`) VALUES ('$repp_codigo', '$repp_descripcion', '$repp_unidad', '$repp_moneda', '$repp_estado', '$repp_prov_ruc', '$repp_fecha_registro',  '$repp_material_id', '$repp_material_descripcion', '$repp_log', '$repp_rpc_id') ";
+		
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();   
 		$valida 	= $resultado->rowCount();

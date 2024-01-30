@@ -26,7 +26,10 @@
                     <link rel='stylesheet' type='text/css' href='Services/Resources/DataTables-10.25/datatables/datatables.min.css'> 
                     <link rel='stylesheet' type='text/css' href='Services/Resources/DataTables-10.25/datatables/DataTables-1.10.25/css/dataTables.bootstrap4.min.css'>
                     <link rel='stylesheet' type='text/css' href='Services/Resources/DataTables-10.25/datatables/Buttons-1.7.1/css/buttons.bootstrap4.min.css'>
-                    <link rel='stylesheet' href='https://pro.fontawesome.com/releases/v5.10.0/css/all.css' integrity='sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p' crossorigin='anonymous'/> ";
+                    <link rel='stylesheet' href='https://pro.fontawesome.com/releases/v5.10.0/css/all.css' integrity='sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p' crossorigin='anonymous'/> 
+                    <link rel='stylesheet' type='text/css' href='Services/Resources/cdn.datatables.net/fixedheader/3.1.9/css/fixedHeader.dataTables.min.css'>
+                    <link rel='stylesheet' type='text/css' href='Services/Resources/cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css'> ";
+
                     
     $InserFooter="  <script src='Services/Resources/jquery-ui-1.12.1/jquery-ui.js'></script>
                     <script src='Services/Resources/jquery-print/jQuery.print.min.js'></script>
@@ -43,9 +46,12 @@
                     <script src='Module/vale/View/local_view_inicio.js' type='text/javascript'></script>
                     <script src='Module/vale/View/local_view_listado.js' type='text/javascript'></script>
                     <script src='Module/vale/View/local_view_procesar.js' type='text/javascript'></script>
-                    <script src='Module/vale/View/local_view_repuestos.js' type='text/javascript'></script> 
+                    <script src='Module/vale/View/local_view_repuestos.js' type='text/javascript'></script>
+                    <script src='Module/vale/View/local_view_novedades.js' type='text/javascript'></script>  
                     <script src='Module/vale/View/local_view_tc_vale_sistema.js' type='text/javascript'></script>
-                    <script src='Module/vale/View/local_view_tc_vale_usuario.js' type='text/javascript'></script> ";
+                    <script src='Module/vale/View/local_view_tc_vale_usuario.js' type='text/javascript'></script> 
+                    <script type='text/javascript' src='Services/Resources/cdn.datatables.net/fixedheader/3.1.9/js/dataTables.fixedHeader.min.js'></script>
+                    <script type='text/javascript' src='Services/Resources/cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js'></script>";
 
 // 4.0 CONTRUCCION DE LA VISTA
 
