@@ -444,10 +444,7 @@ switch ($Accion)
    case 'CrearPreciosProveedor':
       $precioprov_codproveedor   = $_POST['precioprov_codproveedor'];
       $precioprov_descripcion    = $_POST['precioprov_descripcion'];
-      $precioprov_marca          = $_POST['precioprov_marca'];
-      $precioprov_procedencia    = $_POST['precioprov_procedencia'];
       $precioprov_unidadmedida   = $_POST['precioprov_unidadmedida'];
-      $precioprov_garantia       = $_POST['precioprov_garantia'];
       $precioprov_moneda         = $_POST['precioprov_moneda'];
       $precioprov_precio         = $_POST['precioprov_precio'];
       $precioprov_preciosoles    = $_POST['precioprov_preciosoles'];
@@ -458,7 +455,7 @@ switch ($Accion)
 
       MController($Modulo,'Logico');
       $InstanciaAjax= new Logico();
-      $Respuesta=$InstanciaAjax->CrearPreciosProveedor($precioprov_codproveedor, $precioprov_descripcion, $precioprov_marca, $precioprov_procedencia, $precioprov_unidadmedida, $precioprov_garantia, $precioprov_moneda, $precioprov_precio, $precioprov_preciosoles, $precioprov_fechavigencia, $precioprov_razonsocial, $precioprov_obslog, $precioprov_tipo);
+      $Respuesta=$InstanciaAjax->CrearPreciosProveedor($precioprov_codproveedor, $precioprov_descripcion, $precioprov_unidadmedida, $precioprov_moneda, $precioprov_precio, $precioprov_preciosoles, $precioprov_fechavigencia, $precioprov_razonsocial, $precioprov_obslog, $precioprov_tipo);
    break;
 
    case 'CompararFechaActual':

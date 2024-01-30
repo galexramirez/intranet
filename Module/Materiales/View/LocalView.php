@@ -945,55 +945,28 @@
 															</div>
 															<div class="col-lg-3">
 																<div class="form-group mb-2">
-																	<label for="precioprov_marca" class="form-label form-control-sm mb-0">Marca</label>
-																	<select class="form-control form-control-sm" id="precioprov_marca">
-
-																	</select>
-																</div>
-															</div>
-															<div class="col-lg-3">
-																<div class="form-group mb-2">
-																	<label for="precioprov_procedencia" class="form-label form-control-sm mb-0">Procedencia</label>
-																	<select class="form-control form-control-sm" id="precioprov_procedencia">
-
-																	</select>
-																</div>
-															</div>
-															<div class="col-lg-3">
-																<div class="form-group mb-2">
-																	<label for="precioprov_unidadmedida" class="form-label form-control-sm mb-0">Unidad de Medida</label>
+																	<label for="precioprov_unidadmedida" class="form-label form-control-sm mb-0">Unidad</label>
 																	<select class="form-control form-control-sm" id="precioprov_unidadmedida">
 
 																	</select>															
 																</div>
 															</div>
-														</div>
-													</div>
-													<div class="col-lg-12">
-														<div class="row">
-															<div class="col-lg-3">
-																<div class="form-group mb-2">
-																	<label for="precioprov_garantia" class="form-label form-control-sm mb-0">Garantía</label>
-																	<input type="text" class="form-control form-control-sm text-uppercase" id="precioprov_garantia">
-																</div>
-															</div>
-															<div class="col-lg-3">
+															<div class="col-lg-2">
 																<div class="form-group mb-2">
 																	<label for="precioprov_moneda" class="form-label form-control-sm mb-0">Moneda</label>
 																	<select class="form-control form-control-sm" id="precioprov_moneda">
-
 																	</select>
 																</div>
 															</div>
-															<div class="col-lg-3">
+															<div class="col-lg-2">
 																<div class="form-group mb-2">
 																	<label for="precioprov_precio" class="form-label form-control-sm mb-0">Precio</label>
 																	<input type="number" step="0.001" class="form-control form-control-sm" id="precioprov_precio">
 																</div>
 															</div>
-															<div class="col-lg-3">
+															<div class="col-lg-2">
 																<div class="form-group mb-2">
-																	<label for="precioprov_preciosoles" class="form-label form-control-sm mb-0">Precio en Soles</label>
+																	<label for="precioprov_preciosoles" class="form-label form-control-sm mb-0">Precio Soles</label>
 																	<input type="number" step="0.001" class="form-control form-control-sm" id="precioprov_preciosoles">
 																</div>
 															</div>

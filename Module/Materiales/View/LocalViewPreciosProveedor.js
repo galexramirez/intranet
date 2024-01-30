@@ -5,7 +5,7 @@
 
 ///:: Declaracion de Variables ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 var tablaPreciosProveedor, filaPreciosProveedor, opcionTablaPreciosProveedor, pprecioprov_razonsocial, pp_razonsocial, pp_fecha, select_precio_proveedor;
-var precioprov_id, precioprov_codproveedor, precioprov_descripcion, precioprov_marca, precioprov_procedencia, precioprov_unidadmedida, precioprov_garantia, precioprov_moneda, precioprov_precio, precioprov_preciosoles, precioprov_fechavigencia, precioprov_razonsocial, precioprov_obslog, precioprov_log, precioprov_tipo;
+var precioprov_id, precioprov_codproveedor, precioprov_descripcion, precioprov_unidadmedida, precioprov_moneda, precioprov_precio, precioprov_preciosoles, precioprov_fechavigencia, precioprov_razonsocial, precioprov_obslog, precioprov_log, precioprov_tipo;
 
 ///:: JS CARGA DE PRECIOS PROVEEDOR :::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 $(document).ready(function(){
@@ -47,12 +47,6 @@ $(document).ready(function(){
       opcionTablaPreciosProveedor = 1; // Alta 
       f_LimpiaMsTablaPreciosProveedor();
       
-      select_precio_proveedor = f_select_combo("manto_tc_material", "NO", "tc_categoria3", "", "`tc_variable`='USUARIO' AND `tc_categoria1`='PRECIOS PROVEEDOR' AND `tc_categoria2`='MARCA'", "`tc_categoria3` ASC");
-      $("#precioprov_marca").html(select_precio_proveedor);
-
-      select_precio_proveedor = f_select_combo("manto_tc_material", "NO", "tc_categoria3", "", "`tc_variable`='USUARIO' AND `tc_categoria1`='PRECIOS PROVEEDOR' AND `tc_categoria2`='PROCEDENCIA'", "`tc_categoria3` ASC");
-      $("#precioprov_procedencia").html(select_precio_proveedor);
-
       select_precio_proveedor = f_select_unidad_medida();
       $("#precioprov_unidadmedida").html(select_precio_proveedor);
 
@@ -75,10 +69,7 @@ $(document).ready(function(){
       e.preventDefault(); //evita el comportambiento normal del submit, es decir, recarga total de la página
       precioprov_codproveedor   = $.trim($('#precioprov_codproveedor').val());    
       precioprov_descripcion    = $.trim($('#precioprov_descripcion').val());
-      precioprov_marca          = $.trim($('#precioprov_marca').val());
-      precioprov_procedencia    = $.trim($('#precioprov_procedencia').val());
       precioprov_unidadmedida   = $.trim($('#precioprov_unidadmedida').val());
-      precioprov_garantia       = $.trim($('#precioprov_garantia').val());
       precioprov_moneda         = $.trim($('#precioprov_moneda').val());
       precioprov_precio         = $.trim($('#precioprov_precio').val());
       precioprov_preciosoles    = $.trim($('#precioprov_preciosoles').val());
@@ -87,10 +78,7 @@ $(document).ready(function(){
       precioprov_obslog         = $.trim($('#precioprov_obslog').val());
       precioprov_tipo           = $.trim($('#precioprov_tipo').val());
   
-      validacionTablaPreciosProveedor=f_validarTablaPreciosProveedor(precioprov_codproveedor, precioprov_descripcion, precioprov_marca, precioprov_procedencia, precioprov_unidadmedida, precioprov_garantia, precioprov_moneda, precioprov_precio, precioprov_preciosoles, precioprov_fechavigencia, precioprov_razonsocial, precioprov_obslog, precioprov_tipo);
-
-      unidad_medida           = $.trim(precioprov_unidadmedida.substring(0,precioprov_unidadmedida.indexOf('-')));
-      precioprov_unidadmedida = f_encontrar_dato('manto_unidad_medida','unidad_medida',unidad_medida,'unidad_medida') 
+      validacionTablaPreciosProveedor=f_validarTablaPreciosProveedor(precioprov_codproveedor, precioprov_descripcion, precioprov_unidadmedida, precioprov_moneda, precioprov_precio, precioprov_preciosoles, precioprov_fechavigencia, precioprov_razonsocial, precioprov_obslog, precioprov_tipo);
 
       /// CREAR
       if(opcionTablaPreciosProveedor == 1) {
@@ -101,7 +89,7 @@ $(document).ready(function(){
                   url: "Ajax.php",
                   type: "POST",
                   datatype:"json",    
-                  data:  { MoS:MoS,NombreMoS:NombreMoS,Accion:Accion, precioprov_codproveedor:precioprov_codproveedor, precioprov_descripcion:precioprov_descripcion, precioprov_marca:precioprov_marca, precioprov_procedencia:precioprov_procedencia, precioprov_unidadmedida:precioprov_unidadmedida, precioprov_garantia:precioprov_garantia, precioprov_moneda:precioprov_moneda, precioprov_precio:precioprov_precio, precioprov_preciosoles:precioprov_preciosoles, precioprov_fechavigencia:precioprov_fechavigencia, precioprov_razonsocial:precioprov_razonsocial, precioprov_obslog:precioprov_obslog, precioprov_tipo:precioprov_tipo },    
+                  data:  { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, precioprov_codproveedor:precioprov_codproveedor, precioprov_descripcion:precioprov_descripcion, precioprov_unidadmedida:precioprov_unidadmedida, precioprov_moneda:precioprov_moneda, precioprov_precio:precioprov_precio, precioprov_preciosoles:precioprov_preciosoles, precioprov_fechavigencia:precioprov_fechavigencia, precioprov_razonsocial:precioprov_razonsocial, precioprov_obslog:precioprov_obslog, precioprov_tipo:precioprov_tipo },    
                   success: function(data) {
                     tablaPreciosProveedor.ajax.reload(null, false);
                   }
@@ -173,7 +161,7 @@ $(document).ready(function(){
 ///:: FUNCIONES DE PRECIOS POR PROVEEDOR ::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///:: VALIDAR PRECIOS POR PROVEEDOR :::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-function f_validarTablaPreciosProveedor(pprecioprov_codproveedor, pprecioprov_descripcion, pprecioprov_marca, pprecioprov_procedencia, pprecioprov_unidadmedida, pprecioprov_garantia,pprecioprov_moneda, pprecioprov_precio, pprecioprov_preciosoles, pprecioprov_fechavigencia, pprecioprov_razonsocial, pprecioprov_obslog, p_precioprov_tipo){
+function f_validarTablaPreciosProveedor(pprecioprov_codproveedor, pprecioprov_descripcion, pprecioprov_unidadmedida, pprecioprov_moneda, pprecioprov_precio, pprecioprov_preciosoles, pprecioprov_fechavigencia, pprecioprov_razonsocial, pprecioprov_obslog, p_precioprov_tipo){
   f_LimpiaMsTablaPreciosProveedor();
   NoLetrasMayuscEspacio=/[^A-Z \Ñ]/;
   var rpta_PreciosProveedor="";    
@@ -188,23 +176,8 @@ function f_validarTablaPreciosProveedor(pprecioprov_codproveedor, pprecioprov_de
       rpta_PreciosProveedor="invalido";
   }
   
-  if(pprecioprov_marca==""){
-      $("#precioprov_marca").addClass("color-error");
-      rpta_PreciosProveedor="invalido";
-  }
-
-  if(pprecioprov_procedencia==""){
-    $("#precioprov_procedencia").addClass("color-error");
-    rpta_PreciosProveedor="invalido";
-  }
-
   if(pprecioprov_unidadmedida==""){
     $("#precioprov_unidadmedida").addClass("color-error");
-    rpta_PreciosProveedor="invalido";
-  }
-
-  if(pprecioprov_garantia==""){
-    $("#precioprov_garantia").addClass("color-error");
     rpta_PreciosProveedor="invalido";
   }
 
@@ -251,10 +224,7 @@ function f_validarTablaPreciosProveedor(pprecioprov_codproveedor, pprecioprov_de
 function f_LimpiaMsTablaPreciosProveedor(){
   $("#precioprov_codproveedor").removeClass("color-error");
   $("#precioprov_descripcion").removeClass("color-error");
-  $("#precioprov_marca").removeClass("color-error");
-  $("#precioprov_procedencia").removeClass("color-error");
   $("#precioprov_unidadmedida").removeClass("color-error");
-  $("#precioprov_garantia").removeClass("color-error");
   $("#precioprov_moneda").removeClass("color-error");
   $("#precioprov_precio").removeClass("color-error");
   $("#precioprov_preciosoles").removeClass("color-error");
