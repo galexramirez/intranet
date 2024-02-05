@@ -9,12 +9,12 @@ input{
     font-size: 11px
 }
 
-.filters_vale th{
+.filters_ot th{
     padding:0px !important;
     font-size: 11px
 }
 
-.filters_novedades th{
+.filters_vale th{
     padding:0px !important;
     font-size: 11px
 }
@@ -92,6 +92,15 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
 
 
 /* 2.0 Tablas */
+#tabla_ot thead {
+    background: #2A4C38;
+    color:white;
+}
+
+#tabla_ver_horas_tecnicos thead {
+    background: #2A4C38;
+    color:white;
+}
 
 #tabla_vale thead {
     background: #2A4C38;
@@ -113,11 +122,6 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
     color:white;
 }
 
-#tabla_novedades thead {
-    background: #2A4C38;
-    color:white;
-}
-
 #tabla_tc_vale_usuario thead {
     background: #2A4C38;
     color:white;
@@ -129,6 +133,21 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
 }
 
 /* tamaño de texto de tablas*/
+#tabla_vale th{
+    font-size: 14px !important;
+}
+
+#tabla_ver_horas_tecnicos th{
+    font-size: 12px !important;
+}
+
+#tabla_ver_detalle_repuestos th{
+    font-size: 14px !important;
+}
+
+#tabla_ot{
+    font-size: 12px;
+}
 
 #tabla_vale{
     font-size: 12px;
@@ -144,10 +163,6 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
 
 #tabla_ver_procesar_repuestos{
     font-size: 12px;
-}
-
-#tabla_novedades{
-    font-size: 12px !important;
 }
 
 #tabla_tc_vale_usuario {

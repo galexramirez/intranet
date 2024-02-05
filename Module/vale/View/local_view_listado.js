@@ -114,7 +114,7 @@ $(document).ready(function(){
             "columns"       : columna_tabla,
             "columnDefs"    :[
                 {
-                    "targets"   : [0,12],
+                    "targets"   : [0,9],
                     "orderable" : false
                 },
             ],
@@ -155,15 +155,12 @@ $(document).ready(function(){
                 iva_genera          = obj.va_genera;
                 iva_date_genera     = obj.va_date_genera;
                 iva_asociado        = obj.va_asociado;
-                iva_responsable     = obj.va_responsable;
                 iva_obs_cgm         = obj.va_obs_cgm;
-                iva_cierre_adm      = obj.va_cierre_adm;
-                iva_date_cierre_adm = obj.va_date_cierre_adm;
                 iva_obs_aom         = obj.va_obs_aom;
                 iva_estado          = obj.va_estado;
-                iva_garantia        = obj.va_garantia;
                 iva_bus             = obj.va_bus;
                 iva_descrip         = obj.va_descrip;
+                iva_log             = obj.va_log;
               });
           }
         });
@@ -172,18 +169,14 @@ $(document).ready(function(){
         $('#iva_genera').text(iva_genera);
         $('#iva_date_genera').text(iva_date_genera);
         $('#iva_asociado').text(iva_asociado);
-        $('#iva_responsable').text(iva_responsable);
-        $('#iva_obs_cgm').text(iva_obs_cgm);
-        $('#iva_cierre_adm').text(iva_cierre_adm);
-        $('#iva_date_cierre_adm').text(iva_date_cierre_adm);
         $('#iva_estado').text(iva_estado);
-        $('#iva_garantia').text(iva_garantia);
         $('#iva_bus').text(iva_bus);
         $('#iva_estado').text(iva_estado);
         $('#iva_descrip').text(iva_descrip);
         // Se cargan los div
         $("#div_iva_obs_cgm").html(iva_obs_cgm);
         $("#div_iva_obs_aom").html(iva_obs_aom);
+        $("#div_iva_log").html(iva_log);
 
         div_tabla = f_CreacionTabla("tabla_ver_detalle_repuestos","");
         $("#div_tabla_ver_detalle_repuestos").html(div_tabla);
@@ -191,7 +184,7 @@ $(document).ready(function(){
   
         $("#tabla_ver_detalle_repuestos").dataTable().fnDestroy();
         $('#tabla_ver_detalle_repuestos').show();
-        Accion='cargar_detalle_repuestos';
+        Accion='cargar_repuestos';
         tabla_ver_detalle_repuestos = $('#tabla_ver_detalle_repuestos').DataTable({
           language      : idioma_espanol,
           searching     : false,
@@ -245,10 +238,21 @@ $(document).ready(function(){
         });
     });
 
-    $(document).on("click", ".btn_imprimir_vale", function(){
-        //$.print("#div_imprimir");
-        //f_imprimir_documento();
-        window.location.href = mi_carpeta + "Module/vales_v3/Controller/imprimir_demo.php";
+    $(document).on("click", ".btn_listado_imprimir_vale", function(){
+        ivale_id = $("#ivale_id").text();  
+        let nro_vale = "";
+        nro_vale = parseInt(ivale_id);
+        if(nro_vale!==""){
+            f_imprimir_vale(nro_vale,"div_listado_imprimir_vale");
+        }else{
+            Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                title: "No existe N° Vale : "+nro_vale+" !!!",
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
     });
 
     ///:: TERMINO BOTONES DE VALE :::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
@@ -261,6 +265,8 @@ function f_color_filas_vale(row,data){
     // Columna Estado
     switch(data.va_estado)
     {
+        case "ABIERTO":
+            color = "#FF9D0A";
         case "CERRADO":
             color = "#53A258";
         break;
@@ -308,20 +314,5 @@ function f_editar_vale(p_vale_id){
     $("#va_ot_id").focus().select();
 }
 
-function f_imprimir_documento(){
-    let rpta_imprimir_documento="";
-    Accion = 'imprimir_documento';
-    $.ajax({
-      url       : "Ajax.php",
-      type      : "POST",
-      datatype  : "json",
-      async     : false,
-      data      : {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion},    
-      success   : function(data){
-        rpta_imprimir_documento = data;
-      }
-    });
-    return rpta_imprimir_documento;    
-}
 ///:: TERMINO FUNCIONES DE VALE :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 

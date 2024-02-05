@@ -44,10 +44,10 @@
                     <script type='text/javascript' src='Services/Resources/DataTables-10.25/datatables/Buttons-1.7.1/js/buttons.html5.min.js'></script>
                     <script type='text/javascript' src='Services/Resources/DataTables-10.25/datatables/Buttons-1.7.1/js/buttons.print.min.js'></script>
                     <script src='Module/vale/View/local_view_inicio.js' type='text/javascript'></script>
+                    <script src='Module/vale/View/local_view_ots.js' type='text/javascript'></script>  
                     <script src='Module/vale/View/local_view_listado.js' type='text/javascript'></script>
                     <script src='Module/vale/View/local_view_procesar.js' type='text/javascript'></script>
                     <script src='Module/vale/View/local_view_repuestos.js' type='text/javascript'></script>
-                    <script src='Module/vale/View/local_view_novedades.js' type='text/javascript'></script>  
                     <script src='Module/vale/View/local_view_tc_vale_sistema.js' type='text/javascript'></script>
                     <script src='Module/vale/View/local_view_tc_vale_usuario.js' type='text/javascript'></script> 
                     <script type='text/javascript' src='Services/Resources/cdn.datatables.net/fixedheader/3.1.9/js/dataTables.fixedHeader.min.js'></script>

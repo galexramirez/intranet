@@ -256,7 +256,33 @@ class CRUD
 
 	function ver_ot($ot_id)
 	{
-		$consulta="SELECT `ot_id`, `ot_origen`, `ot_bus`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`ot_cgm_crea` LIMIT 1) AS `ot_cgm_crea`, `ot_date_crea`, `ot_asociado`, `ot_resp_asoc`, `ot_kilometraje`, `ot_hmotor`, `ot_check`, `ot_descrip`, `ot_obs_cgm`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`ot_cgm_ct` LIMIT 1) AS `ot_cgm_ct`, `ot_date_ct`, `ot_inicio`, `ot_fin`, `ot_sistema`, `ot_codfalla`, `ot_at`, `ot_obs_asoc`, `ot_montado`, `ot_dmontado`, `ot_busdmont`, `ot_busmont`, `ot_motivo`, `ot_componente_raiz`, `ot_tecnico`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`ot_ca` LIMIT 1) AS `ot_ca`, `ot_date_ca`, `ot_estado`, `ot_obs_aom`, `ot_accidentes_id`, `ot_semana_cierre`, `ot_cod_vinculada` FROM `manto_orden_trabajo` WHERE `ot_id` = '$ot_id'";
+		$consulta = "	SELECT 
+							`manto_ots`.`ot_id`,
+							`manto_ots`.`ot_estado`,
+							`manto_ots`.`ot_origen`,
+							`manto_ots`.`ot_tipo`,
+							`manto_ots`.`ot_bus`,
+							`manto_ots`.`ot_ruc_proveedor`,
+							`manto_ots`.`ot_nombre_proveedor`,
+							`colaborador`.`Colab_nombre_corto` AS `ot_cgm_nombres`,
+							`manto_ots`.`ot_fecha_registro`,
+							`manto_ots`.`ot_actividad`,
+							`manto_ots`.`ot_actividad_vincular`,
+							`manto_ots`.`ot_kilometraje`,
+							`manto_ots`.`ot_sistema`,
+							`manto_ots`.`ot_ejecucion`,
+							`manto_ots`.`ot_obs_proveedor`,
+							`manto_ots`.`ot_obs_cgm`,
+							`manto_ots`.`ot_log`,
+							`manto_ots`.`ot_semana_cierre`
+						FROM 
+							`manto_ots`
+						LEFT JOIN
+							`colaborador`
+						ON
+							`colaborador`.`Colaborador_id`=`manto_ots`.`ot_cgm_id`
+						WHERE 
+							`ot_id` = '$ot_id'";
 		   
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();
@@ -268,7 +294,30 @@ class CRUD
    
 	function ver_vale($ot_id)
 	{
-		$consulta	= "SELECT `cod_vale`, `va_ot`, `manto_orden_trabajo`.`ot_bus` AS `va_bus`, `manto_orden_trabajo`.`ot_origen` AS `va_origen`, `va_asociado`, `va_responsable`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`va_genera` LIMIT 1) AS `va_genera`, `va_date_genera`, (SELECT `glo_roles`.`roles_nombrecorto` FROM `glo_roles` WHERE `glo_roles`.`roles_dni`=`va_cierre_adm` LIMIT 1) AS `va_cierre_adm`, `va_date_cierre_adm`, `va_estado`, `va_garantia`, `manto_orden_trabajo`.`ot_descrip` AS `va_descrip`, `va_obs_cgm`, `va_obs_aom` FROM `manto_vales` LEFT JOIN `manto_orden_trabajo` ON `ot_id`=`va_ot` WHERE `va_ot`='$ot_id'";
+		$consulta	= "	SELECT 
+							`manto_vale`.`vale_id`, 
+							`manto_vale`.`va_ot_id`,
+							`manto_ots`.`ot_bus` AS `va_bus`, 
+							`manto_vale`.`va_asociado`,
+							`colaborador`.`Colab_nombre_corto` AS `va_genera_nomnbre`,
+							`manto_vale`.`va_date_genera`,
+							`manto_vale`.`va_estado`,
+							CONCAT(`manto_ots`.`ot_origen`,' - ',`manto_ots`.`ot_actividad`) AS `va_actividad`,
+							`manto_vale`.`va_obs_cgm`, 
+							`manto_vale`.`va_obs_aom`, 
+							`manto_vale`.`va_log`
+						FROM 
+							`manto_vale` 
+						LEFT JOIN 
+							`manto_ots` 
+						ON 
+							`manto_ots`.`ot_id`=`manto_vale`.`va_ot_id` 
+						LEFT JOIN
+							`colaborador`
+						ON
+							`colaborador`.`Colaborador_id`=`manto_vale`.`va_genera`
+						WHERE 
+							`manto_vale`.`va_ot_id`='$ot_id' ";
    
 		$resultado 	= $this->conexion->prepare($consulta);
 		$resultado->execute();
@@ -278,9 +327,25 @@ class CRUD
 		$this->conexion=null;
 	}
    
-	function ver_detalle_repuesto($cod_vale)
+	function ver_detalle_repuesto($vale_id)
 	{
-		$consulta	= "SELECT `cod_rv`, `rv_repuesto`, `rv_nroserie`, `rv_cantidad`, `rv_precio`, `rep_desc` AS `rv_desc`, `rep_unida` AS `rv_unidad` FROM `manto_rep_vale` LEFT JOIN `manto_repuestos` ON `cod_rep`=`rv_repuesto` WHERE `rv_vale`='$cod_vale'";
+		$consulta	= "	SELECT
+							`manto_vale_repuestos`.`vr_repuesto`,
+							`manto_vale_repuestos`.`vr_cod_patrimonial`,
+							`manto_vale_repuestos`.`vr_descripcion`,
+							`manto_vale_repuestos`.`vr_nroserie`, 
+							`manto_vale_repuestos`.`vr_cantidad_requerida`, 
+							`manto_vale_repuestos`.`vr_cantidad_despachada`,
+							`manto_vale_repuestos`.`vr_cantidad_utilizada`,
+							CONCAT(`manto_unidad_medida`.`unidad_medida`,'-',`manto_unidad_medida`.`um_descripcion`) AS `rv_unidad` 
+						FROM 
+							`manto_vale_repuestos` 
+						LEFT JOIN
+							`manto_unidad_medida`
+						ON
+							`manto_unidad_medida`.`unidad_medida` = `manto_vale_repuestos`.`vr_unidad_medida`
+						WHERE 
+							`vr_vale_id`='$vale_id' ";
    
 		$resultado 	= $this->conexion->prepare($consulta);
 		$resultado->execute();

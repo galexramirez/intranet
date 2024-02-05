@@ -193,6 +193,21 @@ function f_select_combo(p_nombre_tabla, p_es_campo_unico, p_campo_select, p_camp
   return rpta_select_combo;
 }
 
+///:: FUNCION QUE GENERA LA IMPRESION DEL VALE ::::::::::::::::::::::::::::::::::::::::::::///
+function f_imprimir_vale(p_vale_id, p_div){
+  div_show = f_MostrarDiv("form_imprimir_vale", p_div, p_vale_id, "");
+  $("#"+p_div).html(div_show);
+  let printContent = document.getElementById(p_div);
+  let WinPrint = window.open('', '', 'width=900,height=650');
+  WinPrint.document.write(printContent.innerHTML);
+  WinPrint.document.close();
+  WinPrint.focus();
+  WinPrint.print();
+  WinPrint.close();
+}
+///:: FIN DE FUNCION QUE GENERA LA IMPRESION DE LA OT :::::::::::::::::::::::::::::::::::::///
+
+
 ///:: FUNCIONES ACCESOS :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 function f_CreacionTabs(pNombreTabs,pTipoTabs){
   let rptaTabs="";

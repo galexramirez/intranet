@@ -73,7 +73,7 @@ $(document).ready(function(){
     t_html = "";
     f_cargar_variables_vacio_vale();
     f_carga_variables_html_vale();
-    vale_id     = $("#vale_id").val();
+    vale_id = $("#vale_id").val();
     opcion_vale = "";
 
     if(vale_id==""){
@@ -84,19 +84,32 @@ $(document).ready(function(){
         showConfirmButton: false,
         timer: 1500
       })
+      div_show = f_MostrarDiv("form_procesar_vale","btn_guardar_vale", "", "");
+      $("#div_btn_guardar_vale").html(div_show);
+
       $("#form_procesar_vale").show();
       $("#va_ot_id").focus().select();
       f_carga_variables_html_vale();
       f_combos_procesar_vales();
+
       opcion_vale = "CREAR";
       div_show = f_MostrarDiv("form_seleccionar_procesar_vale","btn_seleccion_procesar_vale", "vacio","");
       $("#div_btn_seleccion_procesar_vale").html(div_show);
       btn_borrar_repuesto = "SI";
+
       f_tabla_repuestos(vale_id,btn_borrar_repuesto);
-      div_show = f_MostrarDiv("form_procesar_vale","btn_guardar_vale", "", "");
-      $("#div_btn_guardar_vale").html(div_show);
+      if(nuevo_vale_ot==="SI"){
+        $("#va_ot_id").val(fila_va_ot_id);
+        $("#va_genera").val(fila_va_genera);
+        $("#va_bus").val(fila_va_bus);
+        $("#va_asociado").val(fila_va_asociado);
+        $("#va_descrip").val(fila_va_origen+' - '+fila_va_descrip);
+        $("#va_date_genera").val(fila_va_date_genera);
+        nuevo_vale_ot = "NO";
+      }
     }else{
-      vale_existe = f_buscar_dato("manto_vale", "vale_id", "`vale_id`='"+vale_id+"'");
+      let n_vale_id = parseInt(vale_id);
+      vale_existe = f_buscar_dato("manto_vale", "vale_id", "`vale_id`='"+n_vale_id+"'");
       Accion = 'cargar_vale';
       $.ajax({
         url       : "Ajax.php",
@@ -108,14 +121,14 @@ $(document).ready(function(){
           data = $.parseJSON(data);
           f_cargar_variables_vale(data);
           f_combos_procesar_vales();
-          if(vale_existe==vale_id){
+          if(vale_existe==n_vale_id){
             opcion_vale  = "EDITAR"; 
             ///:: SE CARGA EL COMBO CON TODOS LOS RESPONSABLES DEL ASOCIADO :::::::::::::::///
-            a_data      = f_BuscarDataBD("manto_proveedores","prov_razonsocial",va_asociado);
+            a_data = f_BuscarDataBD("manto_proveedores","prov_razonsocial",va_asociado);
             $.each(a_data, function(idx, obj){
-              va_ruc    = obj.prov_ruc;
+              va_ruc = obj.prov_ruc;
             });        
-            t_html      = f_select_combo("manto_resp_asociado","NO","ra_nombres",va_responsable,"`ra_ruc_asociado` = '"+va_ruc+"'");
+            t_html = f_select_combo("manto_resp_asociado","NO","ra_nombres",va_responsable,"`ra_ruc_asociado` = '"+va_ruc+"'");
             $("#va_responsable").html(t_html);
             ///:: SE PRECARGA EL PRIMER RESPONSABLE DEL ASOCIADO ::::::::::::::::::::::::::///
             if((va_responsable==null || va_responsable=="") && va_asociado!=""){
@@ -128,14 +141,12 @@ $(document).ready(function(){
             $("#form_procesar_vale").show();
             $("#va_ot_id").focus().select();
             f_carga_variables_html_vale();
-            
-            div_show      = f_MostrarDiv("form_seleccionar_procesar_vale","btn_seleccion_procesar_vale", "vacio","");
+            div_show = f_MostrarDiv("form_seleccionar_procesar_vale","btn_seleccion_procesar_vale", "vacio","");
             $("#div_btn_seleccion_procesar_vale").html(div_show);
             btn_borrar_repuesto = "SI";
             f_tabla_repuestos(vale_id,btn_borrar_repuesto);
             div_show = f_MostrarDiv("form_procesar_vale","btn_guardar_vale", "","");
             $("#div_btn_guardar_vale").html(div_show);
-        
           }else{
             Swal.fire({
               position: 'center',
@@ -147,7 +158,6 @@ $(document).ready(function(){
             opcion_vale = "";
             $("#form_procesar_vale").show();
             $("#vale_id").focus();
-
           }
         }
       });
@@ -156,28 +166,26 @@ $(document).ready(function(){
   ///:: FIN BOTON CARGAR VALES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
   ///:: BOTON GUARDAR VALES :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-  $("#btn_guardar_vale").on("click",function(){
+  $(document).on("click", ".btn_guardar_vale", function(){
     let array_vale_repuesto;
-    let array_data        = [];
-    let rpta_data         = [];
-    let grabar_vale       = "";
-    vale_ot_estado        = "REGISTRADO";
-    vale_id               = $('#vale_id').val();
-    va_ot_id              = $('#va_ot_id').val();
-    va_genera             = $('#va_genera').val();
-    va_date_genera        = $('#va_date_genera').val();
-    va_asociado           = $('#va_asociado').val();
-    va_responsable        = $('#va_responsable').val();
-    va_garantia           = $('#va_garantia').val();
-    va_obs_cgm            = $("#va_obs_cgm").val();        
-    va_obs_aom            = $("#va_obs_aom").val();
-    va_estado             = $("#va_estado").val();
-    va_tipo               = "MATERIAL";
+    let array_data  = [];
+    let rpta_data   = [];
+    let grabar_vale = "";
+    let nuevo_vale  = "";
+    vale_id         = $('#vale_id').val();
+    va_ot_id        = $('#va_ot_id').val();
+    va_genera       = $('#va_genera').val();
+    va_date_genera  = $('#va_date_genera').val();
+    va_asociado     = $('#va_asociado').val();
+    va_obs_cgm      = $("#va_obs_cgm").val();        
+    va_obs_aom      = $("#va_obs_aom").val();
+    va_estado       = $("#va_estado").val();
+    va_tipo         = "MATERIAL";
     array_vale_repuesto = tabla_repuestos.rows().data().toArray();
     $("#va_date_genera").removeClass("color-error");
     $("#va_estado").removeClass("color-error");
 
-    a_data = f_BuscarDataBD("manto_ot", "ot_id", va_ot_id);
+    /*a_data = f_BuscarDataBD("manto_ot", "ot_id", va_ot_id);
     $.each(array_vale_repuesto, function(idx, obj){ 
       rv_repuesto = obj.rv_repuesto;
       rpta_data = f_BuscarDataBD("manto_preciosproveedor", "precioprov_codproveedor", rv_repuesto);
@@ -194,7 +202,7 @@ $(document).ready(function(){
           grabar_vale = "invalido";    
         }
       }
-    });
+    });*/
 
     if(va_date_genera==""){
       Swal.fire({
@@ -247,18 +255,38 @@ $(document).ready(function(){
         type            : "POST",
         datatype        : "json",
         async           : false,
-        data            : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, vale_id:vale_id, va_ot_id:va_ot_id, va_genera:va_genera, va_date_genera:va_date_genera, va_asociado:va_asociado, va_responsable, va_responsable, va_garantia:va_garantia, va_obs_cgm:va_obs_cgm, tva_obs_aom:tva_obs_aom, va_obs_aom:va_obs_aom, va_estado:va_estado, va_tipo:va_tipo, array_data:array_data },
+        data            : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, vale_id:vale_id, va_ot_id:va_ot_id, va_genera:va_genera, va_date_genera:va_date_genera, va_asociado:va_asociado, va_obs_cgm:va_obs_cgm, va_obs_aom:va_obs_aom, va_estado:va_estado, va_tipo:va_tipo, array_data:array_data },
         success         : function(data){
-
+          nuevo_vale = data;
+          if(nuevo_vale!==""){
+            Swal.fire({
+              title: "¿ Desea imprimir Vale ?",
+              showDenyButton: true,
+              confirmButtonText: "Imprimir",
+              denyButtonText: `No imprimir`,
+            }).then((result) => {
+              if (result.isConfirmed) {
+                f_imprimir_vale(nuevo_vale,"div_imprimir_vale");
+              } else if (result.isDenied) {
+                Swal.fire({
+                  position: "top-end",
+                  icon: "info",
+                  title: "Impresión Cancelada!",
+                  showConfirmButton: false,
+                  timer: 1500
+                });
+              }
+            });
+          }
         }
       });
-      Swal.fire({
+      /*Swal.fire({
         position          : 'center',
         icon              : 'success',
         title             : 'El registro ha sido grabado.',
         showConfirmButton : false,
         timer             : 1500
-      })
+      })*/
       $("#btn_guardar_vale").prop("disabled",false);
       div_show = f_MostrarDiv("form_seleccion_procesar_vale","btn_seleccion_procesar_vale", "","");
       $("#div_btn_seleccion_procesar_vale").html(div_show);
@@ -290,7 +318,7 @@ $(document).ready(function(){
   });
   ///:: FIN BOTON VER LOG VALES :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
-  ///:: EVENTO DE BOTON VER PROCESAR VALES :::::::::::::::::::::::::::::::::::::::::::::::::::::::///       
+  ///:: EVENTO DE BOTON VER PROCESAR VALES ::::::::::::::::::::::::::::::::::::::::::::::::///       
   $(document).on("click", ".btn_procesar_ver_vale", function(){
       vale_id = $("#vale_id").val();
       $("#form_modal_ver_procesar_vale").trigger("reset");
@@ -371,8 +399,26 @@ $(document).ready(function(){
           handle: ".dragable_touch",
         });         
   });
-  ///:: FIN EVENTO DE BOTON VER VALES :::::::::::::::::::::::::::::::::::::::::::::::::::///
+  ///:: FIN EVENTO DE BOTON VER VALES :::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
+  ///:: EVENTO DEL BOTON IMPRIMIR VALE ::::::::::::::::::::::::::::::::::::::::::::::::::::///
+  $(document).on("click", ".btn_procesar_imprimir_vale", function(){
+    t_vale_id = $("#tvale_id").val();  
+    let nro_vale = "";
+    nro_vale = parseInt(t_vale_id);
+      if(nro_vale!==""){
+          f_imprimir_vale(nro_vale,"div_imprimir_vale");
+      }else{
+          Swal.fire({
+              position: 'center',
+              icon: 'warning',
+              title: "No existe N° Vale : "+nro_vale+" !!!",
+              showConfirmButton: false,
+              timer: 1500
+          })
+      }
+  });
+  ///:: FIN DE EVENTO DEL BOTON IMPRIMIR VALE :::::::::::::::::::::::::::::::::::::::::::::///
 
   ///:: TERMINO BOTONES DE PROCESAR VALES :::::::::::::::::::::::::::::::::::::::::::::::::///
 

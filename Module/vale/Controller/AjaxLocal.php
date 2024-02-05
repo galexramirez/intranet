@@ -1,9 +1,7 @@
 <?php
 $Modulo = "vale";
-// Accion declarada en el JS
 $Accion=$_POST['Accion'];   
 
-// Define la accion de JS
 switch ($Accion)
 {
    case 'CreacionTabs':
@@ -127,6 +125,40 @@ switch ($Accion)
       $Respuesta     = $InstanciaAjax->DocumentRoot();
    break;
 
+   case 'leer_ot':
+      $ot_ruc_proveedor   = $_POST['ot_ruc_proveedor'];
+      $fecha_inicio_ot    = $_POST['fecha_inicio_ot'];
+      $fecha_termino_ot   = $_POST['fecha_termino_ot'];
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta     = $InstanciaAjax->leer_ot($ot_ruc_proveedor, $fecha_inicio_ot, $fecha_termino_ot);
+   break;
+
+   case 'ver_ot':
+      $ot_id= $_POST['ot_id'];
+
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta     = $InstanciaAjax->ver_ot($ot_id);
+   break;
+
+   case 'cargar_horas_tecnicos':
+      $ot_id = $_POST['ot_id'];
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta     = $InstanciaAjax->cargar_horas_tecnicos($ot_id);
+   break;
+
+   case 'ver_vale':
+      $ot_id = $_POST['ot_id'];
+
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta     = $InstanciaAjax->ver_vale($ot_id);
+   break;
+
    case 'leer_vale':
       $fecha_inicio_listado = $_POST['fecha_inicio_listado'];
       $fecha_termino_listado = $_POST['fecha_termino_listado'];
@@ -142,10 +174,7 @@ switch ($Accion)
       $va_genera        = $_POST['va_genera'];
       $va_date_genera   = $_POST['va_date_genera'];
       $va_asociado      = $_POST['va_asociado'];
-      $va_responsable   = $_POST['va_responsable'];
-      $va_garantia      = $_POST['va_garantia'];
       $va_obs_cgm       = strtoupper($_POST['va_obs_cgm']);
-      $tva_obs_aom      = strtoupper($_POST['tva_obs_aom']);
       $va_obs_aom       = strtoupper($_POST['va_obs_aom']);
       $va_estado        = $_POST['va_estado'];
       $va_tipo          = $_POST['va_tipo'];
@@ -153,27 +182,24 @@ switch ($Accion)
 
       MController($Modulo,'Logico');
       $InstanciaAjax= new Logico();
-      $Respuesta=$InstanciaAjax->generar_vale($vale_id, $va_ot_id, $va_genera, $va_date_genera, $va_asociado, $va_responsable, $va_garantia, $va_obs_cgm, $tva_obs_aom, $va_obs_aom, $va_estado, $va_tipo, $array_data);
+      $Respuesta=$InstanciaAjax->generar_vale($vale_id, $va_ot_id, $va_genera, $va_date_genera, $va_asociado, $va_obs_cgm, $va_obs_aom, $va_estado, $va_tipo, $array_data);
    break;
 
    case 'editar_vale':
-      $vale_id         = $_POST['vale_id'];
-      $va_ot_id            = $_POST['va_ot_id'];
+      $vale_id          = $_POST['vale_id'];
+      $va_ot_id         = $_POST['va_ot_id'];
       $va_genera        = $_POST['va_genera'];
       $va_date_genera   = $_POST['va_date_genera'];
       $va_asociado      = $_POST['va_asociado'];
-      $va_responsable   = $_POST['va_responsable'];
-      $va_garantia      = $_POST['va_garantia'];
-      $va_obs_cgm       = $_POST['va_obs_cgm'];
-      $tva_obs_aom      = $_POST['tva_obs_aom'];
-      $va_obs_aom       = $_POST['va_obs_aom'];
+      $va_obs_cgm       = strtoupper($_POST['va_obs_cgm']);
+      $va_obs_aom       = strtoupper($_POST['va_obs_aom']);
       $va_estado        = $_POST['va_estado'];
       $va_tipo          = $_POST['va_tipo'];
       $array_data       = json_decode($_POST['array_data'],true);
 
       MController($Modulo,'Logico');
       $InstanciaAjax = new Logico();
-      $Respuesta     = $InstanciaAjax->editar_vale($vale_id, $va_ot_id, $va_genera, $va_date_genera, $va_asociado, $va_responsable, $va_garantia, $va_obs_cgm, $tva_obs_aom, $va_obs_aom, $va_estado, $va_tipo, $array_data);
+      $Respuesta     = $InstanciaAjax->editar_vale($vale_id, $va_ot_id, $va_genera, $va_date_genera, $va_asociado, $va_obs_cgm, $va_obs_aom, $va_estado, $va_tipo, $array_data);
    break;
 
    case 'cargar_vale':
@@ -228,16 +254,6 @@ switch ($Accion)
       MController($Modulo,'Logico');
       $InstanciaAjax = new Logico();
       $Respuesta     = $InstanciaAjax->vales_observados();
-   break;
-
-   case 'leer_novedades':
-      $prov_ruc = $_POST['prov_ruc'];
-      $fecha_inicio    = $_POST['fecha_inicio'];
-      $fecha_termino   = $_POST['fecha_termino'];
-
-      MModel($Modulo,'CRUD');
-      $InstanciaAjax = new CRUD();
-      $Respuesta     = $InstanciaAjax->leer_novedades($prov_ruc, $fecha_inicio, $fecha_termino);
    break;
 
    case 'leer_tc_vale_usuario':
@@ -311,5 +327,6 @@ switch ($Accion)
       $InstanciaAjax = new CRUD();
       $Respuesta     = $InstanciaAjax->borrar_tc_vale_sistema($tc_vale_id);
    break;
+
    default: header('Location: /inicio');
 }

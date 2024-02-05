@@ -107,10 +107,189 @@ class CRUD
 		$this->conexion=null;
 	}
 
+	function leer_ot($ot_ruc_proveedor, $fecha_inicio_ot, $fecha_termino_ot)
+	{
+		$where_ruc_proveedor = "";
+		if($ot_ruc_proveedor!=""){
+			$where_ruc_proveedor = "AND `ot_ruc_proveedor`='$ot_ruc_proveedor'";
+		}
+		$consulta = " 	SELECT 
+							CONCAT_WS('-',SUBSTRING(`ot_tipo`,1,1),SUBSTRING(CONCAT('00000000',`ot_id`),-8)) AS `ot_id`, 
+							`ot_estado`, 
+							DATE_FORMAT(`ot_fecha_registro`,'%Y-%m-%d %H:%i') AS `ot_fecha`, 
+							`colaborador`.`Colab_nombre_corto` AS `ot_cgm_genera`, 
+							`ot_bus`, 
+							`ot_origen`, 
+							`ot_nombre_proveedor` AS `ot_proveedor`, 
+							`ot_actividad`, 
+							`ot_kilometraje`,
+							IF(`tvale`.`nvale`>'0',SUBSTRING(CONCAT('00',`tvale`.`nvale`),-2),'') AS `ot_vales`
+						FROM 
+							`manto_ots` 
+						LEFT JOIN 
+							(SELECT `manto_vale`.`va_ot_id`, COUNT(*) AS `nvale` FROM `manto_vale` GROUP BY `manto_vale`.`va_ot_id`) AS `tvale` 
+						ON 
+							`tvale`.`va_ot_id`=`manto_ots`.`ot_id`
+						LEFT JOIN
+							`colaborador`
+						ON 
+							`colaborador`.`Colaborador_id`=`manto_ots`.`ot_cgm_id`
+						WHERE 
+							DATE_FORMAT(`ot_fecha_registro`,'%Y-%m-%d')>='$fecha_inicio_ot' AND 
+							DATE_FORMAT(`ot_fecha_registro`,'%Y-%m-%d')<='$fecha_termino_ot' ".$where_ruc_proveedor;
+
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();        
+		$data = $resultado->fetchAll(PDO::FETCH_ASSOC);
+		print json_encode($data, JSON_UNESCAPED_UNICODE);//envio el array final el formato json a AJAX
+
+		$this->conexion=null;
+   	}   
+
+	function ver_ot($ot_id)
+	{
+		$consulta = "	SELECT 
+							`manto_ots`.`ot_id`,
+    						`manto_ots`.`ot_estado`,
+    						`manto_ots`.`ot_origen`,
+    						`manto_ots`.`ot_tipo`,
+    						`manto_ots`.`ot_bus`,
+    						`manto_ots`.`ot_ruc_proveedor`,
+    						`manto_ots`.`ot_nombre_proveedor`,
+    						`colaborador`.`Colab_nombre_corto` AS `ot_cgm_nombres`,
+    						`manto_ots`.`ot_fecha_registro`,
+    						`manto_ots`.`ot_actividad`,
+    						`manto_ots`.`ot_actividad_vincular`,
+    						`manto_ots`.`ot_kilometraje`,
+    						`manto_ots`.`ot_sistema`,
+    						`manto_ots`.`ot_ejecucion`,
+    						`manto_ots`.`ot_obs_proveedor`,
+    						`manto_ots`.`ot_obs_cgm`,
+    						`manto_ots`.`ot_log`,
+    						`manto_ots`.`ot_semana_cierre`
+						FROM 
+							`manto_ots`
+						LEFT JOIN
+							`colaborador`
+						ON
+							`colaborador`.`Colaborador_id`=`manto_ots`.`ot_cgm_id`
+						WHERE 
+							`ot_id` = '$ot_id'";
+		   
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();
+		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+   
+		return $data;
+		$this->conexion=null;
+	}
+
+	function cargar_horas_tecnicos($ot_id)
+	{
+		$consulta	= "	SELECT 
+							`manto_ot_horas_tecnicos`.`ht_tecnico_nombres` AS `tecnico_nombres`,
+							DATE_FORMAT(`manto_ot_horas_tecnicos`.`ht_hora_inicio`,'%d-%m-%Y %H:%i') AS `hora_inicio`,
+							DATE_FORMAT(`manto_ot_horas_tecnicos`.`ht_hora_fin`,'%d-%m-%Y %H:%i') AS `hora_fin`,
+							DATE_FORMAT(TIMEDIFF(`manto_ot_horas_tecnicos`.`ht_hora_fin`,`manto_ot_horas_tecnicos`.`ht_hora_inicio`),'%H:%i') AS `total_horas`
+						FROM `manto_ot_horas_tecnicos`
+						WHERE `manto_ot_horas_tecnicos`.`ht_ot_id`='$ot_id' ";
+   
+		$resultado 	= $this->conexion->prepare($consulta);
+		$resultado->execute();
+		$data		= $resultado->fetchAll(PDO::FETCH_ASSOC);
+		print json_encode($data, JSON_UNESCAPED_UNICODE);
+   
+		$this->conexion=null;
+	}
+
+	function ver_vale($ot_id)
+	{
+		$consulta	= " SELECT 
+							`manto_vale`.`vale_id`, 
+							`manto_vale`.`va_ot_id`,
+							`manto_ots`.`ot_bus` AS `va_bus`, 
+							`manto_vale`.`va_asociado`,
+							`colaborador`.`Colab_nombre_corto` AS `va_genera_nomnbre`,
+							`manto_vale`.`va_date_genera`,
+							`manto_vale`.`va_estado`,
+							CONCAT(`manto_ots`.`ot_origen`,' - ',`manto_ots`.`ot_actividad`) AS `va_actividad`,
+							`manto_vale`.`va_obs_cgm`, 
+							`manto_vale`.`va_obs_aom`, 
+							`manto_vale`.`va_log`
+						FROM 
+							`manto_vale` 
+						LEFT JOIN 
+							`manto_ots` 
+						ON 
+							`manto_ots`.`ot_id`=`manto_vale`.`va_ot_id` 
+						LEFT JOIN
+							`colaborador`
+						ON
+							`colaborador`.`Colaborador_id`=`manto_vale`.`va_genera`
+						WHERE 
+							`manto_vale`.`va_ot_id`='$ot_id'";
+   
+		$resultado 	= $this->conexion->prepare($consulta);
+		$resultado->execute();
+		$data		=$resultado->fetchAll(PDO::FETCH_ASSOC);
+   
+		return $data;
+		$this->conexion=null;
+	}
+
+	function ver_detalle_repuesto($vale_id)
+	{
+		$consulta	= "	SELECT
+							`manto_vale_repuestos`.`vr_repuesto`,
+							`manto_vale_repuestos`.`vr_cod_patrimonial`,
+							`manto_vale_repuestos`.`vr_descripcion`,
+							`manto_vale_repuestos`.`vr_nroserie`, 
+							`manto_vale_repuestos`.`vr_cantidad_requerida`, 
+							`manto_vale_repuestos`.`vr_cantidad_despachada`,
+							`manto_vale_repuestos`.`vr_cantidad_utilizada`,
+							CONCAT(`manto_unidad_medida`.`unidad_medida`,'-',`manto_unidad_medida`.`um_descripcion`) AS `rv_unidad` 
+						FROM 
+							`manto_vale_repuestos` 
+						LEFT JOIN
+							`manto_unidad_medida`
+						ON
+							`manto_unidad_medida`.`unidad_medida` = `manto_vale_repuestos`.`vr_unidad_medida`
+						WHERE 
+							`vr_vale_id`='$vale_id' ";
+   
+		$resultado 	= $this->conexion->prepare($consulta);
+		$resultado->execute();
+		$data		= $resultado->fetchAll(PDO::FETCH_ASSOC);
+		return $data;
+   
+		$this->conexion=null;
+	}
+
 	function leer_vale($fecha_inicio_listado, $fecha_termino_listado)
 	{
-		$consulta = "SELECT `vale_id`, IF(`va_ot_id`='0','',`va_ot_id`) AS `va_ot_id`, `manto_orden_trabajo`.`ot_bus` AS `va_bus`, `manto_orden_trabajo`.`ot_origen` AS `va_origen`, `va_asociado`, `va_responsable`, (SELECT `colaborador`.`Colab_nombre_corto` FROM `colaborador` WHERE `colaborador`.`Colaborador_id`=`va_genera`) AS `va_genera`, DATE_FORMAT(`va_date_genera`,'%d-%m-%Y %H:%i') AS `va_date_genera`, (SELECT `colaborador`.`Colab_nombre_corto` FROM `colaborador` WHERE `colaborador`.`Colaborador_id`=`va_cierra`) AS `va_cierra`, DATE_FORMAT(`va_date_cierra`,'%d-%m-%Y %H:%i') AS `va_date_cierra`, (SELECT `colaborador`.`Colab_nombre_corto` FROM `colaborador` WHERE `colaborador`.`Colaborador_id`=`va_cierre_adm`) AS `va_cierre_adm`, DATE_FORMAT(`va_date_cierre_adm`,'%d-%m-%Y %H:%i') AS `va_date_cierre_adm`, `va_estado` FROM `manto_vale` LEFT JOIN `manto_orden_trabajo` ON `ot_id`=`va_ot_id` WHERE DATE_FORMAT(`va_date_genera`,'%Y-%m-%d')>='$fecha_inicio_listado' AND DATE_FORMAT(`va_date_genera`,'%Y-%m-%d')<='$fecha_termino_listado'";
-		
+		$consulta = "	SELECT
+							SUBSTRING(CONCAT('00000000',`manto_vale`.`vale_id`),-8) AS `vale_id`,
+    						`manto_vale`.`va_asociado`,
+    						`manto_vale`.`va_date_genera`,
+    						`manto_vale`.`va_estado`,
+    						`colaborador`.`Colab_nombre_corto` AS `va_nombre_genera`,
+						    CONCAT_WS('-',SUBSTRING(`manto_ots`.`ot_tipo`,1,1),SUBSTRING(CONCAT('00000000',`manto_ots`.`ot_id`),-8)) AS `va_ot_id`,
+							`manto_ots`.`ot_bus` AS `va_bus`, 
+							`manto_ots`.`ot_origen` AS `va_origen`
+						FROM 
+							`manto_vale` 
+						LEFT JOIN 
+							`manto_ots` 
+						ON 
+							manto_ots.`ot_id`=`manto_vale`.`va_ot_id` 
+						LEFT JOIN
+							`colaborador`
+						ON
+							`colaborador`.`Colaborador_id`=`manto_vale`.`va_genera`
+						WHERE 
+							DATE_FORMAT(`manto_vale`.`va_date_genera`,'%Y-%m-%d')>='$fecha_inicio_listado' 
+							AND DATE_FORMAT(`manto_vale`.`va_date_genera`,'%Y-%m-%d')<='$fecha_termino_listado'";
+
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();        
 		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
@@ -119,25 +298,48 @@ class CRUD
 		$this->conexion=null;
    	}   
 
-	function generar_vale($vale_id, $va_ot_id, $va_genera, $va_date_genera, $va_asociado, $va_responsable, $va_garantia, $va_obs_cgm, $va_obs_aom, $va_estado, $nombre_cierre_adm, $va_tipo, $va_ruc)
+	function generar_vale($vale_id, $va_ot_id, $va_genera, $va_date_genera, $va_asociado, $va_obs_cgm, $va_obs_aom, $va_estado, $nombre_cierre_adm, $va_tipo, $va_ruc)
 	{
-        $va_cierre_adm 		= $_SESSION['USUARIO_ID'];
-		$va_date_cierre_adm = date("Y-m-d H:i:s");
-		$va_obs_aom 		= date_format(date_create($va_date_cierre_adm),"Y-m-d H:i")." ".$nombre_cierre_adm.": REGISTRO SISTEMA ".$va_obs_aom;
-		if($va_ot_id==""){
-			$va_ot_id='0';
-		}
-		$consulta="INSERT INTO `manto_vale`(`vale_id`, `va_ot_id`, `va_genera`, `va_date_genera`, `va_asociado`, `va_responsable`, `va_cierre_adm`, `va_date_cierre_adm`, `va_garantia`, `va_obs_cgm`, `va_obs_aom`, `va_estado`, `va_tipo`, `va_ruc`) VALUES ('$vale_id', '$va_ot_id', '$va_genera', '$va_date_genera', '$va_asociado', '$va_responsable', '$va_cierre_adm', '$va_date_cierre_adm', '$va_garantia', '$va_obs_cgm', '$va_obs_aom', '$va_estado', '$va_tipo', '$va_ruc')";
+		$va_fecha = date("Y-m-d H:i:s");
+		$va_log = "<strong>".$va_estado."</strong> ".$va_fecha." ".$nombre_cierre_adm.": REGISTRO CREACION ";
+
+		$consulta="INSERT INTO `manto_vale`(`va_ot_id`, `va_genera`, `va_date_genera`, `va_asociado`,  `va_obs_cgm`, `va_obs_aom`, `va_estado`, `va_tipo`, `va_ruc`, `va_log`) VALUES ('$va_ot_id', '$va_genera', '$va_date_genera', '$va_asociado', '$va_obs_cgm', '$va_obs_aom', '$va_estado', '$va_tipo', '$va_ruc', '$va_log')";
 
 		$resultado = $this->conexion->prepare($consulta);
         $resultado->execute();        
-        
+		$vale_id = $this->conexion->lastInsertId();
+		return $vale_id;
+
 		$this->conexion=null;
 	}
 
 	function cargar_vale($vale_id)
 	{
-		$consulta="SELECT `vale_id`, `va_ot_id`, `manto_orden_trabajo`.`ot_bus` AS `va_bus`, `manto_orden_trabajo`.`ot_origen` AS `va_origen`, `va_asociado`, `va_responsable`, (SELECT `colaborador`.`Colab_nombre_corto` FROM `colaborador` WHERE `colaborador`.`Colaborador_id`=`va_genera`) AS `va_genera`, `va_date_genera`, (SELECT `colaborador`.`Colab_nombre_corto` FROM `colaborador` WHERE `colaborador`.`Colaborador_id`=`va_cierre_adm`) AS `va_cierre_adm`, `va_date_cierre_adm`, `va_estado`, `va_garantia`, CONCAT(`manto_orden_trabajo`.`ot_origen`,' - ',`manto_orden_trabajo`.`ot_descrip`) AS `va_descrip`, `va_obs_cgm`, `va_obs_aom` FROM `manto_vale` LEFT JOIN `manto_orden_trabajo` ON `ot_id`=`va_ot_id` WHERE `vale_id`='$vale_id'";
+		$consulta = "	SELECT 
+							`manto_vale`.`vale_id`, 
+							`manto_vale`.`va_ot_id`, 
+							`manto_ots`.`ot_bus` AS `va_bus`, 
+							`manto_ots`.`ot_origen` AS `va_origen`, 
+							`manto_vale`.`va_asociado`, 
+							`colaborador`.`Colab_nombre_corto` AS `va_genera`, 
+							`va_date_genera`, 
+							`manto_vale`.`va_estado`, 
+							CONCAT(`manto_ots`.`ot_origen`,' - ',`manto_ots`.`ot_actividad`) AS `va_descrip`, 
+							`manto_vale`.`va_obs_cgm`, 
+							`manto_vale`.`va_obs_aom`,
+							`manto_vale`.`va_log`
+						FROM 
+							`manto_vale` 
+						LEFT JOIN 
+							`manto_ots` 
+						ON 
+							`manto_ots`.`ot_id`=`manto_vale`.`va_ot_id` 
+						LEFT JOIN
+							`colaborador`
+						ON
+							`colaborador`.`Colaborador_id`=`manto_vale`.`va_genera`
+						WHERE 
+							`vale_id`='$vale_id'";
 
 		$resultado = $this->conexion->prepare($consulta);
         $resultado->execute();
@@ -147,13 +349,13 @@ class CRUD
 		$this->conexion=null;
 	}
 
-	function editar_vale($vale_id, $va_ot_id, $va_genera, $va_date_genera, $va_asociado, $va_responsable, $va_garantia, $va_obs_cgm, $tva_obs_aom, $va_obs_aom, $va_estado, $nombre_cierre_adm, $va_tipo, $va_ruc)
+	function editar_vale($vale_id, $va_ot_id, $va_genera, $va_date_genera, $va_asociado, $va_obs_cgm, $va_obs_aom, $va_estado, $nombre_cierre_adm, $va_tipo, $va_ruc, $va_log)
 	{
-        $va_cierre_adm 		= $_SESSION['USUARIO_ID'];
+        $va_cierre_adm = $_SESSION['USUARIO_ID'];
 		$va_date_cierre_adm = date("Y-m-d H:i:s");
-		$va_obs_aom 		= $va_estado." ".date_format(date_create($va_date_cierre_adm),"Y-m-d H:i")." ".$nombre_cierre_adm." EDITAR: ".$va_obs_aom."<br>".$tva_obs_aom;
+		$va_log_edt = $va_estado." ".$va_date_cierre_adm." ".$nombre_cierre_adm." EDITAR <br>".$va_log;
 
-		$consulta = "UPDATE `manto_vale` SET `va_ot_id`=IF('$va_ot_id'='','0','$va_ot_id'),`va_genera`='$va_genera',`va_date_genera`='$va_date_genera',`va_asociado`='$va_asociado',`va_responsable`='$va_responsable',`va_cierre_adm`='$va_cierre_adm',`va_date_cierre_adm`='$va_date_cierre_adm',`va_garantia`='$va_garantia', `va_obs_cgm`='$va_obs_cgm', `va_obs_aom`='$va_obs_aom', `va_estado`='$va_estado', `va_tipo`='$va_tipo', `va_ruc`='$va_ruc' WHERE `vale_id`='$vale_id'";
+		$consulta = "UPDATE `manto_vale` SET `va_ot_id`='$va_ot_id', `va_genera`='$va_genera', `va_date_genera`='$va_date_genera',`va_asociado`='$va_asociado', `va_obs_cgm`='$va_obs_cgm', `va_obs_aom`='$va_obs_aom', `va_estado`='$va_estado', `va_tipo`='$va_tipo', `va_ruc`='$va_ruc', `va_log`='$va_log' WHERE `vale_id`='$vale_id'";
 		$resultado = $this->conexion->prepare($consulta);
         $resultado->execute();        
 		$this->conexion=null;
@@ -165,15 +367,19 @@ class CRUD
 						`vr_vale_id`,
 						`vr_id`, 
 						`vr_repuesto`,
-						`vr_cod_patrimonial_despacho`,
+						`vr_cod_patrimonial`,
 						`vr_nroserie`, 
 						`vr_descripcion`,
 						`vr_cantidad_requerida`, 
 						`vr_cantidad_despachada`, 
 						`vr_cantidad_utilizada`, 
-						`vr_unidad_medida` AS `vr_unidad` 
+						CONCAT(`manto_unidad_medida`.`unidad_medida`,'-',`manto_unidad_medida`.`um_descripcion`) AS `vr_unidad` 
 					FROM 
-						`manto_vale_repuestos` 
+						`manto_vale_repuestos`
+					LEFT JOIN
+						`manto_unidad_medida`
+					ON
+						`manto_vale_repuestos`.`vr_unidad_medida`=`manto_unidad_medida`.`unidad_medida` 
 					WHERE 
 						`vr_vale_id`='$vale_id'";
 
@@ -185,9 +391,9 @@ class CRUD
 		$this->conexion=null;
 	}
 
-	function crear_detalle_repuestos($vr_vale, $vr_id, $vr_repuesto, $vr_nroserie, $vr_cantidad_requerida, $vr_precio, $vr_unidad_medida, $vr_material_id, $vr_precio_proveedor_id, $vr_moneda, $vr_precio_soles, $vr_fecha_vigencia, $vr_tipo, $vr_descripcion)
+	function crear_detalle_repuestos($vr_vale_id, $vr_id, $vr_repuesto, $vr_cod_patrimonial, $vr_descripcion, $vr_nroserie, $vr_cantidad_requerida, $vr_cantidad_despachada, $vr_cantidad_utilizada, $va_tipo, $vr_unidad_medida, $vr_moneda, $vr_precio, $vr_precio_soles, $vr_material_id, $vr_precio_proveedor_id, $vr_fecha_vigencia)
 	{
-		$consulta = "INSERT INTO `manto_vale_repuestos`(`vr_vale`, `vr_id`, `vr_repuesto`, `vr_nroserie`, `vr_cantidad_requerida`, `vr_precio`, `vr_unidad_medida`, `vr_material_id`, `vr_precio_proveedor_id`, `vr_moneda`, `vr_precio_soles`, `vr_fecha_vigencia`, `vr_tipo`, `vr_descripcion`) VALUES ('$vr_vale', '$vr_id', '$vr_repuesto', '$vr_nroserie', '$vr_cantidad_requerida', '$vr_precio', '$vr_unidad_medida', '$vr_material_id', '$vr_precio_proveedor_id', '$vr_moneda', '$vr_precio_soles', '$vr_fecha_vigencia', '$vr_tipo', '$vr_descripcion')";
+		$consulta = " INSERT INTO `BDLIMABUS`.`manto_vale_repuestos` (`vr_vale_id`, `vr_id`, `vr_repuesto`, `vr_descripcion`, `vr_nroserie`, `vr_unidad_medida`, `vr_moneda`, `vr_precio`, `vr_precio_soles`, `vr_fecha_vigencia`, `vr_tipo`, `vr_cantidad_requerida`, `vr_cantidad_despachada`, `vr_cantidad_utilizada`, `vr_cod_patrimonial`, `vr_material_id`, `vr_precio_proveedor_id`) VALUES ('$vr_vale_id', '$vr_id', '$vr_repuesto', '$vr_descripcion', '$vr_nroserie', '$vr_unidad_medida', '$vr_moneda', '$vr_precio', '$vr_precio_soles', '$vr_fecha_vigencia', '$va_tipo', '$vr_cantidad_requerida', '$vr_cantidad_despachada', '$vr_cantidad_utilizada', '$vr_cod_patrimonial', '$vr_material_id', '$vr_precio_proveedor_id') ";
 
 		$resultado = $this->conexion->prepare($consulta);
         $resultado->execute();        
@@ -370,201 +576,6 @@ class CRUD
 		return $data;
 		$this->conexion=null;
 	}
-
-	function leer_novedades($prov_ruc, $fecha_inicio, $fecha_termino)
-	{
-		$Nove_TipoNovedad = ['FALLA_COMUNICACION', 'FALLA_TELEMETRIA','FALLA_BUS' ];
-		$Nove_TipoNovedad = "'" . implode("','", $Nove_TipoNovedad) . "'";
-		$consulta = "( ";
-		$consulta .= "	SELECT  
-							CONCAT('NO-',`OPE_Novedad`.`Novedad_Id`) AS `id`,
-							`OPE_Novedad`.`Nove_FechaOperacion` AS `fecha`,
-							`colaborador`.`Colab_nombre_corto` AS `nombres_usuario_genera`,
-							'NOVEDAD OPERACIONES' AS `origen`,
-							`OPE_Novedad`.`Nove_TipoNovedad` AS `tipo_novedad`,
-							CONCAT(`manto_novedad_operacion`.`nope_accion`,'-',`manto_novedad_operacion`.`nope_componente`,'-',`manto_novedad_operacion`.`nope_posicion`,'-',`manto_novedad_operacion`.`nope_falla`) AS `ot_accion`,
-							`OPE_Novedad`.`Nove_Operacion` AS `operacion`,
-							`OPE_Novedad`.`Nove_Bus` AS `bus`,
-							`manto_novedad_operacion`.`nope_componente` AS `componente`,
-							`manto_novedad_operacion`.`nope_posicion` AS `posicion`,
-							`manto_novedad_operacion`.`nope_falla` AS `falla`,
-							`manto_novedad_operacion`.`nope_accion` AS `accion`,
-							CONCAT(SUBSTRING(`manto_novedad_ot`.`not_ot_tipo`,1,1),'-',SUBSTRING(CONCAT('00000000',`manto_novedad_ot`.`not_ot_id`),-8)) AS `ot_id`,
-							IF(`manto_novedad_ot`.`not_estado` IS NULL,'PENDIENTE',`manto_novedad_ot`.`not_estado`) AS `ot_estado`
-						FROM 
-							`OPE_Novedad`
-						LEFT JOIN
-							`colaborador`
-						ON
-							`colaborador`.`Colaborador_id` = `OPE_Novedad`.`Nove_UsuarioId`
-						LEFT JOIN
-							`manto_novedad_operacion`
-						ON
-							`manto_novedad_operacion`.`nope_novedad_id`=`OPE_Novedad`.`Novedad_Id`
-						LEFT JOIN
-							`manto_novedad_ot`
-						ON
-							`manto_novedad_ot`.`not_novedad_id`=`OPE_Novedad`.`Novedad_Id`
-							AND `manto_novedad_ot`.`not_origen_novedad`='NOVEDAD OPERACIONES'
-							AND `manto_novedad_ot`.`not_tipo_novedad`=`OPE_Novedad`.`Nove_TipoNovedad`
-						WHERE 
-							`OPE_Novedad`.`Nove_TipoNovedad` IN ($Nove_TipoNovedad)
-							AND `OPE_Novedad`.`Nove_FechaOperacion`>='$fecha_inicio' 
-							AND `OPE_Novedad`.`Nove_FechaOperacion`<='$fecha_termino'
-						UNION
-						SELECT
-							CONCAT('IP-',`OPE_AccidentesInformePreliminar`.`Accidentes_Id`) AS `id`,
-							`OPE_AccidentesInformePreliminar`.`Acci_Fecha` AS `fecha`,
-							`colaborador`.`Colab_nombre_corto` AS `nombres_usuario_genera`,
-							'INFORME PRELIMINAR' AS `origen`,
-							`OPE_AccidentesInformePreliminar`.`Acci_TipoAccidente` AS `tipo_novedad`,
-							CONCAT(`manto_novedad_operacion`.`nope_accion`,'-',`manto_novedad_operacion`.`nope_componente`,'-',`manto_novedad_operacion`.`nope_posicion`,'-',`manto_novedad_operacion`.`nope_falla`) AS `ot_accion`,
-							`OPE_AccidentesInformePreliminar`.`Acci_Operacion` AS `operacion`,
-							`OPE_AccidentesInformePreliminar`.`Acci_Bus` AS `bus`,
-							`manto_novedad_operacion`.`nope_componente` AS `componente`,
-							`manto_novedad_operacion`.`nope_posicion` AS `posicion`,
-							`manto_novedad_operacion`.`nope_falla` AS `falla`,
-							`manto_novedad_operacion`.`nope_accion` AS `accion`,
-							CONCAT(SUBSTRING(`manto_novedad_ot`.`not_ot_tipo`,1,1),'-',SUBSTRING(CONCAT('00000000',`manto_novedad_ot`.`not_ot_id`),-8)) AS `ot_id`,
-							IF(`manto_novedad_ot`.`not_estado` IS NULL,'PENDIENTE',`manto_novedad_ot`.`not_estado`) AS `ot_estado`
-						FROM 
-							`OPE_AccidentesInformePreliminar`
-						LEFT JOIN
-							`manto_orden_trabajo`
-						ON
-							`manto_orden_trabajo`.`ot_accidentes_id`=`OPE_AccidentesInformePreliminar`.`Accidentes_Id` 
-						LEFT JOIN
-							`colaborador`
-						ON
-							`colaborador`.`Colaborador_id` = `OPE_AccidentesInformePreliminar`.`Acci_UsuarioId_Generar`
-						LEFT JOIN
-							`manto_novedad_operacion`
-						ON
-							`manto_novedad_operacion`.`nope_novedad_id`=`OPE_AccidentesInformePreliminar`.`Accidentes_Id`
-						LEFT JOIN
-							`manto_novedad_ot`
-						ON
-							`manto_novedad_ot`.`not_novedad_id`=`OPE_AccidentesInformePreliminar`.`Accidentes_Id`
-							AND `manto_novedad_ot`.`not_origen_novedad`='INFORME PRELIMINAR'
-							AND `manto_novedad_ot`.`not_tipo_novedad`=`OPE_AccidentesInformePreliminar`.`Acci_TipoAccidente`
-						WHERE 
-							`OPE_AccidentesInformePreliminar`.`Acci_Fecha`>='$fecha_inicio'
-							AND `OPE_AccidentesInformePreliminar`.`Acci_Fecha`<='$fecha_termino'
-							AND `OPE_AccidentesInformePreliminar`.`Acci_DanosMateriales`='CON_DAÑOS_MATERIALES'
-						UNION
-						SELECT 
-							CONCAT('IF-',`manto_inspeccion_movimiento`.`inspeccion_movimiento_id`) AS `id`,
-						    DATE_FORMAT(`manto_inspeccion_movimiento`.`insp_fecha`,'%Y-%m-%d') AS `fecha`,
-						    `colaborador`.`Colab_nombre_corto` AS `nombres_usuario_genera`,
-						    'INSPECCION MANTENIMIENTO' AS `origen`,
-						    'INSPECCION FLOTA' AS `tipo_novedad`,
-						    CONCAT(`manto_inspeccion_movimiento`.`insp_accion`,'-',`manto_inspeccion_movimiento`.`insp_componente`,'-',`manto_inspeccion_movimiento`.`insp_posicion`,'-',`manto_inspeccion_movimiento`.`insp_falla`) AS `ot_accion`,
-							`Buses`.`Bus_Operacion` AS `operacion`,
-						    `manto_inspeccion_movimiento`.`insp_bus` AS `bus`,
-						    `manto_inspeccion_movimiento`.`insp_componente` AS `componente`,
-						    `manto_inspeccion_movimiento`.`insp_posicion` AS `posicion`,
-						    `manto_inspeccion_movimiento`.`insp_falla` AS `falla`,
-						    `manto_inspeccion_movimiento`.`insp_accion` AS `accion`,
-							CONCAT(SUBSTRING(`manto_novedad_ot`.`not_ot_tipo`,1,1),'-',SUBSTRING(CONCAT('00000000',`manto_novedad_ot`.`not_ot_id`),-8)) AS `ot_id`,
-							IF(`manto_novedad_ot`.`not_estado` IS NULL,'PENDIENTE',`manto_novedad_ot`.`not_estado`) AS `ot_estado`
-						FROM 
-							`manto_inspeccion_movimiento`
-						LEFT JOIN 
-							`colaborador`
-						ON
-							`colaborador`.`Colaborador_id`=`manto_inspeccion_movimiento`.`insp_usuario_id`
-						LEFT JOIN
-							`Buses`
-						ON
-							`Buses`.`Bus_NroExterno`=`manto_inspeccion_movimiento`.`insp_bus`
-							LEFT JOIN
-							`manto_novedad_ot`
-						ON
-							`manto_novedad_ot`.`not_novedad_id`=`manto_inspeccion_movimiento`.`inspeccion_movimiento_id`
-							AND `manto_novedad_ot`.`not_origen_novedad`='INSPECCION MANTENIMIENTO'
-							AND `manto_novedad_ot`.`not_tipo_novedad`='INSPECCION FLOTA'
-						WHERE
-							DATE_FORMAT(`manto_inspeccion_movimiento`.`insp_fecha`,'%Y-%m-%d')>='$fecha_inicio'
-							AND DATE_FORMAT(`manto_inspeccion_movimiento`.`insp_fecha`,'%Y-%m-%d')<='$fecha_termino'
-						UNION
-						SELECT 
-							CONCAT('CL-',`manto_check_list_observaciones`.`check_list_observaciones_id`) AS `id`,
-    						`manto_check_list_registro`.`chl_fecha` AS `fecha`,
-							`colaborador`.`Colab_nombre_corto` AS `nombres_usuario_genera`,
-							'INSPECCION OPERACIONES' AS `origen`,
-							'CHECK LIST' AS `tipo_novedad`,
-							CONCAT(`manto_check_list_observaciones`.`chl_accion`,'-',`manto_check_list_observaciones`.`chl_componente`,'-',`manto_check_list_observaciones`.`chl_posicion`,'-',`manto_check_list_observaciones`.`chl_falla`) AS `ot_accion`,
-    						`Buses`.`Bus_Operacion` AS `operacion`,
-    						`manto_check_list_registro`.`chl_bus` AS `bus`,
-							`manto_check_list_observaciones`.`chl_componente` AS `componente`,
-    						`manto_check_list_observaciones`.`chl_posicion` AS `posicion`,
-    						`manto_check_list_observaciones`.`chl_falla` AS `falla`,
-    						`manto_check_list_observaciones`.`chl_accion` AS `accion`,
-							CONCAT(SUBSTRING(`manto_novedad_ot`.`not_ot_tipo`,1,1),'-',SUBSTRING(CONCAT('00000000',`manto_novedad_ot`.`not_ot_id`),-8)) AS `ot_id`,
-							IF(`manto_novedad_ot`.`not_estado` IS NULL,'PENDIENTE',`manto_novedad_ot`.`not_estado`) AS `ot_estado`
-						FROM 
-							`manto_check_list_registro`
-						RIGHT JOIN
-							`manto_check_list_observaciones`
-						ON
-							`manto_check_list_registro`.`check_list_id`=`manto_check_list_observaciones`.`check_list_id`
-						LEFT JOIN
-							`colaborador`
-						ON
-							`colaborador`.`Colaborador_id`=`manto_check_list_registro`.`chl_usuario_id_genera`
-						LEFT JOIN
-							`Buses`
-						ON
-							`Buses`.`Bus_NroExterno`=`manto_check_list_registro`.`chl_bus`
-						LEFT JOIN
-							`manto_novedad_ot`
-						ON
-							`manto_novedad_ot`.`not_novedad_id`=`manto_check_list_observaciones`.`check_list_observaciones_id`
-							AND `manto_novedad_ot`.`not_origen_novedad`='INSPECCION OPERACIONES'
-							AND `manto_novedad_ot`.`not_tipo_novedad`='CHECK LIST'
-						WHERE
-							DATE_FORMAT(`manto_check_list_registro`.`chl_fecha`,'%Y-%m-%d')>='$fecha_inicio'
-							AND DATE_FORMAT(`manto_check_list_registro`.`chl_fecha`,'%Y-%m-%d')<='$fecha_termino'
-						UNION
-						SELECT 
-							CONCAT('NR-',`manto_novedad_regular`.`novedad_regular_id`) AS `id`,
-    						DATE_FORMAT(`manto_novedad_regular`.`nreg_fecha`,'%Y-%m-%d') AS `fecha`,
-    						`colaborador`.`Colab_nombre_corto` AS `nombres_usuario_genera`,
-    						`manto_novedad_regular`.`nreg_origen` AS `origen`,
-    						`manto_novedad_regular`.`nreg_tipo` AS `tipo_novedad`,
-							CONCAT(`manto_novedad_regular`.`nreg_accion`,'-',`manto_novedad_regular`.`nreg_componente`,'-',`manto_novedad_regular`.`nreg_posicion`,'-',`manto_novedad_regular`.`nreg_falla`) AS `ot_accion`,
-    						`manto_novedad_regular`.`nreg_operacion` AS `operacion`,
-    						`manto_novedad_regular`.`nreg_bus` AS `bus`,
-    						`manto_novedad_regular`.`nreg_componente` AS `componente`,
-    						`manto_novedad_regular`.`nreg_posicion` AS `posicion`,
-    						`manto_novedad_regular`.`nreg_falla` AS `falla`,
-    						`manto_novedad_regular`.`nreg_accion` AS `accion`,
-							CONCAT(SUBSTRING(`manto_novedad_ot`.`not_ot_tipo`,1,1),'-',SUBSTRING(CONCAT('00000000',`manto_novedad_ot`.`not_ot_id`),-8)) AS `ot_id`,
-							IF(`manto_novedad_ot`.`not_estado` IS NULL,'PENDIENTE',`manto_novedad_ot`.`not_estado`) AS `ot_estado`
-						FROM 
-							`manto_novedad_regular`
-						LEFT JOIN 
-							`colaborador`
-						ON
-							`colaborador`.`Colaborador_id`=`manto_novedad_regular`.`nreg_usuario_genera`
-							LEFT JOIN
-							`manto_novedad_ot`
-						ON
-							`manto_novedad_ot`.`not_novedad_id`=`manto_novedad_regular`.`novedad_regular_id`
-							AND `manto_novedad_ot`.`not_origen_novedad`=`manto_novedad_regular`.`nreg_origen`
-							AND `manto_novedad_ot`.`not_tipo_novedad`=`manto_novedad_regular`.`nreg_tipo`
-						WHERE
-							DATE_FORMAT(`manto_novedad_regular`.`nreg_fecha`,'%Y-%m-%d')>='$fecha_inicio'
-							AND DATE_FORMAT(`manto_novedad_regular`.`nreg_fecha`,'%Y-%m-%d')<='$fecha_termino')
-						ORDER BY `fecha` DESC";
-
-		$resultado = $this->conexion->prepare($consulta);
-		$resultado->execute();        
-		$data = $resultado->fetchAll(PDO::FETCH_ASSOC);
-		print json_encode($data, JSON_UNESCAPED_UNICODE);//envio el array final el formato json a AJAX
-
-		$this->conexion=null;
-   	}   
 
 	function leer_tc_vale_usuario()
 	{

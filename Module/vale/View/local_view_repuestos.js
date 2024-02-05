@@ -4,7 +4,7 @@
 ///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///:: DECLARACION DE VARIABLES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-var tabla_repuestos, btn_borrar_repuesto, fila_repuestos, t_autocompletar, array_vale_repuestos;
+var tabla_repuestos, btn_borrar_repuesto, fila_repuestos, t_autocompletar, array_vale_repuestos, opcion_repuesto;
 var vr_repuesto, vr_descripcion, vr_nroserie, vr_cantidad_requerida, vr_unidad;
 ///:: TERMINO DECLARACION DE VARIABLES ::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
@@ -46,6 +46,7 @@ $(document).ready(function(){
     mv_tipo           = "";
     mv_moneda         = "";
     mv_preciosoles    = "";
+    vr_cod_patrimonial= "";
     vr_descripcion    = "";
     vr_unidad         = "";
     vr_nroserie       = "";
@@ -78,7 +79,7 @@ $(document).ready(function(){
           mv_tipo           = obj.precioprov_tipo;
           mv_moneda         = obj.precioprov_moneda;
           mv_preciosoles    = obj.precioprov_preciosoles;
-          vr_unidad         = obj.um_descripcion;
+          vr_unidad         = obj.unidad_medida+'-'+obj.um_descripcion;
         });
       }
     });
@@ -96,7 +97,7 @@ $(document).ready(function(){
     $("#mv_tipo").val(mv_tipo);
     $("#mv_moneda").val(mv_moneda);
     $("#mv_preciosoles").val(mv_preciosoles);
-    $("#vr_cantidad_requerida_utilizada").val(vr_cantidad_requerida_utilizada);
+    $("#vr_cantidad_requerida").val(vr_cantidad_requerida);
     $("#vr_cod_patrimonial_despacho").val(vr_cod_patrimonial_despacho);
     $("#vr_cod_patrimonial_recepcion").val(vr_cod_patrimonial_recepcion);
 
@@ -155,6 +156,7 @@ $(document).ready(function(){
 
     $("#vr_repuesto").prop("disabled",false);
     $("#vr_descripcion").prop("disabled",false);
+    $("#vr_cantidad_requerida").val(vr_cantidad_requerida);
     $("#vr_cantidad_despachada").val(vr_cantidad_despachada);
     $("#vr_cantidad_utilizada").val(vr_cantidad_utilizada);
     $("#vr_cod_patrimonial_despacho").val(vr_cod_patrimonial_despacho);
@@ -167,10 +169,16 @@ $(document).ready(function(){
 
   ///:: EVENTO DEL BOTON AGREGAR REPUESTO :::::::::::::::::::::::::::::::::::::::::::::::::///
   $(document).on("click", ".btn_repuestos_vale", function(){
+    opcion_repuesto = "CREAR";
     va_asociado     = $("#va_asociado").val();
     va_date_genera  = $("#va_date_genera").val();
     va_tipo = "MATERIAL";
     if(va_asociado!="" && va_date_genera!=""){
+      $("#buscar_repuesto").prop("disabled",false);
+      $("#vr_id").prop("disabled",false);
+      $("#btn_buscar_repuesto").prop("disabled",false);
+      $("#btn_nuevo_repuesto").prop("disabled",false);
+    
       $("#vr_repuesto").prop("disabled",true);
       $("#vr_descripcion").prop("disabled",true);
       ///:: CARGAR LOS DATOS PARA AUTOCOMPLETAR :::::::::::::::::::::::::::::::::::::::::::::::///
@@ -259,6 +267,96 @@ $(document).ready(function(){
   });
   ///:: FIN EVENTO DEL BOTON AGREGAR REPUESTO :::::::::::::::::::::::::::::::::::::::::::::///
 
+  ///:: BOTON EDITAR DETALLE REPUESTOS ::::::::::::::::::::::::::::::::::::::::::::::::::::///
+  $(document).on("click", ".btn_editar_repuesto", function(){
+    $("#buscar_repuesto").prop("disabled",true);
+    $("#btn_buscar_repuesto").prop("disabled",true);
+    $("#btn_nuevo_repuesto").prop("disabled",true);
+    $("#vr_repuesto").prop("disabled",true);
+    $("#vr_id").prop("disabled",true);
+
+    opcion_repuesto = "EDITAR";
+    fila_repuestos = $(this);
+    vr_id = fila_repuestos.closest('tr').find('td:eq(0)').text();
+    vr_repuesto = fila_repuestos.closest('tr').find('td:eq(1)').text();
+    vr_nroserie = fila_repuestos.closest('tr').find('td:eq(3)').text();
+    vr_descripcion = fila_repuestos.closest('tr').find('td:eq(4)').text();
+    vr_cantidad_requerida = fila_repuestos.closest('tr').find('td:eq(5)').text();
+    vr_cantidad_despachada = fila_repuestos.closest('tr').find('td:eq(6)').text();
+    vr_cantidad_utilizada = fila_repuestos.closest('tr').find('td:eq(7)').text();
+    vr_unidad = fila_repuestos.closest('tr').find('td:eq(8)').text();
+
+    Accion = 'BuscarCodigoRepuesto';
+    $.ajax({
+      url       : "Ajax.php",
+      type      : "POST",
+      datatype  : "json",
+      async     : false,
+      data      : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, vr_repuesto:vr_repuesto, va_asociado:va_asociado, va_date_genera:va_date_genera, va_tipo:va_tipo },
+      success: function(data){
+        data = $.parseJSON(data);
+        $.each(data, function(idx, obj){ 
+          vr_descripcion    = obj.precioprov_descripcion;
+          mv_asignacion     = "LB";
+          mv_macrosistema   = obj.material_macrosistema;
+          mv_sistema        = obj.material_sistema;
+          mv_tarjeta        = obj.material_tarjeta;
+          mv_condicion      = obj.material_condicion;
+          mv_flota          = obj.material_flota;
+          mv_patrimonial    = obj.material_patrimonial;
+          mv_categoria      = obj.material_categoria;
+          mv_tipo           = obj.precioprov_tipo;
+          mv_moneda         = obj.precioprov_moneda;
+          mv_preciosoles    = obj.precioprov_preciosoles;
+          vr_unidad         = obj.unidad_medida+'-'+obj.um_descripcion;
+        });
+      }
+    });
+    $("#vr_repuesto").val(vr_repuesto);
+    $("#vr_descripcion").val(vr_descripcion);
+    $("#vr_unidad").val(vr_unidad);
+    $("#mv_asignacion").val(mv_asignacion);
+    $("#mv_macrosistema").val(mv_macrosistema);
+    $("#mv_sistema").val(mv_sistema);
+    $("#mv_tarjeta").val(mv_tarjeta);
+    $("#mv_condicion").val(mv_condicion);
+    $("#mv_flota").val(mv_flota);
+    $("#mv_patrimonial").val(mv_patrimonial);
+    $("#mv_categoria").val(mv_categoria);
+    $("#mv_tipo").val(mv_tipo);
+    $("#mv_moneda").val(mv_moneda);
+    $("#mv_preciosoles").val(mv_preciosoles);
+    $("#vr_cantidad_requerida").val(vr_cantidad_requerida);
+    $("#vr_cod_patrimonial_despacho").val(vr_cod_patrimonial_despacho);
+    $("#vr_cod_patrimonial_recepcion").val(vr_cod_patrimonial_recepcion);
+
+    if(mv_patrimonial==="SI"){
+      $("#vr_cod_patrimonial_despacho").prop("disabled",false);
+      vr_cantidad_requerida = "1.00";
+      $("#vr_cantidad_requerida").prop("disabled",true);
+    }else{
+      $("#vr_cod_patrimonial_despacho").prop("disabled",true);
+      $("#vr_cod_patrimonial_recepcion").prop("disabled",true);
+    }
+
+    $("#vr_id").val(vr_id);
+    $("#vr_repuesto").val(vr_repuesto);
+    $("#vr_nroserie").val(vr_nroserie);
+    $("#vr_descripcion").val(vr_descripcion);
+    $("#vr_cantidad_requerida").val(vr_cantidad_requerida);
+    $("#vr_cantidad_despachada").val(vr_cantidad_despachada);
+    $("#vr_cantidad_utilizada").val(vr_cantidad_utilizada);
+    $("#vr_unidad").val(vr_unidad);
+
+    $(".modal-header").css( "background-color", "#007bff");
+    $(".modal-header").css( "color", "white" );
+    $(".modal-title").text( "Editar Repuesto");
+    $('#modal_crud_detalle_repuestos').modal('show');
+    $("#modal_crud_detalle_repuestos").draggable({});
+
+  });
+  ///:: FIN BOTON EDITAR DETALLE REPUESTOS ::::::::::::::::::::::::::::::::::::::::::::::::///
+
   //:: BOTON GRABAR -> REALIZA LA GRABACION EN LA TABLA manto_rep_vale ::::::::::::::::::::///
   $('#form_modal_detalle_repuestos').submit(function(e){
     e.preventDefault();
@@ -266,7 +364,7 @@ $(document).ready(function(){
     vr_id           = $("#vr_id").val();
     vr_repuesto     = $("#vr_repuesto").val();
     vr_nroserie     = $("#vr_nroserie").val();
-    vr_cod_patrimonial_despacho = $("#vr_cod_patrimonial_despacho").val();
+    vr_cod_patrimonial = $("#mv_patrimonial").val();
     vr_descripcion  = $("#vr_descripcion").val();
     vr_cantidad_requerida = $("#vr_cantidad_requerida").val();
     vr_cantidad_despachada = $("#vr_cantidad_despachada").val();
@@ -283,68 +381,90 @@ $(document).ready(function(){
       })
     }else{  
       $("#btn_guardar_detalle_repuestos").prop("disabled",true);
-      tabla_repuestos.row.add( {
-        "vr_id"       : vr_id,
-        "vr_repuesto" : vr_repuesto,
-        "vr_cod_patrimonial_despacho" : vr_cod_patrimonial_despacho,
-        "vr_nroserie" : vr_nroserie,
-        "vr_descripcion" : vr_descripcion,
-        "vr_cantidad_requerida"  : vr_cantidad_requerida,
-        "vr_cantidad_despachada" : vr_cantidad_despachada,
-        "vr_cantidad_utilizada"  : vr_cantidad_utilizada,
-        "vr_unidad"   : vr_unidad,
-      } ).draw();
-      
-      $("#btn_guardar_detalle_repuestos").prop("disabled",false);
-      f_limpia_repuestos();
-
-      vr_id             = f_max_id(tabla_repuestos.rows().data().toArray());
-      vr_repuesto       = "";
-      vr_descripcion    = "";
-      vr_nroserie       = "";
-      vr_unidad         = "";
-      mv_asignacion     = "";
-      mv_macrosistema   = "";
-      mv_sistema        = "";
-      mv_tarjeta        = "";
-      mv_condicion      = "";
-      mv_flota          = "";
-      mv_patrimonial    = "";
-      mv_categoria      = "";
-      mv_tipo           = "";
-      mv_moneda         = "";
-      mv_preciosoles    = "";
-      vr_cantidad_requerida = "";
-      vr_cantidad_despachada = "";
-      vr_cantidad_utilizada = "";
-      vr_cod_patrimonial_despacho = "";
-      vr_cod_patrimonial_recepcion = "";
-      
-      $("#vr_id").val(vr_id);
-      $("#vr_repuesto").val(vr_repuesto);
-      $("#vr_descripcion").val(vr_descripcion);
-      $("#vr_nroserie").val(vr_nroserie);
-      $("#vr_unidad").val(vr_unidad);
-      $("#mv_asignacion").val(mv_asignacion);
-      $("#mv_macrosistema").val(mv_macrosistema);
-      $("#mv_sistema").val(mv_sistema);
-      $("#mv_tarjeta").val(mv_tarjeta);
-      $("#mv_condicion").val(mv_condicion);
-      $("#mv_flota").val(mv_flota);
-      $("#mv_patrimonial").val(mv_patrimonial);
-      $("#mv_categoria").val(mv_categoria);
-      $("#mv_tipo").val(mv_tipo);
-      $("#mv_moneda").val(mv_moneda);
-      $("#mv_preciosoles").val(mv_preciosoles);
-      $("#vr_cantidad_requerida").val(vr_cantidad_requerida);
-      $("#vr_cantidad_despachada").val(vr_cantidad_despachada);
-      $("#vr_cantidad_utilizada").val(vr_cantidad_utilizada);
-      $("#vr_cod_patrimonial_despacho").val(vr_cod_patrimonial_despacho);
-      $("#vr_cod_patrimonial_recepcion").val(vr_cod_patrimonial_recepcion);
-
-      $("#vr_repuesto").prop("disabled",true);
-      $("#vr_descripcion").prop("disabled",true);
-      $("#buscar_repuesto").focus().select();      
+      if(opcion_repuesto==="CREAR"){
+        tabla_repuestos.row.add( {
+          "vr_id"       : vr_id,
+          "vr_repuesto" : vr_repuesto,
+          "vr_cod_patrimonial" : vr_cod_patrimonial,
+          "vr_nroserie" : vr_nroserie,
+          "vr_descripcion" : vr_descripcion,
+          "vr_cantidad_requerida"  : vr_cantidad_requerida,
+          "vr_cantidad_despachada" : vr_cantidad_despachada,
+          "vr_cantidad_utilizada"  : vr_cantidad_utilizada,
+          "vr_unidad"   : vr_unidad,
+        } ).draw();
+        
+        $("#btn_guardar_detalle_repuestos").prop("disabled",false);
+        f_limpia_repuestos();
+  
+        vr_id             = f_max_id(tabla_repuestos.rows().data().toArray());
+        vr_repuesto       = "";
+        vr_descripcion    = "";
+        vr_nroserie       = "";
+        vr_unidad         = "";
+        mv_asignacion     = "";
+        mv_macrosistema   = "";
+        mv_sistema        = "";
+        mv_tarjeta        = "";
+        mv_condicion      = "";
+        mv_flota          = "";
+        mv_patrimonial    = "";
+        mv_categoria      = "";
+        mv_tipo           = "";
+        mv_moneda         = "";
+        mv_preciosoles    = "";
+        vr_cantidad_requerida = "";
+        vr_cantidad_despachada = "";
+        vr_cantidad_utilizada = "";
+        vr_cod_patrimonial_despacho = "";
+        vr_cod_patrimonial_recepcion = "";
+        
+        $("#vr_id").val(vr_id);
+        $("#vr_repuesto").val(vr_repuesto);
+        $("#vr_descripcion").val(vr_descripcion);
+        $("#vr_nroserie").val(vr_nroserie);
+        $("#vr_unidad").val(vr_unidad);
+        $("#mv_asignacion").val(mv_asignacion);
+        $("#mv_macrosistema").val(mv_macrosistema);
+        $("#mv_sistema").val(mv_sistema);
+        $("#mv_tarjeta").val(mv_tarjeta);
+        $("#mv_condicion").val(mv_condicion);
+        $("#mv_flota").val(mv_flota);
+        $("#mv_patrimonial").val(mv_patrimonial);
+        $("#mv_categoria").val(mv_categoria);
+        $("#mv_tipo").val(mv_tipo);
+        $("#mv_moneda").val(mv_moneda);
+        $("#mv_preciosoles").val(mv_preciosoles);
+        $("#vr_cantidad_requerida").val(vr_cantidad_requerida);
+        $("#vr_cantidad_despachada").val(vr_cantidad_despachada);
+        $("#vr_cantidad_utilizada").val(vr_cantidad_utilizada);
+        $("#vr_cod_patrimonial_despacho").val(vr_cod_patrimonial_despacho);
+        $("#vr_cod_patrimonial_recepcion").val(vr_cod_patrimonial_recepcion);
+  
+        $("#vr_repuesto").prop("disabled",true);
+        $("#vr_descripcion").prop("disabled",true);
+        $("#buscar_repuesto").focus().select();      
+  
+      }
+      if(opcion_repuesto==="EDITAR"){
+        tabla_repuestos
+        .row( fila_repuestos.parents('tr') )
+        .remove()
+        .draw();
+        tabla_repuestos.row.add( {
+          "vr_id"       : vr_id,
+          "vr_repuesto" : vr_repuesto,
+          "vr_cod_patrimonial" : vr_cod_patrimonial,
+          "vr_nroserie" : vr_nroserie,
+          "vr_descripcion" : vr_descripcion,
+          "vr_cantidad_requerida"  : vr_cantidad_requerida,
+          "vr_cantidad_despachada" : vr_cantidad_despachada,
+          "vr_cantidad_utilizada"  : vr_cantidad_utilizada,
+          "vr_unidad"   : vr_unidad,
+        } ).draw();
+        $("#btn_guardar_detalle_repuestos").prop("disabled",false);
+        $('#modal_crud_detalle_repuestos').modal('hide');
+      }
     }
   });
   //:: FIN BOTON GRABAR -> REALIZA LA GRABACION EN LA TABLA manto_rep_vale ::::::::::::::::///
@@ -430,6 +550,7 @@ function f_limpia_repuestos(){
 
 ///:: GENERACION DE TABLA DE DETALLE DE REPUESTOS :::::::::::::::::::::::::::::::::::::::::///
 function f_tabla_repuestos(p_vale_id, p_btn_borrar_repuesto){
+  p_vale_id = parseInt(p_vale_id);
   array_vale_repuestos = [];
   div_tabla = f_CreacionTabla("tabla_repuestos",p_btn_borrar_repuesto);
   $("#div_tabla_repuestos").html(div_tabla);

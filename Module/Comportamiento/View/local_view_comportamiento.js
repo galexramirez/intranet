@@ -318,7 +318,7 @@ function f_validar_comportamiento(p_comp_tiponovedad, p_comp_fechaoperacion, p_c
     $("#cminutofin").addClass("color-error");
     rpta_validar_comportamiento = "invalido";
   };
-  if(p_comp_total_horas==""){
+  if(p_comp_total_horas===""){
     $("#comp_total_horas").addClass("color-error");
     rpta_validar_comportamiento = "invalido";
   };
@@ -552,6 +552,7 @@ function f_CargarVariablesEditadasComportamiento(){
   comp_monto                    = $.trim($('#comp_monto').val());
   comp_linkvideo                = $.trim($('#comp_linkvideo').val());
   comp_obs_log                  = $.trim($('#comp_obs_log').val());
+  comp_total_horas              = $.trim($('#comp_total_horas').val());
 }
 ///:: FIN SE CARGAN LAS VARIABLES CON LOS VALORES EDITADOS DEL COMPORTAMIENTO :::::::::::::///
 

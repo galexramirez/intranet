@@ -375,75 +375,59 @@ class Logico
         $InstanciaAjax  = new CRUD();
         $Respuesta      = $InstanciaAjax->ver_ot($ot_id);
         foreach ($Respuesta as $row) {
-            $ot_id             = $row['ot_id'];
-            $ot_origen          = $row['ot_origen'];
-            $ot_bus             = $row['ot_bus'];
-            $ot_cgm_crea        = $row['ot_cgm_crea'];
-            $ot_date_crea       = $row['ot_date_crea'];
-            $ot_asociado        = $row['ot_asociado'];
-            $ot_resp_asoc       = $row['ot_resp_asoc'];
-            $ot_kilometraje     = $row['ot_kilometraje'];
-            $ot_hmotor          = $row['ot_hmotor'];
-            $ot_check           = $row['ot_check'];
-            $ot_descrip         = $row['ot_descrip'];
-            $ot_obs_cgm         = $row['ot_obs_cgm'];
-            $ot_cgm_ct          = $row['ot_cgm_ct'];
-            $ot_date_ct         = $row['ot_date_ct'];
-            $ot_inicio          = $row['ot_inicio'];
-            $ot_fin             = $row['ot_fin'];
-            $ot_sistema         = $row['ot_sistema'];
-            $ot_codfalla        = $row['ot_codfalla'];
-            $ot_at              = $row['ot_at'];
-            $ot_obs_asoc        = $row['ot_obs_asoc'];
-            $ot_montado         = $row['ot_montado'];
-            $ot_dmontado        = $row['ot_dmontado'];
-            $ot_busdmontado     = $row['ot_busdmontado'];
-            $ot_busmont         = $row['ot_busmont'];
-            $ot_motivo          = $row['ot_motivo'];
-            $ot_componente_raiz = $row['ot_componente_raiz'];
-            $ot_tecnico         = $row['ot_tecnico'];
-            $ot_ca              = $row['ot_ca'];
-            $ot_date_ca         = $row['ot_date_ca'];
-            $ot_estado          = $row['ot_estado'];
-            $ot_obs_aom         = $row['ot_obs_aom'];
-            $ot_accidentes_id   = $row['ot_accidentes_id'];
-            $ot_semana_cierre   = $row['ot_semana_cierre'];
-            $ot_cod_vinculada   = $row['ot_cod_vinculada'];
-                switch($ot_estado)
-                {
-                    case "CERRADO":
-                        $color = "success";
-                    break;
-                    case "OBSERVADO":
-                        $color = "danger";
-                    break;
-                    case "ANULADO":
-                        $color = "primary";
-                    break;
-                    case "ABIERTO":
-                        $color = "warning";
-                    break;
-                    case "PENDIENTE CT":
-                        $color = "warning";
-                    break;
-                }
+            $ot_id      = $row['ot_id'];
+    		$ot_estado	= $row['ot_estado'];
+    		$ot_origen	= $row['ot_origen'];
+    		$ot_tipo	= $row['ot_tipo'];
+    		$ot_bus	    = $row['ot_bus'];
+    		$ot_ruc_proveedor	    = $row['ot_ruc_proveedor'];
+    		$ot_nombre_proveedor    = $row['ot_nombre_proveedor'];
+    		$ot_cgm_nombres	        = $row['ot_cgm_nombres'];
+    		$ot_fecha_registro	    = $row['ot_fecha_registro'];
+    		$ot_actividad	        = $row['ot_actividad'];
+    		$ot_actividad_vincular	= $row['ot_actividad_vincular'];
+    		$ot_kilometraje	  = $row['ot_kilometraje'];
+    		$ot_sistema	      = $row['ot_sistema'];
+    		$ot_ejecucion	  = $row['ot_ejecucion'];
+    		$ot_obs_proveedor = $row['ot_obs_proveedor'];
+    		$ot_obs_cgm	      = $row['ot_obs_cgm'];
+    		$ot_log	          = $row['ot_log'];
+    		$ot_semana_cierre = $row['ot_semana_cierre'];
+            switch($ot_estado)
+            {
+                case "CERRADO":
+                    $color = "success";
+                break;
+                case "OBSERVADO":
+                    $color = "danger";
+                break;
+                case "ANULADO":
+                    $color = "primary";
+                break;
+                case "ABIERTO":
+                    $color = "warning";
+                break;
+                case "PENDIENTE CT":
+                    $color = "warning";
+                break;
             }
+        }
 
         // SE REVISA SI HAY INFORMACION DE OT CORRECTIVAS CON VALES
-        $TablaBD = "manto_vales";
-        $CampoBD = "va_ot";
+        $TablaBD = "manto_vale";
+        $CampoBD = "va_ot_id";
 
         MModel($this->Modulo,'CRUD');
         $InstanciaAjax  = new CRUD();
         $Respuesta      = $InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$ot_id);
         foreach ($Respuesta as $row) {
-            $cod_vale       = $row['cod_vale'];
-            $va_asociado    = $row['va_asociado'];
-            $va_estado      = $row['va_estado'];
+            $vale_id     = $row['vale_id'];
+            $va_asociado = $row['va_asociado'];
+            $va_estado   = $row['va_estado'];
             $valeshtml .= ' <div class="row">
                                 <div class="col-lg-4 border border-muted border-radius rounded d-flex justify-content-center">
                                     <div class="form-group form-control-sm mb-1">
-                                        <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$cod_vale.'</span>
+                                        <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$vale_id.'</span>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 border border-muted border-radius rounded d-flex justify-content-center">
@@ -499,17 +483,15 @@ class Logico
                                                 <div class="row align-items-end border border-muted border-radius rounded">
                                                     <div class="form-group form-control-sm mb-1">	
                                                         <span class="form-control-sm pl-0 mb-0 font-weight-bold">GENERO:</span> 
-                                                        <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$ot_cgm_crea.'</span>
+                                                        <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$ot_cgm_nombres.'</span>
                                                         <span class="form-control-sm pl-0 mb-0 font-weight-bold">EL</span> 
-                                                        <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$ot_date_crea.'</span>
+                                                        <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$ot_fecha_registro.'</span>
                                                     </div>
                                                 </div>
                                                 <div class="row align-items-end border border-muted border-radius rounded">
                                                     <div class="form-group form-control-sm mb-1">
                                                         <span class="form-control-sm pl-0 mb-0 font-weight-bold">ASOCIADO:</span> 
-                                                        <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$ot_asociado.'</span>
-                                                        <span class="form-control-sm pl-0 mb-0 font-weight-bold">RESP:</span> 
-                                                        <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$ot_resp_asoc.'</span>
+                                                        <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$ot_nombre_proveedor.'</span>
                                                     </div>
                                                 </div>
                                             </div>	
@@ -528,104 +510,51 @@ class Logico
                                             </div>
                                             <div class="col-lg-4 border border-muted border-radius rounded">
                                                 <div class="form-group form-control-sm text-center">
-                                                    <span class="form-control-sm pl-0 mb-0 font-weight-bold">HORA MOTOR:</span> 
+                                                    <span class="form-control-sm pl-0 mb-0 font-weight-bold">SISTEMA:</span> 
                                                     <br>
-                                                    <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$ot_hmotor.'</span>
+                                                    <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$ot_sistema.'</span>
                                                 </div>
                                             </div>
                                             <div class="col-lg-4 border border-muted border-radius rounded">
                                                 <div class="form-group form-control-sm text-center">
-                                                    <span class="form-control-sm pl-0 mb-0 font-weight-bold">CHECK:</span> 
+                                                    <span class="form-control-sm pl-0 mb-0 font-weight-bold">TIPO:</span> 
                                                     <br>
-                                                    <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$ot_check.'</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row align-items-end border border-muted border-radius rounded">
-                                            <div class="col-lg-6 border border-muted border-radius rounded">
-                                                <div class="form-group form-control-sm text-center">
-                                                    <span class="form-control-sm pl-0 mb-0 font-weight-bold">N° IP:</span> 
-                                                    <br>
-                                                    <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$ot_accidentes_id.'</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6 border border-muted border-radius rounded">
-                                                <div class="form-group form-control-sm text-center">
-                                                    <span class="form-control-sm pl-0 mb-0 font-weight-bold">OT VINCULADA:</span> 
-                                                    <br>
-                                                    <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$ot_cod_vinculada.'</span>
+                                                    <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$ot_tipo.'</span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row align-items-end border border-muted border-radius rounded">
                                             <div class="form-group col-lg-12 mb-1">
-                                                <span class="form-control-sm pl-0 mb-0 font-weight-bold">DESCRIPCION DE LA ACTIVIDAD (Verbo + Detalle)</span>
-                                                <div class="form-control-sm mb-1 overflow-auto h-50 border border-muted border-radius rounded">'.$ot_descrip.'</div>
+                                                <span class="form-control-sm pl-0 mb-0 font-weight-bold">ACTIVIDAD</span>
+                                                <div class="form-control-sm mb-1 overflow-auto h-50 border border-muted border-radius rounded">'.$ot_actividad.'</div>
                                             </div>
                                         </div>
                                         <div class="row align-items-end border border-muted border-radius rounded">
                                             <div class="form-group col-lg-12 mb-1">
-                                                <span class="form-control-sm pl-0 mb-0 font-weight-bold">OBSERVACIONES DE CGM (Máximo 1000 carácteres)</span>
-                                                <div class="form-control-sm mb-1 overflow-auto h-50 border border-muted border-radius rounded">'.$ot_obs_cgm.'</div>
+                                                <span class="form-control-sm pl-0 mb-0 font-weight-bold">ACTIVIDAD VINCULADA</span>
+                                                <div class="form-control-sm mb-1 overflow-auto h-50 border border-muted border-radius rounded">'.$ot_actividad_vincular.'</div>
                                             </div>
                                         </div>
                                         <div class="row align-items-end border border-muted border-radius rounded">
-                                            <div class="form-group form-control-sm mb-1">
-                                                <span class="form-control-sm pl-0 mb-0 font-weight-bold">CIERRE TECNICO POR:</span> 
-                                                <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$ot_cgm_ct.'</span>
-                                                <span class="form-control-sm pl-0 mb-0 font-weight-bold">EL</span> 
-                                                <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$ot_date_ct.'</span>
+                                            <div class="form-group col-lg-12 mb-1">
+                                                <span class="form-control-sm pl-0 mb-0 font-weight-bold">EJECUCION DE ACTIVIDAD - DESCRIBA DETALLADAMENTE</span>
+                                                <div class="form-control-sm mb-1 overflow-auto h-50 border border-muted border-radius rounded">'.$ot_ejecucion.'</div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row border border-muted border-radius rounded">
                                     <div class="col-lg-12">	
-                                        <div class="row">
-                                            <div class="col-lg-6 border border-muted border-radius rounded d-flex align-items-center">
-                                                <div class="form-group form-control-sm mb-1 text-center">
-                                                    <h6 class="font-weight-bold">CIERRE (ACCION TOMADA)</h6>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="row border border-muted border-radius rounded">
-                                                    <div class="form-group form-control-sm mb-1">
-                                                        <span class="form-control-sm pl-0 mb-0 font-weight-bold">INICIO:</span> 
-                                                        <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$ot_inicio.'</span>	
-                                                    </div>
-                                                </div>
-                                                <div class="row border border-muted border-radius rounded">
-                                                    <div class="form-group form-control-sm mb-1">	
-                                                        <span class="form-control-sm pl-0 mb-0 font-weight-bold">FINALIZO:</span> 
-                                                        <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$ot_fin.'</span>	
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-6 border border-muted border-radius rounded">
-                                                <div class="form-group form-control-sm mb-1">
-                                                    <span class="form-control-sm pl-0 mb-0 font-weight-bold">SISTEMA:</span> 
-                                                    <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$ot_sistema.'</span>	
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6 border border-muted border-radius rounded">
-                                                <div class="form-group form-control-sm mb-1">
-                                                    <span class="form-control-sm pl-0 mb-0 font-weight-bold">CODIGO FALLA:</span> 
-                                                    <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$ot_codfalla.'</span>	
-                                                </div>
+                                        <div class="row align-items-end border border-muted border-radius rounded">
+                                            <div class="form-group col-lg-12 mb-1">
+                                                <span class="form-control-sm pl-0 mb-0 font-weight-bold">OBSERVACIONES PROVEEDOR</span>
+                                                <div class="form-control-sm mb-1 overflow-auto h-50 border border-muted border-radius rounded">'.$ot_obs_proveedor.'</div>
                                             </div>
                                         </div>
                                         <div class="row align-items-end border border-muted border-radius rounded">
                                             <div class="form-group col-lg-12 mb-1">
-                                                <span class="form-control-sm pl-0 mb-0 font-weight-bold">DESCRIPCION DE ACCION TOMADA (Máximo 13000 carácteres)</span>
-                                                <div class="form-control-sm mb-1 overflow-auto h-50 border border-muted border-radius rounded">'.$ot_at.'</div>
-                                            </div>
-                                        </div>
-                                        <div class="row align-items-end border border-muted border-radius rounded">
-                                            <div class="form-group col-lg-12 mb-1">
-                                                <span class="form-control-sm pl-0 mb-0 font-weight-bold">OBSERVACIONES DE ASOCIADO:</span>
-                                                <div class="form-control-sm mb-1 overflow-auto h-50 border border-muted border-radius rounded">'.$ot_obs_asoc.'</div>
+                                                <span class="form-control-sm pl-0 mb-0 font-weight-bold">OBSERVACIONES CGM</span>
+                                                <div class="form-control-sm mb-1 overflow-auto h-50 border border-muted border-radius rounded">'.$ot_obs_cgm.'</div>
                                             </div>
                                         </div>
                                     </div>
@@ -658,54 +587,6 @@ class Logico
                                 </div>
                                 <div class="row border border-muted border-radius rounded mb-2">
                                     <div class="col-lg-12">
-                                        <div class="row align-items-end border border-muted border-radius rounded">
-                                            <div class="form-group form-control-sm mb-1">
-                                                <span class="form-control-sm pl-0 mb-0 font-weight-bold">N° Serie o codigo de Componente Montado :</span> 
-                                                <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$ot_montado.'</span>	
-                                            </div>
-                                        </div>
-                                        <div class="row align-items-end border border-muted border-radius rounded">
-                                            <div class="form-group form-control-sm mb-1">
-                                                <span class="form-control-sm pl-0 mb-0 font-weight-bold">N° Serie o codigo de Componente Desmontado :</span> 
-                                                <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$ot_dmontado.'</span>	
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-6 border border-muted border-radius rounded">
-                                                <div class="form-group form-control-sm mb-1">
-                                                    <span class="form-control-sm pl-0 mb-0 font-weight-bold">Se desmonto del bus :</span> 
-                                                    <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$ot_busdmontado.'</span>	
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6 border border-muted border-radius rounded">
-                                                <div class="form-group form-control-sm mb-1">
-                                                    <span class="form-control-sm pl-0 mb-0 font-weight-bold">Para el bus :</span> 
-                                                    <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$ot_busmont.'</span>	
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row align-items-end border border-muted border-radius rounded">
-                                            <div class="form-group form-control-sm mb-1">
-                                                <span class="form-control-sm pl-0 mb-0 font-weight-bold">Motivo Montaje :</span> 
-                                                <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$ot_motivo.'</span>
-                                            </div>
-                                        </div>
-                                        <div class="row align-items-end border border-muted border-radius rounded">
-                                            <div class="form-group form-control-sm mb-1">
-                                                <span class="form-control-sm pl-0 mb-0 font-weight-bold">Componente Raiz :</span> 
-                                                <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$ot_componente_raiz.'</span>
-                                            </div>
-                                        </div>
-                                        <div class="row align-items-end border border-muted border-radius rounded">
-                                            <div class="form-group form-control-sm mb-1">
-                                                <span class="form-control-sm pl-0 mb-0 font-weight-bold">TECNICO ASOCIADO :</span> 
-                                                <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$ot_tecnico.'</span>	
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row border border-muted border-radius rounded mb-2">
-                                    <div class="col-lg-12">
                                         <div class="container-fluid caja">
                                             <div class="row w-100 p-0 m-0">
                                                <div class="col-lg-12">
@@ -719,16 +600,6 @@ class Logico
                                 </div>
                                 <div class="row border border-muted border-radius rounded mb-2">
                                     <div class="col-lg-12">
-                                        <div class="row align-items-end border border-muted border-radius rounded">
-                                            <div class="col-lg-12">
-                                                <div class="form-group form-control-sm mb-1" id="div_ot_ca">
-                                                    <span class="form-control-sm pl-0 mb-0 font-weight-bold">CIERRE ADMINISTRATIVO POR:</span> 
-                                                    <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$ot_ca.'</span>
-                                                    <span class="form-control-sm pl-0 mb-0 font-weight-bold">EL</span> 
-                                                    <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$ot_date_ca.'</span>
-                                                </div> 
-                                            </div>
-                                        </div>
                                         <div class="row align-items-end border border-muted border-radius rounded">
                                             <div class="col-lg-12">
                                                 <div class="form-group form-control-sm mb-1">
@@ -747,8 +618,8 @@ class Logico
                                         </div>
                                         <div class="row align-items-end border border-muted border-radius rounded">
                                             <div class="form-group col-lg-12 mb-1">
-                                                <span class="form-control-sm pl-0 mb-0 font-weight-bold">OBSERVACIONES DE CIERRE ADMINISTRATIVO:</span>
-                                                <div class="form-control-sm mb-1 overflow-auto h-50 border border-muted border-radius rounded">'.$ot_obs_aom.'</div>
+                                                <span class="form-control-sm pl-0 mb-0 font-weight-bold">LOG</span>
+                                                <div class="form-control-sm mb-1 overflow-auto h-50 border border-muted border-radius rounded">'.$ot_log.'</div>
                                             </div>
                                         </div>
                                     </div>
@@ -767,37 +638,40 @@ class Logico
         $InstanciaAjax  = new CRUD();
         $Respuesta      = $InstanciaAjax->ver_vale($ot_id);
         foreach ($Respuesta as $row) {
-            $cod_vale           = $row['cod_vale'];
-            $va_ot              = $row['va_ot'];
+            $vale_id            = $row['vale_id'];
+            $va_ot_id           = $row['va_ot_id'];
             $va_bus             = $row['va_bus'];
-            $va_descrip         = $row['va_descrip'];
+            $va_actividad       = $row['va_actividad'];
             $va_asociado        = $row['va_asociado'];
-            $va_genera          = $row['va_genera'];
-            $va_responsable     = $row['va_responsable'];
+            $va_genera_nombre   = $row['va_genera_nombre'];
             $va_date_genera     = $row['va_date_genera'];
-            $va_garantia        = $row['va_garantia'];
-            $va_cierre_adm      = $row['va_cierre_adm'];
             $va_estado          = $row['va_estado'];
-            $va_date_cierre_adm = $row['va_date_cierre_adm'];
             $va_obs_cgm         = $row['va_obs_cgm'];
             $va_obs_aom         = $row['va_obs_aom'];
+            $va_log             = $row['va_log'];
             
             $Repuestoshtml = "";
             MModel($this->Modulo,'CRUD');
             $InstanciaAjax  = new CRUD();
-            $Respuesta2     = $InstanciaAjax->ver_detalle_repuesto($cod_vale);
+            $Respuesta2     = $InstanciaAjax->ver_detalle_repuesto($vale_id);
             foreach ($Respuesta2 as $row) {
-                $rv_repuesto    = $row['rv_repuesto'];
-                $rv_nroserie    = $row['rv_nroserie'];
-                $rv_desc        = $row['rv_desc'];
-                $rv_cantidad    = $row['rv_cantidad'];
-                $rv_unidad      = $row['rv_unidad'];
+                $vr_repuesto    = $row['vr_repuesto'];
+                $vr_cod_patrimonial = $row['vr_cod_patrimonial'];
+                $vr_descripcion = $row['vr_descripcion'];
+                $vr_nroserie    = $row['vr_nroserie'];
+                $vr_cantidad_requerida  = $row['vr_cantidad_requerida'];
+                $vr_cantidad_despachada = $row['vr_cantidad_despachada'];
+                $vr_cantidad_utilizada  = $row['vr_cantidad_utilizada'];
+                $vr_unidad      = $row['rv_unidad'];
                 $Repuestoshtml .= ' <tr>
-                                        <th>'.$rv_repuesto.'</th>
-                                        <th>'.$rv_nroserie.'</th>
-                                        <th>'.$rv_desc.'</th>
-                                        <th>'.$rv_cantidad.'</th>
-                                        <th>'.$rv_unidad.'</th>
+                                        <th>'.$vr_repuesto.'</th>
+                                        <th>'.$vr_cod_patrimonial.'</th>
+                                        <th>'.$vr_nroserie.'</th>
+                                        <th>'.$vr_descripcion.'</th>
+                                        <th>'.$vr_cantidad_requerida.'</th>
+                                        <th>'.$vr_cantidad_despachada.'</th>
+                                        <th>'.$vr_cantidad_utilizada.'</th>
+                                        <th>'.$vr_unidad.'</th>
                                     </tr>';
             }
 
@@ -806,12 +680,12 @@ class Logico
                                 <div class="row d-flex justify-content-araound">
                                     <div class="col-lg-4">
                                         <div class="form-group form-control-sm mb-1">
-                                            <h6 class="font-weight-bold">N° '.$cod_vale.'</h6>
+                                            <h6 class="font-weight-bold">N° VALE '.$vale_id.'</h6>
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
                                         <div class="form-group form-control-sm mb-1">
-                                            <h6 class="font-weight-bold">N° OT :'.$va_ot.'</h6>
+                                            <h6 class="font-weight-bold">N° OT :'.$va_ot_id.'</h6>
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
@@ -824,7 +698,7 @@ class Logico
                                     <div class="col-lg-12">
                                         <div class="form-group form-control-sm mb-1 text-truncate">
                                             <span class="form-control-sm pl-0 mb-0 font-weight-bold">DESC. ACTIVIDAD :</span> 
-                                            <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$va_descrip.'</span>	
+                                            <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$va_actividad.'</span>	
                                         </div>
                                     </div>
                                 </div>
@@ -837,36 +711,16 @@ class Logico
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group form-control-sm mb-1">
-                                            <span class="form-control-sm pl-0 mb-0 font-weight-bold">RESP. :</span> 
-                                            <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$va_responsable.'</span>	
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row d-flex justify-content-araound">
-                                    <div class="col-lg-12">
-                                        <div class="form-group form-control-sm mb-1">
                                             <span class="form-control-sm pl-0 mb-0 font-weight-bold">GENERA :</span> 
-                                            <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$va_genera.'</span>	
-                                            <span class="form-control-sm pl-0 mb-0 font-weight-bold">EL</span> 
-                                            <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$va_date_genera.'</span>	
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row d-flex justify-content-araound">
-                                    <div class="col-lg-12">
-                                        <div class="form-group form-control-sm mb-1">
-                                            <span class="form-control-sm pl-0 mb-0 font-weight-bold">CIERRE ADM. :</span> 
-                                            <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$va_cierre_adm.'</span>	
-                                            <span class="form-control-sm pl-0 mb-0 font-weight-bold">EL</span> 
-                                            <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$va_date_cierre_adm.'</span>
+                                            <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$va_genera_nombre.'</span>	
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row d-flex justify-content-araound">
                                     <div class="col-lg-6">
                                         <div class="form-group form-control-sm mb-1">
-                                            <span class="form-control-sm pl-0 mb-0 font-weight-bold">REG.REPUESTO :</span> 
-                                            <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$va_garantia.'</span>	
+                                            <span class="form-control-sm pl-0 mb-0 font-weight-bold">EL</span> 
+                                            <span class="form-control-sm pl-0 mb-0 font-weight-normal">'.$va_date_genera.'</span>	
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -878,57 +732,60 @@ class Logico
                                 </div>
                             </div>
                             <div class="col-lg-12 d-flex justify-content-araound">
-
-                                    <div class="table-responsive">        
-                                        <table id="tablaVerDetalleRepuestos" class="table table-striped table-bordered table-condensed w-100">
-                                            <thead class="text-center">
-                                                <tr>
-                                                    <th>CODIGO</th>
-                                                    <th>NRO.SERIE</th>
-                                                    <th>DESCRIPCION REPUESTOS</th>
-                                                    <th>CANT.</th>
-                                                    <th>UNID.</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                '.$Repuestoshtml.'            
-                                            </tbody>
-                                        </table>
-
+                                <div class="table-responsive">        
+                                    <table id="tablaVerDetalleRepuestos" class="table table-striped table-bordered table-condensed w-100">
+                                        <thead class="text-center">
+                                            <tr>
+                                                <th>CODIGO</th>
+                                                <th>COD.PAT.</th>
+                                                <th>NRO.SERIE</th>
+                                                <th>DESCRIPCION REPUESTOS</th>
+                                                <th>C.REQ.</th>
+                                                <th>C.DES.</th>
+                                                <th>C.UTI.</th>
+                                                <th>UNIDAD</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            '.$Repuestoshtml.'            
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="row d-flex justify-content-araound">
-                                    <div class="col-lg-12">                                
+                                    <div class="col-lg-4">                                
                                         <div class="form-group form-control-sm mb-0">
-                                            <span class="form-control-sm mb-0 font-weight-bold">OBSERVACIONES DE CGM :</span>
+                                            <span class="form-control-sm mb-0 font-weight-bold">OBSERVACIONES DE CGM</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group form-control-sm mb-0">
+                                            <span class="form-control-sm mb-0 font-weight-bold">OBSERVACIONES DE AOM</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group form-control-sm mb-0">
+                                            <span class="form-control-sm mb-0 font-weight-bold">LOG</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="row d-flex justify-content-araound">
-                                    <div class="col-lg-12">
-                                        <div class="form-group form-control-sm mb-0">
-                                            <div class="form-control-sm pl-0 mb-0 overflow-auto h-250 border border-muted border-radius rounded">'.$va_obs_cgm.'</div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group form-control-sm mb-4">
+                                            <div class="form-control-sm mb-4 overflow-auto border border-muted border-radius rounded" style="height: 50px;">'.$va_obs_cgm.'</div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="row d-flex justify-content-araound">
-                                    <div class="col-lg-12">
-                                        <div class="form-group form-control-sm mb-0">
-                                            <span class="form-control-sm mb-0 font-weight-bold">OBSERVACIONES DE AOM :</span>
+                                    <div class="col-lg-4">
+                                        <div class="form-group form-control-sm mb-4">
+                                            <div class="form-control-sm mb-4 overflow-auto border border-muted border-radius rounded" style="height: 50px;">'.$va_obs_aom.'</div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>    
-                            <div class="col-lg-12">
-                                <div class="row d-flex justify-content-araound">
-                                    <div class="col-lg-12">
-                                        <div class="form-group form-control-sm mb-2">
-                                            <div class="form-control-sm mb-2 overflow-auto h-250 border border-muted border-radius rounded">'.$va_obs_aom.'</div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group form-control-sm mb-4">
+                                            <div class="form-control-sm mb-4 overflow-auto border border-muted border-radius rounded" style="height: 50px;">'.$va_log.'</div>
                                         </div>
                                     </div>
                                 </div>

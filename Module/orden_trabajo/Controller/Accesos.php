@@ -598,22 +598,22 @@ class Accesos
 					case "div_imprimir_procesar_ot":
 						$Mostrar_div = '<div class="container">	
 											<div class="m-0 p-0">
-												<h3>O.T. N° '.$ot_id.'</h3>
+												<h3 class="font-weight-normal">O.T. N° '.$ot_id.'</h3>
 											</div>
 									        <div class="m-0 p-0">
-												<h3>BUS '.$ot_bus.'</h3>
+												<h3 class="font-weight-normal">BUS '.$ot_bus.'</h3>
 											</div>
-        									<div class="m-0 p-0" style="font-size: 13px">
-												<p><strong>PROVEEDOR :</strong>'.$ot_nombre_proveedor.'</p>
-											</div>
-											<div class="m-0 p-0" style="font-size: 13px">
-        										<p><strong>FECHA :</strong>'.$ot_fecha_registro.'</p>
+        									<div class="m-0 p-0">
+												<p class="font-weight-normal"><strong>PROVEEDOR :</strong>'.$ot_nombre_proveedor.'</p>
 											</div>
 											<div class="m-0 p-0" style="font-size: 13px">
-        										<p><strong>CGM :</strong>'.$ot_cgm.'</p>
+        										<p class="font-weight-normal"><strong>FECHA :</strong>'.$ot_fecha_registro.'</p>
 											</div>
 											<div class="m-0 p-0" style="font-size: 13px">
-												<p><strong>ACTIVIDAD: </strong>'.$ot_actividad.'</p>
+        										<p class="font-weight-normal"><strong>CGM :</strong>'.$ot_cgm.'</p>
+											</div>
+											<div class="m-0 p-0" style="font-size: 13px">
+												<p class="font-weight-normal"><strong>ACTIVIDAD: </strong>'.$ot_actividad.'</p>
 											</div>
 											<div class="m-0 p-0" style="font-size: 13px">
 	        									<p><strong>KM: </strong>'.$ot_kilometraje.'</p>
