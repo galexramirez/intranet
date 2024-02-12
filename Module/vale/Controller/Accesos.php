@@ -504,39 +504,22 @@ class Accesos
 				switch($NombreObjeto)
 				{
 					case "div_imprimir_vale":
-						$Mostrar_div = '<div class="container">	
-											<div class="m-0 p-0">
-												<h3 class="font-weight-normal">VALE N° '.$vale_id.'</h3>
-											</div>
-											<div class="m-0 p-0">
-												<h3 class="font-weight-normal">O.T.N° '.$va_ot_id.'</h3>
-											</div>
-									        <div class="m-0 p-0">
-												<h3 class="font-weight-normal">BUS '.$va_bus.'</h3>
-											</div>
-        									<div class="m-0 p-0">
-												<p class="font-weight-normal"><strong>PROVEEDOR :</strong>'.$va_nombre_proveedor.'</p>
-											</div>
-											<div class="m-0 p-0" style="font-size: 13px">
-        										<p class="font-weight-normal"><strong>FECHA :</strong>'.$va_fecha_registro.'</p>
-											</div>
-											<div class="m-0 p-0" style="font-size: 13px">
-        										<p class="font-weight-normal"><strong>CGM :</strong>'.$va_cgm.'</p>
-											</div>
-											<div class="m-0 p-0" style="font-size: 13px">
-												<p class="font-weight-normal"><strong>ACTIVIDAD: </strong>'.$va_actividad.'</p>
-											</div>';
+						$Mostrar_div = '<div class="container" style:"font-family:arial !important; font-size: 12px; padding:0px; margin:0px;">	
+											<h3 style="font-family:arial !important; padding:0px; margin:0px;">VALE N° '.$vale_id.'</h3>
+											<h3 style="font-family:arial !important; padding:0px; margin:0px;">O.T.N° '.$va_ot_id.'</h3>
+											<h3 style="font-family:arial !important; padding:0px; margin:0px;">BUS '.$va_bus.'</h3>
+											<p style="font-family:arial !important; font-size: 12px; padding:0px; margin:0px;"><strong>PROVEEDOR :</strong>'.$va_nombre_proveedor.'</p>
+       										<p style="font-family:arial !important; font-size: 12px; padding:0px; margin:0px;"><strong>FECHA :</strong>'.$va_fecha_registro.'</p>
+       										<p style="font-family:arial !important; font-size: 12px; padding:0px; margin:0px;"><strong>CGM :</strong>'.$va_cgm.'</p>
+											<p style="font-family:arial !important; font-size: 12px; padding:0px; margin:0px;"><strong>ACTIVIDAD: </strong>'.$va_actividad.'</p> ';
 						MModel($this->Modulo, 'CRUD');
 						$InstanciaAjax = new CRUD();
-						$Respuesta = $InstanciaAjax->BuscarDataBD("manto_vale_repuestos","vr_vale_id",$Dato1);
+						$Respuesta = $InstanciaAjax->ver_detalle_repuesto($Dato1);
 						
 						foreach ($Respuesta as $row) {
-							$Mostrar_div.='	<div class="m-0 p-0" style="font-size: 13px">
-												<p class="font-weight-normal"><strong>'.$row['vr_repuesto'].'</strong> '.$row['vr_descripcion'].'</p>
-											</div>
-											<div class="m-0 p-0" style="font-size: 13px">
-												<p class="font-weight-normal">C.REQ.'.$row['vr_cantidad_requerida'].' C.DES.'.$row['vr_cantidad_despachada'].' C.UTI.'.$row['vr_cantidad_utilizada'].'</p>
-											</div>';
+							$Mostrar_div.='	<p style="font-family:arial !important; font-size: 12px; padding:0px; margin:5px 0px 0px 0px;"><strong>'.$row['vr_repuesto'].'</strong> '.$row['vr_descripcion'].'</p>
+											<p style="font-family:arial !important; font-size: 12px; padding:0px; margin:0px;"><strong>UNID.</strong> '.$row['vr_unidad'].'</p>
+											<p style="font-family:arial !important; font-size: 12px; padding:0px; margin:0px;">REQ.'.$row['vr_cantidad_requerida'].' | DES.'.$row['vr_cantidad_despachada'].' | UTI.'.$row['vr_cantidad_utilizada'].'</p> ';
 						}
 													
 						$Mostrar_div .= '</div>';
@@ -544,39 +527,22 @@ class Accesos
 					break;
 
 					case "div_listado_imprimir_vale":
-						$Mostrar_div = '<div class="container">	
-											<div class="m-0 p-0">
-												<h3 class="font-weight-normal">VALE N° '.$vale_id.'</h3>
-											</div>
-											<div class="m-0 p-0">
-												<h3 class="font-weight-normal">O.T.N° '.$va_ot_id.'</h3>
-											</div>
-									        <div class="m-0 p-0">
-												<h3 class="font-weight-normal">BUS '.$va_bus.'</h3>
-											</div>
-        									<div class="m-0 p-0">
-												<p class="font-weight-normal"><strong>PROVEEDOR :</strong>'.$va_nombre_proveedor.'</p>
-											</div>
-											<div class="m-0 p-0" style="font-size: 13px">
-        										<p class="font-weight-normal"><strong>FECHA :</strong>'.$va_fecha_registro.'</p>
-											</div>
-											<div class="m-0 p-0" style="font-size: 13px">
-        										<p class="font-weight-normal"><strong>CGM :</strong>'.$va_cgm.'</p>
-											</div>
-											<div class="m-0 p-0" style="font-size: 13px">
-												<p class="font-weight-normal"><strong>ACTIVIDAD: </strong>'.$va_actividad.'</p>
-											</div>';
+						$Mostrar_div = '<div class="container" style:"font-family:arial !important; font-size: 12px; padding:0px; margin:0px;">	
+											<h3 style="font-family:arial !important; padding:0px; margin:0px;">VALE N° '.$vale_id.'</h3>
+											<h3 style="font-family:arial !important; padding:0px; margin:0px;">O.T.N° '.$va_ot_id.'</h3>
+											<h3 style="font-family:arial !important; padding:0px; margin:0px;">BUS '.$va_bus.'</h3>
+											<p style="font-family:arial !important; font-size: 12px; padding:0px; margin:0px;"><strong>PROVEEDOR :</strong>'.$va_nombre_proveedor.'</p>
+       										<p style="font-family:arial !important; font-size: 12px; padding:0px; margin:0px;"><strong>FECHA :</strong>'.$va_fecha_registro.'</p>
+       										<p style="font-family:arial !important; font-size: 12px; padding:0px; margin:0px;"><strong>CGM :</strong>'.$va_cgm.'</p>
+											<p style="font-family:arial !important; font-size: 12px; padding:0px; margin:0px;"><strong>ACTIVIDAD: </strong>'.$va_actividad.'</p> ';
 						MModel($this->Modulo, 'CRUD');
 						$InstanciaAjax = new CRUD();
-						$Respuesta = $InstanciaAjax->BuscarDataBD("manto_vale_repuestos","vr_vale_id",$Dato1);
+						$Respuesta = $InstanciaAjax->ver_detalle_repuesto($Dato1);
 						
 						foreach ($Respuesta as $row) {
-							$Mostrar_div.='	<div class="m-0 p-0" style="font-size: 13px">
-												<p class="font-weight-normal"><strong>'.$row['vr_repuesto'].'</strong> '.$row['vr_descripcion'].'</p>
-											</div>
-											<div class="m-0 p-0" style="font-size: 13px">
-												<p class="font-weight-normal">C.REQ.'.$row['vr_cantidad_requerida'].' C.DES.'.$row['vr_cantidad_despachada'].' C.UTI.'.$row['vr_cantidad_utilizada'].'</p>
-											</div>';
+							$Mostrar_div.='	<p style="font-family:arial !important; font-size: 12px; padding:0px; margin:5px 0px 0px 0px;"><strong>'.$row['vr_repuesto'].'</strong> '.$row['vr_descripcion'].'</p>
+											<p style="font-family:arial !important; font-size: 12px; padding:0px; margin:0px;"><strong>UNID.</strong> '.$row['vr_unidad'].'</p>
+											<p style="font-family:arial !important; font-size: 12px; padding:0px; margin:0px;">REQ.'.$row['vr_cantidad_requerida'].' | DES.'.$row['vr_cantidad_despachada'].' | UTI.'.$row['vr_cantidad_utilizada'].'</p> ';
 						}
 													
 						$Mostrar_div .= '</div>';

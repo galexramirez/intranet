@@ -247,7 +247,7 @@ class CRUD
 							`manto_vale_repuestos`.`vr_cantidad_requerida`, 
 							`manto_vale_repuestos`.`vr_cantidad_despachada`,
 							`manto_vale_repuestos`.`vr_cantidad_utilizada`,
-							CONCAT(`manto_unidad_medida`.`unidad_medida`,'-',`manto_unidad_medida`.`um_descripcion`) AS `rv_unidad` 
+							CONCAT(`manto_unidad_medida`.`unidad_medida`,'-',`manto_unidad_medida`.`um_descripcion`) AS `vr_unidad` 
 						FROM 
 							`manto_vale_repuestos` 
 						LEFT JOIN
@@ -351,11 +351,11 @@ class CRUD
 
 	function editar_vale($vale_id, $va_ot_id, $va_genera, $va_date_genera, $va_asociado, $va_obs_cgm, $va_obs_aom, $va_estado, $nombre_cierre_adm, $va_tipo, $va_ruc, $va_log)
 	{
-        $va_cierre_adm = $_SESSION['USUARIO_ID'];
 		$va_date_cierre_adm = date("Y-m-d H:i:s");
 		$va_log_edt = $va_estado." ".$va_date_cierre_adm." ".$nombre_cierre_adm." EDITAR <br>".$va_log;
 
-		$consulta = "UPDATE `manto_vale` SET `va_ot_id`='$va_ot_id', `va_genera`='$va_genera', `va_date_genera`='$va_date_genera',`va_asociado`='$va_asociado', `va_obs_cgm`='$va_obs_cgm', `va_obs_aom`='$va_obs_aom', `va_estado`='$va_estado', `va_tipo`='$va_tipo', `va_ruc`='$va_ruc', `va_log`='$va_log' WHERE `vale_id`='$vale_id'";
+		$consulta = "UPDATE `manto_vale` SET `va_ot_id`='$va_ot_id', `va_genera`='$va_genera', `va_date_genera`='$va_date_genera',`va_asociado`='$va_asociado', `va_obs_cgm`='$va_obs_cgm', `va_obs_aom`='$va_obs_aom', `va_estado`='$va_estado', `va_tipo`='$va_tipo', `va_ruc`='$va_ruc', `va_log`='$va_log_edt' WHERE `vale_id`='$vale_id'";
+
 		$resultado = $this->conexion->prepare($consulta);
         $resultado->execute();        
 		$this->conexion=null;
@@ -393,16 +393,16 @@ class CRUD
 
 	function crear_detalle_repuestos($vr_vale_id, $vr_id, $vr_repuesto, $vr_cod_patrimonial, $vr_descripcion, $vr_nroserie, $vr_cantidad_requerida, $vr_cantidad_despachada, $vr_cantidad_utilizada, $va_tipo, $vr_unidad_medida, $vr_moneda, $vr_precio, $vr_precio_soles, $vr_material_id, $vr_precio_proveedor_id, $vr_fecha_vigencia)
 	{
-		$consulta = " INSERT INTO `BDLIMABUS`.`manto_vale_repuestos` (`vr_vale_id`, `vr_id`, `vr_repuesto`, `vr_descripcion`, `vr_nroserie`, `vr_unidad_medida`, `vr_moneda`, `vr_precio`, `vr_precio_soles`, `vr_fecha_vigencia`, `vr_tipo`, `vr_cantidad_requerida`, `vr_cantidad_despachada`, `vr_cantidad_utilizada`, `vr_cod_patrimonial`, `vr_material_id`, `vr_precio_proveedor_id`) VALUES ('$vr_vale_id', '$vr_id', '$vr_repuesto', '$vr_descripcion', '$vr_nroserie', '$vr_unidad_medida', '$vr_moneda', '$vr_precio', '$vr_precio_soles', '$vr_fecha_vigencia', '$va_tipo', '$vr_cantidad_requerida', '$vr_cantidad_despachada', '$vr_cantidad_utilizada', '$vr_cod_patrimonial', '$vr_material_id', '$vr_precio_proveedor_id') ";
+		$consulta = " INSERT INTO `manto_vale_repuestos` (`vr_vale_id`, `vr_id`, `vr_repuesto`, `vr_descripcion`, `vr_nroserie`, `vr_unidad_medida`, `vr_moneda`, `vr_precio`, `vr_precio_soles`, `vr_fecha_vigencia`, `vr_tipo`, `vr_cantidad_requerida`, `vr_cantidad_despachada`, `vr_cantidad_utilizada`, `vr_cod_patrimonial`, `vr_material_id`, `vr_precio_proveedor_id`) VALUES ('$vr_vale_id', '$vr_id', '$vr_repuesto', '$vr_descripcion', '$vr_nroserie', '$vr_unidad_medida', '$vr_moneda', '$vr_precio', '$vr_precio_soles', '$vr_fecha_vigencia', '$va_tipo', '$vr_cantidad_requerida', '$vr_cantidad_despachada', '$vr_cantidad_utilizada', '$vr_cod_patrimonial', '$vr_material_id', '$vr_precio_proveedor_id') ";
 
 		$resultado = $this->conexion->prepare($consulta);
         $resultado->execute();        
 		$this->conexion=null;
 	}
 
-	function eliminar_detalle_repuestos($cod_rv)
+	function eliminar_detalle_repuestos($vale_id)
 	{
-		$consulta="DELETE FROM `manto_vale_repuestos` WHERE `vr_vale`='$cod_rv'";
+		$consulta="DELETE FROM `manto_vale_repuestos` WHERE `vr_vale_id`='$vale_id'";
 
 		$resultado = $this->conexion->prepare($consulta);
         $resultado->execute();        

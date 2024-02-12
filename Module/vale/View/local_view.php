@@ -754,7 +754,7 @@
 										  <div class="col-lg-3">
 											<div class="form-group">
 								    			<label for="vr_cantidad_requerida" class="col-form-label form-control-sm">CANT.REQUERIDA</label>
-												<input type="number" tabindex="15" class="form-control form-control-sm" id="vr_cantidad_requerida">
+												<input type="number" step="0.01" tabindex="15" class="form-control form-control-sm" id="vr_cantidad_requerida">
 				  				    		</div> 
 			      		            	</div>
 									</div>
@@ -765,7 +765,7 @@
 										<div class="col-lg-3">
 											<div class="form-group">
 								    			<label for="vr_cantidad_despachada" class="col-form-label form-control-sm">CANT.DESPACHO</label>
-												<input type="number" tabindex="16" class="form-control form-control-sm" id="vr_cantidad_despachada">
+												<input type="number" step="0.01" tabindex="16" class="form-control form-control-sm" id="vr_cantidad_despachada">
 				  				    		</div> 
 			      		            	</div>
 										  <div class="col-lg-3">
@@ -788,7 +788,7 @@
 										<div class="col-lg-3">
 											<div class="form-group">
 								    			<label for="vr_cantidad_utilizada" class="col-form-label form-control-sm">CANT.UTILIZADA</label>
-												<input type="number" tabindex="19" class="form-control form-control-sm" id="vr_cantidad_utilizada">
+												<input type="number" step="0.01" tabindex="19" class="form-control form-control-sm" id="vr_cantidad_utilizada">
 				  				    		</div> 
 			      		            	</div>
 										<div class="col-lg-3">
