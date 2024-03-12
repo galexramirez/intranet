@@ -17,7 +17,7 @@
            <br>
            {
                <br>
-               "usuario" :"",  -> REQUERIDO
+               "usuario" :"", -> REQUERIDO
                <br>
                "password": "" -> REQUERIDO
                <br>
@@ -33,68 +33,120 @@
            GET  /ot?id=$ot_id
         </code>
 
-        <!--<code>
-           POST  /pacientes
-           <br> 
-           {
-            <br> 
-               "nombre" : "",               -> REQUERIDO
-               <br> 
-               "dni" : "",                  -> REQUERIDO
-               <br> 
-               "correo":"",                 -> REQUERIDO
-               <br> 
-               "codigoPostal" :"",             
-               <br>  
-               "genero" : "",        
-               <br>        
-               "telefono" : "",       
-               <br>       
-               "fechaNacimiento" : "",      
-               <br>         
-               "token" : ""                 -> REQUERIDO        
-               <br>       
-           }
+        <code>
+           POST  /ot
+            <br>
+            {
+                <br> 
+                "nombre" : "",   
+                <br> 
+                "dni" : "", -> REQUERIDO
+                <br> 
+                "correo":"",     
+                <br> 
+                "token" : "" -> REQUERIDO        
+                <br>       
+                "ot_estado" :"",             
+                <br>  
+                "ot_origen" : "",        
+                <br>        
+                "ot_tipo" : "",       
+                <br>       
+                "ot_bus" : "",      
+                <br>         
+                "ot_ruc_proveedor" : ""
+                <br>
+                "ot_nombre_proveedor" : ""
+                <br>
+                "ot_cgm_id" : ""
+                <br>
+                "ot_fecha_registro" : ""
+                <br> 
+                "ot_actividad" : ""
+                <br> 
+                "ot_actividad_vincular" : ""
+                <br> 
+                "ot_liometraje" : ""
+                <br> 
+                "ot_sistema" : ""
+                <br>
+                "ot_ejecucion" : ""
+                <br> 
+                "ot_obs_proveedor" : ""
+                <br> 
+                "ot_obs_cgm" : ""
+                <br>
+                "ot_log" : ""
+                <br> 
+                "ot_cierre_semanal" : ""
+                <br>  
+            }
 
         </code>
         <code>
-           PUT  /pacientes
-           <br> 
-           {
+            PUT  /ot
             <br> 
-               "nombre" : "",               
-               <br> 
-               "dni" : "",                  
-               <br> 
-               "correo":"",                 
-               <br> 
-               "codigoPostal" :"",             
-               <br>  
-               "genero" : "",        
-               <br>        
-               "telefono" : "",       
-               <br>       
-               "fechaNacimiento" : "",      
-               <br>         
-               "token" : "" ,                -> REQUERIDO        
-               <br>       
-               "pacienteId" : ""   -> REQUERIDO
-               <br>
-           }
+            {
+                <br> 
+                "nombre" : "",               
+                <br> 
+                "dni" : "", -> REQUERIDO 
+                <br> 
+                "correo":"",                 
+                <br> 
+                "token" : "" , -> REQUERIDO
+                <br>       
+                "ot_id" :"", -> REQUERIDO
+                <br>  
+                "ot_estado" : "",        
+                <br>        
+                "ot_origen" : "",       
+                <br>       
+                "ot_tipo" : "",      
+                <br>         
+                "ot_bus" : ""
+                <br>         
+                "ot_ruc_proveedor" : ""
+                <br>
+                "ot_nombre_proveedor" : ""
+                <br>
+                "ot_cgm_id" : ""
+                <br>
+                "ot_fecha_registro" : ""
+                <br> 
+                "ot_actividad" : ""
+                <br> 
+                "ot_actividad_vincular" : ""
+                <br> 
+                "ot_liometraje" : ""
+                <br> 
+                "ot_sistema" : ""
+                <br>
+                "ot_ejecucion" : ""
+                <br> 
+                "ot_obs_proveedor" : ""
+                <br> 
+                "ot_obs_cgm" : ""
+                <br>
+                "ot_log" : ""
+                <br> 
+                "ot_cierre_semanal" : ""
+                <br>  
+            }
 
         </code>
         <code>
-           DELETE  /pacientes
+           DELETE  /ot
            <br> 
            {   
                <br>    
-               "token" : "",                -> REQUERIDO        
+               "token" : "", -> REQUERIDO        
                <br>       
-               "pacienteId" : ""   -> REQUERIDO
+               "ot_id" : "" -> REQUERIDO
                <br>
            }
 
-        </code> -->
+        </code>
     </div>
 
 
