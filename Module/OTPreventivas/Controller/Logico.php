@@ -4,9 +4,7 @@ class Logico
 	var $Modulo = "OTPreventivas";
 	function Contenido($NombreDeModuloVista)    
 	{		
-			
 		MView('OTPreventivas','LocalView',compact('NombreDeModuloVista') );
-			
 	}
 
 	public function SelectAnios()

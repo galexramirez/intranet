@@ -20,18 +20,19 @@
 
 
  // 3.0 RECURSOS PARA EL MODULO     
-    $InsertHead="   <link rel='stylesheet' href='Module/orden_trabajo/View/local_view.css' type='text/css' media='all'>
+    $InsertHead="   <link rel='stylesheet' href='Services/Resources/jquery-ui-1.12.1/jquery-ui.min.css'>
+                    <link rel='stylesheet' href='Module/orden_trabajo/View/local_view.css' type='text/css' media='all'>
                     <link rel='stylesheet' type='text/css' href='Services/Resources/DataTables-10.25/datatables/datatables.min.css'> 
-                    <link rel='stylesheet' type='text/css' href='Services/Resources/DataTables-10.25/datatables/DataTables-1.10.25/css/dataTables.bootstrap4.min.css'>
+                    <link rel='stylesheet' type='text/css' href='Services/Resources/DataTables-10.25/datatables/DataTables-1.10.25/css/dataTables.  bootstrap4.min.css'>
                     <link rel='stylesheet' type='text/css' href='Services/Resources/DataTables-10.25/datatables/Buttons-1.7.1/css/buttons.bootstrap4.min.css'>
                     <link rel='stylesheet' href='https://pro.fontawesome.com/releases/v5.10.0/css/all.css' integrity='sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p' crossorigin='anonymous'/>  
                     <link rel='stylesheet' type='text/css' href='Services/Resources/cdn.datatables.net/fixedheader/3.1.9/css/fixedHeader.dataTables.min.css'>
                     <link rel='stylesheet' type='text/css' href='Services/Resources/cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css'> 
                     <link rel='stylesheet' href='Services/Resources/fonts.googleapis.com/css.css'>
-                    <link rel='stylesheet' href='Services/Resources/fonts.googleapis.com/icon.css'> 
-                    <link rel='stylesheet' href='Services/Resources/jquery-ui-1.12.1/jquery-ui.min.css'>";
+                    <link rel='stylesheet' href='Services/Resources/fonts.googleapis.com/icon.css'> ";
 
-    $InserFooter="  <script type='text/javascript' src='Services/Resources/DataTables-10.25/datatables/datatables.min.js'></script>
+    $InserFooter="  <script src='Services/Resources/jquery-ui-1.12.1/jquery-ui.min.js'></script>
+                    <script type='text/javascript' src='Services/Resources/DataTables-10.25/datatables/datatables.min.js'></script>
                     <script type='text/javascript' src='Services/Resources/DataTables-10.25/datatables/JSZip-2.5.0/jszip.min.js'></script>
                     <script type='text/javascript' src='Services/Resources/DataTables-10.25/datatables/pdfmake-0.1.36/pdfmake.min.js'></script>
                     <script type='text/javascript' src='Services/Resources/DataTables-10.25/datatables/pdfmake-0.1.36/vfs_fonts.js'></script>
@@ -56,8 +57,7 @@
                     <script src='Module/orden_trabajo/View/local_view_origen.js' type='text/javascript'></script>
                     <script src='Module/orden_trabajo/View/local_view_tecnico.js' type='text/javascript'></script>
                     <script type='text/javascript' src='Services/Resources/cdn.datatables.net/fixedheader/3.1.9/js/dataTables.fixedHeader.min.js'></script>
-                    <script type='text/javascript' src='Services/Resources/cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js'></script>
-                    <script src='Services/Resources/jquery-ui-1.12.1/jquery-ui.min.js'></script> ";
+                    <script type='text/javascript' src='Services/Resources/cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js'></script> ";
 
 // 4.0 CONTRUCCION DE LA VISTA
 

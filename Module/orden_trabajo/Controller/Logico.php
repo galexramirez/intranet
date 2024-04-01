@@ -125,6 +125,15 @@ class Logico
         print json_encode($Respuesta, JSON_UNESCAPED_UNICODE);
     }
 
+    public function buscar_data($nombre_tabla, $campo_buscar, $condicion_where)
+	{
+        MModel($this->Modulo, 'CRUD');
+		$InstanciaAjax= new CRUD();
+		$Respuesta=$InstanciaAjax->buscar_data($nombre_tabla, $campo_buscar, $condicion_where);
+
+		print json_encode($Respuesta, JSON_UNESCAPED_UNICODE);
+	}
+
     public function buscar_dato($nombre_tabla, $campo_buscar, $condicion_where)
 	{
 		$rpta_buscar_dato = "";
@@ -198,20 +207,20 @@ class Logico
     public function cargar_vales($ot_id)
     {
         $valeshtml = "";
-        $TablaBD = "manto_vales";
-        $CampoBD = "va_ot";
+        $TablaBD = "manto_vale";
+        $CampoBD = "va_ot_id";
 
         MModel($this->Modulo,'CRUD');
         $InstanciaAjax= new CRUD();
         $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$ot_id);
         foreach ($Respuesta as $row) {
-            $cod_vale = $row['cod_vale'];
+            $va_ot_id = $row['va_ot_id'];
             $va_asociado = $row['va_asociado'];
             $va_estado = $row['va_estado'];
             $valeshtml .= ' <div class="row">
                                 <div class="col-lg-4 border border-muted border-radius rounded d-flex justify-content-center">
                                     <div class="form-group form-control-sm mb-1">
-                                        <label for="" class="form-control-sm pl-0 mb-0">'.$cod_vale.'</label>
+                                        <label for="" class="form-control-sm pl-0 mb-0">'.$va_ot_id.'</label>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 border border-muted border-radius rounded d-flex justify-content-center">
@@ -356,8 +365,8 @@ class Logico
 
         foreach($array_data as $row){
             $ht_tecnico_nombres = $row['tecnico_nombres'];
-            $ht_hora_inicio     = $row['hora_inicio'];
-            $ht_hora_fin        = $row['hora_fin'];
+            $ht_hora_inicio     = date('Y-m-d H:i',strtotime($row['hora_inicio']));
+            $ht_hora_fin        = date('Y-m-d H:i',strtotime($row['hora_fin']));
     
             MModel($this->Modulo, 'CRUD');
             $InstanciaAjax  = new CRUD();
@@ -1101,4 +1110,15 @@ class Logico
         echo "se desvinculo"; 
     }
 
+    public function recodificar_novedad($nope_tipo_novedad, $nope_novedad_id, $nope_componente, $nope_posicion, $nope_falla, $nope_accion)
+    {
+        echo "llego a logico";
+        MModel($this->Modulo,'CRUD');
+        $InstanciaAjax = new CRUD();
+        $Respuesta = $InstanciaAjax->eliminar_codificar_novedad($nope_tipo_novedad, $nope_novedad_id);
+
+        MModel($this->Modulo,'CRUD');
+        $InstanciaAjax = new CRUD();
+        $Respuesta = $InstanciaAjax->codificar_novedad($nope_tipo_novedad, $nope_novedad_id, $nope_componente, $nope_posicion, $nope_falla, $nope_accion);
+    }
 }

@@ -98,6 +98,16 @@ switch ($Accion)
       $Respuesta     = $InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$DataBuscar);
    break;
 
+   case 'buscar_data':
+      $nombre_tabla     = $_POST['nombre_tabla'];
+      $campo_buscar     = $_POST['campo_buscar'];
+      $condicion_where  = $_POST['condicion_where'];
+
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta     = $InstanciaAjax->buscar_data($nombre_tabla, $campo_buscar, $condicion_where);
+   break;
+
    case 'buscar_dato':
       $nombre_tabla     = $_POST['nombre_tabla'];
       $campo_buscar     = $_POST['campo_buscar'];
@@ -286,7 +296,7 @@ switch ($Accion)
    break;
 
    case 'cargar_horas_tecnicos':
-      $ot_id = $_POST['ot_id'];
+      $ot_id = $_POST['cod_ot'];
 
       MModel($Modulo,'CRUD');
       $InstanciaAjax = new CRUD();
@@ -370,6 +380,19 @@ switch ($Accion)
       MModel($Modulo,'CRUD');
       $InstanciaAjax = new CRUD();
       $Respuesta = $InstanciaAjax->codificar_novedad($nope_tipo_novedad, $nope_novedad_id, $nope_componente, $nope_posicion, $nope_falla, $nope_accion);
+   break;
+
+   case 'recodificar_novedad':
+      $nope_tipo_novedad = strtoupper($_POST['nope_tipo_novedad']);
+      $nope_novedad_id = strtoupper($_POST['nope_novedad_id']);
+      $nope_componente = $_POST['nope_componente'];
+      $nope_posicion = $_POST['nope_posicion'];
+      $nope_falla = $_POST['nope_falla'];
+      $nope_accion = $_POST['nope_accion'];
+
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta = $InstanciaAjax->recodificar_novedad($nope_tipo_novedad, $nope_novedad_id, $nope_componente, $nope_posicion, $nope_falla, $nope_accion);
    break;
 
    case 'crear_orden_trabajo':

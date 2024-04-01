@@ -370,7 +370,6 @@ class Logico
                 $ot_cgm_crea = $row['roles_dni'];
             }
         }        
-
         if($ot_cgm_ct!=""){
             MModel($this->Modulo,'CRUD');
             $InstanciaAjax= new CRUD();

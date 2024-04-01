@@ -14,17 +14,21 @@ $(document).ready(function(){
     $("#vr_id").focus().select();
   });
 
-  $("#vr_cantidad_requerida_utilizada").on('change', function(){
-    vr_cantidad_requerida_utilizada = $("#vr_cantidad_requerida_utilizada").val();
+  $("#vr_cantidad_requerida").on('change', function(){
+    vr_cantidad_requerida = $("#vr_cantidad_requerida").val();
     mv_patrimonial = $("#mv_patrimonial").val();
     vr_cod_patrimonial_recepcion = "";
-    if(parseInt(vr_cantidad_requerida_utilizada)===1 && mv_patrimonial==="SI"){
+    if(parseInt(vr_cantidad_requerida)===1 && mv_patrimonial==="SI"){
       $("#vr_cod_patrimonial_recepcion").prop("disabled",false);
-      $("#vr_cod_patrimonial_recepcion").val(va_cod_patrimonial_recepcion);
+      $("#vr_cod_patrimonial_recepcion").val(vr_cod_patrimonial_recepcion);
     }else{
       $("#vr_cod_patrimonial_recepcion").prop("disabled",true);
-      $("#vr_cod_patrimonial_recepcion").val(va_cod_patrimonial_recepcion);
+      $("#vr_cod_patrimonial_recepcion").val(vr_cod_patrimonial_recepcion);
     }
+    vr_cantidad_despachada = vr_cantidad_requerida;
+    vr_cantidad_utilizada = vr_cantidad_requerida;
+    $("#vr_cantidad_despachada").val(vr_cantidad_despachada);
+    $("#vr_cantidad_utilizada").val(vr_cantidad_utilizada);
   })
   
   ///:: INICIO BOTONES DE VALES REPUESTOS :::::::::::::::::::::::::::::::::::::::::::::::::///
@@ -104,12 +108,16 @@ $(document).ready(function(){
     if(mv_patrimonial==="SI"){
       $("#vr_cod_patrimonial_despacho").prop("disabled",false);
       vr_cantidad_requerida = "1.00";
+      vr_cantidad_despachada = "1.00";
+      vr_cantidad_utilizada = "1.00";
       $("#vr_cantidad_requerida").prop("disabled",true);
     }else{
       $("#vr_cod_patrimonial_despacho").prop("disabled",true);
       $("#vr_cod_patrimonial_recepcion").prop("disabled",true);
     }
     $("#vr_cantidad_requerida").val(vr_cantidad_requerida);
+    $("#vr_cantidad_despachada").val(vr_cantidad_despachada);
+    $("#vr_cantidad_utilizada").val(vr_cantidad_utilizada);
     $("#buscar_repuesto").val("");
     $("#vr_id").focus().select();
   });

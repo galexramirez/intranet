@@ -873,8 +873,7 @@ function f_PreguntaCrear(pcod_ot){
 ///:: FIN DE FUNCION DE PERMITE CREAR UNA OT ::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///:: FUNCION QUE CARGA LOS COMBOS DE SELECTS :::::::::::::::::::::::::::::::::::::::::::::///
-function f_combos_selects_ot()
-{
+function f_combos_selects_ot(){
   // Cargamos los buses
   Accion='BusesOT';
   $.ajax({

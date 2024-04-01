@@ -175,6 +175,22 @@ function f_buscar_dato(p_nombre_tabla, p_campo_buscar, p_condicion_where){
   return rpta_buscar;
 }
 
+function f_buscar_data(p_nombre_tabla, p_campo_buscar, p_condicion_where){
+  let rpta_buscar_data = "";
+  Accion = 'buscar_data';
+  $.ajax({
+    url       : "Ajax.php",
+    type      : "POST",
+    datatype  : "json",
+    async     : false,
+    data      : {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, nombre_tabla:p_nombre_tabla, campo_buscar:p_campo_buscar, condicion_where:p_condicion_where},
+    success   : function(data){
+      rpta_buscar_data = $.parseJSON(data);
+    }
+  });
+  return rpta_buscar_data;
+}
+
 function f_ayuda_modulo(man_titulo){
   let man_modulo_id = f_buscar_dato("Modulo", "Modulo_Id", "`Mod_Nombre` = '"+NombreMoS+"'");
   let manual_id = f_buscar_dato("glo_manual", "manual_id", "`man_modulo_id` = '"+man_modulo_id+"' AND `man_titulo` = '"+man_titulo+"'");

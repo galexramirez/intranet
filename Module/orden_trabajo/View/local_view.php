@@ -256,7 +256,7 @@
 											<div class="row align-items-end border border-muted border-radius rounded">
 												<div class="form-group col-lg-12 mb-1">
     												<label for="ot_actividad" class="form-control-sm pl-0 mb-0">ACTIVIDAD (Máximo 500 carácteres)</label>
-    												<textarea class="form-control form-control-sm mb-1 text-uppercase" id="ot_actividad" rows="2" placeholder="escribe algo aqui..." maxlength="500"></textarea>
+    												<textarea readonly class="form-control form-control-sm mb-1 text-uppercase" id="ot_actividad" rows="2" placeholder="escribe algo aqui..." maxlength="500"></textarea>
 												</div>
 											</div>
 											<div class="row">
@@ -910,13 +910,12 @@
 				                </button>
 			    	        </div>
 						  	<form id="form_genera_ot">
-				      		    <div class="modal-body">
+				      		    <div class="modal-body ui-front">
 				      		        <div class="row">
 										<div class="col-lg-12">
-						                  	<div class="form-group">
+						                  	<div class="form-group ui-widget">
 						                   		<label for="got_ot_origen" class="col-form-label form-control-sm">ORIGEN</label>
-						                   		<select class="form-control form-control-sm" id="got_ot_origen">
-												</select>
+												<input type="text" class="form-control form-control-sm" id="got_ot_origen">
 				  		                	</div>
 			      		            	</div>
 			      		    	    </div>

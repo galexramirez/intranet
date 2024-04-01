@@ -14,6 +14,7 @@ $(document).ready(function(){
     ///:: BOTON NUEVO :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
     $(document).on("click", ".btn_agregar_ot", function(){
         let validar_novedades = '';
+        let array_ot_origen = [];
         validar_novedades = f_validar_novedades();
         if(validar_novedades!==""){
             Swal.fire({
@@ -31,8 +32,14 @@ $(document).ready(function(){
             got_ot_origen = "";
             got_proveedor = "";
     
-            select_got = f_select_combo("manto_ot_origen","NO","or_nombre","","`or_nombre`!='' AND `or_tipo_ot`!=''","`or_nombre` ASC");
-            $("#got_ot_origen").html(select_got);
+            select_got = f_buscar_data("manto_ot_origen","or_nombre","`or_nombre`!='' AND `or_tipo_ot`!=''","`or_nombre` ASC",);
+            $.each(select_got,function(idx,obj){
+                array_ot_origen.push(obj.or_nombre);
+            });
+
+            $( "#got_ot_origen" ).autocomplete({
+                source: array_ot_origen
+            });
             
             select_got = f_select_combo("manto_proveedores","NO","prov_razonsocial","","`prov_estado`='ACTIVO'","`prov_razonsocial` ASC");
             $("#got_proveedor").html(select_got);

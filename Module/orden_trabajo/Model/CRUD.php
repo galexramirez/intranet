@@ -62,6 +62,18 @@ class CRUD
 		$this->conexion=null;
 	}
 
+	function buscar_data($nombre_tabla, $campo_buscar, $condicion_where)
+	{
+		$consulta = "SELECT `$nombre_tabla`.`$campo_buscar` FROM `$nombre_tabla` WHERE ".$condicion_where;
+
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();
+		
+		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+		return $data;   
+		$this->conexion=null;
+	}
+
 	function buscar_dato($nombre_tabla, $campo_buscar, $condicion_where)
 	{
 		$consulta = "SELECT `$nombre_tabla`.`$campo_buscar` FROM `$nombre_tabla` WHERE ".$condicion_where;
@@ -375,8 +387,9 @@ class CRUD
 							DATE_FORMAT(`manto_ot_horas_tecnicos`.`ht_hora_fin`,'%d-%m-%Y %H:%i') AS `hora_fin`,
 							DATE_FORMAT(TIMEDIFF(`manto_ot_horas_tecnicos`.`ht_hora_fin`,`manto_ot_horas_tecnicos`.`ht_hora_inicio`),'%H:%i') AS `total_horas`
 						FROM `manto_ot_horas_tecnicos`
-						WHERE `manto_ot_horas_tecnicos`.`ht_ot_id`='$ot_id' ";
-   
+						WHERE `manto_ot_horas_tecnicos`.`ht_cod_ot`='$ot_id' ";
+
+
 		$resultado 	= $this->conexion->prepare($consulta);
 		$resultado->execute();
 		$data		= $resultado->fetchAll(PDO::FETCH_ASSOC);
@@ -387,7 +400,7 @@ class CRUD
 
 	function crear_horas_tecnicos($ht_ot_id, $ht_tecnico_nombres, $ht_hora_inicio, $ht_hora_fin)
 	{
-		$consulta = " INSERT INTO `manto_ot_horas_tecnicos` (`ht_ot_id`, `ht_tecnico_nombres`, `ht_hora_inicio`, `ht_hora_fin`) VALUES ('$ht_ot_id', '$ht_tecnico_nombres', '$ht_hora_inicio', '$ht_hora_fin') ";
+		$consulta = " INSERT INTO `manto_ot_horas_tecnicos` (`ht_cod_ot`, `ht_tecnico_nombres`, `ht_hora_inicio`, `ht_hora_fin`) VALUES ('$ht_ot_id', '$ht_tecnico_nombres', '$ht_hora_inicio', '$ht_hora_fin') ";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();        
@@ -397,7 +410,7 @@ class CRUD
 
 	function eliminar_horas_tecnicos($ht_ot_id)
 	{
-		$consulta = " DELETE FROM `manto_ot_horas_tecnicos` WHERE `ht_ot_id`='$ht_ot_id' ";
+		$consulta = " DELETE FROM `manto_ot_horas_tecnicos` WHERE `ht_cod_ot`='$ht_ot_id' ";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();        
@@ -748,6 +761,18 @@ class CRUD
 		$nope_novedad_id = substr($nope_novedad_id,3,15);
 		
 		$consulta = " INSERT INTO `manto_novedad_operacion` (`nope_fecha`, `nope_usuario_genera`, `nope_tipo_novedad`, `nope_novedad_id`, `nope_componente`, `nope_posicion`, `nope_falla`, `nope_accion`) VALUES ('$nope_fecha', '$nope_usuario_genera', '$nope_tipo_novedad', '$nope_novedad_id', '$nope_componente', '$nope_posicion', '$nope_falla', '$nope_accion') ";
+
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();   
+
+	    $this->conexion=null;	
+	}  	
+
+	function eliminar_codificar_novedad($nope_tipo_novedad, $nope_novedad_id)
+	{
+		$nope_novedad_id = substr($nope_novedad_id,3,15);
+		
+		$consulta = " DELETE FROM `manto_novedad_operacion` WHERE `nope_tipo_novedad`='$nope_tipo_novedad' AND `nope_novedad_id`='$nope_novedad_id' ";
 
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();   

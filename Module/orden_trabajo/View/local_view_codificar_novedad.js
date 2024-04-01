@@ -4,7 +4,7 @@
 ///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///:: DECLARACION DE VARIABLES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-var select_codificar;
+var select_codificar, codificar_opcion;
 var nope_componente, nope_posicion, nope_falla, nope_accion;
 
 ///:: JS DOM CODIFICAR NOVEDADES :::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
@@ -124,6 +124,7 @@ $(document).ready(function(){
 
   ///:: BOTON NUEVO :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
   $(document).on("click", ".btn_codificar", function(){
+    codificar_opcion = "CODIFICAR";
     f_limpia_codificar_novedad();
     f_select_combos_codificar_novedad();
     $("#form_codificar_novedad").trigger("reset");
@@ -155,6 +156,40 @@ $(document).ready(function(){
   });
   ///:: FIN BOTON NUEVO :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
+  ///:: BOTON EDITAR :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+  $(document).on("click", ".btn_recodificar", function(){
+    codificar_opcion = "RECODIFICAR";
+    f_limpia_codificar_novedad();
+    f_select_combos_codificar_novedad();
+    $("#form_codificar_novedad").trigger("reset");
+    let nope_novedad_id = novedad_id.substring(3, 18);
+    let nope_descripcion = f_buscar_dato("OPE_Novedad","Nove_Descripcion","`Novedad_Id`='"+nope_novedad_id+"'");
+    
+    nope_componente=""; 
+    nope_posicion=""; 
+    nope_falla=""; 
+    nope_accion="";
+
+    $("#nope_posicion").prop("disabled",false);
+    $("#nope_falla").prop("disabled",false);
+    $("#nope_accion").prop("disabled",false);
+
+    $("#nope_componente").val(nope_componente); 
+    $("#nope_posicion").val(nope_posicion);
+    $("#nope_falla").val(nope_falla);
+    $("#nope_accion").val(nope_accion);
+    $("#nope_descripcion").val(nope_descripcion);
+
+    $(".modal-header").css( "background-color", "#17a2b8");
+    $(".modal-header").css( "color", "white" );
+    $(".modal-title").text( "Arborizar Novedad" );
+    $('#modal_crud_codificar_novedad').modal('show');
+    $('#modal_crud_codificar_novedad').modal('show');
+    $("#modal_crud_codificar_novedad").draggable({});
+
+  });
+  ///:: FIN BOTON NUEVO :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
+
   ///:: CREAR NOVEDAD REGULAR :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
   $('#form_codificar_novedad').submit(function(e){                         
     e.preventDefault(); //evita el comportambiento normal del submit, es decir, recarga total de la página
@@ -174,7 +209,8 @@ $(document).ready(function(){
       })
     }else{
       $("#btn_codificar_novedad").prop("disabled",true);
-      Accion = 'codificar_novedad';
+      if(codificar_opcion==="CODIFICAR"){ Accion = 'codificar_novedad'; }
+      if(codificar_opcion==="RECODIFICAR"){ Accion = 'recodificar_novedad'; }
       $.ajax({
           url         : "Ajax.php",
           type        : "POST",

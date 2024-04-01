@@ -420,7 +420,7 @@ class CRUD
 
 	function descargar_vales($FechaInicioVales,$FechaTerminoVales)
 	{
-		$consulta = "SELECT 
+		$consulta = "	SELECT 
 							`manto_vales`.`cod_vale`, 
 							`manto_vales`.`va_estado`, 
 							`manto_vales`.`va_ot`, 
