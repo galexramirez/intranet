@@ -245,25 +245,34 @@ $("#btnGuardarOTPrv").on("click",function(){
               url: "Ajax.php",
               type: "POST",
               datatype:"json",
-              async: false,
+              async: true,
+              //await: true,
               data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,cod_otpv:cod_otpv,otpv_cgm_cierra:otpv_cgm_cierra, otpv_tecnico:otpv_tecnico, otpv_inicio:otpv_inicio, otpv_fin:otpv_fin, otpv_kmrealiza:otpv_kmrealiza, otpv_hmotor:otpv_hmotor, otpv_componente:otpv_componente, otpv_obs_as:otpv_obs_as, otpv_obs_cgm:otpv_obs_cgm, otpv_obs_cierre_ad:otpv_obs_cierre_ad, otpv_obs_cierre_ad2:otpv_obs_cierre_ad2, otpv_obs_km:otpv_obs_km, otpv_estado:selectotpv_estado, otpv_turno:otpv_turno, otpv_date_prog:otpv_date_prog, otpv_bus:otpv_bus, otpv_fecuencia:otpv_fecuencia, otpv_descripcion:otpv_descripcion, otpv_asociado:otpv_asociado },
               success: function(data){
+                if(data.length>0){
+                  Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: data
+                  })
+                }else{
+                  Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'El registro ha sido grabado.',
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
+                  otprv_observadas = f_otprv_observadas();
+                  $("#otprv_alerta").html(otprv_observadas);        
+                  $("#formProcesarOTPrv").hide();
+                  cod_otpv = "";
+                  $("#cod_otpv").val(cod_otpv);
+                  $("#cod_otpv").focus();        
+                }
                 $("#bntGuardarOTPrv").prop("disabled",false);
               }
             });
-            Swal.fire({
-              position: 'center',
-              icon: 'success',
-              title: 'El registro ha sido grabado.',
-              showConfirmButton: false,
-              timer: 1500
-            })
-            otprv_observadas = f_otprv_observadas();
-            $("#otprv_alerta").html(otprv_observadas);        
-            $("#formProcesarOTPrv").hide();
-            cod_otpv = "";
-            $("#cod_otpv").val(cod_otpv);
-            $("#cod_otpv").focus();
          }
         });
       }else{
@@ -277,20 +286,28 @@ $("#btnGuardarOTPrv").on("click",function(){
           async: false,
           data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,cod_otpv:cod_otpv,otpv_cgm_cierra:otpv_cgm_cierra, otpv_tecnico:otpv_tecnico, otpv_inicio:otpv_inicio, otpv_fin:otpv_fin, otpv_kmrealiza:otpv_kmrealiza, otpv_hmotor:otpv_hmotor, otpv_componente:otpv_componente, otpv_obs_as:otpv_obs_as, otpv_obs_cgm:otpv_obs_cgm, otpv_obs_cierre_ad:otpv_obs_cierre_ad, otpv_obs_cierre_ad2:otpv_obs_cierre_ad2, otpv_obs_km:otpv_obs_km, otpv_estado:selectotpv_estado, otpv_turno:otpv_turno, otpv_date_prog:otpv_date_prog, otpv_bus:otpv_bus, otpv_fecuencia:otpv_fecuencia, otpv_descripcion:otpv_descripcion, otpv_asociado:otpv_asociado },    
           success: function(data){
+            if(data.length>0){
+              Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: data
+              })
+            }else{
+              Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'El registro ha sido grabado.',
+                showConfirmButton: false,
+                timer: 1500
+              })      
+              $("#formProcesarOTPrv").hide();
+              cod_otpv = "";
+              $("#cod_otpv").val(cod_otpv);
+              $("#cod_otpv").focus();      
+            }
             $("#bntGuardarOTPrv").prop("disabled",false);
           }
         });
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: 'El registro ha sido grabado.',
-          showConfirmButton: false,
-          timer: 1500
-        })      
-        $("#formProcesarOTPrv").hide();
-        cod_otpv = "";
-        $("#cod_otpv").val(cod_otpv);
-        $("#cod_otpv").focus();
       }
     }else{
       tmsg = "";
@@ -333,22 +350,30 @@ $("#btnGuardarOTPrv").on("click",function(){
           async: false,
           data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,cod_otpv:cod_otpv,otpv_cgm_cierra:otpv_cgm_cierra, otpv_tecnico:otpv_tecnico, otpv_inicio:otpv_inicio, otpv_fin:otpv_fin, otpv_kmrealiza:otpv_kmrealiza, otpv_hmotor:otpv_hmotor, otpv_componente:otpv_componente, otpv_obs_as:otpv_obs_as, otpv_obs_cgm:otpv_obs_cgm, otpv_obs_cierre_ad:otpv_obs_cierre_ad, otpv_obs_cierre_ad2:otpv_obs_cierre_ad2, otpv_obs_km:otpv_obs_km, otpv_estado:selectotpv_estado, otpv_turno:otpv_turno, otpv_date_prog:otpv_date_prog, otpv_bus:otpv_bus, otpv_fecuencia:otpv_fecuencia, otpv_descripcion:otpv_descripcion, otpv_asociado:otpv_asociado },    
           success: function(data){
+            if(data.length>0){
+              Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: data
+              })
+            }else{
+              Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'El registro ha sido grabado.',
+                showConfirmButton: false,
+                timer: 1500
+              })
+              otprv_observadas = f_otprv_observadas();
+              $("#otprv_alerta").html(otprv_observadas);          
+              $("#formProcesarOTPrv").hide();
+              cod_otpv = "";
+              $("#cod_otpv").val(cod_otpv);
+              $("#cod_otpv").focus();      
+            }
             $("#bntGuardarOTPrv").prop("disabled",false);
           }
         });
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: 'El registro ha sido grabado.',
-          showConfirmButton: false,
-          timer: 1500
-        })
-        otprv_observadas = f_otprv_observadas();
-        $("#otprv_alerta").html(otprv_observadas);          
-        $("#formProcesarOTPrv").hide();
-        cod_otpv = "";
-        $("#cod_otpv").val(cod_otpv);
-        $("#cod_otpv").focus();
      }
     });
   }

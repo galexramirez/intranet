@@ -238,7 +238,8 @@ class CRUD
 
 	function EditarOTPrv($cod_otpv, $otpv_cgm_cierra, $otpv_tecnico, $otpv_inicio, $otpv_fin, $otpv_kmrealiza, $otpv_hmotor, $otpv_componente, $otpv_obs_as, $otpv_obs_cgm,  $otpv_obs_cierre_ad, $otpv_obs_cierre_ad2, $otpv_obs_km, $otpv_estado, $otpv_turno, $otpv_date_prog, $otpv_bus, $otpv_fecuencia, $otpv_descripcion, $otpv_asociado)
 	{
-        $otpv_cierra_ad = $_SESSION['USUARIO_ID'];
+        $error_msg = [];
+		$otpv_cierra_ad = $_SESSION['USUARIO_ID'];
 		$nombre_cierra_adm = $_SESSION['Usua_NombreCorto'];
 		$otpv_date_cierra_ad = date("Y-m-d H:i:s");
 
@@ -250,11 +251,12 @@ class CRUD
 
 		$consulta = "UPDATE `manto_otprv` SET `otpv_cgm_cierra` = IF('$otpv_cgm_cierra' = '', NULL, '$otpv_cgm_cierra'), `otpv_tecnico` = '$otpv_tecnico', `otpv_inicio` = IF('$otpv_inicio' = '', NULL, '$otpv_inicio'), `otpv_fin` = IF('$otpv_fin' = '', NULL, '$otpv_fin'), `otpv_kmrealiza` = '$otpv_kmrealiza', `otpv_hmotor` = '$otpv_hmotor', `otpv_componente` = '$otpv_componente', `otpv_obs_as` = '$otpv_obs_as', `otpv_obs_cgm` = '$otpv_obs_cgm', `otpv_cierra_ad` = '$otpv_cierra_ad', `otpv_date_cierra_ad` = '$otpv_date_cierra_ad', `otpv_obs_cierre_ad` = '$otpv_obs_cierre_ad', `otpv_obs_km` = '$otpv_obs_km', `otpv_estado` = '$otpv_estado', `otpv_turno` = '$otpv_turno', `otpv_date_prog` = '$otpv_date_prog', `otpv_bus` = '$otpv_bus', `otpv_fecuencia` = '$otpv_fecuencia', `otpv_descripcion` = '$otpv_descripcion', `otpv_asociado` = '$otpv_asociado' WHERE `cod_otpv` = '$cod_otpv'";
 
+		$resultado = $this->conexion->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();        
-		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
-		print json_encode($data, JSON_UNESCAPED_UNICODE);//envio el array final el formato json a AJAX
-
+		
+		$error_msg = $resultado->errorInfo();
+		return $error_msg;
 		$this->conexion=null;
 	}
 

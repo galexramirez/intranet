@@ -284,14 +284,18 @@ class Logico
         $CampoBD = "roles_nombrecorto";
         MModel('OTPreventivas','CRUD');
         $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$otpv_cgm_cierra);
-        foreach ($Respuesta as $row) {
+        $Respuesta1=$InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$otpv_cgm_cierra);
+        foreach ($Respuesta1 as $row) {
             $otpv_cgm_cierra = $row['roles_dni'];
         }
 
         MModel('OTPreventivas','CRUD');
-        $InstanciaAjax= new CRUD();
-        $Respuesta=$InstanciaAjax->EditarOTPrv($cod_otpv, $otpv_cgm_cierra, $otpv_tecnico, $otpv_inicio, $otpv_fin, $otpv_kmrealiza, $otpv_hmotor, $otpv_componente, $otpv_obs_as, $otpv_obs_cgm, $otpv_obs_cierre_ad, $otpv_obs_cierre_ad2, $otpv_obs_km, $otpv_estado, $otpv_turno, $otpv_date_prog, $otpv_bus, $otpv_fecuencia, $otpv_descripcion, $otpv_asociado);
+        $InstanciaAjax = new CRUD();
+        $Respuesta = $InstanciaAjax->EditarOTPrv($cod_otpv, $otpv_cgm_cierra, $otpv_tecnico, $otpv_inicio, $otpv_fin, $otpv_kmrealiza, $otpv_hmotor, $otpv_componente, $otpv_obs_as, $otpv_obs_cgm, $otpv_obs_cierre_ad, $otpv_obs_cierre_ad2, $otpv_obs_km, $otpv_estado, $otpv_turno, $otpv_date_prog, $otpv_bus, $otpv_fecuencia, $otpv_descripcion, $otpv_asociado);
+
+        if(count($Respuesta)>0){
+            echo ($Respuesta[2]);
+        }
     }
 
     public function CalculoFecha($inicio,$calculo)
