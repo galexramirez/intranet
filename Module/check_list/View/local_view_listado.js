@@ -121,7 +121,7 @@ $(document).ready(function(){
         "dataSrc"   : ""
       },
       "columns"     : columnas_tabla,
-      "order"       : [[1, 'desc']]
+      "order"       : [[0, 'desc']]
     });
   });
   ///:: FIN EVENTO BOTON BUSCAR CHECK LIST DE FLOTA :::::::::::::::::::::::::::::::::::::::///
@@ -129,7 +129,7 @@ $(document).ready(function(){
   ///:: EVENTO BOTON NUEVO CHECK LIST DE FLOTA ::::::::::::::::::::::::::::::::::::::::::::///
   $(document).on("click", ".btn_editar_check_list", function(){
     fila_check_list = $(this).closest('tr'); 
-    check_list_id = fila_check_list.find('td:eq(1)').text();
+    check_list_id = fila_check_list.find('td:eq(0)').text();
     $("#check_list_id").val(check_list_id);
     $('#nav-profile-tab').tab('show');
     div_show = f_MostrarDiv("form_seleccion_check_list_registro","btn_seleccion_check_list_registro","");
@@ -158,14 +158,14 @@ function f_color_filas_check_list(row, data){
   
   // Columna
   if(data.chl_estado == 'ABIERTO') {
-    $("td:eq(2)",row).css({
+    $("td:eq(1)",row).css({
       "color":color_rojo,
     });
   }
 
   // Columna 
   if(data.chl_estado == 'CERRADO') {
-    $("td:eq(2)",row).css({
+    $("td:eq(1)",row).css({
       "color":color_verde,
     });
   }
