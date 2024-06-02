@@ -518,18 +518,16 @@ class Logico
 
     function crear_novedad_carga($input_file_name, $anio)
 	{
-		require_once 'Services/Composer/vendor/autoload.php';
+        require_once 'Services/Composer/vendor/autoload.php';
 		$inputFileType = \PhpOffice\PhpSpreadsheet\IOFactory::identify($input_file_name);
         $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($inputFileType);
         $spreadsheet = $reader->load($input_file_name);
 		$worksheet = $spreadsheet->getActiveSheet();
 		$highestRow = $worksheet->getHighestRow();
-
         $noco_fecha = date('Y-m-d H:i:s');
         $noco_codigo_carga = date('Ymd-'.substr((string)microtime(), 1, 8));
         $noco_codigo_carga = str_replace(".", "", $noco_codigo_carga);
         $noco_usuario_id = $_SESSION['USUARIO_ID'];
-
         for ($row = 2; $row <= $highestRow; $row++) {
             $noco_novedad_id = date('Ymd-'.substr((string)microtime(), 1, 8));
             $noco_novedad_id = str_replace(".", "", $noco_novedad_id);    
