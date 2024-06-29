@@ -1,6 +1,5 @@
 <!-- 2.2 CONTENIDO DE MODULO -->
 <div  id="contenido" class="my-contenido-con-sidebar  p-0">
-		
 	<nav class="navbar navbar-light bg-light p-0 navbar-expand topbar static-top">
 		<div class="container-fluid">
 			<div class="row justify-content-between w-100 align-items-center">
@@ -34,7 +33,7 @@
 
 		<nav>
 	 		<div class="nav nav-tabs" id="nav-tab-Accidentes" role="tablist">
-				<!-- PHP Accesos Creacion Tabs -->
+				<!-- PHP Accesos Creacion Tabs --> joel
 			</div>
 		</nav>
 
