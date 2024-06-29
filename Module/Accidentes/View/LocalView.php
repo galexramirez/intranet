@@ -454,7 +454,7 @@
 														</div>
 													</div>
 													<div class="col-lg-2">
-														<input type="text" class="form-control form-control-sm text-uppercase" id="Acci_DocOtroDescripcion" disabled>
+														<input type="text" class="form-control form-control-sm text-uppercase" id="Acci_DocOtroDescripcion" disabled maxlength="50">
 			      		            				</div>
 												</div>
 											</div>

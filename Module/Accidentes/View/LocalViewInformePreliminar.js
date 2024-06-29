@@ -784,7 +784,7 @@ function f_ValidarInformePreliminar(pAcci_TipoAccidente, pAcci_ClaseAccidente, p
     rptaValidarInformePreliminar = "invalido";
   }
 
-  if(pAcci_DocOtro == "SI" && pAcci_DocOtroDescripcion == ""){
+  if(pAcci_DocOtro == "SI" && pAcci_DocOtroDescripcion == "" && bpAcci_DocOtroDescripcion.length > 50 ){
     $("#Acci_DocOtroDescripcion").addClass("color-error");
     rptaValidarInformePreliminar = "invalido";
   }
@@ -914,12 +914,13 @@ function f_CargarVariablesInformePreliminar(p_data){
     Acci_HospitalAccidente                = obj.Acci_Hospital ;
     Acci_ComisariaAccidente               = obj.Acci_Comisaria ;
     Acci_HoraFinAtencion                  = obj.Acci_HoraFinAtencion ; // + campo
-    if(Acci_HoraFinAtencion!='00:00:00'){
+    console.log(obj.Acci_HoraFinAtencion);
+    if(Acci_HoraFinAtencion !== null){
       HoraFinAtencionAccidente              = Acci_HoraFinAtencion.substring(0,2) ;
       MinutoFinAtencionAccidente            = Acci_HoraFinAtencion.substring(3,5) ;  
     }
     Acci_HorasTrabajadas                  = obj.Acci_HorasTrabajadas ; // + campo
-    if(Acci_HorasTrabajadas != null){
+    if(Acci_HorasTrabajadas !== null){
       HoraTrabajadasAccidente   = Acci_HorasTrabajadas.substring(0,2) ;
       MinutoTrabajadosAccidente = Acci_HorasTrabajadas.substring(3,5) ;
     }
