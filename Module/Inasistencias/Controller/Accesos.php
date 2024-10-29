@@ -11,6 +11,7 @@ class Accesos
 			case "nav-tab-inasistencias":
 				$tabshtml = '<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Listado</a>';
 	    		$tabshtml .= '<a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Reporte Final</a>';
+				$tabshtml .= '<a class="nav-item nav-link" id="nav-marcacion-tab" data-toggle="tab" href="#nav-marcacion" role="tab" aria-controls="nav-marcacion" aria-selected="false">Marcaciones</a>';
 				MModel($this->Modulo, 'CRUD');
 				$InstanciaAjax= new CRUD();
 				$Respuesta=$InstanciaAjax->Permisos($this->Modulo,'nav-ajustes_inasistencias-tab');
@@ -92,6 +93,27 @@ class Accesos
 		   						</table> ';
             break;
 
+			case "tabla_marcacion":
+				$tablahtml = ' <table id="tabla_marcacion" class="table table-striped table-bordered table-condensed w-100">
+									<thead class="text-center">
+										<tr>
+											<th>ID</th>
+											<th>MAPA</th>
+											<th>ESTADO</th>
+											<th>FECHA</th>
+											<th>HORA</th>
+											<th>DNI</th>
+											<th>PILOTO</th>
+											<th>UBICACION</th>
+											<th>LATITUD</th>
+											<th>LONGITUD</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table> ';
+			break;
+
 			case "tablaTipoTablaInasistencias":
 				$tablahtml = ' <table id="tablaTipoTablaInasistencias" class="table table-striped table-bordered table-condensed w-100">
 									<thead class="text-center">
@@ -171,6 +193,21 @@ class Accesos
 				}
 									
 				$columnashtml .= '  ]';	
+            break;
+
+			case "tabla_marcacion":
+				$defaultContent_1 = "<div class='text-center'><div class='btn-group'><button title='Mapa' class='btn btn-link btn-sm btn_ubicacion'><i class='bi bi-geo-alt-fill'><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-geo-alt-fill' viewBox='0 0 16 16'><path d='M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6'/></svg></i></button></div></div>";
+				$columnashtml = '	[	{"data": "ope_marcaciones_id"},
+										{"defaultContent": "'.$defaultContent_1.'"},
+										{"data": "marc_estado"},
+										{"data": "marc_fecha_operacion"},
+										{"data": "marc_hora_operacion"},
+										{"data": "marc_dni"},
+										{"data": "marc_nombre_colaborador"},
+										{"data": "marc_lugar_exacto"},
+										{"data": "marc_latitud"},
+										{"data": "marc_longitud"}
+									]';
             break;
 
 			case "tablaTipoTablaInasistencias":
@@ -640,3 +677,4 @@ class Accesos
 
 
 }
+

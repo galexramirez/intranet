@@ -12,7 +12,8 @@ switch ($Accion)
 
       MController($Modulo,'Accesos');
       $InstanciaAjax= new Accesos();
-      $Respuesta=$InstanciaAjax->CreacionTabs($NombreTabs,$TipoTabs);
+      $InstanciaAjax->CreacionTabs($NombreTabs,$TipoTabs);
+      
    break;
 
    case 'CreacionTabla':

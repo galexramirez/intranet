@@ -1,0 +1,42 @@
+/* 1.0 Tabs */
+
+.nav-tabs .nav-link.active {
+    background-color:#F2F3F5 !important;
+    border-color: #dee2e6 #dee2e6 #F2F3F5;
+}
+
+.nav-tabs .nav-link {
+    border-color: #dee2e6 #dee2e6 #dee2e6;
+    background: #f8f9fa;
+    color: #bec3bf;
+
+}
+
+/* Cierre 1.0 Tabs */
+
+
+/* CSS DEL MODULO */
+
+.color-error {
+    background-color: #ffff006b !important;
+}
+
+.nav-link-alert {
+    color: #d1d3e2;
+}
+
+.nav-item .nav-link-alert {
+    position: relative;
+}
+
+.nav-item .nav-link-alert {
+/*    height: 4.375rem;*/
+    display: flex;
+    align-items: center;
+/*    padding: 0 0.75rem;*/
+}
+
+.drop-titulo{
+    font-size: 12px;
+    font-weight: 500;
+}

@@ -14,6 +14,11 @@ input{
     font-size: 11px
 }
 
+.filters_marcacion th{
+    padding:0px !important;
+    font-size: 11px
+}
+
 .filtersTipoTablaInasistencias th{
     padding:0px !important;
     font-size: 11px
@@ -116,6 +121,11 @@ table.dataTable tr.dt-hasChild td.dt-control:before {
     color:white;
 }
 
+#tabla_marcacion thead {
+    background: #2A4C38;
+    color:white;
+}
+
 #tablaTipoTablaInasistencias thead {
     background: #2A4C38;
     color:white;
@@ -128,6 +138,10 @@ table.dataTable tr.dt-hasChild td.dt-control:before {
 }
 
 #tabla_reporte_gdh {
+    font-size: 12px;
+}
+
+#tabla_marcacion {
     font-size: 12px;
 }
 

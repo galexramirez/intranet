@@ -46,6 +46,7 @@
                     <script src='Module/Inasistencias/View/local_view_listado.js' type='text/javascript'></script>
                     <script src='Module/Inasistencias/View/local_view_inasistencias.js' type='text/javascript'></script>
                     <script src='Module/Inasistencias/View/local_view_reporte_gdh.js' type='text/javascript'></script>
+                    <script src='Module/Inasistencias/View/local_view_marcacion.js' type='text/javascript'></script>
                     <script src='Module/Inasistencias/View/LocalViewTipoTablaInasistencias.js' type='text/javascript'></script> 
                     <script type='text/javascript' src='Services/Resources/cdn.datatables.net/fixedheader/3.1.9/js/dataTables.fixedHeader.min.js'></script>
                     <script type='text/javascript' src='Services/Resources/cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js'></script> 

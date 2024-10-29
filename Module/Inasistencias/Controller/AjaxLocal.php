@@ -270,6 +270,15 @@ switch ($Accion) {
       $Respuesta     = $InstanciaAjax->buscar_reporte_gdh($fecha_inicio, $fecha_termino);
    break;
 
+   case 'buscar_marcacion':
+      $fecha_inicio  = $_POST['fecha_inicio'];
+      $fecha_termino = $_POST['fecha_termino'];
+      
+      MModel($Modulo, 'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta     = $InstanciaAjax->buscar_marcacion($fecha_inicio, $fecha_termino);
+   break;
+
    case 'LeerTipoTablaInasistencias':
       MModel($Modulo,'CRUD');
       $InstanciaAjax= new CRUD();

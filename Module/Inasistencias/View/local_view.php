@@ -230,6 +230,44 @@
 			</div>
 
 			<!---------------------------------------------------------------------->
+			<!-------------------------- MARCACIONES ------------------------------->
+			<!---------------------------------------------------------------------->
+			<div class="tab-pane fade" id="nav-marcacion" role="tabpanel" aria-labelledby="nav-marcacion-tab">
+				<form id="formSeleccionMarcacion" class="row col-sm-12 container-fluid" enctype="multipart/form-data" action="" method="post">	    
+					<div class="row align-items-end pb-4 col-sm-12">
+						<div class="col-lg-1">
+			    		  	<div class="form-group">
+								<label for="marc_fecha_inicio" class="col-form-label form-control-sm">F.INICIO</label>
+								<input type="date" class="form-control form-control-sm" id="marc_fecha_inicio" placeholder="dd-mm-aaaa" >
+			    		  	</div>
+			    		</div>
+						<div class="col-lg-1">
+			    		  	<div class="form-group">
+								<label for="marc_fecha_termino" class="col-form-label form-control-sm">F.TERMINO</label>
+								<input type="date" class="form-control form-control-sm" id="marc_fecha_termino" placeholder="dd-mm-aaaa" >
+			    		  	</div>
+			    		</div>
+						<div class="col-lg-1">             	
+							<div class="form-group">
+								<button type="button" id="btn_buscar_marcacion" class="btn btn-secondary btn-sm btn_buscar_marcacion">Buscar</button>
+							</div>
+			       		</div> 
+					</div>
+				</form>
+
+			   	<div class="container-fluid caja">
+					<div class="row w-100 p-0 m-0">
+				       	<div class="col-lg-12">
+				       		<div class="table-responsive" id="div_tabla_marcacion">        
+				           		<!-- Creacion Tabla -->               
+				            </div>
+				        </div>
+				    </div>  
+				</div>
+
+			</div>
+
+			<!---------------------------------------------------------------------->
 			<!-- TAB AJUSTES DE INASISTENCIAS -------------------------------------->
 			<!---------------------------------------------------------------------->
 			<div class="tab-pane fade" id="nav-ajustes_inasistencias" role="tabpanel" aria-labelledby="nav-ajustes_inasistencias-tab">
