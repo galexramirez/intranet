@@ -1,10 +1,10 @@
 <?php
-
-$Accion = $_POST['Accion'];
-$Modulo = "comunicados";   
+// Accion declarada en el JS
+$Accion=$_POST['Accion'];   
+$Modulo = "informativos";
 
 switch ($Accion)
-{
+   {
    case 'CreacionTabs':
       $NombreTabs=$_POST['NombreTabs'];
       $TipoTabs=$_POST['TipoTabs'];
@@ -51,42 +51,23 @@ switch ($Accion)
    break;
 
    case 'MostrarDiv':
-      $NombreFormulario=$_POST['NombreFormulario'];
-      $NombreObjeto=$_POST['NombreObjeto'];
-      $Dato=$_POST['Dato'];
+      $NombreFormulario = $_POST['NombreFormulario'];
+      $NombreObjeto     = $_POST['NombreObjeto'];
+      $Dato             = $_POST['Dato'];
 
       MController($Modulo,'Accesos');
       $InstanciaAjax= new Accesos();
       $Respuesta=$InstanciaAjax->MostrarDiv($NombreFormulario,$NombreObjeto,$Dato);
    break;
 
-   case 'CalculoFecha':
-      $inicio= $_POST['inicio'];
-      $calculo = $_POST['calculo'];
-
-      MController($Modulo,'Logico');
-      $InstanciaAjax= new Logico();
-      $Respuesta=$InstanciaAjax->CalculoFecha($inicio,$calculo);
-   break;
-
-   case 'DiferenciaFecha':
-      $inicio = $_POST['inicio'];
-      $final = $_POST['final'];
-      $dias = $_POST['dias'];
-
-      MController($Modulo,'Logico');
-      $InstanciaAjax= new Logico();
-      $Respuesta=$InstanciaAjax->DiferenciaFecha($inicio,$final,$dias);
-   break;
-
    case 'BuscarDataBD':
-      $TablaBD = $_POST['TablaBD'];
-      $CampoBD = $_POST['CampoBD'];
+      $TablaBD    = $_POST['TablaBD'];
+      $CampoBD    = $_POST['CampoBD'];
       $DataBuscar = $_POST['DataBuscar'];
 
       MController($Modulo,'Logico');
-      $InstanciaAjax= new Logico();
-      $Respuesta=$InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$DataBuscar);
+      $InstanciaAjax = new Logico();
+      $Respuesta     = $InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$DataBuscar);
    break;
 
    case 'buscar_dato':
@@ -99,35 +80,38 @@ switch ($Accion)
       $Respuesta     = $InstanciaAjax->buscar_dato($nombre_tabla, $campo_buscar, $condicion_where);
    break;
 
-   case 'DocumentRoot':
-      MController($Modulo,'Logico');
-      $InstanciaAjax= new Logico();
-      $Respuesta=$InstanciaAjax->DocumentRoot();
+   case 'listado_informativo':
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax= new CRUD();
+      $Respuesta=$InstanciaAjax->Read();
    break;
 
-   case 'auto_completar':
-      $NombreTabla= $_POST['NombreTabla'];
-      $NombreCampo = $_POST['NombreCampo'];
-
+   case 'crear_informativo':
+      $comunicado_id = $_POST['comunicado_id'];
+      $comu_titulo = strtoupper($_POST['comu_titulo']);
+      $comu_fecha_inicio = $_POST['comu_fecha_inicio'];
+      $comu_fecha_fin = $_POST['comu_fecha_fin'];
+      $comu_proceso = $_POST['comu_proceso'];
+      $comu_destacado = $_POST['comu_destacado'];
+      $nombre_imagen = $_POST['nombre_imagen'];
+      if($nombre_imagen!=""){
+         $comu_archivo = $_FILES['comu_archivo']['tmp_name'];
+      }
       MController($Modulo,'Logico');
-      $InstanciaAjax= new Logico();
-      $Respuesta=$InstanciaAjax->auto_completar($NombreTabla,$NombreCampo);
+      $InstanciaAjax = new Logico();
+      $Respuesta     = $InstanciaAjax->Create($comunicado_id, $comu_titulo, $comu_fecha_inicio, $comu_fecha_fin, $comu_proceso, $comu_destacado, $nombre_imagen, $comu_archivo);
    break;
 
-   case 'usuario_id':
-      MController($Modulo,'Logico');
-      $InstanciaAjax= new Logico();
-      $Respuesta=$InstanciaAjax->usuario_id();
-   break;
-
-   case 'marcacion':
-      $lat = $_POST['lat'];
-      $long = $_POST['long'];
+   case 'borrar_informativo':
+      $comunicado_id = $_POST['comunicado_id'];
+      $comu_archivo = $_POST['comu_archivo'];
 
       MController($Modulo,'Logico');
-      $InstanciaAjax= new Logico();
-      $Respuesta=$InstanciaAjax->marcacion($lat, $long);
+      $InstanciaAjax = new Logico();
+      $Respuesta     = $InstanciaAjax->Delete($comunicado_id, $comu_archivo);
    break;
 
    default: header('Location: /inicio');
 }
+
+?>

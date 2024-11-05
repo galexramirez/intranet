@@ -97,15 +97,54 @@ class Accesos
 	{
 		$Mostrar_div = "";
 		switch ($NombreFormulario) {
-			case "desempeno_piloto":
+			case "comunicados":
 				switch ($NombreObjeto) {
-					case "content":
+					case "carouselComunicados":
 						switch ($Dato) {
-							case "vacio":
-								$Mostrar_div = '';
+							case "ACTIVO":
+								$li="";
+								$item="";
+								$active=-1;
+								MModel($this->Modulo, 'CRUD');
+								$InstanciaAjax	= new CRUD();
+								$Respuesta	= $InstanciaAjax->comunicados_activos();
+								foreach ($Respuesta as $row){
+									$active++;
+									if($active===0){
+										$li = '<li data-target="#carouselComunicados" data-slide-to="'.$active.'" class="active"></li>';
+										$item ='<div class="carousel-item active">
+													<a href="../../../Services/image/comunicados/'.$row['Comu_Archivo'].'" target="_blank">
+														<img src="../../../Services/image/comunicados/'.$row['Comu_Archivo'].'" class="d-block w-100" alt="'.$row['Comu_Titulo'].'" width="600px" height="500px">
+													</a>
+												</div>';
+									}else{
+										$li .= '<li data-target="#carouselComunicados" data-slide-to="'.$active.'"></li>';
+										$item .='<div class="carousel-item">
+													<a href="../../../Services/image/comunicados/'.$row['Comu_Archivo'].'" target="_blank">
+														<img src="../../../Services/image/comunicados/'.$row['Comu_Archivo'].'" class="d-block w-100" alt="'.$row['Comu_Titulo'].'" width="600px" height="500px">
+													</a>
+												</div>';
+									}
+								}
+								$Mostrar_div = '<ol class="carousel-indicators">
+													'.$li.'					
+												</ol>
+												<div class="carousel-inner">
+													'.$item.'
+												</div>
+												<a class="carousel-control-prev" role="button" href="#carouselComunicados" data-slide="prev">
+													<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+													<span class="sr-only">Previo</span>
+												</a>
+												<a class="carousel-control-next" role="button" href="#carouselComunicados" data-slide="next">
+													<span class="carousel-control-next-icon" aria-hidden="true"></span>
+													<span class="sr-only">Siguiente</span>
+													</button>
+												</a>';
+
 								break;
 
-							case "cargar":
+							case "":
 								$Mostrar_div = '';
 								break;
 						}

@@ -34,7 +34,7 @@
 	<section class="container-fluid py-2">
 		<form id="form_comunicados" class="row col-sm-12 container-fluid" enctype="multipart/form-data" action="" method="post">
 			<div class="row align-items-end justify-content-center pb-4 col-sm-12">
-				<div class="col-lg-3">
+				<div class="col-sm-3">
 					<div class="form-group" id="btn_form_comunicados" name="btn_form_comunicados">
 
 					</div>
@@ -43,32 +43,32 @@
 		</form>
 	</section>
 
-	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-		<ol class="carousel-indicators">
-			<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-			<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-			<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-		</ol>
-		<div class="carousel-inner">
-			<div class="carousel-item active">
-				<img src="..." class="d-block w-100" alt="...">
-			</div>
-			<div class="carousel-item">
-				<img src="..." class="d-block w-100" alt="...">
-			</div>
-			<div class="carousel-item">
-				<img src="..." class="d-block w-100" alt="...">
+	<section class="container-fluid" id="section_carousel">
+		<div class="row justify-content-center">
+			<div class="col-sm-3">
+				<div id="carouselComunicados" class="carousel slide" data-ride="carousel">
+					
+				</div>
 			</div>
 		</div>
-		<button class="carousel-control-prev" type="button" data-target="#carouselExampleIndicators" data-slide="prev">
-			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-			<span class="sr-only">Previous</span>
-		</button>
-		<button class="carousel-control-next" type="button" data-target="#carouselExampleIndicators" data-slide="next">
-			<span class="carousel-control-next-icon" aria-hidden="true"></span>
-			<span class="sr-only">Next</span>
-		</button>
+	</section>
+
+	<!-- MODAL CRUD MARCACION EN HTML -->
+	<div class='row modal fade' id='modal_marcacion' tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true'>
+		<div class='modal-dialog modal-sm' role='document'>
+			<div class='modal-content'>
+				<div class='modal-header'>
+					<h5 class='modal-title' id='modal_title_marcacion'></h5>
+					<button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+						<span aria-hidden='true'>&times;</span>
+					</button>
+				</div>
+				<div class='modal-body' id='modal_body_marcacion'>
+				</div>
+			</div>
+		</div>
 	</div>
+	<!-- FIN MODAL CRUD MARCACION EN HTML -->
 
 	<!-- MODAL CRUD VER AYUDA EN HTML -->
 	<div class="row modal fade" id="modal_crud_ver_ayuda" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

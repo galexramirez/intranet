@@ -86,4 +86,29 @@ class CRUD
 		$this->conexion = null;
 	}
 
+	///::: Registro de Marcacion :::///
+	function marcacion($lat, $long, $marc_dni, $marc_nombre_colaborador, $marc_codigo_colaborador, $marc_fecha_operacion, $marc_hora_operacion, $marc_lugar_exacto, $marc_estado)
+	{
+		$consulta = "INSERT INTO `BDLIMABUS`.`ope_marcaciones` (`marc_dni`, `marc_codigo_colaborador`, `marc_nombre_colaborador`, `marc_fecha_operacion`, `marc_hora_operacion`, `marc_lugar_exacto`, `marc_latitud`, `marc_longitud`, `marc_estado`) VALUES('$marc_dni', '$marc_codigo_colaborador', '$marc_nombre_colaborador', '$marc_fecha_operacion', '$marc_hora_operacion', '$marc_lugar_exacto', '$lat', '$long', '$marc_estado')";
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();
+		$data = $resultado->fetchAll(PDO::FETCH_ASSOC);
+
+		return $data;
+		$this->conexion = null;
+	}
+
+	function comunicados_activos()
+	{
+		$fecha_actual = date("Y-m-d");
+		$comu_estado = "ACTIVO";
+		$consulta = "SELECT * FROM `BDLIMABUS`.`comunicado` WHERE `Comu_Estado` = '$comu_estado' AND `Comu_FechaInicio` <= '$fecha_actual' AND `Comu_FechaFin` >= '$fecha_actual' ORDER BY `Comu_Destacado`, `Comu_FechaInicio`";
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();
+		$data = $resultado->fetchAll(PDO::FETCH_ASSOC);
+
+		return $data;
+		$this->conexion = null;
+	}
+
 }
