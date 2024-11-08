@@ -3,7 +3,7 @@ session_start();
 
 class Logico
 {
-	var $Modulo = "comunicados";
+	var $Modulo = "pilotos";
 
     function Contenido($NombreDeModuloVista)
 	{
@@ -209,5 +209,35 @@ class Logico
                 <span class="item" >Estado :    </span>' . $marc_estado . '<br>';
         echo $html;
     }
+
+    public function borrar_publicacion($comunicado_id, $comu_archivo)
+    {
+		$rpta_delete = True;
+		$file_imagen = $_SERVER['DOCUMENT_ROOT']."/Services/image/comunicados/".$comu_archivo;
+		if(unlink($file_imagen)){
+			MModel($this->Modulo,'CRUD');
+			$InstanciaAjax  = new CRUD();
+			$Respuesta = $InstanciaAjax->borrar_publicacion($comunicado_id);
+	
+			print json_encode($Respuesta, JSON_UNESCAPED_UNICODE);	
+		}else{
+			$rpta_delete = False;
+		}
+		return $rpta_delete;
+    }
+
+	public function crear_publicacion($comunicado_id, $comu_titulo, $comu_fecha_inicio, $comu_fecha_fin, $comu_proceso, $comu_destacado, $nombre_imagen, $comu_archivo)
+	{
+		$comu_estado = "ACTIVO";
+		$imagen_nueva = $_SERVER['DOCUMENT_ROOT']."/Services/image/comunicados/".$nombre_imagen;
+		if(move_uploaded_file($comu_archivo, $imagen_nueva)){
+			MModel($this->Modulo,'CRUD');
+        	$InstanciaAjax  = new CRUD();
+        	$Respuesta = $InstanciaAjax->crear_publicacion($comu_titulo, $comu_fecha_inicio, $comu_fecha_fin, $comu_proceso, $comu_destacado, $nombre_imagen, $comu_estado);
+			print json_encode($Respuesta, JSON_UNESCAPED_UNICODE);
+		}else{
+			echo "err1";
+		}
+	}
 
 }

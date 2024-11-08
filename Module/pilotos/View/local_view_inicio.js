@@ -8,7 +8,7 @@ var MoS, NombreMoS, Accion, idioma_espanol, div_tabs, div_tablas, div_boton, div
 var lat, long, msg;
 mi_carpeta = f_DocumentRoot();
 MoS = 'Module';
-NombreMoS = 'comunicados';
+NombreMoS = 'pilotos';
 idioma_espanol = {
   "lengthMenu": "&nbsp&nbsp&nbsp&nbspMostrar _MENU_ registros",
   "zeroRecords": "No se encuentran resultados",
@@ -26,13 +26,15 @@ idioma_espanol = {
 };
 
 $(document).ready(function () {
-  div_show = f_MostrarDiv("contenido", "div_alertsDropdown_ayuda", NombreMoS);
-  $("#div_alertsDropdown_ayuda").html(div_show);
-
   window.addEventListener('load', function () {
     navigator.geolocation.getCurrentPosition(geoposOK, geoposKO);
   });
 
+  div_show = f_MostrarDiv("contenido", "div_alertsDropdown_ayuda", NombreMoS);
+  $("#div_alertsDropdown_ayuda").html(div_show);
+
+  div_tabs = f_CreacionTabs("nav-tab-comunicado","");
+  $("#div_nav-tab-comunicado").html(div_tabs);
 });
 
 ///:: FUNCIONES GENERALES PARA DESEMPEÑO DE PILOT0 ::::::::::::::::::::::::::::::::::::::::///

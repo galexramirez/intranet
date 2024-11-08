@@ -6,7 +6,7 @@
 ///:: INICIO DECLARACION DE VARIABLES :::::::::::::::::::::::::::::::::::::::::::::::::::::///
 var MoS, NombreMoS, Accion, idiomaEspanol, div_tabs, div_tablas, div_boton, div_show, columnastabla;
 MoS       ='Module';
-NombreMoS ='informativos';
+NombreMoS ='documentos_laborales';
 idiomaEspanol = {
     "lengthMenu"    : "&nbsp&nbsp&nbsp&nbspMostrar _MENU_ registros",
     "zeroRecords"   : "No se encuentran resultados",
@@ -28,6 +28,9 @@ idiomaEspanol = {
 $(document).ready(function(){
   div_show = f_MostrarDiv("contenido", "div_alertsDropdown_ayuda", NombreMoS);
   $("#div_alertsDropdown_ayuda").html(div_show);
+  div_tabs = f_CreacionTabs("nav-tab-documento-laboral","");
+  $("#div_nav-tab-documento-laboral").html(div_tabs);
+
 });
 ///:: TERMINO JS DOM OT MAESTRO UNO :::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 

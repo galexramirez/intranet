@@ -1,7 +1,7 @@
 <?php 
 // 1.0 DATOS A USARSE EN EL MODULO - MODIFICAR SI SE CREA NUEVO MODULO
-    $NombreDeModulo="informativos"; // Como figura en la BD
-    $NombreDeModuloVista="Informativos"; // Como se muestra la usuario
+    $NombreDeModulo="documentos_laborales"; // Como figura en la BD
+    $NombreDeModuloVista="Documentos Laborales"; // Como se muestra la usuario
 
 // 2.0 VERIFICA PERMISOS DEL USUARIO SOBRE EL MODULO
 
@@ -20,11 +20,12 @@
 
 
  // 3.0 RECURSOS PARA EL MODULO     
-    $InsertHead="   <link rel='stylesheet' href='Module/informativos/View/local_view.css' type='text/css' media='all'>
+    $InsertHead="   <link rel='stylesheet' href='Module/documentos_laborales/View/local_view.css' type='text/css' media='all'>
                     <link rel='stylesheet' type='text/css' href='Services/Resources/DataTables-10.25/datatables/datatables.min.css'> 
                     <link rel='stylesheet' type='text/css' href='Services/Resources/DataTables-10.25/datatables/DataTables-1.10.25/css/dataTables.bootstrap4.min.css'>
                     <link rel='stylesheet' type='text/css' href='Services/Resources/DataTables-10.25/datatables/Buttons-1.7.1/css/buttons.bootstrap4.min.css'>
-                    <link rel='stylesheet' href='https://pro.fontawesome.com/releases/v5.10.0/css/all.css' integrity='sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p' crossorigin='anonymous'/>  ";
+                    <link rel='stylesheet' href='https://pro.fontawesome.com/releases/v5.10.0/css/all.css' integrity='sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p' crossorigin='anonymous'/>  
+                    <link rel='stylesheet' href='Services/Resources/jquery-ui-1.12.1/jquery-ui.min.css'>";
 
     $InserFooter="  <script type='text/javascript' src='Services/Resources/DataTables-10.25/datatables/datatables.min.js'></script>
                     <script type='text/javascript' src='Services/Resources/DataTables-10.25/datatables/JSZip-2.5.0/jszip.min.js'></script>
@@ -36,8 +37,9 @@
                     <script type='text/javascript' src='Services/Resources/DataTables-10.25/datatables/Buttons-1.7.1/js/buttons.bootstrap4.min.js'></script>
                     <script type='text/javascript' src='Services/Resources/DataTables-10.25/datatables/Buttons-1.7.1/js/buttons.html5.min.js'></script>
                     <script type='text/javascript' src='Services/Resources/DataTables-10.25/datatables/Buttons-1.7.1/js/buttons.print.min.js'></script>
-                    <script src='Module/informativos/View/local_view_inicio.js' type='text/javascript'></script>
-                    <script src='Module/informativos/View/local_view_listado.js' type='text/javascript'></script>  ";
+                    <script src='Module/documentos_laborales/View/local_view_inicio.js' type='text/javascript'></script>
+                    <script src='Module/documentos_laborales/View/local_view_listado.js' type='text/javascript'></script>
+                    <script src='Services/Resources/jquery-ui-1.12.1/jquery-ui.min.js'></script>";
 
 // 4.0 CONTRUCCION DE LA VISTA
 
@@ -48,7 +50,7 @@
     $Respuesta=$Instancia2->VistaGeneral_A($InsertHead,$NombreDeModulo);  
     
     // VISTA DEL MODULO
-    MController('informativos','Logico');
+    MController('documentos_laborales','Logico');
     $InstanciaModelo = new Logico();     
     $Respuesta=$InstanciaModelo->Contenido($NombreDeModuloVista);
 

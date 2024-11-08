@@ -1,7 +1,7 @@
 <?php
 // Accion declarada en el JS
 $Accion=$_POST['Accion'];   
-$Modulo = "informativos";
+$Modulo = "documentos_laborales";
 
 switch ($Accion)
    {
@@ -78,37 +78,6 @@ switch ($Accion)
       MController($Modulo,'Logico');
       $InstanciaAjax = new Logico();
       $Respuesta     = $InstanciaAjax->buscar_dato($nombre_tabla, $campo_buscar, $condicion_where);
-   break;
-
-   case 'listado_informativo':
-      MModel($Modulo,'CRUD');
-      $InstanciaAjax= new CRUD();
-      $Respuesta=$InstanciaAjax->Read();
-   break;
-
-   case 'crear_informativo':
-      $comunicado_id = $_POST['comunicado_id'];
-      $comu_titulo = strtoupper($_POST['comu_titulo']);
-      $comu_fecha_inicio = $_POST['comu_fecha_inicio'];
-      $comu_fecha_fin = $_POST['comu_fecha_fin'];
-      $comu_proceso = $_POST['comu_proceso'];
-      $comu_destacado = $_POST['comu_destacado'];
-      $nombre_imagen = $_POST['nombre_imagen'];
-      if($nombre_imagen!=""){
-         $comu_archivo = $_FILES['comu_archivo']['tmp_name'];
-      }
-      MController($Modulo,'Logico');
-      $InstanciaAjax = new Logico();
-      $Respuesta     = $InstanciaAjax->Create($comunicado_id, $comu_titulo, $comu_fecha_inicio, $comu_fecha_fin, $comu_proceso, $comu_destacado, $nombre_imagen, $comu_archivo);
-   break;
-
-   case 'borrar_informativo':
-      $comunicado_id = $_POST['comunicado_id'];
-      $comu_archivo = $_POST['comu_archivo'];
-
-      MController($Modulo,'Logico');
-      $InstanciaAjax = new Logico();
-      $Respuesta     = $InstanciaAjax->Delete($comunicado_id, $comu_archivo);
    break;
 
    default: header('Location: /inicio');

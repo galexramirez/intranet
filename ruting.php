@@ -193,20 +193,12 @@ switch ($ruta) {
         MController('manual', 'Renderice');
         break;
 
-    case '/comunicados':
-        MController('comunicados', 'Renderice');
+    case '/pilotos':
+        MController('pilotos', 'Renderice');
         break;
     
-    case '/informativos':
-        MController('informativos', 'Renderice');
-        break;
-    
-    case '/novedades':
-        MController('novedades', 'Renderice');
-        break;
-    
-    case '/sig':
-        MController('sig', 'Renderice');
+    case '/documentos_laborales':
+        MController('documentos_laborales', 'Renderice');
         break;
 
     default:

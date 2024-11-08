@@ -1,7 +1,7 @@
 <?php
 
 $Accion = $_POST['Accion'];
-$Modulo = "comunicados";   
+$Modulo = "pilotos";   
 
 switch ($Accion)
 {
@@ -127,6 +127,37 @@ switch ($Accion)
       MController($Modulo,'Logico');
       $InstanciaAjax= new Logico();
       $Respuesta=$InstanciaAjax->marcacion($lat, $long);
+   break;
+
+   case 'listado_publicacion':
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax= new CRUD();
+      $Respuesta=$InstanciaAjax->listado_publicacion();
+   break;
+
+   case 'crear_publicacion':
+      $comunicado_id = $_POST['comunicado_id'];
+      $comu_titulo = strtoupper($_POST['comu_titulo']);
+      $comu_fecha_inicio = $_POST['comu_fecha_inicio'];
+      $comu_fecha_fin = $_POST['comu_fecha_fin'];
+      $comu_proceso = $_POST['comu_proceso'];
+      $comu_destacado = $_POST['comu_destacado'];
+      $nombre_imagen = $_POST['nombre_imagen'];
+      if($nombre_imagen!=""){
+         $comu_archivo = $_FILES['comu_archivo']['tmp_name'];
+      }
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta     = $InstanciaAjax->crear_publicacion($comunicado_id, $comu_titulo, $comu_fecha_inicio, $comu_fecha_fin, $comu_proceso, $comu_destacado, $nombre_imagen, $comu_archivo);
+   break;
+
+   case 'borrar_publicacion':
+      $comunicado_id = $_POST['comunicado_id'];
+      $comu_archivo = $_POST['comu_archivo'];
+
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta     = $InstanciaAjax->borrar_publicacion($comunicado_id, $comu_archivo);
    break;
 
    default: header('Location: /inicio');
