@@ -29,7 +29,7 @@ $(document).ready(function () {
   window.addEventListener('load', function () {
     navigator.geolocation.getCurrentPosition(geoposOK, geoposKO);
   });
-
+    
   div_show = f_MostrarDiv("contenido", "div_alertsDropdown_ayuda", NombreMoS);
   $("#div_alertsDropdown_ayuda").html(div_show);
 
@@ -37,7 +37,7 @@ $(document).ready(function () {
   $("#div_nav-tab-comunicado").html(div_tabs);
 });
 
-///:: FUNCIONES GENERALES PARA DESEMPEÑO DE PILOT0 ::::::::::::::::::::::::::::::::::::::::///
+///:: FUNCIONES GENERALES PARA INTRANET DE PILOT0 ::::::::::::::::::::::::::::::::::::::::///
 
 function f_DocumentRoot() {
   let rptaMiCarpeta = '';
@@ -296,4 +296,4 @@ function geoposKO(err) {
   }
 }
 
-///:: TERMINO FUNCIONES GENERALES PARA COMUNICADOS PILOTOS  ::::::::::::::::::::::::::::::///
+///:: TERMINO FUNCIONES GENERALES PARA INTRANET PILOTOS  ::::::::::::::::::::::::::::::::::///

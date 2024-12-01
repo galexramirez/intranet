@@ -325,7 +325,6 @@ class CRUD
 						`marc_codigo_colaborador`, 
 						`marc_nombre_colaborador`, 
 						`marc_fecha_operacion`,
-						TIME_FORMAT(`marc_hora_operacion`,'%H:%i') AS `marc_hora_operacion`, 
 						`marc_lugar_exacto`, 
 						`marc_latitud`, 
 						`marc_longitud`, 
@@ -333,8 +332,8 @@ class CRUD
 					FROM 
 						`ope_marcaciones`
 					WHERE 
-						`marc_fecha_operacion`>='$fecha_inicio' AND 
-						`marc_fecha_operacion`<='$fecha_termino' 
+						DATE_FORMAT(`marc_fecha_operacion`,'%Y-%m-%d')>='$fecha_inicio' AND 
+						DATE_FORMAT(`marc_fecha_operacion`,'%Y-%m-%d')<='$fecha_termino' 
 					ORDER BY 
 						`ope_marcaciones_id` DESC";
 

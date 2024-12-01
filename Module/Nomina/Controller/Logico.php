@@ -264,4 +264,210 @@ class Logico
         print json_encode($nomina_array, JSON_UNESCAPED_UNICODE);
     }
 
+    public function generar_horarios_nomina($chn_fecha, $chn_operacion)
+    {
+        $rpta_ghn = "";
+        $chn_tipo_nomina = "PROGRAMACION";
+        $chn_estado = "GENERADO";
+        $chn_usuario_crea =  $_SESSION['USUARIO_ID'];
+        $chn_fecha_crea = date("Y-m-d H:i:s");
+        $periodo_id = "";
+        
+        MModel($this->Modulo,'CRUD');
+        $InstanciaAjax = new CRUD();
+        $Respuesta = $InstanciaAjax->buscar_dato("glo_periodo", "periodo_id", "`peri_fecha_inicio`<='".$chn_fecha."' AND `peri_fecha_termino`>='".$chn_fecha."'");
+        foreach($Respuesta as $row){
+            $periodo_id = $row['periodo_id'];
+        }
+
+        MModel($this->Modulo,'CRUD');
+        $InstanciaAjax = new CRUD();
+        $Respuesta = $InstanciaAjax->BuscarDataBD("glo_periodo", "periodo_id", $periodo_id);
+        foreach($Respuesta as $row){
+            $chn_anio = $row['peri_anio'];
+            $chn_periodo = $row['peri_mes'];
+        }
+ 
+        MModel($this->Modulo,'CRUD');
+        $InstanciaAjax = new CRUD();
+        $resp = $InstanciaAjax->generar_carga_horarios_nomina($chn_anio, $chn_periodo, $chn_tipo_nomina, $chn_fecha, $chn_operacion, $chn_usuario_crea, $chn_fecha_crea, $chn_estado);
+        if(substr($resp,0,1)!="E"){
+            $horarios_nomina_carga_id = $resp;
+        }
+        $rpta_ghn .= $this->error_pdo($resp);
+
+        MModel($this->Modulo,'CRUD');
+        $InstanciaAjax = new CRUD();
+        $Respuesta = $InstanciaAjax->leer_horarios_nomina_programacion($chn_fecha, $chn_operacion);      
+        $hn_dni = "";
+        $hn_codigo_colaborador = "";
+        $hn_nombre_colaborador = "";
+        $prog_hora_origen = "";
+        $prog_hora_destino = "";
+        $prog_lugar_destino = "";
+        $prog_servicio = "";
+        
+        foreach($Respuesta as $row){
+            $dni_fin = "";
+            if($hn_dni!=$row['Prog_Dni']){
+                if($hn_dni==""){
+                    $hn_dni=$row['Prog_Dni'];
+                    $hn_codigo_colaborador = $row['Prog_CodigoColaborador'];
+                    $hn_nombre_colaborador = $row['Prog_NombreColaborador'];
+                    $hn_tipo_marcacion = "INGRESO";
+                    $hn_hora = $row['Prog_HoraOrigen'];
+                    $hn_lugar = $row['Prog_LugarOrigen'];
+                    $hn_servicio = $row['Prog_Servicio'];
+                    $prog_hora_origen = $row['Prog_HoraOrigen'];
+                    $prog_hora_destino = $row['Prog_HoraDestino'];
+                    $prog_lugar_destino = $row['Prog_LugarDestino'];
+                    $prog_servicio = $row['Prog_Servicio'];
+                    MModel($this->Modulo,'CRUD');
+                    $InstanciaAjax = new CRUD();
+                    $resp = $InstanciaAjax->generar_horarios_nomina($horarios_nomina_carga_id, $chn_anio, $chn_periodo, $chn_tipo_nomina, $chn_operacion, $chn_fecha, $hn_dni, $hn_codigo_colaborador, $hn_nombre_colaborador, $hn_hora, $hn_servicio, $hn_lugar, $hn_tipo_marcacion, $this->fecha_hora($hn_hora,$chn_fecha));
+                    $rpta_ghn .= $this->error_pdo($resp);
+                }else{
+                    if($this->diff_horas($prog_hora_destino,"mayor",$prog_hora_origen,$chn_fecha)){
+                        $hn_tipo_marcacion = "SALIDA";
+                        $hn_hora = $prog_hora_destino;
+                        $hn_lugar = $prog_lugar_destino;
+                        $hn_servicio = $prog_servicio;
+                        MModel($this->Modulo,'CRUD');
+                        $InstanciaAjax = new CRUD();
+                        $resp = $InstanciaAjax->generar_horarios_nomina($horarios_nomina_carga_id, $chn_anio, $chn_periodo, $chn_tipo_nomina, $chn_operacion, $chn_fecha, $hn_dni, $hn_codigo_colaborador, $hn_nombre_colaborador, $hn_hora, $hn_servicio, $hn_lugar, $hn_tipo_marcacion, $this->fecha_hora($hn_hora,$chn_fecha));    
+                        $rpta_ghn .= $this->error_pdo($resp);
+                    }
+                    $hn_dni=$row['Prog_Dni'];
+                    $hn_codigo_colaborador = $row['Prog_CodigoColaborador'];
+                    $hn_nombre_colaborador = $row['Prog_NombreColaborador'];
+                    $hn_tipo_marcacion = "INGRESO";
+                    $hn_hora = $row['Prog_HoraOrigen'];
+                    $hn_lugar = $row['Prog_LugarOrigen'];
+                    $hn_servicio = $row['Prog_Servicio'];
+                    $prog_hora_origen = $row['Prog_HoraOrigen'];
+                    $prog_hora_destino = $row['Prog_HoraDestino'];
+                    $prog_lugar_destino = $row['Prog_LugarDestino'];
+                    $prog_servicio = $row['Prog_Servicio'];
+                    MModel($this->Modulo,'CRUD');
+                    $InstanciaAjax = new CRUD();
+                    $resp = $InstanciaAjax->generar_horarios_nomina($horarios_nomina_carga_id, $chn_anio, $chn_periodo, $chn_tipo_nomina, $chn_operacion, $chn_fecha, $hn_dni, $hn_codigo_colaborador, $hn_nombre_colaborador, $hn_hora, $hn_servicio, $hn_lugar, $hn_tipo_marcacion, $this->fecha_hora($hn_hora,$chn_fecha));    
+                    $rpta_ghn .= $this->error_pdo($resp);
+                    $dni_fin = "1";
+                }
+            }else{
+                if($row['Prog_HoraOrigen']==$prog_hora_destino){
+                    $prog_hora_origen = $row['Prog_HoraOrigen'];
+                    $prog_hora_destino = $row['Prog_HoraDestino'];
+                    $prog_lugar_destino = $row['Prog_LugarDestino'];
+                    $prog_servicio = $row['Prog_Servicio'];
+                }else{
+                    if($this->diff_horas($row['Prog_HoraOrigen'],"mayor",$prog_hora_destino,$chn_fecha)){
+                        $hn_codigo_colaborador = $row['Prog_CodigoColaborador'];
+                        $hn_nombre_colaborador = $row['Prog_NombreColaborador'];
+                        $hn_tipo_marcacion = "SALIDA";
+                        $hn_hora = $prog_hora_destino;
+                        $hn_lugar = $prog_lugar_destino;
+                        $hn_servicio = $prog_servicio;
+                        MModel($this->Modulo,'CRUD');
+                        $InstanciaAjax = new CRUD();
+                        $resp = $InstanciaAjax->generar_horarios_nomina($horarios_nomina_carga_id, $chn_anio, $chn_periodo, $chn_tipo_nomina, $chn_operacion, $chn_fecha, $hn_dni, $hn_codigo_colaborador, $hn_nombre_colaborador, $hn_hora, $hn_servicio, $hn_lugar, $hn_tipo_marcacion, $this->fecha_hora($hn_hora,$chn_fecha));
+                        $rpta_ghn .= $this->error_pdo($resp);
+                        $hn_tipo_marcacion = "INGRESO";
+                        $hn_hora = $row['Prog_HoraOrigen'];
+                        $hn_lugar = $row['Prog_LugarOrigen'];
+                        $hn_servicio = $row['Prog_Servicio'];
+                        MModel($this->Modulo,'CRUD');
+                        $InstanciaAjax = new CRUD();
+                        $resp = $InstanciaAjax->generar_horarios_nomina($horarios_nomina_carga_id, $chn_anio, $chn_periodo, $chn_tipo_nomina, $chn_operacion, $chn_fecha, $hn_dni, $hn_codigo_colaborador, $hn_nombre_colaborador, $hn_hora, $hn_servicio, $hn_lugar, $hn_tipo_marcacion, $this->fecha_hora($hn_hora,$chn_fecha));
+                        $rpta_ghn .= $this->error_pdo($resp);
+                        $prog_hora_origen = $row['Prog_HoraOrigen'];
+                        $prog_hora_destino = $row['Prog_HoraDestino'];
+                        $prog_lugar_destino = $row['Prog_LugarDestino'];
+                        $prog_servicio = $row['Prog_Servicio'];
+                    }
+                }
+            }
+        }
+        if($dni_fin=="1"){
+            $rhora = $this->diff_horas($prog_hora_destino,"mayor",$prog_hora_origen,$chn_fecha);
+        }else{
+            $rhora = $this->diff_horas($prog_hora_origen,"mayor",$prog_hora_destino,$chn_fecha);
+        }
+        if($rhora){
+            $hn_tipo_marcacion = "SALIDA";
+            $hn_hora = $prog_hora_destino;
+            $hn_lugar = $prog_lugar_destino;
+            $hn_servicio = $prog_servicio;
+            MModel($this->Modulo,'CRUD');
+            $InstanciaAjax = new CRUD();
+            $resp = $InstanciaAjax->generar_horarios_nomina($horarios_nomina_carga_id, $chn_anio, $chn_periodo, $chn_tipo_nomina, $chn_operacion, $chn_fecha, $hn_dni, $hn_codigo_colaborador, $hn_nombre_colaborador, $hn_hora, $hn_servicio, $hn_lugar, $hn_tipo_marcacion, $this->fecha_hora($hn_hora,$chn_fecha));
+            $rpta_ghn .= $this->error_pdo($resp);
+        }
+        if($rpta_ghn===""){
+            echo "Generación Exitosa ...!!!";
+        } else {
+            echo $rpta_ghn;
+        }
+        
+    }
+
+    private function error_pdo($error)
+    {
+        $rpta_error = "";
+        if(substr($error,0,1)=="E"){
+            $rpta_error = $error;
+        }
+        return $rpta_error;
+    } 
+
+    private function diff_horas($hora1, $cond, $hora2, $fecha)
+    {
+        $rpta_diff = False;
+        $harr = ["00","01","02","03","04","05","06","07","08"];
+        if(intval(substr($hora1,0,2))>=24){
+            $nhora1 = str_replace(intval(substr($hora1,0,2)),$harr[intval(substr($hora1,0,2))-24],$hora1);
+            $nhora1 = date("Y-m-d",strtotime($fecha."+ 1 days"))." ".$nhora1;
+            if(intval(substr($hora2,0,2))>=24){
+                $nhora2 = str_replace(intval(substr($hora2,0,2)),$harr[intval(substr($hora2,0,2))-24],$hora2);
+                $nhora2 = date("Y-m-d",strtotime($fecha."+ 1 days"))." ".$nhora2;
+            }else{
+                $nhora2 = $fecha." ".$hora2;
+            }
+        }else{
+            $nhora1 = $hora1;
+            if(intval(substr($hora2,0,2))>=24){
+                $nhora2 = str_replace(intval(substr($hora2,0,2)),$harr[intval(substr($hora2,0,2))-24],$hora2);
+                $nhora2 = date("Y-m-d",strtotime($fecha."+ 1 days"))." ".$nhora2;
+                $nhora1 = $fecha." ".$hora1;
+            }else{
+                $nhora2 = $hora2;
+            }
+        }
+        $hora_i = new DateTime($nhora1);
+        $hora_f = new DateTime($nhora2);
+        if($cond=="mayor"){
+            if($hora_i > $hora_f){
+                $rpta_diff = True;
+            }
+        }elseif($cond=="menor"){
+            if($hora_i < $hora_f){
+                $rpta_diff = True;
+            }
+        }
+        return $rpta_diff;
+    }
+
+    private function fecha_hora($hora, $fecha)
+    {
+        $rpta_fecha_hora = "";
+        $harr = ["00","01","02","03","04","05","06","07","08"];
+        if(intval(substr($hora,0,2))>=24){
+            $nhora1 = str_replace(intval(substr($hora,0,2)),$harr[intval(substr($hora,0,2))-24],$hora);
+            $rpta_fecha_hora = date("Y-m-d",strtotime($fecha."+ 1 days"))." ".$nhora1;
+        }else{
+            $rpta_fecha_hora = $fecha." ".$hora;
+        }
+        return $rpta_fecha_hora;
+    }
+
 }

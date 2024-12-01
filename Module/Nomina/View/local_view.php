@@ -197,6 +197,123 @@
 
 			</div>
 
+			<!--------------------------------------------------------------------------->
+	  		<!-- TAB GENERAR HORARIOS NOMINA -------------------------------------------->
+			<!--------------------------------------------------------------------------->
+			<div class="tab-pane fade" id="nav-carga_horarios_nomina" role="tabpanel" aria-labelledby="nav-carga_horarios_nomina-tab">
+				<section class="container-fluid py-3">
+					<form id="form_seleccion_carga_horarios_nomina" class="row col-sm-12 container-fluid" enctype="multipart/form-data" action="" method="post">	    
+						<div class="row align-items-end pb-4 col-sm-12">
+							<div class="col-lg-1">
+					        	<div class="form-group">
+									<label for="anio_carga_horarios_nomina" class="col-form-label form-control-sm">AÑO</label>
+									<select name="anio_carga_horarios_nomina" class="form-control form-control-sm" id="anio_carga_horarios_nomina">
+							    	</select>
+						       	</div>
+			        		</div>
+							<div class="col-lg-2">
+								<div class="form-group">
+									<button type="button" id="btn_buscar_carga_horarios_nomina" class="btn btn-secondary btn-sm btn_buscar_carga_horarios_nomina">Buscar</button>
+									<button type="button" id="btn_agregar_carga_horarios_nomina" class="btn btn-secondary btn-sm btn_agregar_carga_horarios_nomina">+ Horarios</button>
+								</div>
+						    </div> 
+						</div>
+					</form>
+				</section>
+
+				<div class="row p-3">
+					<div class="col-auto m-0">
+						<div class="table-responsive" id="div_tabla_carga_horarios_nomina">
+
+						</div>
+    				</div>
+				</div>
+
+				<!--Modal para CRUD GENERAR NOMINA A JSON-->
+				<div class="row modal fade" id="modal_crud_generar_horarios_nomina" tabindex="-1" role="dialog" aria-labelledby="carga_horarios_nomina_ModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+	   
+							<div class="modal-header">
+								<h5 class="modal-title" id="carga_horarios_nomina_ModalLabel"></h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+	  
+			  				<form id="form_carga_horarios_nomina">    
+				  				<div class="modal-body">
+					  				<div class="row">
+									  <div class="col-lg-6">
+											<div class="form-group">
+												<label for="chn_fecha" class="col-form-label form-control-sm">FECHA</label>
+												<input type="date" class="form-control form-control-sm" id="chn_fecha" placeholder="dd/mm/aaaaa">
+											</div>
+										</div>
+										<div class="col-lg-6">
+							  				<div class="form-group">
+												<label for="chn_operacion" class="col-form-label form-control-sm">OPERACION</label>
+												<select class="form-control form-control-sm" id="chn_operacion">
+													<option value="TRONCAL">TRONCAL</option>
+													<option value="ALIMENTADOR">ALIMENTADOR</option>
+												</select>
+
+											</div>
+						  				</div>
+									</div>
+								</div>
+				  				<div class="modal-footer">
+					  				<button type="button" class="btn btn-light btn-sm" data-dismiss="modal">Cancelar</button>
+					  				<button type="submit" id="btn_generar_horarios_nomina" class="btn btn-dark btn-sm btn_generar_horarios_nomina">Generar</button>
+				  				</div>
+			  				</form>    
+						</div>
+					</div>
+				</div>  			
+
+
+			</div>
+
+			<!--------------------------------------------------------------------------->
+	  		<!-- TAB LISTADO HORARIOS NOMINA -------------------------------------------->
+			<!--------------------------------------------------------------------------->
+			<div class="tab-pane fade" id="nav-listado_horarios_nomina" role="tabpanel" aria-labelledby="nav-listado_horarios_nomina-tab">
+				<section class="container-fluid py-3">
+					<form id="form_listado_horarios_nomina" class="row col-sm-12 container-fluid" enctype="multipart/form-data" action="" method="post">	    
+						<div class="row align-items-end pb-4 col-sm-12">
+							<div class="col-lg-1">
+						      	<div class="form-group">
+									<label for="hn_fecha" class="col-form-label">FECHA</label>
+									<input type="date" class="form-control form-control-sm" id="hn_fecha" placeholder="aaaa-mm-dd" >
+						      	</div>
+						    </div>
+							<div class="col-lg-2">
+					        	<div class="form-group">
+									<label for="hn_operacion" class="col-form-label form-control-sm">OPERACION</label>
+									<select name="hn_operacion" class="form-control form-control-sm" id="hn_operacion">
+										<option value="TRONCAL">TRONCAL</option>
+										<option value="ALIMENTADOR">ALIMENTADOR</option>
+									</select>
+						       	</div>
+			        		</div>
+							<div class="col-lg-1">
+								<div class="form-group">
+									<button type="button" id="btn_buscar_horarios_nomina" class="btn btn-secondary btn-sm btn_buscar_horarios_nomina">Buscar</button>
+								</div>
+						    </div> 
+						</div>
+					</form>
+				</section>
+
+				<div class="row p-3">
+					<div class="col-auto m-0">
+						<div class="table-responsive" id="div_tabla_listado_horarios_nomina">
+
+						</div>
+    				</div>
+				</div>
+			</div>
+
 		</div>
 	
 	</div>

@@ -42,6 +42,14 @@ div.dt-buttons {
     font-size: 12px;
 }
 
+#tabla_carga_horarios_nomina{
+    font-size: 12px;
+}
+
+#tabla_listado_horarios_nomina{
+    font-size: 12px;
+}
+
 /* stylos data tables*/
 
 .page-item.active .page-link {

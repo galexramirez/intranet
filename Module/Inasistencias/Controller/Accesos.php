@@ -100,8 +100,7 @@ class Accesos
 											<th>ID</th>
 											<th>MAPA</th>
 											<th>ESTADO</th>
-											<th>FECHA</th>
-											<th>HORA</th>
+											<th>FECHA Y HORA</th>
 											<th>DNI</th>
 											<th>PILOTO</th>
 											<th>UBICACION</th>
@@ -201,7 +200,6 @@ class Accesos
 										{"defaultContent": "'.$defaultContent_1.'"},
 										{"data": "marc_estado"},
 										{"data": "marc_fecha_operacion"},
-										{"data": "marc_hora_operacion"},
 										{"data": "marc_dni"},
 										{"data": "marc_nombre_colaborador"},
 										{"data": "marc_lugar_exacto"},

@@ -85,7 +85,7 @@ $(document).ready(function(){
   });
 
   ///:: Si hay cambios en Consecuencias de Accidente se actualiza el campo Clinica de Accidente ::///
-   $("#Acci_Lesiones").on('change', function () {
+  $("#Acci_Lesiones").on('change', function () {
     Acci_Lesiones = $("#Acci_Lesiones").val();
     if(Acci_Lesiones=="SIN LESIONES"){
       Acci_HospitalAccidente = "NINGUNO";
@@ -94,7 +94,7 @@ $(document).ready(function(){
       Acci_HospitalAccidente = "";
       $("#Acci_HospitalAccidente").prop('disabled', false);
     }
-    $("#Acci_HospitalAccidente").val(Acci_HospitalAccidente)
+    $("#Acci_HospitalAccidente").val(Acci_HospitalAccidente);
   });
 
   ///:: Si hay cambios en Conciliacion de Accidente se habilita o deshabilita el Monto Conciliado ::///
@@ -147,7 +147,6 @@ $(document).ready(function(){
     }
     $("#HoraTrabajadasAccidente").val(HoraTrabajadasAccidente);
     $("#MinutoTrabajadosAccidente").val(MinutoTrabajadosAccidente);
-
   });
 
   ///:: Si hay cambios en tabla de accidentes se actualiza el servicio ::::::::::::::::::::///

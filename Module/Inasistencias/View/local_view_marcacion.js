@@ -110,7 +110,7 @@ $(document).ready(function(){
       "columns"         : columnas_tabla,
       "columnDefs"      : [
         {   width       : 300, 
-            targets     : [6,7] },
+            targets     : [6] },
         {
           "targets"     : [1],
           "orderable"   : false

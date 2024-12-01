@@ -4,27 +4,33 @@
 ///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///:: DECLARACION DE VARIABLES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-var comunicado_id, comu_titulo, comu_fecha_inicio, comu_fecha_fin, comu_proceso, comu_destacado, comu_archivo;
+var comunicado_id, comu_titulo, comu_fecha_inicio, comu_fecha_fin, comu_categoria, comu_destacado, comu_imagen, comu_pdf, comu_video, comu_link;
 var opcion_publicacion, tabla_publicacion, imagen_editar, form_data;
 
 ///:: JS DOM MAESTRO COLABORADOR ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 $(document).ready(function(){
     ///:: COLOCA EL NOMBRE DEL ARCHIVO EN EL INPUT FILE :::::::::::::::::::::::::::::::::::///
-    $(document).on('change', '#comu_archivo', function (event) {
+    $(document).on('change', '#comu_imagen', function (event) {
         imagen_editar = "";
         let NombreArch=event.target.files[0].name;
         let Extension=NombreArch.split('.').pop();
-        $("#label_comu_archivo").text(NombreArch);
+        $("#label_comu_imagen").text(NombreArch);
         
         let archivo = event.target.files[0];
         let reader  = new FileReader();
         if (archivo) {
           reader.readAsDataURL(archivo );
           reader.onloadend = function () {
-            imagen_editar='<img src="' + reader.result + '" height="340px" width="360px" class="rounded" alt="" />';
-            $("#div_comu_archivo").html(imagen_editar);
+            imagen_editar='<img src="' + reader.result + '" height="428px" width="360px" class="rounded" alt="" />';
+            $("#div_comu_imagen").html(imagen_editar);
           }
         }
+    }); 
+
+    $(document).on('change', '#comu_pdf', function (event) {
+        let NombreArch=event.target.files[0].name;
+        let Extension=NombreArch.split('.').pop();
+        $("#label_comu_pdf").text(NombreArch);
     }); 
 
     div_tabla = f_CreacionTabla("tabla_publicacion","");
@@ -47,20 +53,20 @@ $(document).ready(function(){
         ],
         "ajax" :{            
             "url"       : "Ajax.php", 
-            "method"    : 'POST', //usamos el metodo POST
-            "data"      : { MoS:MoS,NombreMoS:NombreMoS,Accion:Accion }, //enviamos opcion 4 para que haga un SELECT
+            "method"    : 'POST',
+            "data"      : { MoS:MoS,NombreMoS:NombreMoS,Accion:Accion },
             "dataSrc"   : ""
         },
         "columns"       : columnastabla,
         "columnDefs"    : [
-            {   width       : 400, targets: [1] },
-            {   width       : 600, targets: [6] },
+            {   width       : 500, targets: [1] },
+            {   width       : 600, targets: [6,7,8,9] },
             { 
                 "className" : "text-center", 
                 "targets"   : [0,2,3,4,5]
             },
             {
-                "targets"   : [7],
+                "targets"   : [6,7,8,9,12],
                 "orderable" : false
             },
             {
@@ -77,7 +83,37 @@ $(document).ready(function(){
                 "targets"   : [6],
                 "render"    : function(data, type, row, meta) {
                     if(data!=null){
-                        return "<a href='../../../Services/image/comunicados/"+data+"' target='_blank'>"+data+"</a>";
+                        return "<a href='../../../Services/files/image/comunicados/"+data+"' target='_blank'>"+data+"</a>";
+                    }else{
+                        return "";
+                    }
+                }
+            },
+            {
+                "targets"   : [7],
+                "render"    : function(data, type, row, meta) {
+                    if(data!=null){
+                        return "<a href='../../../Services/files/pdf/comunicados/"+data+"' target='_blank'>"+data+"</a>";
+                    }else{
+                        return "";
+                    }
+                }
+            },
+            {
+                "targets"   : [8],
+                "render"    : function(data, type, row, meta) {
+                    if(data!=null){
+                        return "<a href='"+data+"' target='_blank'>"+data+"</a>";
+                    }else{
+                        return "";
+                    }
+                }
+            },
+            {
+                "targets"   : [9],
+                "render"    : function(data, type, row, meta) {
+                    if(data!=null){
+                        return "<a href='"+data+"' target='_blank'>"+data+"</a>";
                     }else{
                         return "";
                     }
@@ -94,32 +130,46 @@ $(document).ready(function(){
     $('#form_publicacion').submit(function(e){                         
         e.preventDefault();
         let imagen = '';
+        let pdf = '';
+        let nombre_pdf = '';
         let nombre_imagen = '';
         let validacion = '';
         let tmsg = "";
         let existe_imagen = "";
-        comu_archivo = '';
-        imagen = document.getElementById('comu_archivo').value;
-
-        comunicado_id = $.trim($('#comunicado_id').val());    
+        let existe_pdf = "";
+        comu_imagen = '';
+        imagen = document.getElementById('comu_imagen').value;
+        pdf = document.getElementById('comu_pdf').value;
         comu_titulo  = $.trim($('#comu_titulo').val());
         comu_fecha_inicio = $.trim($('#comu_fecha_inicio').val());    
         comu_fecha_fin = $.trim($('#comu_fecha_fin').val());    
-        comu_proceso = $.trim($('#comu_proceso').val());
-        comu_destacado = $.trim($('#comu_destacado').val());  
+        comu_categoria = $.trim($('#comu_categoria').val());
+        comu_destacado = $.trim($('#comu_destacado').val());
+        comu_video = $.trim($('#comu_video').val());
+        comu_link = $.trim($('#comu_link').val());
 
-        validacion = f_validar_publicacion(comu_titulo, comu_fecha_inicio, comu_fecha_fin, comu_proceso, comu_destacado, imagen);
+        validacion = f_validar_publicacion(comu_titulo, comu_fecha_inicio, comu_fecha_fin, comu_categoria, comu_destacado, imagen);
 
         if(imagen.length>0){
-            comu_archivo = $('#comu_archivo')[0].files[0];
-            nombre_imagen = $('#comu_archivo')[0].files[0].name;
-            existe_imagen = f_buscar_dato("comunicado","Comu_Archivo","`Comu_Archivo`='"+nombre_imagen+"' AND `comu_estado`='ACTIVO'");
+            comu_imagen = $('#comu_imagen')[0].files[0];
+            nombre_imagen = $('#comu_imagen')[0].files[0].name;
+            existe_imagen = f_buscar_dato("comunicado","Comu_Imagen","`Comu_Imagen`='"+nombre_imagen+"' AND `Comu_Estado`='ACTIVO'");
             if(existe_imagen.length>0){
                 validacion = "invalido";
                 tmsg = "<br>Archivo de Imagen Existe"
             }
         }else{
             tmsg = "<br>Agregar Imagen";
+        }
+
+        if(pdf.length>0){
+            comu_pdf = $('#comu_pdf')[0].files[0];
+            nombre_pdf = $('#comu_pdf')[0].files[0].name;
+            existe_pdf = f_buscar_dato("comunicado","Comu_Pdf","`Comu_Pdf`='"+nombre_pdf+"' AND `Comu_Estado`='ACTIVO'");
+            if(existe_pdf.length>0){
+                validacion = "invalido";
+                tmsg = "<br>Archivo PDF Existe"
+            }
         }
 
         if(validacion=="invalido"){
@@ -139,21 +189,24 @@ $(document).ready(function(){
             form_data.append("MoS", MoS);
             form_data.append("NombreMoS", NombreMoS);
             form_data.append("Accion", Accion);
-            form_data.append("comunicado_id", comunicado_id);
             form_data.append("comu_titulo", comu_titulo);
             form_data.append("comu_fecha_inicio", comu_fecha_inicio);
             form_data.append("comu_fecha_fin", comu_fecha_fin);
-            form_data.append("comu_proceso", comu_proceso);
+            form_data.append("comu_categoria", comu_categoria);
             form_data.append("comu_destacado", comu_destacado);
-            form_data.append("comu_archivo", comu_archivo);
+            form_data.append("comu_imagen", comu_imagen);
             form_data.append("nombre_imagen", nombre_imagen);
+            form_data.append("comu_pdf", comu_pdf);
+            form_data.append("nombre_pdf", nombre_pdf);
+            form_data.append("comu_video", comu_video);
+            form_data.append("comu_link", comu_link);
             $.ajax({
                 url         : "Ajax.php",
                 type        : "POST",
                 datatype    : "json",    
                 data        :  form_data,   
-                contentType :false,
-                processData :false,
+                contentType : false,
+                processData : false,
                 success     : function(data) {
                     tabla_publicacion.ajax.reload(null, false);
                     if(data){
@@ -184,9 +237,10 @@ $(document).ready(function(){
         f_limpia_publicacion();
         $("#form_publicacion").trigger("reset");
         
-        imagen_editar='<img src="Module/informativos/View/Img/VistaPrevia.jpg" height="340px" width="360px" class="rounded"/>';
-        $("#div_comu_archivo").html(imagen_editar);
-        $("#label_comu_archivo").text("Seleccionar Archivo .jpg, .bmp, .jpeg o .pgn");
+        imagen_editar='<img src="Module/pilotos/View/Img/VistaPrevia.jpg" height="428px" width="360px" class="rounded"/>';
+        $("#div_comu_imagen").html(imagen_editar);
+        $("#label_comu_imagen").text("Seleccionar Archivo .jpg, .bmp, .jpeg o .pgn");
+        $("#label_comu_pdf").text("Seleccionar Archivo .pdf");
     
         $(".modal-header").css( "background-color", "#17a2b8");
         $(".modal-header").css( "color", "white" );
@@ -199,7 +253,8 @@ $(document).ready(function(){
     $(document).on("click", ".btn_borrar", function(){
         let fila = $(this).closest('tr');           
         comunicado_id = fila.find('td:eq(0)').text();
-        comu_archivo = fila.find('td:eq(6)').text();
+        comu_imagen = fila.find('td:eq(6)').text();
+        comu_pdf = fila.find('td:eq(7)').text();
         Swal.fire({
             title              : "¿Está seguro?",
             text               : "Se eliminara el registro "+comunicado_id+"!!!",
@@ -215,7 +270,7 @@ $(document).ready(function(){
                         url      : "Ajax.php",
                         type     : "POST",
                         datatype : "json",    
-                        data     : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, comunicado_id:comunicado_id, comu_archivo:comu_archivo },   
+                        data     : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, comunicado_id:comunicado_id, comu_imagen:comu_imagen, comu_pdf:comu_pdf },   
                         success : function(data) {
                             tabla_publicacion.ajax.reload(null, false);
                             if(data){
@@ -251,7 +306,7 @@ $(document).ready(function(){
 ///:: FUNCIONES DE INFORMATIVOS :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///:: FUNCION PARA VALIDAR LOS DATSO INGRESADOS AL FORMULARIO :::::::::::::::::::::::::::::///
-function f_validar_publicacion(comu_titulo, comu_fecha_inicio, comu_fecha_fin, comu_proceso, comu_destacado, nombre_imagen){
+function f_validar_publicacion(comu_titulo, comu_fecha_inicio, comu_fecha_fin, comu_categoria, comu_destacado, nombre_imagen){
     f_limpia_publicacion();
     let respuesta="";    
     if(comu_titulo=="" || comu_titulo.length>200){
@@ -273,8 +328,8 @@ function f_validar_publicacion(comu_titulo, comu_fecha_inicio, comu_fecha_fin, c
             respuesta="invalido";
         }
     }
-    if(comu_proceso==""){
-        $("#comu_proceso").addClass("color-error");
+    if(comu_categoria==""){
+        $("#comu_categoria").addClass("color-error");
         respuesta="invalido";
     }
     if(comu_destacado==""){
@@ -294,7 +349,7 @@ function f_limpia_publicacion(){
     $("#comu_titulo").removeClass("color-error");
     $("#comu_fecha_inicio").removeClass("color-error");
     $("#comu_fecha_fin").removeClass("color-error");
-    $("#comu_proceso").removeClass("color-error");
+    $("#comu_categoria").removeClass("color-error");
     $("#comu_destacado").removeClass("color-error");
 }
 ///:: FIN INVISIBILIZA LOS MENSAJE DE ALERTA DEL FORMULARIO :::::::::::::::::::::::::::::::/// 

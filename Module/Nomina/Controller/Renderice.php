@@ -36,7 +36,9 @@
                     <script type='text/javascript' src='Services/Resources/DataTables-10.25/datatables/Buttons-1.7.1/js/buttons.print.min.js'></script>
                     <script src='Module/Nomina/View/local_view_inicio.js' type='text/javascript'></script>
                     <script src='Module/Nomina/View/local_view_listado.js' type='text/javascript'></script>
-                    <script src='Module/Nomina/View/local_view_generar.js' type='text/javascript'></script>  ";
+                    <script src='Module/Nomina/View/local_view_generar.js' type='text/javascript'></script>
+                    <script src='Module/Nomina/View/local_view_carga_horarios.js' type='text/javascript'></script>
+                    <script src='Module/Nomina/View/local_view_horarios.js' type='text/javascript'></script>  ";
 
 // 4.0 CONTRUCCION DE LA VISTA
 

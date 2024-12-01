@@ -16,7 +16,9 @@ class CRUD
 		SController('ConexionesBD','C_ConexionBD');
 		$Instancia= new C_ConexionesBD();
 		$this->conexion = $Instancia->Conectar();
-		$this->conexion2 = $Instancia->conectar2(); 	
+		$this->conexion2 = $Instancia->conectar2();
+		$this->conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$this->conexion2->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
 
 	function select_combo($nombre_tabla, $es_campo_unico, $campo_select, $condicion_where, $order_by)
@@ -342,7 +344,136 @@ class CRUD
         $resultado->execute();        
 
 		$this->conexion=null;
-
 	}
+
+	function leer_carga_horarios_nomina($chn_anio)
+	{   
+	   $consulta = "	SELECT 
+	   						`id`, 
+							`hnc_anio`, 
+							`hnc_periodo`, 
+							`hnc_tipo_nomina`, 
+							`hnc_fecha`, 
+							`hnc_operacion`, 
+							`t_crea`.`Colab_nombre_corto` AS `hnc_usuario_crea`,
+							`hnc_fecha_crea`, 
+							`t_elimina`.`Colab_nombre_corto` AS `hnc_usuario_elimina`,
+							`hnc_fecha_elimina`, 
+							`hnc_estado`
+						FROM 
+						   `ope_horarios_nomina_carga` AS `t_hnc`
+						LEFT JOIN
+						   `colaborador` AS `t_crea`
+						ON
+						   `t_hnc`.`hnc_usuario_crea`=`t_crea`.`Colaborador_id`
+						LEFT JOIN
+						   `colaborador` AS `t_elimina`
+						ON
+						   `t_hnc`.`hnc_usuario_elimina`=`t_elimina`.`Colaborador_id`
+						WHERE
+						   `hnc_anio`='$chn_anio' ";
+	   $resultado = $this->conexion->prepare($consulta);
+	   $resultado->execute();        
+	   $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+   
+	   print json_encode($data, JSON_UNESCAPED_UNICODE);//envio el array final el formato json a AJAX
+	   $this->conexion=null;
+	}
+
+	function generar_carga_horarios_nomina($chn_anio, $chn_periodo, $chn_tipo_nomina, $chn_fecha, $chn_operacion, $chn_usuario_crea, $chn_fecha_crea, $chn_estado)
+	{
+		try {
+			$consulta = " INSERT INTO `ope_horarios_nomina_carga` (`hnc_anio`, `hnc_periodo`, `hnc_tipo_nomina`, `hnc_fecha`, `hnc_operacion`, `hnc_usuario_crea`, `hnc_fecha_crea`, `hnc_estado`) VALUES ('$chn_anio', '$chn_periodo', '$chn_tipo_nomina', '$chn_fecha', '$chn_operacion', '$chn_usuario_crea', '$chn_fecha_crea', '$chn_estado') ";
+			$resultado = $this->conexion->prepare($consulta);
+        	$resultado->execute();        
+			$horarios_nomina_carga_id = $this->conexion->lastInsertId();
+			return $horarios_nomina_carga_id;
+		} catch (PDOException $e) {
+			$error = 'Excepción capturada: '. $e->getMessage(). "\n";
+			return $error;
+		}
+		$this->conexion=null;
+	}
+
+	function leer_horarios_nomina_programacion($chn_fecha, $chn_operacion)
+	{
+		$prog_tabla = "OP11";
+	   	$consulta = "SELECT 
+	   					`Prog_Fecha`, 
+						`Prog_Dni`, 
+						`Prog_CodigoColaborador`, 
+						`Prog_NombreColaborador`, 
+						`Prog_HoraOrigen`, 
+						`Prog_HoraDestino`, 
+						`Prog_Operacion`, 
+						`Prog_Servicio`, 
+						`Prog_LugarOrigen`, 
+						`Prog_LugarDestino` 
+					FROM `Programacion` 
+					WHERE 
+						`Prog_Fecha` = '$chn_fecha' AND 
+						`Prog_Operacion` = '$chn_operacion' AND
+						`Prog_Tabla` != '$prog_tabla'
+					ORDER BY 
+						`Prog_Dni`, `Prog_HoraOrigen` ASC";
+	   $resultado = $this->conexion->prepare($consulta);
+	   $resultado->execute();        
+	   $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+   
+	   return $data;
+	   $this->conexion=null;
+	}
+	
+	function generar_horarios_nomina($horarios_nomina_carga_id, $chn_anio, $chn_periodo, $chn_tipo_nomina, $chn_operacion, $chn_fecha, $hn_dni, $hn_codigo_colaborador, $hn_nombre_colaborador, $hn_hora, $hn_servicio, $hn_lugar, $hn_tipo_marcacion, $hn_hora_programacion)
+	{
+		try {
+			$consulta = " INSERT INTO `ope_horarios_nomina` (`hn_hnc_id`, `hn_anio`, `hn_periodo`, `hn_tipo_nomina`, `hn_operacion`, `hn_fecha`, `hn_dni`, `hn_codigo_colaborador`, `hn_nombre_colaborador`, `hn_hora`, `hn_servicio`, `hn_lugar`, `hn_tipo_marcacion`, `hn_hora_programacion`) VALUES ('$horarios_nomina_carga_id', '$chn_anio', '$chn_periodo', '$chn_tipo_nomina', '$chn_operacion', '$chn_fecha', '$hn_dni', '$hn_codigo_colaborador', '$hn_nombre_colaborador', '$hn_hora', '$hn_servicio', '$hn_lugar', '$hn_tipo_marcacion', '$hn_hora_programacion') ";
+			$resultado = $this->conexion->prepare($consulta);
+			$resultado->execute();        
+			$horarios_nomina_id = $this->conexion->lastInsertId();
+			return $horarios_nomina_id;	
+		} catch (PDOException $e) {
+			$error = 'Excepción capturada: '. $e->getMessage(). "\n";
+			return $error;
+		}
+		$this->conexion=null;
+	}
+
+	function borrar_generar_horarios_nomina($horarios_nomina_carga_id)
+	{
+		$hnc_estado = "ANULADO";
+		$hnc_usuario_elimina = $_SESSION['USUARIO_ID'];
+		$hnc_fecha_elimina = date("Y-m-d H:i:s");
+
+		$consulta = " UPDATE `ope_horarios_nomina_carga` SET `hnc_estado`='$hnc_estado', `hnc_usuario_elimina`='$hnc_usuario_elimina', `hnc_fecha_elimina`='$hnc_fecha_elimina' WHERE `id`='$horarios_nomina_carga_id' ";
+		$resultado = $this->conexion->prepare($consulta);
+        $resultado->execute();        
+
+		$consulta = " DELETE FROM `ope_horarios_nomina` WHERE `hn_hnc_id`='$horarios_nomina_carga_id' ";
+		$resultado = $this->conexion->prepare($consulta);
+        $resultado->execute();        
+
+		$this->conexion=null;
+	}
+
+	function listar_horarios_nomina($hn_fecha,$hn_operacion)
+	{
+		$consulta = "	SELECT 
+							*
+						FROM 
+							`ope_horarios_nomina` 
+						WHERE 
+							`hn_fecha` = '$hn_fecha' AND 
+							`hn_operacion` = '$hn_operacion' 
+						ORDER BY 
+							`hn_dni`, `hn_hora` ";
+
+        $resultado = $this->conexion->prepare($consulta);
+        $resultado->execute();        
+        $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+
+        print json_encode($data, JSON_UNESCAPED_UNICODE);//envio el array final el formato json a AJAX
+        $this->conexion=null;
+   	}
 
 }

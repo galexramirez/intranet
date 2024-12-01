@@ -480,7 +480,7 @@ class Logico
             $InstanciaAjax = new CRUD();
             $Respuesta = $InstanciaAjax->crear_repuesto_proveedor( $repp_prov_ruc, $repp_codigo, $repp_descripcion, $repp_moneda, $repp_unidad, $repp_estado, $repp_material_id, $repp_material_descripcion, $repp_log, $repp_rpc_id );
             if(count($Respuesta)>0){
-                echo "No grabo linea ".$row." -> Código de Repuesto: ".$repp_codidgo." ERROR: "  ;
+                echo "No grabo linea ".$row." -> Código de Repuesto: ".$repp_codigo." ERROR: "  ;
                 print_r($Respuesta);
                 echo "<br>";
                 $cant_errores = $cant_errores + 1;

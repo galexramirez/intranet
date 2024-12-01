@@ -25,7 +25,7 @@
                     <link rel='stylesheet' type='text/css' href='Services/Resources/DataTables-10.25/datatables/DataTables-1.10.25/css/dataTables.bootstrap4.min.css'>
                     <link rel='stylesheet' type='text/css' href='Services/Resources/DataTables-10.25/datatables/Buttons-1.7.1/css/buttons.bootstrap4.min.css'>
                     <link rel='stylesheet' href='https://pro.fontawesome.com/releases/v5.10.0/css/all.css' integrity='sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p' crossorigin='anonymous'/>  
-                    <link rel='stylesheet' href='Services/Resources/jquery-ui-1.12.1/jquery-ui.min.css'>";
+                    <link rel='stylesheet' href='Services/Resources/jquery-ui-1.12.1/jquery-ui.min.css'> ";
 
     $InserFooter="  <script type='text/javascript' src='Services/Resources/DataTables-10.25/datatables/datatables.min.js'></script>
                     <script type='text/javascript' src='Services/Resources/DataTables-10.25/datatables/JSZip-2.5.0/jszip.min.js'></script>
@@ -41,11 +41,12 @@
                     <script src='Module/pilotos/View/local_view_pilotos.js' type='text/javascript'></script> 
                     <script src='Module/pilotos/View/local_view_publicaciones.js' type='text/javascript'></script> 
                     <script src='Services/Resources/jquery-ui-1.12.1/jquery-ui.min.js'></script>
+                    <script src='Services/Resources/jquery-ui-1.12.1/jquery-ui.css'></script>
                     <script src='Services/Resources/amcharts5.3.16/index.js'></script>
                     <script src='Services/Resources/amcharts5.3.16/percent.js'></script>
                     <script src='Services/Resources/amcharts5.3.16/xy.js'></script>
                     <script src='Services/Resources/amcharts5.3.16/themes/Animated.js'></script> 
-                    <script src='Services/Resources/amcharts5.3.16/themes/Dark.js'></script>";
+                    <script src='Services/Resources/amcharts5.3.16/themes/Dark.js'></script> ";
 
 // 4.0 CONTRUCCION DE LA VISTA
 

@@ -163,5 +163,39 @@ switch ($Accion){
       $Respuesta = $InstanciaAjax->borrar_generar_nomina($nomina_carga_id);
    break;
 
+   case 'leer_carga_horarios_nomina':
+      $chn_anio = $_POST['chn_anio'];
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta = $InstanciaAjax->leer_carga_horarios_nomina($chn_anio);
+   break;
+
+   case 'generar_horarios_nomina':
+      $chn_fecha      = $_POST['chn_fecha'];
+      $chn_operacion  = $_POST['chn_operacion'];
+
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta     = $InstanciaAjax->generar_horarios_nomina($chn_fecha, $chn_operacion);
+   break;
+
+   case 'borrar_generar_horarios_nomina':
+      $horarios_nomina_carga_id = $_POST['horarios_nomina_carga_id'];
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta = $InstanciaAjax->borrar_generar_horarios_nomina($horarios_nomina_carga_id);
+   break;
+
+   case 'listar_horarios_nomina':
+      $hn_fecha = $_POST['hn_fecha'];
+      $hn_operacion = $_POST['hn_operacion'];
+
+      MModel($Modulo,'CRUD');
+      $InstanciaAjax = new CRUD();
+      $Respuesta = $InstanciaAjax->listar_horarios_nomina($hn_fecha,$hn_operacion);
+   break;
+
    default: header('Location: /inicio');
 }

@@ -4,7 +4,7 @@
 **/viminfo
 **/reportes
 **/Services/Composer
-**/Services/Json
+**/Services/json
 **/Services/image
 **/Services/json_nomina
 **/Services/pdf
@@ -12,3 +12,7 @@
 **/Services/QRcode
 **/Services/Resources
 **/Services/FotoPersonal
+**/Services/files
+**/.env
+**/mym
+**/ibr
