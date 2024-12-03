@@ -1267,4 +1267,109 @@ class Logico
         
         echo $rpta_unlink_pdf;
     }
+
+    public function files()
+    {
+        set_time_limit(216000);
+        $b64_file = "";
+        $file_name = "";
+        $folder = "";
+
+        MModel($this->Modulo,'CRUD');
+        $InstanciaAjax = new CRUD;
+        $colaborador_ids = $InstanciaAjax->file_ids("glo_colaboradorimagen","Colaborador_id","`Colab_Fotografia`!=''");
+        foreach($colaborador_ids as $colaborador_id){
+            MModel($this->Modulo,'CRUD');
+            $InstanciaAjax = new CRUD;
+            $Respuesta = $InstanciaAjax->files("glo_colaboradorimagen", "Colab_Fotografia", "`Colaborador_id`='".$colaborador_id['Colaborador_id']."'");
+            foreach($Respuesta as $row){
+                $file_name = $row['Colaborador_id'].'.jpg';
+                $b64_file = $row['b64_file'];
+                if($b64_file!=""){
+                    $mi_carpeta     = $_SERVER['DOCUMENT_ROOT'].'/Services/files/image/colaborador/fotografia/';
+                    $b64_file       = base64_decode($b64_file,true);
+                    file_put_contents($mi_carpeta.$file_name, $b64_file);        
+                }
+            }
+        }
+
+        MModel($this->Modulo,'CRUD');
+        $InstanciaAjax = new CRUD;
+        $solicitud_ids = $InstanciaAjax->file_ids("ope_solicitudes_pdf","spdf_id","");
+        foreach($solicitud_ids as $solicitud_id){
+            MModel($this->Modulo,'CRUD');
+            $InstanciaAjax = new CRUD;
+            $Respuesta = $InstanciaAjax->files("ope_solicitudes_pdf", "spdf_pdf", "`spdf_id`='".$solicitud_id['spdf_id']."'");
+            foreach($Respuesta as $row){
+                $file_name = 'solicitud_'.$row['spdf_solicitudes_id'].'.pdf';
+                $b64_file = $row['b64_file'];
+                if($b64_file!=""){
+                    $mi_carpeta     = $_SERVER['DOCUMENT_ROOT'].'/Services/files/pdf/solicitudes/';
+                    $b64_file       = base64_decode($b64_file,true);
+                    file_put_contents($mi_carpeta.$file_name, $b64_file);        
+                }
+            }    
+        }
+
+        MModel($this->Modulo,'CRUD');
+        $InstanciaAjax = new CRUD;
+        $ip_ids = $InstanciaAjax->file_ids("OPE_AccidentesImagen","OPE_AcciImagenId","");
+        foreach($ip_ids as $ip_id){
+            MModel($this->Modulo,'CRUD');
+            $InstanciaAjax = new CRUD;
+            $Respuesta = $InstanciaAjax->files("OPE_AccidentesImagen", "Acci_Imagen", "`OPE_AcciImagenId`='".$ip_id['OPE_AcciImagenId']."'");
+            foreach($Respuesta as $row){
+                switch (substr($row['Acci_TipoImagen'],0,2)) {
+                    case 'Co':
+                        $file_name = "_qr_code.png";
+                        $folder = "/Services/files/qrcode/ip/";
+                        break;
+                    case 'Im':
+                        $file_name = "_".strtolower($row['Acci_TipoImagen']).".jpg"; 
+                        $folder = "/Services/files/image/ip/";
+                        break;
+                    case 'Ma':
+                        $file_name = "_".strtolower($row['Acci_TipoImagen']).".jpg";
+                        $folder = "/Services/files/image/ip/";
+                        break;
+                    case 'IP':
+                        $file_name = "_ip.pdf";
+                        $folder = "/Services/files/pdf/ip/";
+                        break;
+                    default:
+                        $file_name = "_doc_adj.pdf";
+                        $folder = "/Services/files/pdf/ip/";
+                        break;
+                }
+                $file_name = $row['Accidentes_Id'].$file_name;
+                $b64_file = $row['b64_file'];
+                if($b64_file!=""){
+                    $mi_carpeta     = $_SERVER['DOCUMENT_ROOT'].$folder;
+                    $b64_file       = base64_decode($b64_file,true);
+                    file_put_contents($mi_carpeta.$file_name, $b64_file);        
+                }
+            }
+        }
+        echo "Transferencia Exitosa";
+    }
+
+    public function grabar_pdf($Accidentes_Id, $Acci_TipoImagen, $Acci_Imagen)
+    {
+        $Acci_Archivo = $Accidentes_Id."_ip.pdf";
+        $pdf_nuevo = $_SERVER['DOCUMENT_ROOT']."/Services/files/pdf/ip/".$Acci_Archivo;
+		if(move_uploaded_file($Acci_Imagen, $pdf_nuevo)){
+            MModel($this->Modulo,'CRUD');
+            $InstanciaAjax  = new CRUD();
+            $Respuesta = $InstanciaAjax->GrabarImagen($Accidentes_Id, $Acci_TipoImagen, $Acci_Imagen, $Acci_Archivo);
+            
+		}else{
+			echo "Error";
+		}
+   
+    }
+    
+    public function editar_pdf($Accidentes_Id, $Acci_TipoImagen, $Acci_Imagen)
+    {
+        
+    }
 }

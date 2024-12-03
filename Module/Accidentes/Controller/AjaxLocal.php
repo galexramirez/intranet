@@ -804,21 +804,21 @@ switch ($Accion)
    case 'grabar_pdf':
       $Accidentes_Id    = $_POST['Accidentes_Id'];
       $Acci_TipoImagen  = $_POST['Acci_TipoImagen'];
-      $Acci_Imagen      = addslashes(file_get_contents($_FILES['Acci_Imagen']['tmp_name']));
+      $Acci_Imagen      = $_FILES['Acci_Imagen']['tmp_name'];
          
-      MModel($Modulo,'CRUD');
-      $InstanciaAjax = new CRUD();
-      $Respuesta     = $InstanciaAjax->GrabarImagen($Accidentes_Id, $Acci_TipoImagen, $Acci_Imagen);
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta     = $InstanciaAjax->grabar_pdf($Accidentes_Id, $Acci_TipoImagen, $Acci_Imagen);
    break;
 
    case 'editar_pdf':
       $Accidentes_Id    = $_POST['Accidentes_Id'];
       $Acci_TipoImagen  = $_POST['Acci_TipoImagen'];
-      $Acci_Imagen      = addslashes(file_get_contents($_FILES['Acci_Imagen']['tmp_name']));
+      $Acci_Imagen      = $_FILES['Acci_Imagen']['tmp_name'];
          
       MModel($Modulo,'CRUD');
       $InstanciaAjax = new CRUD();
-      $Respuesta     = $InstanciaAjax->EditarImagen($Accidentes_Id, $Acci_TipoImagen, $Acci_Imagen);
+      $Respuesta     = $InstanciaAjax->editar_pdf($Accidentes_Id, $Acci_TipoImagen, $Acci_Imagen);
    break;
 
    case 'LeerTipoTablaAccidentes':
@@ -864,6 +864,12 @@ switch ($Accion)
       MModel($Modulo,'CRUD');
       $InstanciaAjax= new CRUD();
       $Respuesta=$InstanciaAjax->carga_tabla_ver_lesionados($Accidentes_Id,$Acci_Tipo);
+   break;
+
+   case 'files':
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta     = $InstanciaAjax->files();
    break;
 
    default: header('Location: /inicio');

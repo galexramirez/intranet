@@ -12,7 +12,7 @@ class Accesos
 			case "nav-tab-Accidentes":
                 MModel($this->Modulo, 'CRUD');
                 $InstanciaAjax= new CRUD();
-				$tabshtml = '<a class="nav-item nav-link active" id="nav-home-tab-Accidentes" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Listado</a>';
+				$tabshtml = '<a class="nav-item nav-link active nav-home-tab-Accidentes" id="nav-home-tab-Accidentes" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Listado</a>';
 	    		$Respuesta = $InstanciaAjax->Permisos($this->Modulo,"nav-profile-tab-InformePreliminar");
                 if($Respuesta=="SI"){
                     $tabshtml .= '<a class="nav-item nav-link" id="nav-profile-tab-InformePreliminar" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Informe Preliminar</a>';
@@ -53,23 +53,23 @@ class Accesos
                 $tablahtml =   '<table id="tablaAccidentes" class="table table-striped table-bordered table-condensed w-100"  >
                                     <thead class="text-center">
                                         <tr>
-                                            <th>ID PROG.</th>
-                                            <th>ID NOVEDAD</th>
+                                            <th>ID_PROG</th>
+                                            <th>ID_NOVEDAD</th>
                                             <th>FECHA</th>
                                             <th>USUARIO_QUE_GENERA</th>
                                             <th>OPERACION</th>
-                                            <th>TIPO NOVEDAD</th>
-                                            <th>DETALLE NOVEDAD</th>
+                                            <th>TIPO_NOVEDAD</th>
+                                            <th>DETALLE_NOVEDAD</th>
                                             <th>APELLIDOS_Y_NOMBRES</th>
                                             <th>BUS</th>
-                                            <th>ESTADO NOVEDAD</th>
-                                            <th>REPO.FACI.</th>
-                                            <th>INF.PREL.</th>
-                                            <th>ID ACCIDENTE</th>
-                                            <th>EST. I.P.</th>
-                                            <th>PDF I.P.</th>
-                                            <th>ADJ. PDF</th>
-                                            <th>DOC. ADJ.</th>
+                                            <th>ESTADO_NOV.</th>
+                                            <th>REP.FAC.</th>
+                                            <th>INF.PRE.</th>
+                                            <th>ID_ACCIDENTE</th>
+                                            <th>EST_IP</th>
+                                            <th>IP</th>
+                                            <th>ADJ.</th>
+                                            <th>DOC.</th>
                                         </tr>
                                     </thead>
                                     <tbody>                           
@@ -630,13 +630,30 @@ class Accesos
 		$divformulario = "";
 		switch($NombreFormulario)
 		{
-			case "":
+			case "formSeleccionAccidentes":
 				switch($NombreObjeto)
 				{
-					case "":
-						MModel($this->Modulo, 'CRUD');
-						$InstanciaAjax= new CRUD();
-						$divformulario=$InstanciaAjax->Permisos($this->Modulo,$NombreObjeto);
+					case "formSeleccionAccidentes":
+						$divformulario = '  <div class="row align-items-end pb-4 col-sm-12">
+					                        	<div class="col-lg-1">
+			    	                        	  	<div class="form-group">
+					                        			<label for="no_FechaInicio" class="col-form-label form-control-sm">F.INICIO</label>
+					                        			<input type="date" class="form-control form-control-sm" id="no_FechaInicio" placeholder="dd-mm-aaaa" >
+			    	                        	  	</div>
+			    	                        	</div>
+					                        	<div class="col-lg-1">
+			    	                        	  	<div class="form-group">
+					                        			<label for="no_FechaTermino" class="col-form-label form-control-sm">F.TERMINO</label>
+					                        			<input type="date" class="form-control form-control-sm" id="no_FechaTermino" placeholder="dd-mm-aaaa" >
+			    	                        	  	</div>
+			    	                        	</div>
+					                        	<div class="col-lg-3">             	
+					                        		<div class="form-group">
+					                        			<button type="button" id="btnBuscarAccidentes" class="btn btn-secondary btn-sm btnBuscarAccidentes">Buscar</button>
+                                                        <button type="button" id="btn_files" class="btn btn-secondary btn-sm btn_files">Files</button>
+					                        		</div>
+			       	                        	</div> 
+					                        </div>';
 					break;
 
 					case "":

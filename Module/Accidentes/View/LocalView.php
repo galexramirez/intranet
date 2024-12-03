@@ -44,25 +44,7 @@
 			<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 			
 				<form id="formSeleccionAccidentes" class="row col-sm-12 container-fluid" enctype="multipart/form-data" action="" method="post">	    
-					<div class="row align-items-end pb-4 col-sm-12">
-						<div class="col-lg-1">
-			    		  	<div class="form-group">
-								<label for="no_FechaInicio" class="col-form-label form-control-sm">F.INICIO</label>
-								<input type="date" class="form-control form-control-sm" id="no_FechaInicio" placeholder="dd-mm-aaaa" >
-			    		  	</div>
-			    		</div>
-						<div class="col-lg-1">
-			    		  	<div class="form-group">
-								<label for="no_FechaTermino" class="col-form-label form-control-sm">F.TERMINO</label>
-								<input type="date" class="form-control form-control-sm" id="no_FechaTermino" placeholder="dd-mm-aaaa" >
-			    		  	</div>
-			    		</div>
-						<div class="col-lg-1">             	
-							<div class="form-group">
-								<button type="button" id="btnBuscarAccidentes"class="btn btn-secondary btn-sm btnBuscarAccidentes">Buscar</button>
-							</div>
-			       		</div> 
-					</div>
+
 				</form>
 
 			   	<div class="container-fluid caja">
@@ -98,7 +80,7 @@
 
 				<!--Modal para CRUD PDF-->
 				<div class="row modal fade" id="modalCRUDPDFCarga" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-					<div class="modal-dialog modal-xl" role="document">
+					<div class="modal-dialog" role="document">
 			        	<div class="modal-content">
 					    	<div class="modal-header">
 			                	<h5 class="modal-title" id="exampleModalLabel"></h5>

@@ -18,6 +18,8 @@ fecha_inicio_accidentes = '2023-05-16';
 
 ///:: DOM JS LISTADO ACCIDENTES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 $(document).ready(function(){
+  div_show = f_DivFormulario("formSeleccionAccidentes","formSeleccionAccidentes");
+  $("#formSeleccionAccidentes").html(div_show);
 
   if(no_FechaInicio=="" && no_FechaTermino==""){
     no_FechaInicio = f_CalculoFecha("hoy","0");
@@ -46,6 +48,47 @@ $(document).ready(function(){
   });
 
   ///:: INICIO BOTONES LISTADO DE ACCIDENTES ::::::::::::::::::::::::::::::::::::::::::::::///
+
+  $(document).on("click",".btn_files", function(){
+    Accion = "files";
+    $.ajax({
+      url       : "Ajax.php",
+      type      : "POST",
+      datatype  : "html",
+      async     : false,    
+      data      : {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion},
+      beforeSend: function(){
+        Swal.fire({
+          icon: "info",
+          title: "Procesando Files!",
+          showConfirmButton: false,
+          timer: 5000
+        });
+      },    
+      success   : function(data){
+        if(data.substring(0,1)=="E"){
+          alert(data);
+        }else{
+          Swal.fire({
+            icon              : 'success',
+            title             : data,
+            showConfirmButton : false,
+            timer             : 2000
+          })  
+        }
+      }
+    });
+
+  });
+
+  /* $(document).on("click",".nav-home-tab-Accidentes", function(){
+    div_show = f_DivFormulario("formSeleccionAccidentes","formSeleccionAccidentes");
+    $("#formSeleccionAccidentes").html(div_show);
+  
+    $('#no_FechaInicio').val(no_FechaInicio);
+    $('#no_FechaTermino').val(no_FechaTermino);
+    document.getElementById("btnBuscarAccidentes").click();        
+  }); */
 
   ///:: BOTON DATA TABLE LISTADO DE ACCIDENTES ::::::::::::::::::::::::::::::::::::::::::::///
   $(document).on("click", ".btnBuscarAccidentes", function(){
@@ -303,7 +346,18 @@ $(document).ready(function(){
   ///:: BOTON CARGAR PDF -> REALIZA LA GRABACION EN LA TABLA OPE_AccidentesImagenes BUS :::///
   $('#formModalPDFCarga').submit(function(e){
     e.preventDefault();
-    f_GrabarPDF(opcionCargaPDF);
+    let nombre_pdf = $('#Acci_PDF')[0].files[0].name;
+    if(nombre_pdf!=""){
+      f_GrabarPDF(opcionCargaPDF);
+    }else{
+      Swal.fire({
+        position          : 'center',
+        icon              : 'error',
+        title             : '*No se ha cargado ningún archivo PDF!!!'+tmsg,
+        showConfirmButton : false,
+        timer             : 1500
+      })
+    }
     $('#modalCRUDPDFCarga').modal('hide');
     tablaAccidentes.ajax.reload(null,false);
   });
@@ -313,38 +367,8 @@ $(document).ready(function(){
   $(document).on("click", ".btn_ip_pdf", function(){		
     filaAccidentes = $(this).closest('tr'); 
     Accidentes_Id = filaAccidentes.find('td:eq(12)').text();
-
-    Accion = 'BuscarInformePreliminar';
-    $.ajax({
-      url       : "Ajax.php",
-      type      : "POST",
-      datatype  : "json",
-      async     : false,    
-      data      : {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,Accidentes_Id:Accidentes_Id},    
-      success   : function(data){
-        data = $.parseJSON(data);
-        $.each(data, function(idx, obj){
-          Acci_TipoAccidente      = obj.Acci_TipoAccidente;
-          Acci_BusAccidente       = obj.Acci_Bus ;
-          Acci_NombreColaborador  = obj.Acci_NombreColaborador ;
-          Acci_NroPlacaAccidente  = obj.Acci_NroPlaca ;
-        });
-      }
-    });
-
-    let x_pdf     = "";
-    let file_pdf  = "IP-"+Accidentes_Id+" "+Acci_TipoAccidente+" - BUS "+Acci_BusAccidente+" - PLACA "+Acci_NroPlacaAccidente+"_"+Acci_NombreColaborador+".pdf";
-    x_pdf         = f_buscar_pdf('OPE_AccidentesImagen','Acci_Imagen','Accidentes_Id',Accidentes_Id,'Acci_TipoImagen','IP_PDF',file_pdf );
-    if(x_pdf == ""){
-      Swal.fire({
-        icon  : 'error',
-        title : 'PDF...',
-        text  : '*NO se ha registrado el archivo PDF!'
-      });
-    }else{
-      window.open("../../../Services/pdf/"+x_pdf,"_blank");
-      f_unlink_pdf(x_pdf);
-    }
+    let acci_archivo = Accidentes_Id+"_ip.pdf";
+    window.open(mi_carpeta+"Services/files/pdf/ip/"+acci_archivo,"_blank");
   });
   ///:: FIN BOTON VER ARCHIVO PDF DE INFORME PRELIMINAR :::::::::::::::::::::::::::::::::::///
 
@@ -352,20 +376,8 @@ $(document).ready(function(){
   $(document).on("click", ".btn_documentos_adjuntos_pdf", function(){		
     filaAccidentes = $(this).closest('tr'); 
     Accidentes_Id = filaAccidentes.find('td:eq(12)').text();
-
-    let x_pdf     = "";
-    let file_pdf  = "DOC_ADJUNTO IP-"+Accidentes_Id;
-    x_pdf         = f_buscar_pdf('OPE_AccidentesImagen','Acci_Imagen','Accidentes_Id',Accidentes_Id,'Acci_TipoImagen','PDF',file_pdf );
-    if(x_pdf == ""){
-        Swal.fire({
-            icon: 'error',
-            title: 'PDF...',
-            text: '*NO se ha registrado el archivo PDF!'
-          });
-    }else{
-      window.open("../../../Services/pdf/"+x_pdf,"_blank");
-      f_unlink_pdf(x_pdf);
-    }
+    let acci_archivo = Accidentes_Id+"_doc_adj.pdf";
+    window.open(mi_carpeta+"Services/files/pdf/ip/"+acci_archivo,"_blank");
   });
   ///:: FIN BOTON VER ARCHIVO PDF DE INFORME PRELIMINAR :::::::::::::::::::::::::::::::::::///
 
@@ -433,37 +445,3 @@ function LimpiaMs(){
   $("#no_FechaTermino").removeClass("color-error");
 }
 ///:: FIN LIMPIA LOS CAMPOS DEL FORMULARIO ::::::::::::::::::::::::::::::::::::::::::::::::/// 
-
-///:: BUSCAR PDF ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///       
-function f_buscar_pdf(p_tabla, p_campo_archivo, p_campo_buscar, p_dato_buscar, p_campo_tipo_archivo, p_dato_tipo_archivo, p_nombre_archivo){
-  let pdf="";
-  Accion='buscar_pdf';
-  $.ajax({
-      url       : "Ajax.php",
-      type      : "POST",
-      datatype  : "json",    
-      async     : false,   
-      data      : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, tabla:p_tabla, campo_archivo:p_campo_archivo, campo_buscar:p_campo_buscar, dato_buscar:p_dato_buscar, campo_tipo_archivo:p_campo_tipo_archivo, dato_tipo_archivo:p_dato_tipo_archivo, nombre_archivo:p_nombre_archivo },   
-      success: function(data) {
-        pdf = data;
-      }
-  });	
-  return pdf;
-}
-///:: FIN BUSCAR PDF ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-
-function f_unlink_pdf(p_archivo){
-  let rpta_unlink_pdf = "";
-  Accion = 'unlink_pdf';
-  $.ajax({
-      url       : "Ajax.php",
-      type      : "POST",
-      datatype  : "json",    
-      async     : false,   
-      data      : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, archivo:p_archivo },   
-      success: function(data) {
-        rpta_unlink_pdf = data;
-      }
-  });
-  return rpta_unlink_pdf;
-}

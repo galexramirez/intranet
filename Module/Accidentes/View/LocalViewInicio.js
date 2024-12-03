@@ -8,10 +8,11 @@
 // MoS: Module o Services, NombreMoS: Nombre del modulo o servicio, Accion: Funcion a ejecutar
 var MoS, NombreMoS, Accion, div_tabs, div_tablas, div_boton, div_show, columnastabla;
 // Variable para cambiar el lenguaje a español de un datatable
-var idiomaEspanol;
+var idiomaEspanol, mi_carpeta;
 
 MoS           = "Module";
 NombreMoS     = "Accidentes";
+mi_carpeta = f_DocumentRoot();
 idiomaEspanol = {
   "lengthMenu"  : "&nbsp&nbsp&nbsp&nbspMostrar _MENU_ registros",
   "zeroRecords" : "No se encuentran resultados",
@@ -289,6 +290,23 @@ function f_ayuda_modulo(man_titulo){
   });         
 
 }
+
+function f_DocumentRoot(){
+  let rpta_mi_carpeta = '';
+  Accion = 'DocumentRoot';
+  $.ajax({
+    url       : "Ajax.php",
+    type      : "POST",
+    datatype  : "json",
+    async     : false,
+    data      : {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion},    
+    success   : function(data){
+      rpta_mi_carpeta = data;
+    }
+  });
+  return rpta_mi_carpeta;
+}
+
 
 ///::::::::::::::: FUNCIONES PARA LA CREACION DE ACCESOS ::::::::::::::::::::::::::::::::::///
 function f_CreacionTabs(pNombreTabs,pTipoTabs){

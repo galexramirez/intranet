@@ -18,6 +18,9 @@ class CRUD
 		$Instancia= new C_ConexionesBD();
 		$this->conexion=$Instancia->Conectar();
 		$this->conexion2=$Instancia->Conectar2();
+		$this->conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$this->conexion2->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
 	}
 
 	//::::::::::::::::::::::::::::::::::::::::::::::: ACCIDENTES :::::::::::::::::::::::::::::::::::::::::::::://
@@ -26,7 +29,53 @@ class CRUD
 	{
 		$Nove_Novedad 		= "NOVEDAD_OPERACION";
 		$Nove_TipoNovedad 	= "'ACCIDENTE_TRANSITO','DAÑO_EN_OPERACION','VANDALISMO','ACCIDENTE_ESPECIAL'";
-		$consulta			= "SELECT `OPE_Novedad`.`Nove_ProgramacionId`, `OPE_Novedad`.`Novedad_Id`, `OPE_Novedad`.`Nove_FechaOperacion`, (SELECT `colaborador`.`Colab_ApellidosNombres` FROM `colaborador` WHERE `colaborador`.`Colaborador_id`=`OPE_Novedad`.`Nove_UsuarioId`) AS `UsuarioGenera`, `OPE_Novedad`.`Nove_Operacion`, `OPE_Novedad`.`Nove_TipoNovedad`, `OPE_Novedad`.`Nove_DetalleNovedad`, `OPE_Novedad`.`Nove_NombreColaborador`, `OPE_Novedad`.`Nove_Bus`, `OPE_Novedad`.`Nove_Estado`, `OPE_Accidentes`.`OPE_AccidentesId`, `OPE_Accidentes`.`Accidentes_Id`, `OPE_Accidentes`.`Accidentes_Id`, '' AS `Acci_ResponsabilidadPiloto`, `OPE_AccidentesInformePreliminar`.`Acci_EstadoInformePreliminar`, `OPE_AccidentesInvestigacion`.`Acci_EstadoInvestigacion`, (SELECT `OPE_AccidentesImagen`.`Acci_TipoImagen` FROM `OPE_AccidentesImagen` WHERE `OPE_AccidentesImagen`.`Accidentes_Id`=`OPE_Novedad`.`Novedad_Id` AND `OPE_AccidentesImagen`.`Acci_TipoImagen`='IP_PDF') AS `acci_ip_pdf`, (SELECT `OPE_AccidentesImagen`.`Acci_TipoImagen` FROM `OPE_AccidentesImagen` WHERE `OPE_AccidentesImagen`.`Accidentes_Id`=`OPE_Novedad`.`Novedad_Id` AND `OPE_AccidentesImagen`.`Acci_TipoImagen`='PDF') AS `acci_doc_adj` FROM `OPE_Novedad` LEFT JOIN `OPE_Accidentes` ON `OPE_Accidentes`.`Acci_OPENovedadId`=`OPE_Novedad`.`OPE_NovedadId` LEFT JOIN `OPE_AccidentesInformePreliminar` ON `OPE_AccidentesInformePreliminar`.`Accidentes_Id` = `OPE_Accidentes`.`Accidentes_Id` LEFT JOIN `OPE_AccidentesInvestigacion` ON `OPE_AccidentesInvestigacion`.`Accidentes_Id` = `OPE_Accidentes`.`Accidentes_Id` WHERE `OPE_Novedad`.`Nove_Novedad`='$Nove_Novedad' AND `OPE_Novedad`.`Nove_TipoNovedad` IN ($Nove_TipoNovedad) AND `OPE_Novedad`.`Nove_FechaOperacion`>='$fecha_inicio' AND `OPE_Novedad`.`Nove_FechaOperacion`<='$fecha_termino' ORDER BY `OPE_Novedad`.`OPE_NovedadId` DESC";
+		$consulta			= "	SELECT 
+									`OPE_Novedad`.`Nove_ProgramacionId`, 
+									`OPE_Novedad`.`Novedad_Id`,
+									`OPE_Novedad`.`Nove_FechaOperacion`,
+									`colaborador`.`Colab_ApellidosNombres` AS `UsuarioGenera`,
+									`OPE_Novedad`.`Nove_Operacion`,
+									`OPE_Novedad`.`Nove_TipoNovedad`,
+									`OPE_Novedad`.`Nove_DetalleNovedad`, 
+									`OPE_Novedad`.`Nove_NombreColaborador`, 
+									`OPE_Novedad`.`Nove_Bus`,
+									`OPE_Novedad`.`Nove_Estado`,
+									`OPE_Accidentes`.`OPE_AccidentesId`,
+									`OPE_Accidentes`.`Accidentes_Id`,
+									`OPE_Accidentes`.`Accidentes_Id`, 
+									'' AS `Acci_ResponsabilidadPiloto`, 
+									`OPE_AccidentesInformePreliminar`.`Acci_EstadoInformePreliminar`,
+									`OPE_AccidentesInvestigacion`.`Acci_EstadoInvestigacion`, 
+									`t_pdf`.`Acci_Archivo` AS `acci_ip_pdf`, 
+									`t_doc`.`Acci_Archivo` AS `acci_doc_adj` 
+								FROM `OPE_Novedad` 
+								LEFT JOIN `OPE_Accidentes` 
+								ON 
+									`OPE_Accidentes`.`Acci_OPENovedadId`=`OPE_Novedad`.`OPE_NovedadId` 
+								LEFT JOIN `OPE_AccidentesInformePreliminar` 
+								ON 
+									`OPE_AccidentesInformePreliminar`.`Accidentes_Id` = `OPE_Accidentes`.`Accidentes_Id` 
+								LEFT JOIN `OPE_AccidentesInvestigacion` 
+								ON 
+									`OPE_AccidentesInvestigacion`.`Accidentes_Id` = `OPE_Accidentes`.`Accidentes_Id` 
+								LEFT JOIN `colaborador`
+								ON 
+									`colaborador`.`Colaborador_id`=`OPE_Novedad`.`Nove_UsuarioId`
+								LEFT JOIN `OPE_AccidentesImagen` AS `t_pdf`
+								ON 
+									`t_pdf`.`Accidentes_Id`=`OPE_Novedad`.`Novedad_Id` AND
+									`t_pdf`.`Acci_TipoImagen`='IP_PDF'
+								LEFT JOIN `OPE_AccidentesImagen` AS `t_doc`
+								ON
+									`t_doc`.`Accidentes_Id`=`OPE_Novedad`.`Novedad_Id` AND
+									`t_doc`.`Acci_TipoImagen`='PDF'
+								WHERE 
+									`OPE_Novedad`.`Nove_Novedad`='$Nove_Novedad' AND 
+									`OPE_Novedad`.`Nove_TipoNovedad` IN ($Nove_TipoNovedad) AND 
+									`OPE_Novedad`.`Nove_FechaOperacion`>='$fecha_inicio' AND 
+									`OPE_Novedad`.`Nove_FechaOperacion`<='$fecha_termino' 
+								ORDER BY 
+									`OPE_Novedad`.`OPE_NovedadId` DESC";
 
         $resultado = $this->conexion->prepare($consulta);
         $resultado->execute();        
@@ -342,12 +391,12 @@ class CRUD
 		$this->conexion=null;
 	}
 
-	function GrabarImagen($Accidentes_Id,$Acci_TipoImagen,$Acci_Imagen)
+	function GrabarImagen($Accidentes_Id,$Acci_TipoImagen,$Acci_Imagen,$Acci_Archivo)
 	{
 		$Acci_ImagenFecha = date("Y-m-d H:i:s");
 		$Acci_ImagenUsuarioId = $_SESSION['USUARIO_ID'];		
 
-		$consulta="INSERT INTO `OPE_AccidentesImagen`(`Accidentes_Id`, `Acci_TipoImagen`, `Acci_Imagen`, `Acci_ImagenFecha`, `Acci_ImagenUsuarioId`) VALUES ('$Accidentes_Id', '$Acci_TipoImagen', '$Acci_Imagen', '$Acci_ImagenFecha', '$Acci_ImagenUsuarioId')";
+		$consulta="INSERT INTO `OPE_AccidentesImagen`(`Accidentes_Id`, `Acci_TipoImagen`, `Acci_Imagen`, `Acci_ImagenFecha`, `Acci_ImagenUsuarioId`, `Acci_Archivo`) VALUES ('$Accidentes_Id', '$Acci_TipoImagen', '$Acci_Imagen', '$Acci_ImagenFecha', '$Acci_ImagenUsuarioId', '$Acci_Archivo')";
 
 		$resultado = $this->conexion->prepare($consulta);
  		$resultado->execute();   
@@ -985,6 +1034,41 @@ class CRUD
 		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
 
 		print json_encode($data, JSON_UNESCAPED_UNICODE);//envio el array final el formato json a AJAX
+		$this->conexion=null;
+	}
+
+	function files($tabla, $campo, $where)
+	{
+		unset($data);
+		unset($resultado);
+		if($where!=""){
+			$where = " WHERE ".$where;
+		}
+		try {
+			$consulta="SELECT *, TO_BASE64 (`$campo`) AS `b64_file` FROM `$tabla`".$where;
+			$resultado = $this->conexion->prepare($consulta);
+			$resultado->execute();        
+			$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+			return $data;
+		} catch (PDOException $e) {
+			$error = 'Excepción capturada: '. $e->getMessage(). "\n";
+			return $error;
+		}
+
+		$this->conexion=null;
+	}
+
+	function file_ids($tabla, $campo, $where)
+	{
+		if($where!=""){
+			$where = " WHERE ".$where;
+		}
+		$consulta="SELECT `$campo` FROM `$tabla`".$where;
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();        
+		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
+		return $data;
+
 		$this->conexion=null;
 	}
 
