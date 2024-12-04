@@ -71,7 +71,7 @@
 									<!-- Se debe genera la informacion detallada del control facilitador y la novedad -->
 								</div>
 			      				<div class="modal-footer">
-			      					<button type="button" class="btn btn-light" data-dismiss="modal">Cerrar</button>
+			      					<button type="button" class="btn btn-light btn-sm" data-dismiss="modal">Cerrar</button>
 			      				</div>
 							</form>
 			        	</div>
@@ -126,7 +126,7 @@
 			        	</div>
 						<div class="col-lg-1">
 							<div class="form-group">
-								<button type="button" id="btnBuscarInformePreliminar"class="btn btn-secondary btn-sm">Cargar</button>
+								<button type="button" id="btnBuscarInformePreliminar"class="btn btn-secondary btn-sm btnBuscarInformePreliminar">Cargar</button>
 							</div>
 			       		</div> 
 					</div>

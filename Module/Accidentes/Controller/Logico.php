@@ -176,92 +176,92 @@ class Logico
                 $html .= '<div class="card border-success mb-3">';
                 $html .=    '<div class="card-body card-novedades">
                                 <div class="row align-items-end">
-                                    <div class="col-lg-4">    
+                                    <div class="col-lg-5">    
                                         <div class="form-group">
-                                            <label for="" class="col-form-label">Nombres y Apellidos</label>
-                                            <label for="" class="form-control">' . $row['Prog_NombreColaborador'] . '</label>
+                                            <label for="" class="col-form-label dcf-p-sm">NOMBRES Y APELLIDOS</label>
+                                            <label for="" class="form-control dcf-p-sm">' . $row['Prog_NombreColaborador'] . '</label>
                                         </div>            
                                     </div>
-                                    <div class="col-lg-2">    
+                                    <div class="col-lg-1">    
                                         <div class="form-group">
-                                            <label for="" class="col-form-label">Tabla</label>
-                                            <label for="" class="form-control">' . $row['Prog_Tabla'] . '</label>
+                                            <label for="" class="col-form-label dcf-p-sm">TABLA</label>
+                                            <label for="" class="form-control dcf-p-sm">' . $row['Prog_Tabla'] . '</label>
                                         </div>            
                                     </div>    
                                     <div class="col-lg-2">    
                                         <div class="form-group">
-                                            <label for="" class="col-form-label">Bus</label>
-                                            <label for="" class="form-control">' . $row['Prog_Bus'] . '</label>
+                                            <label for="" class="col-form-label dcf-p-sm">BUS</label>
+                                            <label for="" class="form-control dcf-p-sm">' . $row['Prog_Bus'] . '</label>
                                         </div>            
                                     </div>    
                                     <div class="col-lg-2">    
                                         <div class="form-group">
-                                            <label for="" class="col-form-label">Servicio</label>
-                                            <label for="" class="form-control">' . $row['Prog_Servicio'] . '</label>
+                                            <label for="" class="col-form-label dcf-p-sm">SERVICIO</label>
+                                            <label for="" class="form-control dcf-p-sm">' . $row['Prog_Servicio'] . '</label>
                                         </div>            
                                     </div>    
-                                    <div class="col-lg-2">    
+                                    <div class="col-lg-1">    
                                         <div class="form-group">
-                                            <label for="" class="col-form-label">H. Origen</label>
-                                            <label for="" class="form-control">' . $row['Prog_HoraOrigen'] . '</label>
+                                            <label for="" class="col-form-label dcf-p-sm">H.ORIG.</label>
+                                            <label for="" class="form-control dcf-p-sm">' . $row['Prog_HoraOrigen'] . '</label>
+                                        </div>            
+                                    </div>
+                                    <div class="col-lg-1">    
+                                        <div class="form-group">
+                                            <label for="" class="col-form-label dcf-p-sm">H.DEST.</label>
+                                            <label for="" class="form-control dcf-p-sm">' . $row['Prog_HoraDestino'] . '</label>
                                         </div>            
                                     </div>    
                                 </div>
                                 <div class="row align-items-end">
                                     <div class="col-lg-2">    
                                         <div class="form-group">
-                                            <label for="" class="col-form-label">H. Destino</label>
-                                            <label for="" class="form-control">' . $row['Prog_HoraDestino'] . '</label>
-                                        </div>            
-                                    </div>    
-                                    <div class="col-lg-2">    
-                                        <div class="form-group">
-                                            <label for="" class="col-form-label">L. Origen</label>
-                                            <label for="" class="form-control">' . $row['Prog_LugarOrigen'] . '</label>
+                                            <label for="" class="col-form-label dcf-p-sm">L. ORIGEN</label>
+                                            <label for="" class="form-control dcf-p-sm">' . $row['Prog_LugarOrigen'] . '</label>
                                         </div>            
                                     </div>    
                                     <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="" class="col-form-label">L. Destino</label>
-                                            <label for="" class="form-control">' . $row['Prog_LugarDestino'] . '</label>
+                                            <label for="" class="col-form-label dcf-p-sm">L. DESTINO</label>
+                                            <label for="" class="form-control dcf-p-sm">' . $row['Prog_LugarDestino'] . '</label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-2">
+                                    <div class="col-lg-3">
                                         <div class="form-group">
-                                            <label for="" class="col-form-label">Servicio Bus</label>
-                                            <label for="" class="form-control">' . $row['Prog_ServBus'] . '</label>
+                                            <label for="" class="col-form-label dcf-p-sm">SERVICIO BUS</label>
+                                            <label for="" class="form-control dcf-p-sm">' . $row['Prog_ServBus'] . '</label>
                                         </div> 
                                     </div>    
                                     <div class="col-lg-3">    
                                         <div class="form-group">
-                                            <label for="" class="col-form-label">Tipo de Evento</label>
-                                            <label for="" class="form-control">' . $row['Prog_TipoEvento'] . '</label>
+                                            <label for="" class="col-form-label dcf-p-sm">TIPO DE EVENTO</label>
+                                            <label for="" class="form-control dcf-p-sm">' . $row['Prog_TipoEvento'] . '</label>
                                         </div>            
                                     </div>
-                                    <div class="col-lg-1">
+                                    <div class="col-lg-2">
                                         <div class="form-group">
-                                            <label for="" class="col-form-label">KM.</label>
-                                            <label for="" class="form-control">' . $row['Prog_KmXPuntos'] . '</label>
+                                            <label for="" class="col-form-label dcf-p-sm">KM</label>
+                                            <label for="" class="form-control dcf-p-sm">' . $row['Prog_KmXPuntos'] . '</label>
                                         </div>
                                     </div>    
                                 </div>   
                                 <div class="row align-items-end">
-                                    <div class="col-lg-2">    
+                                    <div class="col-lg-1">    
                                         <div class="form-group">
-                                            <label for="" class="col-form-label">Tipo de Tabla</label>
-                                            <label for="" class="form-control">' . $row['Prog_TipoTabla'] . '</label>
+                                            <label for="" class="col-form-label dcf-p-sm">T.TABLA</label>
+                                            <label for="" class="form-control dcf-p-sm">' . $row['Prog_TipoTabla'] . '</label>
                                         </div>            
                                     </div>
                                     <div class="col-lg-7">    
                                         <div class="form-group"> 
-                                            <label for="" class="col-form-label">Observaciones</label>
-                                            <label for="" class="form-control">' . $row['Prog_Observaciones'] . '</label>
+                                            <label for="" class="col-form-label dcf-p-sm">OBSERVACIONES</label>
+                                            <label for="" class="form-control dcf-p-sm">' . $row['Prog_Observaciones'] . '</label>
                                         </div>            
                                     </div>
-                                    <div class="col-lg-3">    
+                                    <div class="col-lg-4">    
                                         <div class="form-group"> 
-                                            <label for="" class="col-form-label">Generado por</label>
-                                            <label for="" class="form-control">' . $row['CFaci_UsuarioId'] . '</label>
+                                            <label for="" class="col-form-label dcf-p-sm">GENERADO POR</label>
+                                            <label for="" class="form-control dcf-p-sm">' . $row['CFaci_UsuarioId'] . '</label>
                                         </div>            
                                     </div>    
                                 </div>
@@ -271,12 +271,12 @@ class Logico
                 $html .=    '<div class="card-header">
                                 <div class="row align-items-end">
                                     <div class="col-lg-12">    	
-                                        <h6 class="card-title">'.$row['Novedad_Id'] . " | " . $row['Nove_Novedad'] . " | " . $row['Nove_TipoNovedad'] . " | " . $row['Nove_DetalleNovedad'] . " | Generado por: " . $row['Nove_UsuarioId'] .'</h6>
+                                        <h5 class="card-title dcf-p-sm text-success">'.$row['Novedad_Id'] . " | " . $row['Nove_Novedad'] . " | " . $row['Nove_TipoNovedad'] . " | " . $row['Nove_DetalleNovedad'] . " | GENERADO POR: " . $row['Nove_UsuarioId'] .'</h5>
                                     </div>
                                 </div>
                                 <div class="row align-items-end">
-                                    <div class="col-lg-12">    
-                                        <p class="form-text">' . $row['Nove_Descripcion'] . '</p>
+                                    <div class="col-lg-12">
+                                        <p class="form-text dcf-p-sm">' . $row['Nove_Descripcion'] . '</p>
                                     </div>    
                                 </div>
                             </div>';
@@ -1353,23 +1353,73 @@ class Logico
         echo "Transferencia Exitosa";
     }
 
-    public function grabar_pdf($Accidentes_Id, $Acci_TipoImagen, $Acci_Imagen)
+    public function grabar_pdf($Accidentes_Id, $Acci_TipoImagen, $Acci_Imagen, $Acci_Archivo)
     {
-        $Acci_Archivo = $Accidentes_Id."_ip.pdf";
+        $rpta_grabar = "";
         $pdf_nuevo = $_SERVER['DOCUMENT_ROOT']."/Services/files/pdf/ip/".$Acci_Archivo;
 		if(move_uploaded_file($Acci_Imagen, $pdf_nuevo)){
             MModel($this->Modulo,'CRUD');
             $InstanciaAjax  = new CRUD();
             $Respuesta = $InstanciaAjax->GrabarImagen($Accidentes_Id, $Acci_TipoImagen, $Acci_Imagen, $Acci_Archivo);
-            
-		}else{
-			echo "Error";
+            if(substr($Respuesta,0,1)=="E"){
+                $rpta_grabar = $Respuesta;
+            }
+        }else{
+			$rpta_grabar = "Error: No se logra grabar el archivo en la carpeta del servidor";
 		}
-   
+        if($rpta_grabar===""){
+            echo "Generación Exitosa ...!!!";
+        } else {
+            echo $rpta_grabar;
+        }
     }
     
-    public function editar_pdf($Accidentes_Id, $Acci_TipoImagen, $Acci_Imagen)
+    public function editar_pdf($Accidentes_Id, $Acci_TipoImagen, $Acci_Imagen, $Acci_Archivo)
     {
+        $rpta_grabar = "";
+        $Acci_Log = "";
+        $pdf = $_SERVER['DOCUMENT_ROOT']."/Services/files/pdf/ip/".$Acci_Archivo;
+        $borrar_pdf = False;
+
+        try {
+            if (file_exists($pdf)) {
+                if (unlink($pdf)) {
+                    //echo "Archivo anterior eliminado exitosamente.";
+                    $borrar_pdf = True;
+                } else {
+                    throw new Exception("Error al eliminar el archivo anterior.");
+                }
+            } else {
+                throw new Exception("Archivo anterior no existe.");
+            }
+        } catch (Exception $e) {
+            $rpta_grabar = "Error ocurrido: " . $e->getMessage();
+        }
+
+        if($borrar_pdf){
+            MModel($this->Modulo,'CRUD');
+            $InstanciaAjax  = new CRUD();
+            $Respuesta = $InstanciaAjax->buscar_dato("OPE_AccidentesImagen","Acci_Log","`Accidentes_Id`='".$Accidentes_Id."'");
+            foreach ($Respuesta as $key => $row) {
+                $Acci_Log = $row['Acci_log'];
+            }
+            if(move_uploaded_file($Acci_Imagen, $pdf)){
+                MModel($this->Modulo,'CRUD');
+                $InstanciaAjax  = new CRUD();
+                $Respuesta = $InstanciaAjax->EditarImagen($Accidentes_Id, $Acci_TipoImagen, $Acci_Log);
+                if(substr($Respuesta,0,1)=="E"){
+                    $rpta_grabar = $Respuesta;
+                }
+            }else{
+                $rpta_grabar = "Error ocurrido: No se logra grabar el archivo en la carpeta del servidor";
+            }    
+        }
+
+        if($rpta_grabar===""){
+            echo "Generación Exitosa ...!!!";
+        } else {
+            echo $rpta_grabar;
+        }
         
     }
 }

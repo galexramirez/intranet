@@ -4,8 +4,8 @@
 ///::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///:: DECLARACION DE VARIABLES ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-var tablaAccidentes, filaAccidentes, Acci_Operacion, perm_adjuntar_pdf, perm_informe_preliminar;
-var OPE_AccidentesId, Accidentes_Id, Nove_ProgramacionId, Novedad_Id, Prog_Operacion;
+var tablaAccidentes, filaAccidentes, Acci_Operacion, perm_adjuntar_pdf, perm_informe_preliminar, opcionCargaPDF;
+var OPE_AccidentesId, Accidentes_Id, Nove_ProgramacionId, Novedad_Id, Prog_Operacion, Acci_TipoImagen, Acci_Archivo;
 var selectAniosAccidentes, tDefaultContentAccidentes, miCarpeta;
 var no_FechaInicio, no_FechaTermino, fecha_inicio_accidentes;
 
@@ -80,15 +80,6 @@ $(document).ready(function(){
     });
 
   });
-
-  /* $(document).on("click",".nav-home-tab-Accidentes", function(){
-    div_show = f_DivFormulario("formSeleccionAccidentes","formSeleccionAccidentes");
-    $("#formSeleccionAccidentes").html(div_show);
-  
-    $('#no_FechaInicio').val(no_FechaInicio);
-    $('#no_FechaTermino').val(no_FechaTermino);
-    document.getElementById("btnBuscarAccidentes").click();        
-  }); */
 
   ///:: BOTON DATA TABLE LISTADO DE ACCIDENTES ::::::::::::::::::::::::::::::::::::::::::::///
   $(document).on("click", ".btnBuscarAccidentes", function(){
@@ -275,7 +266,7 @@ $(document).ready(function(){
 
     $(".modal-header").css( "background-color", "#17a2b8");
     $(".modal-header").css( "color", "white" );
-    $(".modal-title").text("Detalle Control Facilitador");
+    $(".modal-title").text("Detalle Control Facilitador - Novedad "+Novedad_Id);
     $('#modalCRUDDetalleControlFacilitador').modal('show'); 
   });
   ///:: FIN BOTON REPORTE CONTROL FACILITADOR  ::::::::::::::::::::::::::::::::::::::::::::///
@@ -304,23 +295,20 @@ $(document).ready(function(){
   
   ///:: BOTON ADJUNTAR DOCUMENTOS EN PDF ::::::::::::::::::::::::::::::::::::::::::::::::::///
   $(document).on("click", ".btnAdjuntarPDF", function(){
-
+    Acci_Archivo = "";
+    Acci_TipoImagen = "PDF";
     perm_adjuntar_pdf = f_permisos(NombreMoS, "colAdjuntarPDF");
 
     if(perm_adjuntar_pdf == "SI"){
-      filaAccidentes  = $(this).closest('tr'); 
-      Accidentes_Id   = filaAccidentes.find('td:eq(12)').text();
+      filaAccidentes = $(this).closest('tr'); 
+      Accidentes_Id = filaAccidentes.find('td:eq(12)').text();
+      Acci_Archivo = f_buscar_dato("OPE_AccidentesImagen","Acci_Archivo","`Accidentes_Id`='"+Accidentes_Id+"' AND `Acci_TipoImagen`='"+Acci_TipoImagen+"'") ;
       if(Accidentes_Id!=""){
-        let buscarPDF="";
-        Acci_TipoImagen = "PDF";
-     
-        buscarPDF = f_BuscarPDF(Acci_TipoImagen);
-        if(buscarPDF==""){
+        if(Acci_Archivo==""){
           opcionCargaPDF = 1; //CREAR nueva imagen
         }else{
           opcionCargaPDF = 2; //EDITAR imagen
         }
-        
         $(".modal-header").css( "background-color", "#17a2b8");
         $(".modal-header").css( "color", "white" );
         $(".modal-title").text("Carga de Archivo PDF");
@@ -338,7 +326,7 @@ $(document).ready(function(){
         icon: 'error',
         title: 'Permisos...',
         text: 'No tiene permiso para esta opción!!!'
-      })    
+      })
     }
   });
   ///:: FIN BOTON ADJUNTAR DOCUMENTOS EN PDF ::::::::::::::::::::::::::::::::::::::::::::::///
@@ -348,36 +336,82 @@ $(document).ready(function(){
     e.preventDefault();
     let nombre_pdf = $('#Acci_PDF')[0].files[0].name;
     if(nombre_pdf!=""){
-      f_GrabarPDF(opcionCargaPDF);
+      let blobFile;
+      let formData = new FormData();
+    
+      blobFile = $('#Acci_PDF')[0].files[0];
+      if(opcionCargaPDF==1){
+        Accion='grabar_pdf';
+      }else{
+        Accion='editar_pdf';
+      }
+    
+      formData.append("MoS", MoS);
+      formData.append("NombreMoS", NombreMoS);
+      formData.append("Accion", Accion);
+      formData.append("Accidentes_Id", Accidentes_Id);
+      formData.append("Acci_TipoImagen", Acci_TipoImagen);
+      formData.append("Acci_Imagen", blobFile);
+      formData.append("Acci_Archivo", Acci_Archivo);
+      $.ajax({
+          url         : "Ajax.php",
+          type        : "POST",
+          datatype    : "json",
+          data        : formData,   
+          async       : false,
+          contentType : false,
+          processData : false,
+          success     : function(data) {
+            tablaAccidentes.ajax.reload(null,false);
+            if(data.substring(0,1)=="E"){
+              Swal.fire({
+                position : 'center',
+                icon     : 'error',
+                title    : '*Error al cargar archivo PDF!!!',
+                text     : data,
+              })
+            }else{
+              Swal.fire({
+                icon              : 'success',
+                title             : data,
+                showConfirmButton : false,
+                timer             : 2000
+              })  
+            }
+          }
+      });	
+    
     }else{
       Swal.fire({
         position          : 'center',
         icon              : 'error',
-        title             : '*No se ha cargado ningún archivo PDF!!!'+tmsg,
+        title             : '*No se ha cargado ningún archivo PDF!!!',
         showConfirmButton : false,
         timer             : 1500
       })
     }
     $('#modalCRUDPDFCarga').modal('hide');
-    tablaAccidentes.ajax.reload(null,false);
+    
   });
   ///:: FIN BOTON CARGAR PDF -> REALIZA LA GRABACION EN LA TABLA OPE_AccidentesImagenes BUS ::///
   
   ///:: BOTON VER ARCHIVO PDF DE INFORME PRELIMINAR :::::::::::::::::::::::::::::::::::::::///
-  $(document).on("click", ".btn_ip_pdf", function(){		
+  $(document).on("click", ".btn_ip_pdf", function(){
+    Acci_TipoImagen = "IP_PDF";
     filaAccidentes = $(this).closest('tr'); 
     Accidentes_Id = filaAccidentes.find('td:eq(12)').text();
-    let acci_archivo = Accidentes_Id+"_ip.pdf";
-    window.open(mi_carpeta+"Services/files/pdf/ip/"+acci_archivo,"_blank");
+    Acci_Archivo = f_buscar_dato("OPE_AccidentesImagen","Acci_Archivo","`Accidentes_Id`='"+Accidentes_Id+"' AND `Acci_TipoImagen`='"+Acci_TipoImagen+"'") ;
+    window.open(mi_carpeta+"Services/files/pdf/ip/"+Acci_Archivo,"_blank");
   });
   ///:: FIN BOTON VER ARCHIVO PDF DE INFORME PRELIMINAR :::::::::::::::::::::::::::::::::::///
 
   ///:: BOTON VER ARCHIVO PDF DE INFORME PRELIMINAR :::::::::::::::::::::::::::::::::::::::///
   $(document).on("click", ".btn_documentos_adjuntos_pdf", function(){		
+    Acci_TipoImagen = "PDF";
     filaAccidentes = $(this).closest('tr'); 
     Accidentes_Id = filaAccidentes.find('td:eq(12)').text();
-    let acci_archivo = Accidentes_Id+"_doc_adj.pdf";
-    window.open(mi_carpeta+"Services/files/pdf/ip/"+acci_archivo,"_blank");
+    Acci_Archivo = f_buscar_dato("OPE_AccidentesImagen","Acci_Archivo","`Accidentes_Id`='"+Accidentes_Id+"' AND `Acci_TipoImagen`='"+Acci_TipoImagen+"'") ;
+    window.open(mi_carpeta+"Services/files/pdf/ip/"+Acci_Archivo,"_blank");
   });
   ///:: FIN BOTON VER ARCHIVO PDF DE INFORME PRELIMINAR :::::::::::::::::::::::::::::::::::///
 
@@ -387,38 +421,6 @@ $(document).ready(function(){
 
 
 ///::::::::::::::::::::::::: FUNCIONES DE ACCIDENTES ::::::::::::::::::::::::::::::::::::::///
-
-///:: GRABAR IMAGEN :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-function f_GrabarPDF(p_opcionCargaPDF){
-  let blobFile;
-  let formData = new FormData();
-
-  blobFile = $('#Acci_PDF')[0].files[0];
-  if(p_opcionCargaPDF==1){
-    Accion='grabar_pdf';
-  }else{
-    Accion='editar_pdf';
-  }
-
-  formData.append("MoS", MoS);
-  formData.append("NombreMoS", NombreMoS);
-  formData.append("Accion", Accion);
-  formData.append("Accidentes_Id", Accidentes_Id);
-  formData.append("Acci_TipoImagen", Acci_TipoImagen);
-  formData.append("Acci_Imagen", blobFile);
-  $.ajax({
-      url         : "Ajax.php",
-      type        : "POST",
-      datatype    : "json",
-      data        : formData,   
-      async       : false,
-      contentType : false,
-      processData : false,
-      success     : function(data) {
-      }
-  });	
-}
-///:: FIN GRABAR IMAGEN :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 ///:: FUNCION PARA VALIDAR LOS DATOS INGRESADOS AL FORMULARIO :::::::::::::::::::::::::::::///
 function validar(pno_FechaInicio,pno_FechaTermino){

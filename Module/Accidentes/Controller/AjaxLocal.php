@@ -805,20 +805,22 @@ switch ($Accion)
       $Accidentes_Id    = $_POST['Accidentes_Id'];
       $Acci_TipoImagen  = $_POST['Acci_TipoImagen'];
       $Acci_Imagen      = $_FILES['Acci_Imagen']['tmp_name'];
+      $Acci_Archivo     = $_POST['Acci_Archivo'];
          
       MController($Modulo,'Logico');
       $InstanciaAjax = new Logico();
-      $Respuesta     = $InstanciaAjax->grabar_pdf($Accidentes_Id, $Acci_TipoImagen, $Acci_Imagen);
+      $Respuesta     = $InstanciaAjax->grabar_pdf($Accidentes_Id, $Acci_TipoImagen, $Acci_Imagen, $Acci_Archivo);
    break;
 
    case 'editar_pdf':
       $Accidentes_Id    = $_POST['Accidentes_Id'];
       $Acci_TipoImagen  = $_POST['Acci_TipoImagen'];
       $Acci_Imagen      = $_FILES['Acci_Imagen']['tmp_name'];
+      $Acci_Archivo     = $_POST['Acci_Archivo'];
          
-      MModel($Modulo,'CRUD');
-      $InstanciaAjax = new CRUD();
-      $Respuesta     = $InstanciaAjax->editar_pdf($Accidentes_Id, $Acci_TipoImagen, $Acci_Imagen);
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta     = $InstanciaAjax->editar_pdf($Accidentes_Id, $Acci_TipoImagen, $Acci_Imagen, $Acci_Archivo);
    break;
 
    case 'LeerTipoTablaAccidentes':

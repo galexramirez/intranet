@@ -4,7 +4,8 @@ CREATE TABLE `BDLIMABUS`.`OPE_AccidentesImagen` (
 `Acci_TipoImagen` VARCHAR(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , 
 `Acci_ImagenUsuarioId` VARCHAR(8) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , 
 `Acci_ImagenFecha` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-`Acci_Archivo` varchar(100) DEFAULT NULL,
+`Acci_Archivo` varchar(100) DEFAULT NOT NULL,
+`Acci_Log` varchar(1000) DEFAULT NULL,
 PRIMARY KEY (`OPE_AcciImagenId`)) ENGINE = InnoDB;
 
 

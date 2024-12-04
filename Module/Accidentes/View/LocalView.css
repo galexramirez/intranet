@@ -261,6 +261,9 @@ p {
     background-color: #ff1e00d9 !important;
 }
 
+.dcf-p-sm {
+    font-size: small !important;
+}
 /* PARA OCULTAR EL INCREMENTO DEL CAMPO NUMBER
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
