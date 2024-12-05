@@ -8,6 +8,10 @@ CREATE TABLE `BDLIMABUS`.`OPE_AccidentesImagen` (
 `Acci_Log` varchar(1000) DEFAULT NULL,
 PRIMARY KEY (`OPE_AcciImagenId`)) ENGINE = InnoDB;
 
+ALTER TABLE BDLIMABUS.OPE_AccidentesImagen DROP COLUMN Acci_Imagen;
+ALTER TABLE BDLIMABUS.OPE_AccidentesImagen ADD Acci_Archivo varchar(100) NULL;
+ALTER TABLE BDLIMABUS.OPE_AccidentesImagen ADD Acci_Log varchar(1000) NULL;
+
 
 UPDATE BDLIMABUS.OPE_AccidentesImagen
 SET Acci_Archivo=CONCAT(Accidentes_Id,'_qr_code.png')
@@ -16,7 +20,8 @@ UPDATE BDLIMABUS.OPE_AccidentesImagen
 SET Acci_Archivo=CONCAT(Accidentes_Id,'_',LOWER(Acci_TipoImagen),'.jpg')
 WHERE 
 SUBSTRING(Acci_TipoImagen,1,2) ='Im' OR
-SUBSTRING(Acci_TipoImagen,1,2) ='Ma';
+SUBSTRING(Acci_TipoImagen,1,2) ='Ma' OR
+SUBSTRING(Acci_TipoImagen,1,2) ='Bu';
 UPDATE BDLIMABUS.OPE_AccidentesImagen
 SET Acci_Archivo=CONCAT(Accidentes_Id,'_ip.pdf')
 WHERE 

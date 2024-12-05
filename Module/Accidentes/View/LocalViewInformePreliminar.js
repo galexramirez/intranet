@@ -239,7 +239,8 @@ $(document).ready(function(){
     f_EdicionCamposInformePreliminar('disabled', true);
 
     // SE REVISA EL ESTADO DEL INFORME PRELIMINAR
-    Acci_EstadoInformePreliminar = "";
+    Acci_EstadoInformePreliminar = f_buscar_dato("OPE_AccidentesInformePreliminar", "Acci_EstadoInformePreliminar", "`Accidentes_Id`='"+InformePreliminar_Id+"'");
+    /* Acci_EstadoInformePreliminar = "";
     Accion='EstadoInformePreliminar';
     $.ajax({
       url: "Ajax.php",
@@ -250,7 +251,7 @@ $(document).ready(function(){
       success: function(data){
         Acci_EstadoInformePreliminar = data;
       }
-    });
+    }); */
 
     // SI EL ESTADO ES VACIO SE REALIZA LA CARGA INICIAL DEL INFORME PRELIMINAR CON LA INFORMACION DEL CONTROL FACILITADOR Y NOVEDAD
     if(Acci_EstadoInformePreliminar==""){
@@ -417,7 +418,7 @@ $(document).ready(function(){
 
       // SE CARGAN LAS IMAGENES DE LA TABLA ACCIDENTES IMAGENES, MAPA, BUS, CODIGOQR
       // IMAGENES DEL 1 AL 4
-      buscarImagen = f_BuscarImagen("Imagen1");
+      buscarImagen =  f_BuscarImagen("Imagen1");
       if(buscarImagen==""){
         pImagen = '<img src="Module/Accidentes/View/Img/SinImagen.jpg" class="card-img-top rounded img-fluid img-thumbnail" alt="Responsive image" >';
       }else{
@@ -756,12 +757,6 @@ function f_ValidarInformePreliminar(pAcci_TipoAccidente, pAcci_ClaseAccidente, p
     rptaValidarInformePreliminar = "invalido";
   }
 
-  /*if(pAcci_HoraFinAtencion == ""){
-    $("#HoraFinAtencionAccidente").addClass("color-error");
-    $("#MinutoFinAtencionAccidente").addClass("color-error");
-    rptaValidarInformePreliminar = "invalido";
-  }*/
-
   if(pAcci_HorasTrabajadas == ""){
     $("#HoraTrabajadasAccidente").addClass("color-error");
     $("#MinutoTrabajadosAccidente").addClass("color-error");
@@ -913,7 +908,6 @@ function f_CargarVariablesInformePreliminar(p_data){
     Acci_HospitalAccidente                = obj.Acci_Hospital ;
     Acci_ComisariaAccidente               = obj.Acci_Comisaria ;
     Acci_HoraFinAtencion                  = obj.Acci_HoraFinAtencion ; // + campo
-    console.log(obj.Acci_HoraFinAtencion);
     if(Acci_HoraFinAtencion !== null){
       HoraFinAtencionAccidente              = Acci_HoraFinAtencion.substring(0,2) ;
       MinutoFinAtencionAccidente            = Acci_HoraFinAtencion.substring(3,5) ;  
@@ -955,7 +949,7 @@ function f_CargarVariablesVacioInformePreliminar(){
   Acci_Lesiones                         = "";
   Acci_TipoEvento                       = "";
   Acci_FechaAccidente                   = "";
-  Acci_HoraAccidente                    = "";// + campo
+  Acci_HoraAccidente                    = ""; // + campo
   HoraAccidente                         = "";
   MinutoAccidente                       = "";
   Acci_Dni                              = "";
@@ -998,7 +992,7 @@ function f_CargarVariablesVacioInformePreliminar(){
   Acci_FechaElaboracionInforme          = "";
   Acci_UsuarioId_Cerrar                 = "";
   Acci_FechaCerrar                      = "";
-  acci_lugar_referencia                  = "";
+  acci_lugar_referencia                 = "";
 }
 ///:: FIN INICIALIZAN LAS VARIABLES DEL INFORME PRELIMINAR ::::::::::::::::::::::::::::::::///
 

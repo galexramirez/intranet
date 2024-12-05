@@ -389,13 +389,13 @@ class CRUD
 		$this->conexion = null;
 	}
 
-	function GrabarImagen($Accidentes_Id, $Acci_TipoImagen, $Acci_Imagen, $Acci_Archivo)
+	function GrabarImagen($Accidentes_Id, $Acci_TipoImagen, $Acci_Archivo)
 	{
 		$Acci_ImagenFecha = date("Y-m-d H:i:s");
 		$Acci_ImagenUsuarioId = $_SESSION['USUARIO_ID'];
 		$Acci_Log = $Acci_ImagenFecha." ".$_SESSION['Usua_NombreCorto']." Creación <br>";
 		try {
-			$consulta = "INSERT INTO `OPE_AccidentesImagen`(`Accidentes_Id`, `Acci_TipoImagen`, `Acci_Imagen`, `Acci_ImagenFecha`, `Acci_ImagenUsuarioId`, `Acci_Archivo`, `Acci_log`) VALUES ('$Accidentes_Id', '$Acci_TipoImagen', '$Acci_Imagen', '$Acci_ImagenFecha', '$Acci_ImagenUsuarioId', '$Acci_Archivo', '$Acci_Log')";
+			$consulta = "INSERT INTO `OPE_AccidentesImagen`(`Accidentes_Id`, `Acci_TipoImagen`, `Acci_ImagenFecha`, `Acci_ImagenUsuarioId`, `Acci_Archivo`, `Acci_Log`) VALUES ('$Accidentes_Id', '$Acci_TipoImagen', '$Acci_ImagenFecha', '$Acci_ImagenUsuarioId', '$Acci_Archivo', '$Acci_Log')";
 			$resultado = $this->conexion->prepare($consulta);
 			$resultado->execute();
 			$id = $this->conexion->lastInsertId();
@@ -1073,4 +1073,35 @@ class CRUD
 
 		$this->conexion = null;
 	}
+
+	function grabar_files($Accidentes_Id, $Acci_TipoImagen, $Acci_ImagenUsuarioId, $Acci_ImagenFecha, $Acci_Archivo)
+	{
+		try {
+			$consulta = "INSERT INTO `OPE_AccidentesImagen`(`Accidentes_Id`, `Acci_TipoImagen`, `Acci_ImagenUsuarioId`, `Acci_ImagenFecha`, `Acci_Archivo`) VALUES ('$Accidentes_Id', '$Acci_TipoImagen', '$Acci_ImagenUsuarioId', '$Acci_ImagenFecha', '$Acci_Archivo')";
+			$resultado = $this->conexion->prepare($consulta);
+			$resultado->execute();
+			$id = $this->conexion->lastInsertId();
+			return $id;
+		} catch (PDOException $e) {
+			$error = 'Excepción capturada: ' . $e->getMessage() . "\n";
+			return $error;
+		}
+		$this->conexion = null;
+	}
+
+	function files_bus()
+	{
+		$consulta = "SELECT DISTINCT `oai`.`Accidentes_Id`, `oai`.`Acci_TipoImagen`, `oa`.`Acci_Operacion` 
+					FROM `OPE_AccidentesImagen` AS `oai` 
+					LEFT JOIN `OPE_Accidentes` AS `oa` 
+					ON `oa`.`Accidentes_Id` = `oai`.`Accidentes_Id` 
+					WHERE `oai`.`Acci_TipoImagen` = 'CodigoQR'";
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();
+		$data = $resultado->fetchAll(PDO::FETCH_ASSOC);
+		return $data;
+
+		$this->conexion = null;
+	}
+
 }

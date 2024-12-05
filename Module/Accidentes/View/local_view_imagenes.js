@@ -103,7 +103,9 @@ $(document).ready(function(){
 ///:: BUSCAR IMAGEN :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///       
 function f_BuscarImagen(p_Acci_TipoImagen){
   let img = "";
-  if(InformePreliminar_Id!=""){
+  let dir = "";
+  let acci_archivo = "";
+  /* if(InformePreliminar_Id!=""){
     Accion  = 'BuscarImagen';
     $.ajax({
         url       : "Ajax.php",
@@ -119,7 +121,22 @@ function f_BuscarImagen(p_Acci_TipoImagen){
                 }
             });
         }
-    });
+    }); 
+  } */
+  if(InformePreliminar_Id!="" ){
+    acci_archivo = f_buscar_dato("OPE_AccidentesImagen","Acci_Archivo","`Accidentes_Id`='"+InformePreliminar_Id+"' AND `Acci_TipoImagen`='"+p_Acci_TipoImagen+"'");
+    if (acci_archivo!=""){
+      if(p_Acci_TipoImagen.substring(0,2)=="Im" || p_Acci_TipoImagen.substring(0,2)=="Ma"){
+        dir = mi_carpeta+"Services/files/image/ip/";
+      }
+      if(p_Acci_TipoImagen.substring(0,2)=="Co"){
+        dir = mi_carpeta+"Services/files/qrcode/ip/";
+      }
+      if(p_Acci_TipoImagen.substring(0,2)=="IP" || p_Acci_TipoImagen.substring(0,2)=="PD"){
+        dir = mi_carpeta+"Services/files/pdf/ip/";
+      }
+      img = dir+acci_archivo;
+    }
   }
   return img;
 }
