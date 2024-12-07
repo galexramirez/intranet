@@ -240,18 +240,6 @@ $(document).ready(function(){
 
     // SE REVISA EL ESTADO DEL INFORME PRELIMINAR
     Acci_EstadoInformePreliminar = f_buscar_dato("OPE_AccidentesInformePreliminar", "Acci_EstadoInformePreliminar", "`Accidentes_Id`='"+InformePreliminar_Id+"'");
-    /* Acci_EstadoInformePreliminar = "";
-    Accion='EstadoInformePreliminar';
-    $.ajax({
-      url: "Ajax.php",
-      type: "POST",
-      datatype:"json",
-      async: false,    
-      data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,Accidentes_Id:InformePreliminar_Id},    
-      success: function(data){
-        Acci_EstadoInformePreliminar = data;
-      }
-    }); */
 
     // SI EL ESTADO ES VACIO SE REALIZA LA CARGA INICIAL DEL INFORME PRELIMINAR CON LA INFORMACION DEL CONTROL FACILITADOR Y NOVEDAD
     if(Acci_EstadoInformePreliminar==""){
@@ -584,7 +572,22 @@ $(document).ready(function(){
           datatype:"json",
           async: false,    
           data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,Accidentes_Id:Accidentes_Id,Acci_TipoAccidente:Acci_TipoAccidente,Acci_TipoEvento:Acci_TipoEvento,Acci_Bus:Acci_BusAccidente,Acci_NombreColaborador:Acci_NombreColaborador,Acci_Lugar:Acci_LugarAccidente,Acci_Comisaria:Acci_ComisariaAccidente,Acci_Hospital:Acci_HospitalAccidente,Tipo:Tipo},    
-          success: function(){
+          success: function(resp){
+            if(resp.substring(0,1)=="E"){
+              Swal.fire({
+                position : 'center',
+                icon     : 'error',
+                title    : '*Error al cargar CodigoQR!!!',
+                text     : resp,
+              })
+            }else{
+              Swal.fire({
+                icon              : 'success',
+                title             : resp,
+                showConfirmButton : false,
+                timer             : 2000
+              })  
+            }
           }
         });
         // CARGAN LOS DATATABLES
@@ -612,8 +615,22 @@ $(document).ready(function(){
           datatype:"json",
           async: false,    
           data: {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,Accidentes_Id:InformePreliminar_Id,Acci_TipoAccidente:Acci_TipoAccidente,Acci_TipoEvento:Acci_TipoEvento,Acci_Bus:Acci_BusAccidente,Acci_NombreColaborador:Acci_NombreColaborador,Acci_Lugar:Acci_LugarAccidente,Acci_Comisaria:Acci_ComisariaAccidente,Acci_Hospital:Acci_HospitalAccidente,Tipo:Tipo},    
-          success: function(){
-  
+          success: function(resp){
+            if(resp.substring(0,1)=="E"){
+              Swal.fire({
+                position : 'center',
+                icon     : 'error',
+                title    : '*Error al cargar CodigoQR!!!',
+                text     : resp,
+              })
+            }else{
+              Swal.fire({
+                icon              : 'success',
+                title             : resp,
+                showConfirmButton : false,
+                timer             : 2000
+              })  
+            }  
           }
         });
       }

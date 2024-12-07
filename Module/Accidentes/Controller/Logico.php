@@ -287,150 +287,140 @@ class Logico
     public function CodigoQR($Accidentes_Id, $Acci_TipoAccidente, $Acci_TipoEvento, $Acci_Bus, $Acci_NombreColaborador, $Acci_Lugar, $Acci_Comisaria, $Acci_Hospital, $Tipo)
     {
         include('Services/Resources/phpqrcode/qrlib.php');
+        $rpta_grabar = "";
+        $Acci_Archivo = $Accidentes_Id."_qr_code.png";
+        $Acci_TipoImagen = "CodigoQR";
+        $file_png = $_SERVER['DOCUMENT_ROOT']."/Services/files/qrcode/ip/".$Acci_Archivo;
+        $existe_qr = False;
+        
+        MModel($this->Modulo, 'CRUD');
+        $InstanciaAjax = new CRUD();
+        $Respuesta = $InstanciaAjax->BuscarDataBD("OPE_AccidentesImagen", "Acci_Archivo", $Acci_Archivo);
+        foreach ($Respuesta as $row) {
+            if($row['Accidentes_Id']==$Accidentes_Id){
+                $existe_qr = True;
+                $Acci_Log = $row['Acci_log'];
+                try {
+                    if (file_exists($file_pdf)) {
+                        if (unlink($file_pdf)) {
+                        } else {
+                            throw new Exception("Error al eliminar el archivo anterior.");
+                        }
+                    } else {
+                        throw new Exception("Archivo anterior no existe.");
+                    }
+                } catch (Exception $e) {
+                    $rpta_grabar = "Error ocurrido: " . $e->getMessage();
+                }
+            }
+        }
 
         $TablaBD = "Buses";
         $CampoBD = "Bus_NroPlaca";
-
         MModel($this->Modulo, 'CRUD');
         $InstanciaAjax = new CRUD();
         $Respuesta = $InstanciaAjax->BuscarDataBD($TablaBD, $CampoBD, $Acci_Bus);
-
         foreach ($Respuesta as $row) {
             $Bus_NroPlaca = $row['Bus_NroPlaca'];
         }
 
-        //$file_png = $_SERVER['DOCUMENT_ROOT']."/Services/QRcode/qr.png";
         $ecc = 'H';
         $tamaño = '5';
-        $file_png = 'QRcode_' . date('d-m-Y-H-i-s') . '.png';
         $codeContents = 'Registro N° ' . $Accidentes_Id . ' ' . $Acci_TipoAccidente . ':' . $Acci_TipoEvento . ' Bus: ' . $Acci_Bus . ' Placa: ' . $Bus_NroPlaca . ' Piloto: ' . $Acci_NombreColaborador . ' Lugar: ' . $Acci_Lugar . ' Comisaria: ' . $Acci_Comisaria . ' Clínica: ' . $Acci_Hospital;
-
-        // generating
         QRcode::png($codeContents, $file_png, $ecc, $tamaño);
 
-        $Acci_Imagen = addslashes(file_get_contents($file_png));
-        $Acci_TipoImagen = "CodigoQR";
-
-        $crear_qr = "";
-        $TablaBD = "OPE_AccidentesImagen";
-        $CampoBD = "Accidentes_Id";
-
         MModel($this->Modulo, 'CRUD');
         $InstanciaAjax = new CRUD();
-        $Respuesta = $InstanciaAjax->BuscarDataBD($TablaBD, $CampoBD, $Accidentes_Id);
-
-        foreach ($Respuesta as $row) {
-            if ($Accidentes_Id == $row['Accidentes_Id'] && $Acci_TipoImagen == $row['Acci_TipoImagen']) {
-                $crear_qr = "EXISTE";
-            };
-        }
-
-        //Ejecuta Modelo
-        MModel($this->Modulo, 'CRUD');
-        $InstanciaAjax = new CRUD();
-
-        if ($Tipo == "CREAR") {
-            if ($crear_qr == "") {
-                $Respuesta = $InstanciaAjax->GrabarImagen($Accidentes_Id, $Acci_TipoImagen, $Acci_Imagen);
+        if(file_exists($file_png)){
+            if ($existe_qr) {
+                $Respuesta = $InstanciaAjax->EditarImagen($Accidentes_Id, $Acci_TipoImagen, $Acci_Log);
+            } else {
+                $Respuesta = $InstanciaAjax->GrabarImagen($Accidentes_Id, $Acci_TipoImagen, $Acci_Archivo);
             }
-        } else {
-            $Respuesta = $InstanciaAjax->EditarImagen($Accidentes_Id, $Acci_TipoImagen, $Acci_Imagen);
+            if (substr($Respuesta, 0, 1) == "E") {
+                $rpta_grabar .= $Respuesta;
+            }
+        }else{
+            $rpta_grabar .= "Error ocurrido: No se logra grabar el archivo en la carpeta del servidor";
         }
 
-        // eliminar archivo png generado
-        unlink($file_png);
+        if($rpta_grabar==""){
+            echo "Generación Exitosa ...!!!";
+        } else {
+            echo $rpta_grabar;
+        }
+
     }
 
     public function GrabarImagen($Accidentes_Id, $Acci_TipoImagen, $Acci_Imagen)
     {
-        $imagen_nueva_ruta = $_SERVER['DOCUMENT_ROOT'] . "/Services/image/imagen_nueva.jpg";
-        $ancho_nuevo = 600;
-        $alto_nuevo = 400;
-
-        $imagen_original = imagecreatefromjpeg($Acci_Imagen);
-        if ($imagen_original !== false) {
-            $ancho_original = imagesx($imagen_original);
-            $alto_original = imagesy($imagen_original);
-
-            if ($ancho_original <= $ancho_nuevo && $alto_original <= $alto_nuevo) {
-                move_uploaded_file($Acci_Imagen, $imagen_nueva_ruta);
-            } else {
-                if ($ancho_original >= $alto_original) { // imagen horizontal
-                    //$ancho_nuevo = $ancho_nuevo;
-                    $alto_nuevo = ($ancho_nuevo * $alto_original) / $ancho_original;
-                } else { // imagen vertical
-                    //$alto_nuevo = $alto_nuevo;
-                    $ancho_nuevo = ($ancho_original / $alto_original) * $alto_nuevo;
-                }
-                $imagen_nueva = imagecreatetruecolor($ancho_nuevo, $alto_nuevo);
-                imagecopyresampled($imagen_nueva, $imagen_original, 0, 0, 0, 0, $ancho_nuevo, $alto_nuevo, $ancho_original, $alto_original);
-                imagejpeg($imagen_nueva, $imagen_nueva_ruta, 100);
-            }
-
-            $acci_imagen_nueva = addslashes(file_get_contents($imagen_nueva_ruta));
-
+        $Acci_Archivo = $Accidentes_Id."_".strtolower($Acci_TipoImagen).".jpg";
+        $img_nueva = $_SERVER['DOCUMENT_ROOT'] . "/Services/files/img/ip/" . $Acci_Archivo;
+        if (move_uploaded_file($Acci_Imagen, $img_nueva)) {
             MModel($this->Modulo, 'CRUD');
-            $InstanciaAjax = new CRUD();
-            $Respuesta = $InstanciaAjax->GrabarImagen($Accidentes_Id, $Acci_TipoImagen, $acci_imagen_nueva);
-
-            unlink($imagen_nueva_ruta);
+            $InstanciaAjax  = new CRUD();
+            $Respuesta = $InstanciaAjax->GrabarImagen($Accidentes_Id, $Acci_TipoImagen, $Acci_Archivo);
+            if (substr($Respuesta, 0, 1) == "E") {
+                $rpta_grabar = $Respuesta;
+            }
         } else {
-            echo "No se pudo crear la imagen.";
+            $rpta_grabar = "Error: No se logra grabar el archivo en la carpeta del servidor";
+        }
+        if ($rpta_grabar === "") {
+            echo "Generación Exitosa ...!!!";
+        } else {
+            echo $rpta_grabar;
         }
     }
 
     public function EditarImagen($Accidentes_Id, $Acci_TipoImagen, $Acci_Imagen)
     {
-        $imagen_nueva_ruta = $_SERVER['DOCUMENT_ROOT'] . "/Services/image/imagen_nueva.jpg";
-        $ancho_nuevo = 600;
-        $alto_nuevo = 400;
+        $rpta_grabar = "";
+        $Acci_Log = "";
+        $Acci_Archivo = $Accidentes_Id."_".strtolower($Acci_TipoImagen).".jpg";
+        $img = $_SERVER['DOCUMENT_ROOT'] . "/Services/files/img/ip/" . $Acci_Archivo;
+        $borrar_img = False;
 
-        $imagen_original = imagecreatefromjpeg($Acci_Imagen);
-        if ($imagen_original !== false) {
-            $ancho_original = imagesx($imagen_original);
-            $alto_original = imagesy($imagen_original);
-
-            if ($ancho_original <= $ancho_nuevo && $alto_original <= $alto_nuevo) {
-                move_uploaded_file($Acci_Imagen, $imagen_nueva_ruta);
-            } else {
-                if ($ancho_original >= $alto_original) { // imagen horizontal
-                    //$ancho_nuevo = $ancho_nuevo;
-                    $alto_nuevo = ($ancho_nuevo * $alto_original) / $ancho_original;
-                } else { // imagen vertical
-                    //$alto_nuevo = $alto_nuevo;
-                    $ancho_nuevo = ($ancho_original / $alto_original) * $alto_nuevo;
+        try {
+            if (file_exists($img)) {
+                if (unlink($img)) {
+                    //echo "Archivo anterior eliminado exitosamente.";
+                    $borrar_img = True;
+                } else {
+                    throw new Exception("Error al eliminar el archivo anterior.");
                 }
-                $imagen_nueva = imagecreatetruecolor($ancho_nuevo, $alto_nuevo);
-                imagecopyresampled($imagen_nueva, $imagen_original, 0, 0, 0, 0, $ancho_nuevo, $alto_nuevo, $ancho_original, $alto_original);
-                imagejpeg($imagen_nueva, $imagen_nueva_ruta, 100);
+            } else {
+                throw new Exception("Archivo anterior no existe.");
             }
+        } catch (Exception $e) {
+            $rpta_grabar = "Error ocurrido: " . $e->getMessage();
+        }
 
-            $acci_imagen_nueva = addslashes(file_get_contents($imagen_nueva_ruta));
-
+        if ($borrar_img) {
             MModel($this->Modulo, 'CRUD');
-            $InstanciaAjax = new CRUD();
-            $Respuesta = $InstanciaAjax->EditarImagen($Accidentes_Id, $Acci_TipoImagen, $acci_imagen_nueva);
+            $InstanciaAjax  = new CRUD();
+            $Respuesta = $InstanciaAjax->buscar_dato("OPE_AccidentesImagen", "Acci_Log", "`Accidentes_Id`='" . $Accidentes_Id . "'");
+            foreach ($Respuesta as $key => $row) {
+                $Acci_Log = $row['Acci_log'];
+            }
+            if (move_uploaded_file($Acci_Imagen, $img)) {
+                MModel($this->Modulo, 'CRUD');
+                $InstanciaAjax  = new CRUD();
+                $Respuesta = $InstanciaAjax->EditarImagen($Accidentes_Id, $Acci_TipoImagen, $Acci_Log);
+                if (substr($Respuesta, 0, 1) == "E") {
+                    $rpta_grabar = $Respuesta;
+                }
+            } else {
+                $rpta_grabar = "Error ocurrido: No se logra grabar el archivo en la carpeta del servidor";
+            }
+        }
 
-            unlink($imagen_nueva_ruta);
+        if ($rpta_grabar === "") {
+            echo "Generación Exitosa ...!!!";
         } else {
-            echo "No se pudo crear la imagen.";
+            echo $rpta_grabar;
         }
-    }
 
-    public function EstadoInformePreliminar($Accidentes_Id)
-    {
-        $EstadoInformePreliminar = "";
-        $TablaBD = "OPE_AccidentesInformePreliminar";
-        $CampoBD = "Accidentes_Id";
-
-        MModel($this->Modulo, 'CRUD');
-        $InstanciaAjax = new CRUD();
-        $Respuesta = $InstanciaAjax->BuscarDataBD($TablaBD, $CampoBD, $Accidentes_Id);
-
-        foreach ($Respuesta as $row) {
-            $EstadoInformePreliminar = $row['Acci_EstadoInformePreliminar'];
-        }
-        echo $EstadoInformePreliminar;
     }
 
     public function CargarNovedad($Nove_ProgramacionId, $Novedad_Id)
@@ -609,6 +599,21 @@ class Logico
             MModel($this->Modulo, 'CRUD');
             $InstanciaAjax  = new CRUD();
             $Respuesta      = $InstanciaAjax->CrearInformePreliminar($Accidentes_Id, $Acci_ClaseAccidente, $Acci_TipoAccidente, $Acci_DanosMateriales, $Acci_Lesiones, $Acci_Fatalidad, $Acci_Otro, $Acci_OtroDescripcion, $Acci_TipoEvento, $Acci_Fecha, $Acci_Hora, $Acci_Dni, $Acci_CodigoColaborador, $Acci_NombreColaborador, $Acci_Tabla, $Acci_Servicio, $Acci_Lugar, $Acci_Bus, $Acci_Sentido, $Acci_km_perdidos, $Acci_Conciliacion, $Acci_MontoConciliado, $Acci_CodigoCGO, $Acci_NombreCGO, $Acci_CodigoPersonalApoyo, $Acci_NombrePersonalApoyo, $Acci_ReconoceResponsabilidad, $Acci_Hospital, $Acci_Comisaria, $Acci_HoraFinAtencion, $Acci_HorasTrabajadas, $Acci_Objeto, $Acci_HoraLlegadaProcurador, $Acci_CodigoCGM, $Acci_NombreCGM, $Acci_CodigoPersonalApoyoManto, $Acci_NombrePersonalApoyoManto, $Acci_NumeroOT, $Acci_DocReporte, $Acci_DocConciliacion, $Acci_DocPartePolicial, $Acci_DocOficioPeritaje, $Acci_DocReporteAtencion, $Acci_DocDenunciaPolicial, $Acci_DocCitacionManifestacion, $Acci_DocOtro, $Acci_DocOtroDescripcion, $Acci_Descripcion, $Acci_CodigoSuscribeInformacion, $Acci_NombreSuscribeInformacion, $Acci_FechaElaboracionInforme, $Acci_Operacion, $acci_lugar_referencia);
+
+            if ($Acci_Operacion == "TRONCAL") {
+                $bus = $_SERVER['DOCUMENT_ROOT'] . '/Module/Accidentes/View/Img/bus_troncal.jpg';
+            } else if ($Acci_Operacion == "ALIMENTADOR") {
+                $bus = $_SERVER['DOCUMENT_ROOT'] . '/Module/Accidentes/View/Img/bus_alimentador.jpg';
+            }
+            $Acci_Archivo = $Accidentes_Id."_bus.jpg";
+            $Acci_TipoImagen = "Bus";
+            $file_bus = $_SERVER['DOCUMENT_ROOT'] . '/Services/files/image/ip/' . $Acci_Archivo;
+
+            copy($bus, $file_bus);
+            MModel($this->Modulo, 'CRUD');
+            $InstanciaAjax = new CRUD;
+            $Respuesta = $InstanciaAjax->GrabarImagen($Accidentes_Id, $Acci_TipoImagen, $Acci_Archivo);
+
         }
     }
 
@@ -1014,7 +1019,7 @@ class Logico
 
     public function PDFInformePreliminar($Accidentes_Id)
     {
-        $micarpeta = $_SERVER['DOCUMENT_ROOT'] . "/Services/Json";
+        $micarpeta = $_SERVER['DOCUMENT_ROOT'] . "/Services/files/json";
         $date = date('d-m-Y-' . substr((string)microtime(), 1, 8));
         $date = str_replace(".", "", $date);
         $id_date = $Accidentes_Id . "_" . $date;
@@ -1145,7 +1150,7 @@ class Logico
         $InstanciaAjax  = new CRUD();
         $Respuesta      = $InstanciaAjax->cerrar_pdf_informe_preliminar($Accidentes_Id);
 
-        $micarpeta  = $_SERVER['DOCUMENT_ROOT'] . "/Services/Json";
+        $micarpeta  = $_SERVER['DOCUMENT_ROOT'] . "/Services/files/json";
         $date       = date('d-m-Y-' . substr((string)microtime(), 1, 8));
         $date       = str_replace(".", "", $date);
         $id_date    = $Accidentes_Id . "_" . $date;
@@ -1204,23 +1209,20 @@ class Logico
             $Acci_NombreColaborador = $row['Acci_NombreColaborador'];
         }
 
+        $Acci_TipoImagen  = 'IP_PDF';
+        $Acci_Archivo = $Accidentes_Id . "_ip.pdf";
         $pdf->SetFont('Arial', '', 14);
         $pdf->GeneraProgramacion($Data_InformePreliminar, $Data_Imagen, $Data_Naturaleza, $Data_Reparacion);
-        $pdf->Output("Services/Json/IP-" . $Accidentes_Id . ".pdf", 'F');
-
-        $Acci_TipoImagen  = 'IP_PDF';
-
-        $Acci_Imagen      = addslashes(file_get_contents('Services/Json/IP-' . $Accidentes_Id . '.pdf'));
+        $pdf->Output("Services/files/pdf/ip/" . $Acci_Archivo, 'F');
 
         MModel($this->Modulo, 'CRUD');
         $InstanciaAjax = new CRUD();
-        $Respuesta = $InstanciaAjax->GrabarImagen($Accidentes_Id, $Acci_TipoImagen, $Acci_Imagen);
+        $Respuesta = $InstanciaAjax->GrabarImagen($Accidentes_Id, $Acci_TipoImagen, $Acci_Archivo);
 
-        unlink("Services/Json/Imagen" . $Id_DateJS . ".json");
-        unlink("Services/Json/InformePreliminar" . $Id_DateJS . ".json");
-        unlink("Services/Json/Naturaleza" . $Id_DateJS . ".json");
-        unlink("Services/Json/Reparacion" . $Id_DateJS . ".json");
-        unlink("Services/Json/IP-" . $Accidentes_Id . ".pdf");
+        unlink("Services/files/json/Imagen" . $Id_DateJS . ".json");
+        unlink("Services/files/json/InformePreliminar" . $Id_DateJS . ".json");
+        unlink("Services/files/json/Naturaleza" . $Id_DateJS . ".json");
+        unlink("Services/files/json/Reparacion" . $Id_DateJS . ".json");
     }
 
     public function permisos($nombre_modulo, $nombre_objeto)
@@ -1232,45 +1234,6 @@ class Logico
         $Respuesta      = $InstanciaAjax->Permisos($nombre_modulo, $nombre_objeto);
         $rpta_permisos  = $Respuesta;
         echo $rpta_permisos;
-    }
-
-    public function buscar_pdf($tabla, $campo_archivo, $campo_buscar, $dato_buscar, $campo_tipo_archivo, $dato_tipo_archivo, $nombre_archivo)
-    {
-        $b64_file       = "";
-        $b64_file_name  = "";
-
-        MModel($this->Modulo, 'CRUD');
-        $InstanciaAjax  = new CRUD;
-        $Respuesta      = $InstanciaAjax->buscar_pdf($tabla, $campo_archivo, $campo_buscar, $dato_buscar, $campo_tipo_archivo, $dato_tipo_archivo);
-
-        foreach ($Respuesta as $row) {
-            $b64_file = $row['b64_file'];
-        }
-
-        if ($b64_file != "") {
-            $mi_carpeta     = $_SERVER['DOCUMENT_ROOT'] . "/Services/pdf";
-            $date           = date('d-m-Y-' . substr((string)microtime(), 1, 8));
-            $date           = str_replace(".", "", $date);
-            $b64_file_name  = $nombre_archivo . "_v" . $date . ".pdf";
-            $b64_file       = base64_decode($b64_file, true);
-            file_put_contents($mi_carpeta . "/" . $b64_file_name, $b64_file);
-        }
-
-        echo $b64_file_name;
-    }
-
-    public function unlink_pdf($archivo)
-    {
-        $rpta_unlink_pdf = "ELIMINADO";
-        $mi_carpeta  = $_SERVER['DOCUMENT_ROOT'] . "/Services/pdf";
-
-        unlink($mi_carpeta . '/' . $archivo);
-
-        if (file_exists($mi_carpeta . '/' . $archivo)) {
-            $rpta_unlink_pdf = "NO ELIMINADO";
-        }
-
-        echo $rpta_unlink_pdf;
     }
 
     public function files()

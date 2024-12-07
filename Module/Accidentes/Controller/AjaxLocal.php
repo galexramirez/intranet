@@ -386,23 +386,6 @@ switch ($Accion)
       }
    break;
 
-   case 'BuscarImagen':
-      $Accidentes_Id = $_POST['Accidentes_Id'];
-      $Acci_TipoImagen = $_POST['Acci_TipoImagen'];
-         
-      MModel($Modulo,'CRUD');
-      $InstanciaAjax= new CRUD();
-      $Respuesta=$InstanciaAjax->BuscarImagen($Accidentes_Id,$Acci_TipoImagen);
-   break;
-
-   case 'EstadoInformePreliminar':
-      $Accidentes_Id=$_POST['Accidentes_Id'];
-
-      MController($Modulo,'Logico');
-      $InstanciaAjax= new Logico();
-      $Respuesta=$InstanciaAjax->EstadoInformePreliminar($Accidentes_Id);
-   break;
-
    case 'CargarNovedad':
       $Nove_ProgramacionId = $_POST['Nove_ProgramacionId'];
       $Novedad_Id = $_POST['Novedad_Id'];
@@ -776,29 +759,6 @@ switch ($Accion)
       MController($Modulo,'Logico');
       $InstanciaAjax = new Logico();
       $Respuesta     = $InstanciaAjax->BuscarDataBD($TablaBD,$CampoBD,$DataBuscar);
-   break;
-
-   case 'buscar_pdf':
-      $tabla               = $_POST['tabla'];
-      $campo_archivo       = $_POST['campo_archivo'];
-      $campo_buscar        = $_POST['campo_buscar'];
-      $dato_buscar         = $_POST['dato_buscar'];
-      $campo_tipo_archivo  = $_POST['campo_tipo_archivo'];
-      $dato_tipo_archivo   = $_POST['dato_tipo_archivo'];
-      $nombre_archivo      = $_POST['nombre_archivo'];
-
-      //Ejecuta Modelo
-      MController($Modulo,'Logico');
-      $InstanciaAjax = new Logico();
-      $Respuesta     = $InstanciaAjax->buscar_pdf($tabla, $campo_archivo, $campo_buscar, $dato_buscar, $campo_tipo_archivo, $dato_tipo_archivo, $nombre_archivo);
-   break;
-
-   case 'unlink_pdf':
-      $archivo = $_POST['archivo'];
-
-      MController($Modulo,'Logico');
-      $InstanciaAjax = new Logico();
-      $Respuesta     = $InstanciaAjax->unlink_pdf($archivo);
    break;
 
    case 'grabar_pdf':

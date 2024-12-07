@@ -58,7 +58,7 @@ $(document).ready(function(){
     e.preventDefault(); //evita el comportambiento normal del submit, es decir, recarga total de la página
     let fotoEditar="";
     grabar_imagen = f_GrabarImagen(opcionCargaImagenes);
-    if(grabar_imagen!=""){
+    if(grabar_imagen.substring(0,1)=="E"){
       Swal.fire({
         icon  : 'error',
         title : 'IMAGEN...',
@@ -105,28 +105,10 @@ function f_BuscarImagen(p_Acci_TipoImagen){
   let img = "";
   let dir = "";
   let acci_archivo = "";
-  /* if(InformePreliminar_Id!=""){
-    Accion  = 'BuscarImagen';
-    $.ajax({
-        url       : "Ajax.php",
-        type      : "POST",
-        datatype  : "json",    
-        async     : false,   
-        data      : { MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,Accidentes_Id:InformePreliminar_Id,Acci_TipoImagen:p_Acci_TipoImagen },   
-        success   : function(data) {
-            data = $.parseJSON(data);
-            $.each(data, function(idx, obj){ 
-                if(obj.b64_Foto){
-                    img  = 'data:image/jpg;base64,' + obj.b64_Foto;
-                }
-            });
-        }
-    }); 
-  } */
   if(InformePreliminar_Id!="" ){
     acci_archivo = f_buscar_dato("OPE_AccidentesImagen","Acci_Archivo","`Accidentes_Id`='"+InformePreliminar_Id+"' AND `Acci_TipoImagen`='"+p_Acci_TipoImagen+"'");
     if (acci_archivo!=""){
-      if(p_Acci_TipoImagen.substring(0,2)=="Im" || p_Acci_TipoImagen.substring(0,2)=="Ma"){
+      if(p_Acci_TipoImagen.substring(0,2)=="Im" || p_Acci_TipoImagen.substring(0,2)=="Ma" || p_Acci_TipoImagen.substring(0,2)=="Bu"){
         dir = mi_carpeta+"Services/files/image/ip/";
       }
       if(p_Acci_TipoImagen.substring(0,2)=="Co"){

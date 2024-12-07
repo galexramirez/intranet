@@ -7,7 +7,7 @@ class pdf extends FPDF
     // Cargar los datos
     public function LoadData($Id_DateJS)
     {
-        $JsProgramacion     = file_get_contents("Services/Json/".$Id_DateJS.".json");
+        $JsProgramacion     = file_get_contents("Services/files/json/".$Id_DateJS.".json");
 		$DataProgramacion   = json_decode($JsProgramacion, true);
         return $DataProgramacion;
     }
@@ -20,7 +20,7 @@ class pdf extends FPDF
         $Imagen3    = 'Module/Accidentes/View/Img/SinImagen.jpg';
         $Imagen4    = 'Module/Accidentes/View/Img/SinImagen.jpg';
         $Mapa       = 'Module/Accidentes/View/Img/SinImagen.jpg';
-        $Bus        = '';
+        $Bus        = 'Module/Accidentes/View/Img/SinImagen.jpg';
                 
         $tipo_accidente         = "";
         $tipo_danos_materiales  = "";
@@ -34,25 +34,25 @@ class pdf extends FPDF
 
         foreach ($pData_Imagen as $row){
             if($row['Acci_TipoImagen']=='CodigoQR'){
-                $CodigoQR = 'data://text/plain;base64,'.$row['b64_Imagen'];
+                $CodigoQR = '../../../Services/files/qrcode/ip/'.$row['Acci_Archivo'];
             }
             if($row['Acci_TipoImagen']=='Imagen1'){
-                $Imagen1 = 'data://text/plain;base64,'.$row['b64_Imagen'];
+                $Imagen1 = '../../../Services/files/image/ip/'.$row['Acci_Archivo'];
             }
             if($row['Acci_TipoImagen']=='Imagen2'){
-                $Imagen2 = 'data://text/plain;base64,'.$row['b64_Imagen'];
+                $Imagen2 = '../../../Services/files/image/ip/'.$row['Acci_Archivo'];
             }
             if($row['Acci_TipoImagen']=='Imagen3'){
-                $Imagen3 = 'data://text/plain;base64,'.$row['b64_Imagen'];
+                $Imagen3 = '../../../Services/files/image/ip/'.$row['Acci_Archivo'];
             }
             if($row['Acci_TipoImagen']=='Imagen4'){
-                $Imagen4 = 'data://text/plain;base64,'.$row['b64_Imagen'];
+                $Imagen4 = '../../../Services/files/image/ip/'.$row['Acci_Archivo'];
             }
             if($row['Acci_TipoImagen']=='Mapa'){
-                $Mapa = 'data://text/plain;base64,'.$row['b64_Imagen'];
+                $Mapa = '../../../Services/files/image/ip/'.$row['Acci_Archivo'];
             }
             if($row['Acci_TipoImagen']=='Bus'){
-                $Bus = 'data://text/plain;base64,'.$row['b64_Imagen'];
+                $Bus = '../../../Services/files/image/ip/'.$row['Acci_Archivo'];
             }
         }
 
@@ -486,14 +486,6 @@ class pdf extends FPDF
             $this->SetFont('Arial','',6);
             $this->Cell(70,4,$row['Accidentes_Id'],1,1,'L',false);
             
-            // BUS
-            if($Bus==""){
-                if($row['Acci_Operacion']=='ALIMENTADOR'){
-                    $Bus    = 'Module/Accidentes/View/Img/bus_alimentador.jpg';
-                }else{
-                    $Bus    = 'Module/Accidentes/View/Img/bus_troncal.jpg';
-                }
-            }
             $this->Image($Bus, 14,35,180,65,'jpg');
             $this->Ln(75);
 

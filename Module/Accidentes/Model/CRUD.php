@@ -423,22 +423,11 @@ class CRUD
 		$this->conexion = null;
 	}
 
-	function BuscarImagen($Accidentes_Id, $Acci_TipoImagen)
-	{
-		$consulta = "SELECT TO_BASE64 (`Acci_Imagen`) AS `b64_Foto` FROM `OPE_AccidentesImagen` WHERE `Accidentes_Id`='$Accidentes_Id' AND `Acci_TipoImagen`='$Acci_TipoImagen'";
-		$resultado = $this->conexion->prepare($consulta);
-		$resultado->execute();
-		$data = $resultado->fetchAll(PDO::FETCH_ASSOC);
-		print json_encode($data, JSON_UNESCAPED_UNICODE); //envio el array final el formato json a AJAX
-
-		$this->conexion = null;
-	}
-
 	function BuscarImagenPDF($Accidentes_Id)
 	{
 		$Acci_TipoImagen1 = 'PDF';
 		$Acci_TipoImagen2 = 'IP_PDF';
-		$consulta = "SELECT TO_BASE64(`Acci_Imagen`) AS `b64_Imagen`, `OPE_AcciImagenId`, `Accidentes_Id`, `Acci_TipoImagen` FROM `OPE_AccidentesImagen` WHERE `Accidentes_Id`='$Accidentes_Id' AND `Acci_TipoImagen`!='$Acci_TipoImagen1' AND `Acci_TipoImagen`!='$Acci_TipoImagen2'";
+		$consulta = "SELECT `OPE_AcciImagenId`, `Accidentes_Id`, `Acci_TipoImagen`, `Acci_Archivo` FROM `OPE_AccidentesImagen` WHERE `Accidentes_Id`='$Accidentes_Id' AND `Acci_TipoImagen`!='$Acci_TipoImagen1' AND `Acci_TipoImagen`!='$Acci_TipoImagen2'";
 		$resultado = $this->conexion->prepare($consulta);
 		$resultado->execute();
 		$data = $resultado->fetchAll(PDO::FETCH_ASSOC);
@@ -943,17 +932,6 @@ class CRUD
 		$data = $resultado->fetchAll(PDO::FETCH_ASSOC);
 		print json_encode($data, JSON_UNESCAPED_UNICODE); //envio el array final el formato json a <AJAX></AJAX>
 
-		$this->conexion = null;
-	}
-
-	function buscar_pdf($tabla, $campo_archivo, $campo_buscar, $dato_buscar, $campo_tipo_archivo, $dato_tipo_archivo)
-	{
-		$consulta  = "SELECT TO_BASE64 (`$campo_archivo`) AS `b64_file` FROM `$tabla` WHERE `$campo_buscar`='$dato_buscar' AND `$campo_tipo_archivo`='$dato_tipo_archivo'";
-		$resultado = $this->conexion->prepare($consulta);
-		$resultado->execute();
-		$data = $resultado->fetchAll(PDO::FETCH_ASSOC);
-
-		return $data;
 		$this->conexion = null;
 	}
 

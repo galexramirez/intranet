@@ -237,24 +237,16 @@ $(document).ready(function(){
   $(document).on("click", ".btn_ver_documentos_adjuntos", function(){
     filaInvestigacion   = $(this).closest('tr'); 
     Investigacion_Id    = filaInvestigacion.find('td:eq(0)').text();
-    let x_pdf     = "";
-    let file_pdf  = "DOC_ADJUNTO IP-"+Investigacion_Id;
-    x_pdf         = f_buscar_pdf('OPE_AccidentesImagen','Acci_Imagen','Accidentes_Id',Investigacion_Id,'Acci_TipoImagen','PDF',file_pdf );
-    if(x_pdf == ""){
+    Acci_TipoImagen = "PDF";
+    Acci_Archivo = f_buscar_dato("OPE_AccidentesImagen","Acci_Archivo","`Accidentes_Id`='"+Investigacion_Id+"' AND `Acci_TipoImagen`='"+Acci_TipoImagen+"'") ;
+    if(Acci_Archivo == ""){
         Swal.fire({
             icon: 'error',
             title: 'PDF...',
             text: '*NO se ha registrado el archivo PDF!'
           });
     }else{
-      //window.open("../../../Services/pdf/"+x_pdf,"_blank");
-      //f_unlink_pdf(x_pdf);
-      let enlace = document.createElement('a');
-      enlace.href = "../../../Services/pdf/"+x_pdf;
-      enlace.download = x_pdf;
-      enlace.click();
-      f_unlink_pdf(x_pdf);
-
+      window.open(mi_carpeta+"Services/files/pdf/ip/"+Acci_Archivo,"_blank");
     }
   });
 
