@@ -1,9 +1,7 @@
 <?php
 $Accion = $_POST['Accion'];   
 $Modulo = 'informe_preliminar';
-switch ($Accion)
-   {
-
+switch ($Accion){
    //:::::::::::::::::::::::::::::: CREACION DE OBJETOS :::::::::::::::::::::::::::::::::::::::::::::://
 
    case 'CreacionTabs':
@@ -120,51 +118,10 @@ switch ($Accion)
       $Respuesta = $InstanciaAjax->descargar_informe_preliminar($fecha_inicio, $fecha_termino);
    break;
 
-   case 'pdf_informe_preliminar':
-      $accidentes_id = $_POST['accidentes_id'];
-
-      MController($Modulo, 'Logico');
-      $InstanciaAjax = new Logico();
-      $Respuesta     = $InstanciaAjax->pdf_informe_preliminar($accidentes_id);
-   break;
-
    case 'DocumentRoot':
       MController($Modulo,'Logico');
       $InstanciaAjax = new Logico();
       $Respuesta     = $InstanciaAjax->DocumentRoot();
-   break;
-
-   case 'buscar_imagen':
-      $accidentes_id    = $_POST['accidentes_id'];
-      $Acci_TipoImagen  = $_POST['Acci_TipoImagen'];
-         
-      //Ejecuta Modelo
-      MModel($Modulo,'CRUD');
-      $InstanciaAjax= new CRUD();
-      $Respuesta=$InstanciaAjax->buscar_imagen($accidentes_id, $Acci_TipoImagen);
-   break;
-
-   case 'buscar_pdf':
-      $tabla               = $_POST['tabla'];
-      $campo_archivo       = $_POST['campo_archivo'];
-      $campo_buscar        = $_POST['campo_buscar'];
-      $dato_buscar         = $_POST['dato_buscar'];
-      $campo_tipo_archivo  = $_POST['campo_tipo_archivo'];
-      $dato_tipo_archivo   = $_POST['dato_tipo_archivo'];
-      $nombre_archivo      = $_POST['nombre_archivo'];
-
-      //Ejecuta Modelo
-      MController($Modulo,'Logico');
-      $InstanciaAjax = new Logico();
-      $Respuesta     = $InstanciaAjax->buscar_pdf($tabla, $campo_archivo, $campo_buscar, $dato_buscar, $campo_tipo_archivo, $dato_tipo_archivo, $nombre_archivo);
-   break;
-
-   case 'unlink_pdf':
-      $archivo = $_POST['archivo'];
-
-      MController($Modulo,'Logico');
-      $InstanciaAjax = new Logico();
-      $Respuesta     = $InstanciaAjax->unlink_pdf($archivo);
    break;
 
    default: header('Location: /inicio');

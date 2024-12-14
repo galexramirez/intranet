@@ -23,7 +23,7 @@ class CRUD
 	function buscar_informe_preliminar($fecha_inicio, $fecha_termino)
 	{
 		$consulta = "SELECT 
-						(SELECT `OPE_AccidentesImagen`.`Acci_TipoImagen` FROM `OPE_AccidentesImagen` WHERE `OPE_AccidentesImagen`.`Accidentes_Id`=`OPE_Accidentes`.`Accidentes_Id` AND `OPE_AccidentesImagen`.`Acci_TipoImagen`='PDF')  AS `doc_adj`,
+						`OPE_AccidentesImagen`.`Acci_TipoImagen` AS `doc_adj`,
 						`OPE_Accidentes`.`Accidentes_Id`  AS `codigo_aplicacion`,
 						`OPE_Accidentes`.`Acci_FechaOperacion`  AS `fecha_accidente`,
 						`OPE_AccidentesInformePreliminar`.`Acci_NombreColaborador` AS `nombre_piloto`,
@@ -52,6 +52,11 @@ class CRUD
 						`Buses`
 					ON
 						`OPE_AccidentesInformePreliminar`.`Acci_Bus`=`Buses`.`Bus_NroExterno`
+					LEFT JOIN
+						`OPE_AccidentesImagen`
+					ON
+						`OPE_AccidentesImagen`.`Accidentes_Id`=`OPE_Accidentes`.`Accidentes_Id` AND 
+						`OPE_AccidentesImagen`.`Acci_TipoImagen`='PDF'
 					WHERE
 						`OPE_Accidentes`.`Acci_FechaOperacion` >= '$fecha_inicio' AND
 						`OPE_Accidentes`.`Acci_FechaOperacion` <= '$fecha_termino'
@@ -69,7 +74,7 @@ class CRUD
 	function descargar_informe_preliminar($fecha_inicio, $fecha_termino)
 	{
 		$consulta = "SELECT 
-						(SELECT `OPE_AccidentesImagen`.`Acci_TipoImagen` FROM `OPE_AccidentesImagen` WHERE `OPE_AccidentesImagen`.`Accidentes_Id`=`OPE_Accidentes`.`Accidentes_Id` AND `OPE_AccidentesImagen`.`Acci_TipoImagen`='PDF')  AS `doc_adj`,
+						`OPE_AccidentesImagen`.`Acci_TipoImagen` AS `doc_adj`,
 						`OPE_Accidentes`.`Accidentes_Id`  AS `codigo_aplicacion`,
 						`OPE_Accidentes`.`Acci_FechaOperacion`  AS `fecha_accidente`,
 						`OPE_AccidentesInformePreliminar`.`Acci_NombreColaborador` AS `nombre_piloto`,
@@ -99,6 +104,11 @@ class CRUD
 						`Buses`
 					ON
 						`OPE_AccidentesInformePreliminar`.`Acci_Bus`=`Buses`.`Bus_NroExterno`
+					LEFT JOIN
+						`OPE_AccidentesImagen`
+					ON
+						`OPE_AccidentesImagen`.`Accidentes_Id`=`OPE_Accidentes`.`Accidentes_Id` AND 
+						`OPE_AccidentesImagen`.`Acci_TipoImagen`='PDF'
 					WHERE
 						`OPE_Accidentes`.`Acci_FechaOperacion` >= '$fecha_inicio' AND
 						`OPE_Accidentes`.`Acci_FechaOperacion` <= '$fecha_termino'
@@ -112,17 +122,6 @@ class CRUD
 		return $data;
 		$this->conexion=null;
 	}   
-
-	function buscar_imagen_pdf($accidentes_id)
-	{
-		$consulta	= "SELECT TO_BASE64(`Acci_Imagen`) AS `b64_Imagen`, `OPE_AcciImagenId`, `Accidentes_Id`, `Acci_TipoImagen` FROM `OPE_AccidentesImagen` WHERE `Accidentes_Id`='$accidentes_id'";
-		$resultado 	= $this->conexion->prepare($consulta);
-  		$resultado->execute();   
-  		$data		= $resultado->fetchAll(PDO::FETCH_ASSOC);
-
-		return $data;
-  		$this->conexion=null;	
-	}  	
 
 	function pdf_informe_preliminar($accidentes_id)
 	{
@@ -156,26 +155,5 @@ class CRUD
 		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
 		return $data;   
 		$this->conexion=null;
-	}
-	function buscar_imagen($accidentes_id,$Acci_TipoImagen)
-	{
-		$consulta="SELECT TO_BASE64 (`Acci_Imagen`) AS `b64_Foto` FROM `OPE_AccidentesImagen` WHERE `Accidentes_Id`='$accidentes_id' AND `Acci_TipoImagen`='$Acci_TipoImagen'";
-		$resultado = $this->conexion->prepare($consulta);
-  		$resultado->execute();   
-  		$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
-  		print json_encode($data, JSON_UNESCAPED_UNICODE);//envio el array final el formato json a AJAX
-
-  		$this->conexion=null;	
-	}  		
-
-	function buscar_pdf($tabla, $campo_archivo, $campo_buscar, $dato_buscar, $campo_tipo_archivo, $dato_tipo_archivo)
-	{
-		$consulta  ="SELECT TO_BASE64 (`$campo_archivo`) AS `b64_file` FROM `$tabla` WHERE `$campo_buscar`='$dato_buscar' AND `$campo_tipo_archivo`='$dato_tipo_archivo'";
-		$resultado = $this->conexion->prepare($consulta);
-  		$resultado->execute();   
-  		$data = $resultado->fetchAll(PDO::FETCH_ASSOC);
-  		
-		return $data;
-  		$this->conexion=null;	
 	}
 }

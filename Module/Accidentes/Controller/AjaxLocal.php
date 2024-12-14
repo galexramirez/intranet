@@ -828,11 +828,22 @@ switch ($Accion)
       $Respuesta=$InstanciaAjax->carga_tabla_ver_lesionados($Accidentes_Id,$Acci_Tipo);
    break;
 
+   case 'descargar_ip':
+      $fecha_inicio    = $_POST['fecha_inicio'];
+      $fecha_termino   = $_POST['fecha_termino'];
+
+      MController($Modulo,'Logico');
+      $InstanciaAjax = new Logico();
+      $Respuesta     = $InstanciaAjax->descargar_ip($fecha_inicio,$fecha_termino);
+   break;
+
+   /* INICIO TRASLADO DE IMAGENES DE DATABASE A CARPETA SERVICES/FILES/ */ 
    case 'files':
       MController($Modulo,'Logico');
       $InstanciaAjax = new Logico();
       $Respuesta     = $InstanciaAjax->files();
    break;
+   /* FIN TRASLADO DE IMAGENES DE DATABASE A CARPETA SERVICES/FILES/ */ 
 
    default: header('Location: /inicio');
 

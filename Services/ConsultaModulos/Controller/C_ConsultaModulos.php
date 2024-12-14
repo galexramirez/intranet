@@ -50,7 +50,7 @@ class C_ConsultaModulos
         $Resultado = "";
         foreach ($this->datos as $row) {
             if ($row['Mod_Nombre'] == $NombreDeModulo) {
-                $Resultado = $row['PER_Nivel'];
+                //$Resultado = $row['PER_Nivel'];
             }
         }
         return $Resultado;

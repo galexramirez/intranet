@@ -164,37 +164,31 @@ $(document).ready(function(){
   
   ///:: BOTON DESCARGAR INFORME PRELIMINAR PDF ::::::::::::::::::::::::::::::::::::::::::::///
   $(document).on("click", ".btn_ver_ip", function(){
-    let x_pdf     = "";
-    let file_pdf  = "IP-"+accidentes_id;
-    x_pdf         = f_buscar_pdf('OPE_AccidentesImagen','Acci_Imagen','Accidentes_Id',accidentes_id,'Acci_TipoImagen','IP_PDF',file_pdf );
-    
-    if(x_pdf == ""){
+    Acci_TipoImagen = "IP_PDF";
+    Acci_Archivo = f_buscar_dato("OPE_AccidentesImagen","Acci_Archivo","`Accidentes_Id`='"+accidentes_id+"' AND `Acci_TipoImagen`='"+Acci_TipoImagen+"'") ;
+    if(Acci_Archivo == ""){
       Swal.fire({
-        icon  : 'error',
-        title : 'PDF...',
-        text  : '*NO se ha registrado el archivo PDF!'
-      });
+          icon: 'error',
+          title: 'PDF...',
+          text: '*NO se ha registrado el archivo PDF!'
+        });
     }else{
-      window.open("../../../Services/pdf/"+x_pdf,"_blank");
-      f_unlink_pdf(x_pdf);
+      window.open(mi_carpeta+"Services/files/pdf/ip/"+Acci_Archivo,"_blank");
     }
   });
 
   ///:: BOTON VER DOCUMENTOS ADJUNTOS PDF DE INFORME PRELIMINAR :::::::::::::::::::::::::::///
   $(document).on("click", ".btn_ver_doc_adj", function(){		
-    let x_pdf     = "";
-    let file_pdf  = "DOC_ADJUNTO IP-"+accidentes_id;
-    x_pdf         = f_buscar_pdf('OPE_AccidentesImagen','Acci_Imagen','Accidentes_Id',accidentes_id,'Acci_TipoImagen','PDF',file_pdf );
-    
-    if(x_pdf == ""){
-        Swal.fire({
-            icon: 'error',
-            title: 'PDF...',
-            text: '*NO se ha registrado el archivo PDF!'
-          });
+    Acci_TipoImagen = "PDF";
+    Acci_Archivo = f_buscar_dato("OPE_AccidentesImagen","Acci_Archivo","`Accidentes_Id`='"+accidentes_id+"' AND `Acci_TipoImagen`='"+Acci_TipoImagen+"'") ;
+    if(Acci_Archivo == ""){
+      Swal.fire({
+          icon: 'error',
+          title: 'PDF...',
+          text: '*NO se ha registrado el archivo PDF!'
+        });
     }else{
-      window.open("../../../Services/pdf/"+x_pdf,"_blank");  
-      f_unlink_pdf(x_pdf);
+      window.open(mi_carpeta+"Services/files/pdf/ip/"+Acci_Archivo,"_blank");
     }
   });
   ///:: FIN BOTON VER DOCUMENTOS ADJUNTOS PDF DE INFORME PRELIMINAR :::::::::::::::::::::::///

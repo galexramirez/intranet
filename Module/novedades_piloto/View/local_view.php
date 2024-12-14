@@ -60,7 +60,6 @@
 						<div class="col-lg-2">
 							<div class="form-group">
 								<button type="button" id="btn_buscar_inasistencias" class="btn btn-secondary btn-sm btn_buscar_inasistencias">Buscar</button>
-								<!-- <button type="button" id="btn_descargar_inasistencias" class="btn btn-secondary btn-sm btn_descargar_inasistencias">Descargar</button> -->
 							</div>
 			       		</div> 
 					</div>
@@ -127,7 +126,6 @@
 						<div class="col-lg-2">
 							<div class="form-group">
 								<button type="button" id="btn_buscar_comportamiento" class="btn btn-secondary btn-sm btn_buscar_comportamiento">Buscar</button>
-								<!-- <button type="button" id="btn_descargar_comportamiento" class="btn btn-secondary btn-sm btn_descargar_comportamiento">Descargar</button> -->
 							</div>
 			       		</div> 
 					</div>
@@ -195,7 +193,6 @@
 						<div class="col-lg-2">
 							<div class="form-group">
 								<button type="button" id="btn_buscar_accidentes" class="btn btn-secondary btn-sm btn_buscar_accidentes">Buscar</button>
-								<!-- <button type="button" id="btn_descargar_accidentes" class="btn btn-secondary btn-sm btn_descargar_accidentes">Descargar</button> -->
 							</div>
 			       		</div> 
 					</div>

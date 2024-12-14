@@ -1236,6 +1236,7 @@ class Logico
         echo $rpta_permisos;
     }
 
+    /* INICIO TRASLADO DE IMAGENES DE DATABASE A CARPETA SERVICES/FILES/ */ 
     public function files()
     {
         set_time_limit(216000);
@@ -1352,6 +1353,7 @@ class Logico
         }
         echo "Transferencia Exitosa";
     }
+    /* FIN TRASLADO DE IMAGENES DE DATABASE A CARPETA SERVICES/FILES/ */ 
 
     public function grabar_pdf($Accidentes_Id, $Acci_TipoImagen, $Acci_Imagen, $Acci_Archivo)
     {
@@ -1421,4 +1423,53 @@ class Logico
             echo $rpta_grabar;
         }
     }
+
+    public function descargar_ip($fecha_inicio,$fecha_termino)
+    {
+        $rpta_descarga = [];
+
+        MModel($this->Modulo,'CRUD');
+        $InstanciaAjax  = new CRUD();
+        $Respuesta      = $InstanciaAjax->descargar_ip($fecha_inicio,$fecha_termino);
+
+        $mi_carpeta = $_SERVER['DOCUMENT_ROOT']."/Services/files/json";
+        $date       = date('d-m-Y-'.substr((string)microtime(), 1, 8));
+        $date       = str_replace(".", "", $date);
+        $filename   = "IP_".$date;
+        $file_json  = $filename.".json";
+        $data       = json_encode($Respuesta, JSON_UNESCAPED_UNICODE);
+        file_put_contents($mi_carpeta."/".$file_json, $data);
+        $rpta_descarga[] = ["tipo" => "ip", "file_json" => $file_json];
+
+        MModel($this->Modulo,'CRUD');
+        $InstanciaAjax  = new CRUD();
+        $Respuesta      = $InstanciaAjax->descargar_na($fecha_inicio,$fecha_termino);
+
+        $mi_carpeta = $_SERVER['DOCUMENT_ROOT']."/Services/files/json";
+        $date       = date('d-m-Y-'.substr((string)microtime(), 1, 8));
+        $date       = str_replace(".", "", $date);
+        $filename   = "NA_".$date;
+        $file_json  = $filename.".json";
+        $data       = json_encode($Respuesta, JSON_UNESCAPED_UNICODE);
+        file_put_contents($mi_carpeta."/".$file_json, $data);
+        $rpta_descarga[] = ["tipo" =>"naturaleza", "file_json" => $file_json];
+
+        MModel($this->Modulo,'CRUD');
+        $InstanciaAjax  = new CRUD();
+        $Respuesta      = $InstanciaAjax->descargar_re($fecha_inicio,$fecha_termino);
+
+        $mi_carpeta = $_SERVER['DOCUMENT_ROOT']."/Services/files/json";
+        $date       = date('d-m-Y-'.substr((string)microtime(), 1, 8));
+        $date       = str_replace(".", "", $date);
+        $filename   = "RE_".$date;
+        $file_json  = $filename.".json";
+        $data       = json_encode($Respuesta, JSON_UNESCAPED_UNICODE);
+        file_put_contents($mi_carpeta."/".$file_json, $data);
+        $rpta_descarga[] = ["tipo" => "reparacion", "file_json" => $file_json];
+        
+        print json_encode($rpta_descarga, JSON_UNESCAPED_UNICODE); //envio el array final el formato json a AJAX
+
+
+    }
+
 }

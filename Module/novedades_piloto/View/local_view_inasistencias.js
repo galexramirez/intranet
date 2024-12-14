@@ -155,32 +155,6 @@ $(document).ready(function(){
   });
   ///:: FIN EVENTO DE BOTON VER INASIETNCIAS ::::::::::::::::::::::::::::::::::::::::::::::///
 
-  ///:: BOTON DESCARGAR INASISTENCIAS :::::::::::::::::::::::::::::::::::::::::::::::::::::///
-  $(document).on("click", ".btn_descargar_inasistencias", function(){		
-    rgdh_fecha_inicio   = $("#rgdh_fecha_inicio").val();
-    rgdh_fecha_termino  = $("#rgdh_fecha_termino").val();
-    Accion          = 'descargar_inasistencias';
-    $.ajax({
-        url         : "Ajax.php",
-        type        : "POST",
-        datatype    : "json",
-        async       : false,
-        data        : {MoS:MoS, NombreMoS:NombreMoS, Accion:Accion,  fecha_inicio:rgdh_fecha_inicio, fecha_termino:rgdh_fecha_termino},
-        beforeSend  : function(){
-            Swal.fire({
-              icon              : 'success',
-              title             : 'Procesando Información',
-              showConfirmButton : false,
-              timer             : 5000
-            })
-        },
-        success     : function(data){
-            window.location.href = mi_carpeta + "Module/novedades_piloto/Controller/csv_descarga_inasistencias.php?Archivo=" + data;
-        }
-    });
-  });
-  ///:: FIN BOTON DESCARGAR INASISTENCIAS :::::::::::::::::::::::::::::::::::::::::::::::::///
-
   ///:: TERMINO BOTONES REPORTE GDH :::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
 });

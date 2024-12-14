@@ -142,15 +142,6 @@ switch ($Accion) {
       $Respuesta     = $InstanciaAjax->ver_inasistencias($inasistencias_id);
    break;
 
-   case 'descargar_inasistencias':
-      $fecha_inicio  = $_POST['fecha_inicio'];
-      $fecha_termino = $_POST['fecha_termino'];
-
-      MController($Modulo,'Logico');
-      $InstanciaAjax = new Logico();
-      $Respuesta     = $InstanciaAjax->descargar_inasistencias($fecha_inicio, $fecha_termino);
-   break;
-
    case 'buscar_comportamientos':
       $fecha_inicio  = $_POST['fecha_inicio'];
       $fecha_termino = $_POST['fecha_termino'];
@@ -168,15 +159,6 @@ switch ($Accion) {
       $Respuesta     = $InstanciaAjax->ver_comportamiento($comportamiento_id);
    break;
 
-   case 'descargar_comportamiento':
-      $fecha_inicio  = $_POST['fecha_inicio'];
-      $fecha_termino = $_POST['fecha_termino'];
-
-      MController($Modulo,'Logico');
-      $InstanciaAjax = new Logico();
-      $Respuesta     = $InstanciaAjax->descargar_comportamiento($fecha_inicio, $fecha_termino);
-   break;
-
    case 'buscar_accidentes':
       $fecha_inicio  = $_POST['fecha_inicio'];
       $fecha_termino = $_POST['fecha_termino'];
@@ -184,37 +166,6 @@ switch ($Accion) {
       MModel($Modulo, 'CRUD');
       $InstanciaAjax = new CRUD();
       $Respuesta     = $InstanciaAjax->buscar_accidentes($fecha_inicio, $fecha_termino);
-   break;
-
-   case 'descargar_accidentes':
-      $fecha_inicio  = $_POST['fecha_inicio'];
-      $fecha_termino = $_POST['fecha_termino'];
-
-      MController($Modulo,'Logico');
-      $InstanciaAjax = new Logico();
-      $Respuesta     = $InstanciaAjax->descargar_accidentes($fecha_inicio, $fecha_termino);
-   break;
-
-   case 'buscar_pdf':
-      $tabla               = $_POST['tabla'];
-      $campo_archivo       = $_POST['campo_archivo'];
-      $campo_buscar        = $_POST['campo_buscar'];
-      $dato_buscar         = $_POST['dato_buscar'];
-      $campo_tipo_archivo  = $_POST['campo_tipo_archivo'];
-      $dato_tipo_archivo   = $_POST['dato_tipo_archivo'];
-      $nombre_archivo      = $_POST['nombre_archivo'];
-
-      MController($Modulo,'Logico');
-      $InstanciaAjax = new Logico();
-      $Respuesta     = $InstanciaAjax->buscar_pdf($tabla, $campo_archivo, $campo_buscar, $dato_buscar, $campo_tipo_archivo, $dato_tipo_archivo, $nombre_archivo);
-   break;
-
-   case 'unlink_pdf':
-      $archivo = $_POST['archivo'];
-
-      MController($Modulo,'Logico');
-      $InstanciaAjax = new Logico();
-      $Respuesta     = $InstanciaAjax->unlink_pdf($archivo);
    break;
 
    case 'leer_novedad_carga':

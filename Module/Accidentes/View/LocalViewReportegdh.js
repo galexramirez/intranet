@@ -177,5 +177,44 @@ $(document).ready(function(){
   });
   ///:: FIN BOTON VER LESIONADOS ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
 
+  ///::::::::::::::: BOTON DESCARGAR OT :::::::::::::::::::::::///
+  $(document).on("click", ".btn_descargar_ip", function(){		
+    acci_fecha_inicio   = $("#acci_fecha_inicio").val();
+    acci_fecha_termino  = $("#acci_fecha_termino").val();
+    Accion          = 'descargar_ip';
+    $.ajax({
+        url         : "Ajax.php",
+        type        : "POST",
+        datatype    : "json",
+        async       : false,
+        data        : {MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,fecha_inicio:acci_fecha_inicio,fecha_termino:acci_fecha_termino},
+        beforeSend  : function(){
+            Swal.fire({
+              icon              : 'success',
+              title             : 'Procesando Información',
+              showConfirmButton : false,
+              timer             : 5000
+            })
+        },
+        success     : function(data){
+          if(data){
+            window.location.href = mi_carpeta + "Module/Accidentes/Controller/csv_descarga_ip.php?Archivo=" + data;
+            alert("Informe Preliminar");
+            window.location.href = mi_carpeta + "Module/Accidentes/Controller/csv_descarga_na.php?Archivo=" + data;
+            alert("Daños, Causas y Reparaciones");
+            window.location.href = mi_carpeta + "Module/Accidentes/Controller/csv_descarga_re.php?Archivo=" + data;
+          }else{
+            Swal.fire({
+              position : 'center',
+              icon     : 'error',
+              title    : '*Error al cargar información!!!',
+              text     : resp,
+            })            
+          }
+            
+        }
+    });
+});
+
 });
 

@@ -1017,6 +1017,57 @@ class CRUD
 		$this->conexion = null;
 	}
 
+	function descargar_ip($fecha_inicio,$fecha_termino)
+	{
+		$consulta 	= "SELECT * FROM `OPE_AccidentesInformePreliminar` WHERE `Acci_Fecha`>='$fecha_inicio' AND `Acci_Fecha`<='$fecha_termino' ";
+	
+		$resultado 	= $this->conexion->prepare($consulta);
+		$resultado->execute();        
+		$data		= $resultado->fetchAll(PDO::FETCH_ASSOC);
+   
+		return $data;
+		$this->conexion=null;
+	}   
+
+	function descargar_na($fecha_inicio,$fecha_termino)
+	{
+		$consulta 	= "	SELECT 
+							`oan`.`Accidentes_Id`, `oan`.`Acci_Tipo`, `oan`.`Acci_Descripcion`, `oan`.`Acci_Nombre`, `oan`.`Acci_Dni`, `oan`.`Acci_Edad`, `oan`.`Acci_Genero`, `oan`.`Acci_Placa`, `oan`.`acci_origen`
+						FROM `OPE_AccidentesInformePreliminar` AS `oaip` 
+						LEFT JOIN `OPE_AccidentesNaturaleza` AS `oan` 
+						ON `oaip`.`Accidentes_Id` = `oan`.`Accidentes_Id` 
+						WHERE 
+							`oaip`.`Acci_Fecha` >= '$fecha_inicio' AND
+							`oaip`.`Acci_Fecha`  <= '$fecha_termino' ";
+	
+		$resultado 	= $this->conexion->prepare($consulta);
+		$resultado->execute();        
+		$data		= $resultado->fetchAll(PDO::FETCH_ASSOC);
+   
+		return $data;
+		$this->conexion=null;
+	}   
+
+	function descargar_re($fecha_inicio,$fecha_termino)
+	{
+		$consulta 	= "SELECT `oar`.`Accidentes_Id`, `oar`.`Acci_CodigoColor`, `oar`.`Acci_SeccionBus`, `oar`.`Acci_DescripcionReparacion`
+						FROM `OPE_AccidentesInformePreliminar` AS `oaip` 
+						LEFT JOIN `OPE_AccidentesReparacion` AS `oar` 
+						ON `oaip`.`Accidentes_Id` = `oar`.`Accidentes_Id` 
+						WHERE 
+							`oaip`.`Acci_Fecha` >= '$fecha_inicio' AND
+							`oaip`.`Acci_Fecha`  <= '$fecha_termino' ";
+	
+		$resultado 	= $this->conexion->prepare($consulta);
+		$resultado->execute();        
+		$data		= $resultado->fetchAll(PDO::FETCH_ASSOC);
+   
+		return $data;
+		$this->conexion=null;
+	}   
+
+
+	/* INICIO TRASLADO DE IMAGENES DE DATABASE A CARPETA SERVICES/FILES/ */ 
 	function files($tabla, $campo, $where)
 	{
 		unset($data);
@@ -1081,5 +1132,6 @@ class CRUD
 
 		$this->conexion = null;
 	}
+	/* FIN TRASLADO DE IMAGENES DE DATABASE A CARPETA SERVICES/FILES/ */ 
 
 }

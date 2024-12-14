@@ -81,20 +81,6 @@ $(document).ready(function(){
         });
       });
     },
-    // Para mostrar la barra scroll horizontal y vertical
-    /*deferRender:    true,
-    scrollY:        800,
-    scrollCollapse: true,
-    scroller:       true,
-    scrollX:        true,
-    fixedColumns:
-    {
-      left: 1
-    },
-    fixedHeader:
-    {
-      header : false
-    },*/
       select          : {style: 'os'},
       language          : idioma_espanol,
       responsive        : "true",
@@ -144,23 +130,16 @@ $(document).ready(function(){
   $(document).on("click", ".btn_ip_pdf", function(){
     fila_informe_preliminar = $(this).closest('tr'); 
     accidentes_id           = fila_informe_preliminar.find('td:eq(2)').text();
-    let x_pdf               = "";
-    let file_pdf            = "IP-"+accidentes_id;
-    x_pdf                   = f_buscar_pdf('OPE_AccidentesImagen','Acci_Imagen','Accidentes_Id',accidentes_id,'Acci_TipoImagen','IP_PDF',file_pdf );
-    
-    if(x_pdf == ""){
+    Acci_TipoImagen = "IP_PDF";
+    Acci_Archivo = f_buscar_dato("OPE_AccidentesImagen","Acci_Archivo","`Accidentes_Id`='"+accidentes_id+"' AND `Acci_TipoImagen`='"+Acci_TipoImagen+"'") ;
+    if(Acci_Archivo == ""){
       Swal.fire({
-        icon  : 'error',
-        title : 'PDF...',
-        text  : '*NO se ha registrado el archivo PDF!'
-      });
+          icon: 'error',
+          title: 'PDF...',
+          text: '*NO se ha registrado el archivo PDF!'
+        });
     }else{
-      //window.open("../../../Services/pdf/"+x_pdf,"_blank");
-      let enlace = document.createElement('a');
-      enlace.href = "../../../Services/pdf/"+x_pdf;
-      enlace.download = x_pdf;
-      enlace.click();
-      f_unlink_pdf(x_pdf);
+      window.open(mi_carpeta+"Services/files/pdf/ip/"+Acci_Archivo,"_blank");
     }
   });
 
@@ -168,23 +147,16 @@ $(document).ready(function(){
   $(document).on("click", ".btn_documentos_adjuntos_pdf", function(){		
     fila_informe_preliminar = $(this).closest('tr'); 
     accidentes_id           = fila_informe_preliminar.find('td:eq(2)').text();
-    let x_pdf               = "";
-    let file_pdf            = "DOCUMENTOS ADJUNTOS IP-"+accidentes_id;
-    x_pdf                   = f_buscar_pdf('OPE_AccidentesImagen','Acci_Imagen','Accidentes_Id',accidentes_id,'Acci_TipoImagen','PDF',file_pdf );
-    
-    if(x_pdf == ""){
+    Acci_TipoImagen = "PDF";
+    Acci_Archivo = f_buscar_dato("OPE_AccidentesImagen","Acci_Archivo","`Accidentes_Id`='"+accidentes_id+"' AND `Acci_TipoImagen`='"+Acci_TipoImagen+"'") ;
+    if(Acci_Archivo == ""){
       Swal.fire({
-        icon  : 'error',
-        title : 'PDF...',
-        text  : '*NO se ha registrado el archivo PDF!'
-      });
+          icon: 'error',
+          title: 'PDF...',
+          text: '*NO se ha registrado el archivo PDF!'
+        });
     }else{
-      //window.open("../../../Services/pdf/"+x_pdf,"_blank");
-      let enlace = document.createElement('a');
-      enlace.href = "../../../Services/pdf/"+x_pdf;
-      enlace.download = x_pdf;
-      enlace.click();
-      f_unlink_pdf(x_pdf);
+      window.open(mi_carpeta+"Services/files/pdf/ip/"+Acci_Archivo,"_blank");
     }
   });
   ///:: FIN BOTON VER DOCUMENTOS ADJUNTOS PDF DE INFORME PRELIMINAR :::::::::::::::::::::::///
@@ -216,62 +188,3 @@ $(document).ready(function(){
   ///:: FIN BOTON PARA LA DESCARGA DE ARCHIVO CSV :::::::::::::::::::::::::::::::::::::::::///
 
 });
-
-
-///:: BUSCAR PDF ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///       
-function f_BuscarPDF(p_Acci_TipoImagen){
-  let pdf="";
-  Accion='buscar_imagen';
-  $.ajax({
-      url       : "Ajax.php",
-      type      : "POST",
-      datatype  : "json",    
-      async     : false,   
-      data      : { MoS:MoS,NombreMoS:NombreMoS,Accion:Accion,accidentes_id:accidentes_id,Acci_TipoImagen:p_Acci_TipoImagen },   
-      success: function(data) {
-          data = $.parseJSON(data);
-          $.each(data, function(idx, obj){ 
-              if(obj.b64_Foto){
-                  pdf  = "data:application/pdf;base64," + obj.b64_Foto;
-              }
-          });
-      }
-  });	
-  return pdf;
-}
-///:: FIN BUSCAR PDF ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-
-///:: BUSCAR PDF ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///       
-function f_buscar_pdf(p_tabla, p_campo_archivo, p_campo_buscar, p_dato_buscar, p_campo_tipo_archivo, p_dato_tipo_archivo, p_nombre_archivo){
-  let pdf="";
-  Accion='buscar_pdf';
-  $.ajax({
-      url       : "Ajax.php",
-      type      : "POST",
-      datatype  : "json",    
-      async     : false,   
-      data      : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, tabla:p_tabla, campo_archivo:p_campo_archivo, campo_buscar:p_campo_buscar, dato_buscar:p_dato_buscar, campo_tipo_archivo:p_campo_tipo_archivo, dato_tipo_archivo:p_dato_tipo_archivo, nombre_archivo:p_nombre_archivo },   
-      success: function(data) {
-        pdf = data;
-      }
-  });	
-  return pdf;
-}
-///:: FIN BUSCAR PDF ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::///
-
-function f_unlink_pdf(p_archivo){
-  let rpta_unlink_pdf = "";
-  Accion = 'unlink_pdf';
-  $.ajax({
-      url       : "Ajax.php",
-      type      : "POST",
-      datatype  : "json",    
-      async     : false,   
-      data      : { MoS:MoS, NombreMoS:NombreMoS, Accion:Accion, archivo:p_archivo },   
-      success: function(data) {
-        rpta_unlink_pdf = data;
-      }
-  });
-  return rpta_unlink_pdf;
-}
-

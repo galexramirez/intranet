@@ -1559,9 +1559,10 @@
 								<input type="date" class="form-control form-control-sm" id="acci_fecha_termino" placeholder="dd-mm-aaaa" >
 			    		  	</div>
 			    		</div>
-						<div class="col-lg-1">             	
+						<div class="col-lg-2">             	
 							<div class="form-group">
 								<button type="button" id="btn_buscar_accidentes" class="btn btn-secondary btn-sm btn_buscar_accidentes">Buscar</button>
+								<button type="button" id="btn_descargar_ip" class="btn btn-secondary btn-sm btn_descargar_ip">Descarga</button>
 							</div>
 			       		</div> 
 					</div>
