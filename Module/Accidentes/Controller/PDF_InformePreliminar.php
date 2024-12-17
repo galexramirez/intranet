@@ -592,7 +592,9 @@ foreach($Data_InformePreliminar as $row){
 
 $pdf->SetFont('Arial','',14);
 $pdf->GeneraProgramacion($Data_InformePreliminar, $Data_Imagen, $Data_Naturaleza, $Data_Reparacion);
-$pdf->Output("IP-".$Accidentes_Id." ".utf8_decode($Acci_TipoAccidente)." - BUS ".$Acci_Bus." - PLACA ".$Bus_NroPlaca."_".utf8_decode($Acci_NombreColaborador).".pdf",'D');
+$date = date('d-m-Y-'.substr((string)microtime(), 1, 8));
+$date = str_replace(".", "", $date);    
+$pdf->Output("IP-".$Accidentes_Id." ".utf8_decode($Acci_TipoAccidente)." - BUS ".$Acci_Bus." - PLACA ".$Bus_NroPlaca."_".utf8_decode($Acci_NombreColaborador)."_".$date.".pdf",'D');
 
 unlink("../../../Services/files/json/Imagen".$Id_DateJS.".json");
 unlink("../../../Services/files/json/InformePreliminar".$Id_DateJS.".json");

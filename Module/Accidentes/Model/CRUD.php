@@ -407,12 +407,12 @@ class CRUD
 		$this->conexion = null;
 	}
 
-	function EditarImagen($Accidentes_Id, $Acci_TipoImagen, $Acci_log)
+	function EditarImagen($Accidentes_Id, $Acci_TipoImagen, $Acci_Archivo, $Acci_log)
 	{
 		$Acci_ImagenFecha = date("Y-m-d H:i:s");
 		$Acci_Log_e = $Acci_ImagenFecha." ".$_SESSION['Usua_NombreCorto']." Edición <br>".$Acci_log;
 		try {
-			$consulta = "UPDATE `OPE_AccidentesImagen` SET `Acci_Log`='$Acci_Log_e' WHERE `Accidentes_Id`='$Accidentes_Id' AND `Acci_TipoImagen`='$Acci_TipoImagen'";
+			$consulta = "UPDATE `OPE_AccidentesImagen` SET `Acci_Archivo`='$Acci_Archivo', `Acci_Log`='$Acci_Log_e' WHERE `Accidentes_Id`='$Accidentes_Id' AND `Acci_TipoImagen`='$Acci_TipoImagen'";
 			$resultado = $this->conexion->prepare($consulta);
 			$resultado->execute();
 			return $Accidentes_Id;

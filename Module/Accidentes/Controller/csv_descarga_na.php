@@ -1,6 +1,8 @@
 <?php
 $filename = $_GET['Archivo'];
-$file_na_csv = "informe_naturaleza".".csv";
+$date = date('d-m-Y-'.substr((string)microtime(), 1, 8));
+$date = str_replace(".", "", $date);
+$file_na_csv = "informe_naturaleza_".$date.".csv";
 
 $data   = json_decode($filename, true);
 foreach ($data as $key => $value) {

@@ -1,6 +1,8 @@
 <?php
 $filename = $_GET['Archivo'];
-$file_ip_csv = "informe_preliminar".".csv";
+$date = date('d-m-Y-'.substr((string)microtime(), 1, 8));
+$date = str_replace(".", "", $date);
+$file_ip_csv = "informe_preliminar_".$date.".csv";
 
 $data   = json_decode($filename, true);
 foreach ($data as $key => $value) {

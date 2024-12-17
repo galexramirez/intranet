@@ -288,10 +288,19 @@ class Logico
     {
         include('Services/Resources/phpqrcode/qrlib.php');
         $rpta_grabar = "";
-        $Acci_Archivo = $Accidentes_Id."_qr_code.png";
+        $date = date('d-m-Y-'.substr((string)microtime(), 1, 8));
+        $date = str_replace(".", "", $date);
+        $Acci_Archivo = $Accidentes_Id."_qr_code_".$date.".png";
         $Acci_TipoImagen = "CodigoQR";
         $file_png = $_SERVER['DOCUMENT_ROOT']."/Services/files/qrcode/ip/".$Acci_Archivo;
         $existe_qr = False;
+        MModel($this->Modulo, 'CRUD');
+        $InstanciaAjax  = new CRUD();
+        $Respuesta = $InstanciaAjax->buscar_dato("OPE_AccidentesImagen", "Acci_Archivo", "`Accidentes_Id`='" . $Accidentes_Id . "' AND `Acci_TipoImagen`='".$Acci_TipoImagen."'");
+        foreach ($Respuesta as $key => $value) {
+            $acci_archivo_anterior = $value['Acci_Archivo'];
+            $file_png_anterior = $_SERVER['DOCUMENT_ROOT']."/Services/files/qrcode/ip/".$acci_archivo_anterior;
+        }
         
         MModel($this->Modulo, 'CRUD');
         $InstanciaAjax = new CRUD();
@@ -301,8 +310,8 @@ class Logico
                 $existe_qr = True;
                 $Acci_Log = $row['Acci_log'];
                 try {
-                    if (file_exists($file_pdf)) {
-                        if (unlink($file_pdf)) {
+                    if (file_exists($file_png_anterior)) {
+                        if (unlink($file_png_anterior)) {
                         } else {
                             throw new Exception("Error al eliminar el archivo anterior.");
                         }
@@ -333,7 +342,7 @@ class Logico
         $InstanciaAjax = new CRUD();
         if(file_exists($file_png)){
             if ($existe_qr) {
-                $Respuesta = $InstanciaAjax->EditarImagen($Accidentes_Id, $Acci_TipoImagen, $Acci_Log);
+                $Respuesta = $InstanciaAjax->EditarImagen($Accidentes_Id, $Acci_TipoImagen, $Acci_Archivo, $Acci_Log);
             } else {
                 $Respuesta = $InstanciaAjax->GrabarImagen($Accidentes_Id, $Acci_TipoImagen, $Acci_Archivo);
             }
@@ -354,7 +363,9 @@ class Logico
 
     public function GrabarImagen($Accidentes_Id, $Acci_TipoImagen, $Acci_Imagen)
     {
-        $Acci_Archivo = $Accidentes_Id."_".strtolower($Acci_TipoImagen).".jpg";
+        $date = date('d-m-Y-'.substr((string)microtime(), 1, 8));
+        $date = str_replace(".", "", $date);    
+        $Acci_Archivo = $Accidentes_Id."_".strtolower($Acci_TipoImagen)."-".$date.".jpg";
         $img_nueva = $_SERVER['DOCUMENT_ROOT'] . "/Services/files/img/ip/" . $Acci_Archivo;
         if (move_uploaded_file($Acci_Imagen, $img_nueva)) {
             MModel($this->Modulo, 'CRUD');
@@ -377,13 +388,22 @@ class Logico
     {
         $rpta_grabar = "";
         $Acci_Log = "";
-        $Acci_Archivo = $Accidentes_Id."_".strtolower($Acci_TipoImagen).".jpg";
-        $img = $_SERVER['DOCUMENT_ROOT'] . "/Services/files/img/ip/" . $Acci_Archivo;
+        MModel($this->Modulo, 'CRUD');
+        $InstanciaAjax  = new CRUD();
+        $Respuesta = $InstanciaAjax->buscar_dato("OPE_AccidentesImagen", "Acci_Archivo", "`Accidentes_Id`='" . $Accidentes_Id . "' AND `Acci_TipoImagen`='".$Acci_TipoImagen."'");
+        foreach ($Respuesta as $key => $value) {
+            $Acci_Archivo = $value['Acci_Archivo'];
+        }
+        $date = date('d-m-Y-'.substr((string)microtime(), 1, 8));
+        $date = str_replace(".", "", $date);    
+        $nuevo_acci_archivo = $Accidentes_Id."_".strtolower($Acci_TipoImagen)."_".$date.".jpg";
+        $img_anterior = $_SERVER['DOCUMENT_ROOT'] . "/Services/files/img/ip/" . $Acci_Archivo;
+        $img_nueva = $_SERVER['DOCUMENT_ROOT'] . "/Services/files/img/ip/" . $nuevo_acci_archivo;
         $borrar_img = False;
 
         try {
-            if (file_exists($img)) {
-                if (unlink($img)) {
+            if (file_exists($img_anterior)) {
+                if (unlink($img_anterior)) {
                     //echo "Archivo anterior eliminado exitosamente.";
                     $borrar_img = True;
                 } else {
@@ -403,10 +423,10 @@ class Logico
             foreach ($Respuesta as $key => $row) {
                 $Acci_Log = $row['Acci_log'];
             }
-            if (move_uploaded_file($Acci_Imagen, $img)) {
+            if (move_uploaded_file($Acci_Imagen, $img_nueva)) {
                 MModel($this->Modulo, 'CRUD');
                 $InstanciaAjax  = new CRUD();
-                $Respuesta = $InstanciaAjax->EditarImagen($Accidentes_Id, $Acci_TipoImagen, $Acci_Log);
+                $Respuesta = $InstanciaAjax->EditarImagen($Accidentes_Id, $Acci_TipoImagen, $nuevo_acci_archivo, $Acci_Log);
                 if (substr($Respuesta, 0, 1) == "E") {
                     $rpta_grabar = $Respuesta;
                 }
@@ -605,7 +625,9 @@ class Logico
             } else if ($Acci_Operacion == "ALIMENTADOR") {
                 $bus = $_SERVER['DOCUMENT_ROOT'] . '/Module/Accidentes/View/Img/bus_alimentador.jpg';
             }
-            $Acci_Archivo = $Accidentes_Id."_bus.jpg";
+            $date = date('d-m-Y-'.substr((string)microtime(), 1, 8));
+            $date = str_replace(".", "", $date);    
+            $Acci_Archivo = $Accidentes_Id."_bus_".$date.".jpg";
             $Acci_TipoImagen = "Bus";
             $file_bus = $_SERVER['DOCUMENT_ROOT'] . '/Services/files/image/ip/' . $Acci_Archivo;
 
@@ -1210,7 +1232,9 @@ class Logico
         }
 
         $Acci_TipoImagen  = 'IP_PDF';
-        $Acci_Archivo = $Accidentes_Id . "_ip.pdf";
+        $date = date('d-m-Y-'.substr((string)microtime(), 1, 8));
+        $date = str_replace(".", "", $date);    
+        $Acci_Archivo = $Accidentes_Id . "_ip_".$date.".pdf";
         $pdf->SetFont('Arial', '', 14);
         $pdf->GeneraProgramacion($Data_InformePreliminar, $Data_Imagen, $Data_Naturaleza, $Data_Reparacion);
         $pdf->Output("Services/files/pdf/ip/" . $Acci_Archivo, 'F');
@@ -1287,26 +1311,28 @@ class Logico
             MModel($this->Modulo, 'CRUD');
             $InstanciaAjax = new CRUD;
             $Respuesta = $InstanciaAjax->files("OPE_AccidentesImagen", "Acci_Imagen", "`OPE_AcciImagenId`='" . $ip_id['OPE_AcciImagenId'] . "'");
+            $date = date('d-m-Y-'.substr((string)microtime(), 1, 8));
+            $date = str_replace(".", "", $date);    
             foreach ($Respuesta as $row) {
                 switch (substr($row['Acci_TipoImagen'], 0, 2)) {
                     case 'Co':
-                        $file_name = "_qr_code.png";
+                        $file_name = "_qr_code_".$date.".png";
                         $folder = "/Services/files/qrcode/ip/";
                         break;
                     case 'Im':
-                        $file_name = "_" . strtolower($row['Acci_TipoImagen']) . ".jpg";
+                        $file_name = "_" . strtolower($row['Acci_TipoImagen']) . "_".$date.".jpg";
                         $folder = "/Services/files/image/ip/";
                         break;
                     case 'Ma':
-                        $file_name = "_" . strtolower($row['Acci_TipoImagen']) . ".jpg";
+                        $file_name = "_" . strtolower($row['Acci_TipoImagen']) . "_".$date.".jpg";
                         $folder = "/Services/files/image/ip/";
                         break;
                     case 'IP':
-                        $file_name = "_ip.pdf";
+                        $file_name = "_ip_".$date.".pdf";
                         $folder = "/Services/files/pdf/ip/";
                         break;
                     default:
-                        $file_name = "_doc_adj.pdf";
+                        $file_name = "_doc_adj_".$date.".pdf";
                         $folder = "/Services/files/pdf/ip/";
                         break;
                 }
@@ -1324,7 +1350,9 @@ class Logico
         $InstanciaAjax = new CRUD;
         $Respuesta = $InstanciaAjax->files_bus();
         foreach ($Respuesta as $key => $value) {
-            $acci_archivo = $value['Accidentes_Id'] . "_bus.jpg";
+            $date = date('d-m-Y-'.substr((string)microtime(), 1, 8));
+            $date = str_replace(".", "", $date);    
+            $acci_archivo = $value['Accidentes_Id'] . "_bus_".$date.".jpg";
             $acci_tipoimagen = "Bus";
             MModel($this->Modulo, 'CRUD');
             $InstanciaAjax = new CRUD;
@@ -1358,11 +1386,18 @@ class Logico
     public function grabar_pdf($Accidentes_Id, $Acci_TipoImagen, $Acci_Imagen, $Acci_Archivo)
     {
         $rpta_grabar = "";
-        $pdf_nuevo = $_SERVER['DOCUMENT_ROOT'] . "/Services/files/pdf/ip/" . $Acci_Archivo;
+        $date = date('d-m-Y-'.substr((string)microtime(), 1, 8));
+        $date = str_replace(".", "", $date);
+        if($Acci_TipoImagen=="PDF"){
+            $nuevo_acci_archivo = $Accidentes_Id."_doc_adj_".$date.".pdf";
+        }elseif($Acci_TipoImagen=="IP_PDF"){
+            $nuevo_acci_archivo = $Accidentes_Id."_ip_".$date.".pdf";
+        }
+        $pdf_nuevo = $_SERVER['DOCUMENT_ROOT'] . "/Services/files/pdf/ip/" . $nuevo_acci_archivo;
         if (move_uploaded_file($Acci_Imagen, $pdf_nuevo)) {
             MModel($this->Modulo, 'CRUD');
             $InstanciaAjax  = new CRUD();
-            $Respuesta = $InstanciaAjax->GrabarImagen($Accidentes_Id, $Acci_TipoImagen, $Acci_Archivo);
+            $Respuesta = $InstanciaAjax->GrabarImagen($Accidentes_Id, $Acci_TipoImagen, $nuevo_acci_archivo);
             if (substr($Respuesta, 0, 1) == "E") {
                 $rpta_grabar = $Respuesta;
             }
@@ -1382,6 +1417,14 @@ class Logico
         $Acci_Log = "";
         $pdf = $_SERVER['DOCUMENT_ROOT'] . "/Services/files/pdf/ip/" . $Acci_Archivo;
         $borrar_pdf = False;
+        $date = date('d-m-Y-'.substr((string)microtime(), 1, 8));
+        $date = str_replace(".", "", $date);
+        if($Acci_TipoImagen=="PDF"){
+            $nuevo_acci_archivo = $Accidentes_Id."_doc_adj_".$date.".pdf";
+        }elseif($Acci_TipoImagen=="IP_PDF"){
+            $nuevo_acci_archivo = $Accidentes_Id."_ip_".$date.".pdf";
+        }
+        $nuevo_pdf = $_SERVER['DOCUMENT_ROOT'] . "/Services/files/pdf/ip/" .$nuevo_acci_archivo;
 
         try {
             if (file_exists($pdf)) {
@@ -1405,10 +1448,10 @@ class Logico
             foreach ($Respuesta as $key => $row) {
                 $Acci_Log = $row['Acci_log'];
             }
-            if (move_uploaded_file($Acci_Imagen, $pdf)) {
+            if (move_uploaded_file($Acci_Imagen, $nuevo_pdf)) {
                 MModel($this->Modulo, 'CRUD');
                 $InstanciaAjax  = new CRUD();
-                $Respuesta = $InstanciaAjax->EditarImagen($Accidentes_Id, $Acci_TipoImagen, $Acci_Log);
+                $Respuesta = $InstanciaAjax->EditarImagen($Accidentes_Id, $Acci_TipoImagen, $nuevo_acci_archivo, $Acci_Log);
                 if (substr($Respuesta, 0, 1) == "E") {
                     $rpta_grabar = $Respuesta;
                 }
