@@ -1105,8 +1105,9 @@ class CRUD
 
 	function grabar_files($Accidentes_Id, $Acci_TipoImagen, $Acci_ImagenUsuarioId, $Acci_ImagenFecha, $Acci_Archivo)
 	{
+		$Acci_Log = "CREADO POR SISTEMAS EL ".date("Y-m-d H:i:s");
 		try {
-			$consulta = "INSERT INTO `OPE_AccidentesImagen`(`Accidentes_Id`, `Acci_TipoImagen`, `Acci_ImagenUsuarioId`, `Acci_ImagenFecha`, `Acci_Archivo`) VALUES ('$Accidentes_Id', '$Acci_TipoImagen', '$Acci_ImagenUsuarioId', '$Acci_ImagenFecha', '$Acci_Archivo')";
+			$consulta = "INSERT INTO `OPE_AccidentesImagen`(`Accidentes_Id`, `Acci_TipoImagen`, `Acci_ImagenUsuarioId`, `Acci_ImagenFecha`, `Acci_Archivo`, `Acci_Log`) VALUES ('$Accidentes_Id', '$Acci_TipoImagen', '$Acci_ImagenUsuarioId', '$Acci_ImagenFecha', '$Acci_Archivo', '$Acci_Log')";
 			$resultado = $this->conexion->prepare($consulta);
 			$resultado->execute();
 			$id = $this->conexion->lastInsertId();
@@ -1115,6 +1116,35 @@ class CRUD
 			$error = 'Excepción capturada: ' . $e->getMessage() . "\n";
 			return $error;
 		}
+		$this->conexion = null;
+	}
+
+	function editar_files($Accidentes_Id, $Acci_TipoImagen, $Acci_Archivo)
+	{
+		$Acci_Log = "EDITADO POR SISTEMAS EL ".date("Y-m-d H:i:s");
+		try {
+			$consulta = "UPDATE `OPE_AccidentesImagen` SET `Acci_Archivo` = '$Acci_Archivo', `Acci_Log`='$Acci_Log' WHERE `Accidentes_Id`='$Accidentes_Id' AND `Acci_TipoImagen`='$Acci_TipoImagen'";
+			$resultado = $this->conexion->prepare($consulta);
+			$resultado->execute();
+			$id = $this->conexion->lastInsertId();
+			return $id;
+		} catch (PDOException $e) {
+			$error = 'Excepción capturada: ' . $e->getMessage() . "\n";
+			return $error;
+		}
+		$this->conexion = null;
+	}
+
+	function borrar_imagenes(){
+		$consulta = "ALTER TABLE `OPE_AccidentesImagen` DROP COLUMN `Acci_Imagen`";
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();
+		$consulta = "ALTER TABLE `OPE_AccidentesImagen` ADD `Acci_Archivo` varchar(100) NULL";
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();
+		$consulta = "ALTER TABLE `OPE_AccidentesImagen` ADD `Acci_Log` varchar(1000) NULL";
+		$resultado = $this->conexion->prepare($consulta);
+		$resultado->execute();
 		$this->conexion = null;
 	}
 

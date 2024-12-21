@@ -1268,7 +1268,7 @@ class Logico
         $file_name = "";
         $folder = "";
 
-        MModel($this->Modulo, 'CRUD');
+        /* MModel($this->Modulo, 'CRUD');
         $InstanciaAjax = new CRUD;
         $colaborador_ids = $InstanciaAjax->file_ids("glo_colaboradorimagen", "Colaborador_id", "`Colab_Fotografia`!=''");
         foreach ($colaborador_ids as $colaborador_id) {
@@ -1284,9 +1284,9 @@ class Logico
                     file_put_contents($mi_carpeta . $file_name, $b64_file);
                 }
             }
-        }
+        } */
 
-        MModel($this->Modulo, 'CRUD');
+        /* MModel($this->Modulo, 'CRUD');
         $InstanciaAjax = new CRUD;
         $solicitud_ids = $InstanciaAjax->file_ids("ope_solicitudes_pdf", "spdf_id", "");
         foreach ($solicitud_ids as $solicitud_id) {
@@ -1302,11 +1302,12 @@ class Logico
                     file_put_contents($mi_carpeta . $file_name, $b64_file);
                 }
             }
-        }
+        } */
 
         MModel($this->Modulo, 'CRUD');
         $InstanciaAjax = new CRUD;
         $ip_ids = $InstanciaAjax->file_ids("OPE_AccidentesImagen", "OPE_AcciImagenId", "");
+        $array_files = [];
         foreach ($ip_ids as $ip_id) {
             MModel($this->Modulo, 'CRUD');
             $InstanciaAjax = new CRUD;
@@ -1342,8 +1343,18 @@ class Logico
                     $mi_carpeta     = $_SERVER['DOCUMENT_ROOT'] . $folder;
                     $b64_file       = base64_decode($b64_file, true);
                     file_put_contents($mi_carpeta . $file_name, $b64_file);
+                    $array_files[] = ["Accidentes_Id"=>$row["Accidentes_Id"], "Acci_TipoImagen"=>$row["Acci_TipoImagen"], "Acci_Archivo"=>$file_name];
                 }
             }
+        }
+        MModel($this->Modulo, 'CRUD');
+        $InstanciaAjax = new CRUD;
+        $Respuesta = $InstanciaAjax->borrar_imagenes();    
+
+        foreach($array_files as $row){
+            MModel($this->Modulo, 'CRUD');
+            $InstanciaAjax = new CRUD;
+            $Respuesta = $InstanciaAjax->editar_files($row["Accidentes_Id"], $row["Acci_TipoImagen"], $row["Acci_Archivo"]);    
         }
 
         MModel($this->Modulo, 'CRUD');
