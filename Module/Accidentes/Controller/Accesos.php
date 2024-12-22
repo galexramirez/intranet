@@ -634,6 +634,14 @@ class Accesos
 				switch($NombreObjeto)
 				{
 					case "formSeleccionAccidentes":
+                        $boton_files = "";
+                        MModel($this->Modulo, 'CRUD');
+                        $InstanciaAjax= new CRUD();
+                        $Respuesta = $InstanciaAjax->Permisos($this->Modulo,"btn_files");
+                        if($Respuesta=="SI"){
+                            $boton_files = '<button type="button" id="btn_files" class="btn btn-secondary btn-sm btn_files">Files</button>';
+                        }
+                                       
 						$divformulario = '  <div class="row align-items-end pb-4 col-sm-12">
 					                        	<div class="col-lg-1">
 			    	                        	  	<div class="form-group">
@@ -650,7 +658,7 @@ class Accesos
 					                        	<div class="col-lg-3">             	
 					                        		<div class="form-group">
 					                        			<button type="button" id="btnBuscarAccidentes" class="btn btn-secondary btn-sm btnBuscarAccidentes">Buscar</button>
-                                                        <button type="button" id="btn_files" class="btn btn-secondary btn-sm btn_files">Files</button>
+                                                        '.$boton_files.'
 					                        		</div>
 			       	                        	</div> 
 					                        </div>';

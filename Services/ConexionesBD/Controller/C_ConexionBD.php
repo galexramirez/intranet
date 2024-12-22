@@ -5,11 +5,11 @@
     {
         $lista_datos = json_decode(file_get_contents($_SERVER['DOCUMENT_ROOT']."/". ".env"),true);
         foreach ($lista_datos as $key => $value) {
-            $servidor = $value['server_1'];
-            $usuario = $value['user_1'];
-            $password = $value['password_1'];
-            $nombre_bd = $value['database_1'];
-            $puerto = $value['port_1'];
+            $servidor = $value['SERVER_1'];
+            $usuario = $value['USER_1'];
+            $password = $value['PASSWORD_1'];
+            $nombre_bd = $value['DATABASE_1'];
+            $puerto = $value['PORT_1'];
         }
         $opciones   = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');			
         try
@@ -27,11 +27,11 @@
     {        
         $lista_datos = json_decode(file_get_contents($_SERVER['DOCUMENT_ROOT']."/". ".env"),true);
         foreach ($lista_datos as $key => $value) {
-            $servidor = $value['server_2'];
-            $usuario = $value['user_2'];
-            $password = $value['password_2'];
-            $nombre_bd = $value['database_2'];
-            $puerto = $value['port_2'];
+            $servidor = $value['SERVER_2'];
+            $usuario = $value['USER_2'];
+            $password = $value['PASSWORD_2'];
+            $nombre_bd = $value['DATABASE_2'];
+            $puerto = $value['PORT_2'];
         }
         $opciones = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');			
         try
